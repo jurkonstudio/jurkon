@@ -2,24 +2,24 @@
 <html lang="id"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://yghgmfvlthzcuhelqesr.supabase.co; media-src 'self' blob: https://yghgmfvlthzcuhelqesr.supabase.co; connect-src 'self' https://yghgmfvlthzcuhelqesr.supabase.co wss://yghgmfvlthzcuhelqesr.supabase.co; frame-src 'none'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<script src="js/keamanan.js"></script>
+<script src="/js/keamanan.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fbf9f4">
 <meta name="robots" content="noindex,nofollow">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
-<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap">
-<script src="js/tema.js"></script>
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/admin.css">
+<script src="/js/tema.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/admin.css">
 <title>Admin · Jurkon</title></head>
 <body class="adm-body">
 <div class="adm">
   <aside class="adm-side">
-    <a class="adm-brand" href="landing.html"><span>Jurkon</span><small>Admin</small></a>
+    <a class="adm-brand" href="/landing.html"><span>Jurkon</span><small>Admin</small></a>
     <nav id="menu" aria-label="Menu admin">
       <a href="#ringkasan" data-tab="ringkasan"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Ringkasan</span></a>
       <a href="#laporan" data-tab="laporan"><svg viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/></svg><span>Laporan</span><b id="lencanaLaporan" hidden></b></a>
@@ -30,7 +30,7 @@
       <a href="#admin" data-tab="admin"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.400 8-8 9-4.600-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span>Admin</span></a>
       <a href="#log" data-tab="log"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7M9 8h3"/></svg><span>Jejak</span></a>
     </nav>
-    <div class="adm-side-bawah"><a href="index.html">← Ke aplikasi</a><a href="landing.html" target="_blank" rel="noopener">Lihat landing ↗</a></div>
+    <div class="adm-side-bawah"><a href="/index.html">← Ke aplikasi</a><a href="/landing.html" target="_blank" rel="noopener">Lihat landing ↗</a></div>
   </aside>
   <section class="adm-main">
     <header class="adm-top"><h1 id="judul">Admin</h1><div id="aksiAtas"></div></header>
@@ -40,6 +40,6 @@
 <dialog id="dlg" class="adm-dlg"></dialog>
 <div id="toast" class="adm-toast" role="status" aria-live="polite" hidden></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-<script src="js/supabase.js"></script>
-<script src="js/admin.js"></script>
+<script src="/js/supabase.js"></script>
+<script src="/js/admin.js"></script>
 </body></html>

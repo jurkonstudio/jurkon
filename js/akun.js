@@ -10,7 +10,7 @@
     <h3 style="margin-top:20px">${esc(t('ak.dataAkun'))}</h3>
     <div class="akun-aksi">
       <button class="btn garis" id="unduhData">${esc(t('ak.unduh'))}</button>
-      <a id="linkAdmin" href="admin.html" hidden>${esc(t('ak.admin'))}</a>
+      <a id="linkAdmin" href="/031411/" hidden>${esc(t('ak.admin'))}</a>
     </div>
     <p class="hitung" style="margin-top:8px">${esc(t('ak.infoData'))}</p>
     <div class="zona-bahaya">

@@ -28,7 +28,7 @@ function waktu(iso) {
 
 async function wajibLogin() {
   const { data: { session } } = await db.auth.getSession();
-  if (!session) { location.href = 'login.html'; return null; }
+  if (!session) { location.href = '/login.html'; return null; }
   return session.user;
 }
 
@@ -64,7 +64,7 @@ function pasangAksiPost(saya, muat) {
     const b = e.target.closest('button[data-id]');
     if (!b) return;
     const id = b.dataset.id;
-    if (!saya) { location.href = 'login.html'; return; }
+    if (!saya) { location.href = '/login.html'; return; }
     if (b.classList.contains('btn-suka')) {
       const sudah = b.classList.contains('sudah');
       const n = b.querySelector('span');

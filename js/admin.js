@@ -177,7 +177,7 @@
         const p = r.posts, penulis = p?.profiles?.username || '?';
         const tombol = fLap === 'baru'
           ? `<button type="button" class="btn kecil garis" data-act="lapSelesai" data-r="${r.id}">Tandai selesai</button>
-             ${p ? `<a class="btn kecil garis" href="detail.html?id=${esc(p.id)}" target="_blank" rel="noopener">Buka posting</a>
+             ${p ? `<a class="btn kecil garis" href="/detail.html?id=${esc(p.id)}" target="_blank" rel="noopener">Buka posting</a>
              <button type="button" class="btn kecil garis bahaya" data-act="lapHapus" data-p="${esc(p.id)}">Hapus posting</button>
              <button type="button" class="btn kecil garis bahaya" data-act="lapBekukan" data-u="${esc(p.user_id)}" data-n="${esc(penulis)}" data-r="${r.id}">Bekukan penulis</button>` : ''}`
           : `<button type="button" class="btn kecil garis" data-act="lapBuka" data-r="${r.id}">Buka kembali</button>`;
@@ -215,7 +215,7 @@
       u.laporan_baru > 0 ? `<span class="lencana merah">${u.laporan_baru} laporan baru</span>` : ''
     ].join(' ');
     const t = [];
-    t.push(`<a class="btn kecil garis" href="profil.html?u=${esc(u.username)}" target="_blank" rel="noopener">Profil</a>`);
+    t.push(`<a class="btn kecil garis" href="/profil.html?u=${esc(u.username)}" target="_blank" rel="noopener">Profil</a>`);
     if (u.dibekukan) t.push(`<button type="button" class="btn kecil garis" data-act="bukaU" data-id="${u.id}">Buka pembekuan</button>`);
     else if (!u.adalah_admin) t.push(`<button type="button" class="btn kecil garis bahaya" data-act="bekukanU" data-id="${u.id}">Bekukan</button>`);
     if (!u.adalah_admin && !u.dibekukan && u.terverifikasi && u.email) t.push(`<button type="button" class="btn kecil garis" data-act="jadiAdmin" data-id="${u.id}">Jadikan admin</button>`);
@@ -289,7 +289,7 @@
       <div class="atas"><span class="nama">@${esc(p.username)}</span><span class="sub">${wkt(p.dibuat)}</span>${lencana}</div>
       <div class="teks">${esc(p.isi || '(posting ulang)')}</div>
       <div class="sub" style="margin-top:6px">dilihat ${angka(p.dilihat)} · suka ${angka(p.jml_suka)}</div>
-      <div class="aksi-adm"><a class="btn kecil garis" href="detail.html?id=${esc(p.id)}" target="_blank" rel="noopener">Buka</a>
+      <div class="aksi-adm"><a class="btn kecil garis" href="/detail.html?id=${esc(p.id)}" target="_blank" rel="noopener">Buka</a>
         ${p.adalah_balasan ? '' : `<button type="button" class="btn kecil garis" data-act="sorotP" data-id="${p.id}" data-v="${p.disorot ? 0 : 1}">${p.disorot ? 'Cabut sorotan' : 'Sorot'}</button>`}
         <button type="button" class="btn kecil garis bahaya" data-act="hapusP" data-id="${p.id}">Hapus</button></div></div></article>`;
   }
