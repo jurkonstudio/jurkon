@@ -304,3 +304,47 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .post .isi{cursor:pointer}
 .post .isi a.sebut{color:var(--link,var(--aksen));font-weight:600}
 .post .isi a.sebut:hover{text-decoration:underline}
+
+/* Profil: desain ulang (kartu, aksi, lembar bawah, pengaturan) */
+#atas{border-bottom:1px dashed var(--garis)}
+#atas .profil-atas{padding:24px 16px 22px;border-bottom:0}
+.kartu-kepala{display:flex;gap:16px;align-items:center}
+.profil-nama{min-width:0}
+#atas .profil-atas h2{font-size:26px;line-height:1.15;overflow-wrap:anywhere}
+.profil-user{color:var(--redup);margin-top:2px;overflow-wrap:anywhere}
+.profil-gabung{display:flex;align-items:center;gap:6px;color:var(--redup);font-size:14px;margin-top:6px}
+.profil-gabung svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#atas .profil-atas .bio{margin:16px 0 0}
+#atas .profil-atas .stat{display:flex;gap:28px;margin:18px 0 0;color:var(--teks)}
+.stat>div{display:flex;align-items:baseline;gap:6px}
+.stat b{font-family:var(--serif);font-size:24px;font-weight:650;font-variant-numeric:tabular-nums}
+.stat span{color:var(--redup);font-size:14px}
+#atas .profil-atas .tombol{display:flex;gap:8px;margin-top:18px;align-items:center;flex-wrap:nowrap}
+.tombol .btn.utama{flex:1}
+.ikon-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border-radius:50%;background:transparent;border:1px solid var(--garis);color:var(--teks);cursor:pointer;flex:none}
+.ikon-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ikon-btn circle[r="1.2"]{fill:currentColor}
+.header .ikon-btn{border:0;margin-right:-8px}
+.menu-lain{position:relative}
+.menu-isi{position:absolute;right:0;top:calc(100% + 6px);z-index:6;min-width:200px;padding:4px;background:var(--bg);border:1px solid var(--garis);border-radius:12px;box-shadow:0 8px 24px color-mix(in srgb,var(--teks) 14%,transparent)}
+.menu-isi[hidden]{display:none}
+.menu-isi button{display:flex;align-items:center;width:100%;min-height:44px;padding:0 12px;background:none;border:0;border-radius:8px;font:inherit;color:var(--teks);cursor:pointer;text-align:left}
+.menu-isi button.bahaya{color:var(--bahaya)}
+.bagian-judul{padding:16px 16px 4px}
+.bagian-judul[hidden]{display:none}
+.bagian-judul h2{font-family:var(--serif);font-size:17px;font-weight:650;color:var(--redup)}
+.lembar{border:0;padding:0;background:var(--bg);color:var(--teks);width:100%;max-width:560px;margin:auto auto 0;border-radius:20px 20px 0 0;max-height:90dvh;overflow:auto}
+.lembar::backdrop{background:rgb(0 0 0/.45)}
+.lembar[open]{animation:naik .22s ease-out}
+@keyframes naik{from{transform:translateY(24px);opacity:0}}
+.lembar-kepala{display:flex;justify-content:space-between;align-items:center;padding:8px 8px 8px 20px;border-bottom:1px dashed var(--garis)}
+.lembar-kepala .ikon-btn{border:0}
+.lembar-kepala h2{font-family:var(--serif);font-size:20px}
+.lembar .tema-pilih{padding-left:20px;padding-right:20px}
+.lembar .tema-pilih:last-child{border-bottom:0}
+.lembar .form{padding:16px 20px 24px}
+.lembar .tombol{display:flex;gap:8px}
+.pratinjau{display:flex;gap:12px;align-items:center;padding:16px 20px 0}
+.pr-nama{font-family:var(--serif);font-size:18px;font-weight:650;overflow-wrap:anywhere}
+@media (min-width:768px){#atas .profil-atas{padding:28px 24px 24px}.bagian-judul{padding-left:24px;padding-right:24px}.lembar{margin:auto;border-radius:20px}}
+@media (prefers-reduced-motion:reduce){.lembar[open]{animation:none}}
