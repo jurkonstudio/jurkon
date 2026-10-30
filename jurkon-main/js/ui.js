@@ -1,13 +1,27 @@
 // Tampilan: avatar, keadaan kosong, efek memuat, placeholder bergantian.
 // Dimuat setelah supabase.js, jadi fungsi htmlPost di sini menggantikan yang lama.
 
-function avatar(nama, ukuran) {
+// Path foto di Supabase Storage (bucket "avatar") -> URL publik. URL penuh/blob dipakai apa adanya.
+function urlFoto(f) {
+  if (!f) return '';
+  if (/^(https?:|blob:|data:)/.test(f)) return f;
+  return SUPABASE_URL + '/storage/v1/object/public/avatar/' + String(f).split('/').map(encodeURIComponent).join('/');
+}
+
+// foto (opsional): path/URL foto profil. Huruf inisial tetap ada di bawahnya sebagai cadangan bila foto gagal dimuat.
+function avatar(nama, ukuran, foto) {
   const u = ukuran || 40;
   const n = (nama || '?').trim() || '?';
   let h = 0;
   for (const c of n) h = (h * 31 + c.charCodeAt(0)) % 360;
-  return `<span class="avatar" style="width:${u}px;height:${u}px;font-size:${Math.round(u * 0.42)}px;background:hsl(${h} 50% 42%)">${esc(Array.from(n)[0].toUpperCase())}</span>`;
+  const gb = foto ? `<img src="${esc(urlFoto(foto))}" alt="" loading="lazy" decoding="async">` : '';
+  return `<span class="avatar" style="width:${u}px;height:${u}px;font-size:${Math.round(u * 0.42)}px;background:hsl(${h} 50% 42%)">${esc(Array.from(n)[0].toUpperCase())}${gb}</span>`;
 }
+// Foto gagal dimuat -> buang gambarnya, huruf inisial muncul lagi
+document.addEventListener('error', e => {
+  const t = e.target;
+  if (t && t.tagName === 'IMG' && t.closest && t.closest('.avatar')) t.remove();
+}, true);
 
 const IK = {
   suka: '<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.9 3.8 4.5 7.2 4.5c1.9 0 3.700 1 4.800 2.700 1.100-1.700 2.900-2.700 4.800-2.700 3.400 0 5.600 3.400 4.400 6.700-1.700 4.700-9.200 9.300-9.200 9.300z"/></svg>',
@@ -16,17 +30,23 @@ const IK = {
   hapus: '<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>'
 };
 
+// Isi posting aman (di-escape), @username menjadi tautan ke profil
+function isiHtml(t) {
+  return esc(t).replace(/(^|[^a-z0-9_@])@([a-z0-9_]{3,20})(?![a-z0-9_])/gi,
+    (m, a, u) => `${a}<a class="sebut" href="profil.html?u=${u.toLowerCase()}">@${u}</a>`);
+}
+
 function htmlPost(p, saya) {
   const jml = p.likes?.[0]?.count ?? 0;
   const suka = p.sudah_suka ? 'sudah' : '';
   const nama = p.profiles.nama || p.profiles.username;
   const milik = saya && saya.id === p.user_id;
   return `<article class="post" data-id="${p.id}">
-    <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="Profil ${esc(nama)}">${avatar(nama, 42)}</a>
+    <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="Profil ${esc(nama)}">${avatar(nama, 42, p.profiles.foto_url)}</a>
     <div class="badan">
       <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
-      <a href="detail.html?id=${p.id}"><div class="isi">${esc(p.content)}</div></a>
+      <div class="isi">${isiHtml(p.content)}</div>
       <div class="aksi">
         <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="Suka">${IK.suka}<span>${jml}</span></button>
         <a href="detail.html?id=${p.id}" aria-label="Balas">${IK.balas}<span>Balas</span></a>
@@ -71,6 +91,17 @@ document.querySelectorAll('[data-ph]').forEach(el => {
   }
 });
 
+// Mengetuk isi posting membuka detail (tautan @username di dalamnya tetap ke profil)
+document.addEventListener('click', e => {
+  const isi = e.target.closest('.post .isi');
+  if (!isi || e.target.closest('a')) return;
+  if (String(window.getSelection ? getSelection() : '').length) return;   // sedang memilih teks
+  const post = isi.closest('.post');
+  const id = post && post.dataset.id;
+  if (!id || (/detail\.html$/.test(location.pathname) && param('id') === id)) return;
+  location.href = 'detail.html?id=' + id;
+});
+
 // Satu pendengar klik untuk semua tombol posting (menggantikan versi di supabase.js)
 function pasangAksiPost(saya, muat) {
   document.addEventListener('click', async e => {
@@ -87,7 +118,7 @@ function pasangAksiPost(saya, muat) {
         ? await db.from('likes').delete().match({ post_id: id, user_id: saya.id })
         : await db.from('likes').insert({ post_id: id, user_id: saya.id });
       delete b.dataset.sibuk;
-      if (error) { alert('Gagal memperbarui suka. Coba lagi.'); return; }
+      if (error) { alert(/terlalu cepat|batas/i.test(error.message || '') ? error.message : 'Gagal memperbarui suka. Coba lagi.'); return; }
       n.textContent = Math.max(0, +n.textContent + (sudah ? -1 : 1));
       b.classList.toggle('sudah');
     } else if (b.classList.contains('btn-lapor')) {
@@ -120,7 +151,7 @@ function pasangAksiPost(saya, muat) {
 })();
 
 // Kolom posting tanpa hitungan tertanam (likes(count)) agar tidak bergantung pada pengaturan agregat Supabase
-const PILIH_POSTING = '*, profiles(username,nama)';
+const PILIH_POSTING = '*, profiles(username,nama,foto_url)';
 
 // Menandai suka milikku sekaligus mengisi jumlah suka tiap posting (menggantikan versi di supabase.js)
 async function tandaiSuka(posts, saya) {

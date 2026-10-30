@@ -4,7 +4,7 @@
   if (window.Notif) return;
   const KUNCI = 'notifJumlah';
   const PILIH = 'id,jenis,dibaca,created_at,post_id,conversation_id,' +
-    'actor:profiles!actor_id(id,username,nama),post:posts!post_id(id,content,parent_id)';
+    'actor:profiles!actor_id(id,username,nama,foto_url),post:posts!post_id(id,content,parent_id)';
   const pendengar = [], pendengarBaru = [];
   const s = { total: 0, pesan: 0, siap: false, aktif: true };
   let uid = null, timer = null;

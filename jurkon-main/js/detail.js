@@ -21,6 +21,7 @@ async function muat() {
   if (!saya) return;
   pasangHitung($('#isi'), $('#hitung'), 250);
   pasangFilter($('#isi'));
+  pasangMention($('#isi'), saya);
   pasangAksiPost(saya, muat);
   $('#kirim').onclick = async () => {
     const content = $('#isi').value.trim();

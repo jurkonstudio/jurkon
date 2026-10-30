@@ -10,8 +10,8 @@ async function muat() {
   if (kata) {
     const pola = '%' + kata.replace(/[\\%_]/g, c => '\\' + c) + '%';   // escape karakter khusus LIKE
     const [r1, r2] = await Promise.all([
-      db.from('profiles').select('id,username,nama,bio').ilike('username', pola).limit(10),
-      db.from('profiles').select('id,username,nama,bio').ilike('nama', pola).limit(10)
+      db.from('profiles').select('id,username,nama,bio,foto_url').ilike('username', pola).limit(10),
+      db.from('profiles').select('id,username,nama,bio,foto_url').ilike('nama', pola).limit(10)
     ]);
     if (ini !== versi) return;
     if (r1.error && r2.error) {
@@ -22,7 +22,7 @@ async function muat() {
       const orang = [...peta.values()].slice(0, 10);
       jmlOrang = orang.length;
       elOrang.innerHTML = orang.map(o => `<a class="item dgn-avatar" href="profil.html?u=${esc(o.username)}">
-        ${avatar(o.nama || o.username, 44)}
+        ${avatar(o.nama || o.username, 44, o.foto_url)}
         <div><b>${esc(o.nama || o.username)}</b> <span class="sub">@${esc(o.username)}</span>
         <div class="sub">${esc(o.bio || '')}</div></div></a>`).join('');
     }

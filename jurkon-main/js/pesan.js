@@ -17,13 +17,13 @@
   data.sort((a, b) => waktuC(b) - waktuC(a));
 
   const ids = data.map(c => c.user_a === saya.id ? c.user_b : c.user_a);
-  const { data: orang } = await db.from('profiles').select('id,username,nama').in('id', ids);
+  const { data: orang } = await db.from('profiles').select('id,username,nama,foto_url').in('id', ids);
   const peta = Object.fromEntries((orang || []).map(o => [o.id, o]));
   el.innerHTML = data.map((c, i) => {
     const o = peta[ids[i]] || {};
     const m = terakhir[c.id];
     const cuplikan = m ? (m.sender_id === saya.id ? 'Kamu: ' : '') + m.content : 'Belum ada pesan';
-    return `<a class="item dgn-avatar" href="chat.html?id=${c.id}">${avatar(o.nama || o.username, 44)}
+    return `<a class="item dgn-avatar" href="chat.html?id=${c.id}">${avatar(o.nama || o.username, 44, o.foto_url)}
       <div style="min-width:0"><b>${esc(o.nama || o.username || 'Pengguna')}</b> <span class="sub">${m ? waktu(m.created_at) : ''}</span>
       <div class="sub" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(cuplikan)}</div></div></a>`;
   }).join('');

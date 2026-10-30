@@ -12,7 +12,13 @@
 <meta name="robots" content="noindex">
 <title>Profil · Jurkon</title></head><body data-tab="profil">
 <main><div class="header"><h1 id="judul">Profil</h1><span id="keluar"></span></div>
-<div id="atas"></div><div id="tema" class="tema-pilih" hidden></div><div id="akun" class="tema-pilih" hidden></div><div id="daftar"></div></main>
+<div id="atas"><div class="profil-atas skel"><div class="kartu-kepala"><span class="avatar" style="width:88px;height:88px"></span><div style="flex:1"><div class="garis-skel" style="width:60%"></div><div class="garis-skel" style="width:35%"></div></div></div><div class="garis-skel" style="width:90%;margin-top:18px"></div><div class="garis-skel" style="width:70%"></div></div></div>
+<div class="bagian-judul" id="judulCatatan" hidden><h2>Catatan</h2></div>
+<div id="daftar"></div></main>
+<dialog id="lembarPengaturan" class="lembar" aria-labelledby="jPengaturan">
+<div class="lembar-kepala"><h2 id="jPengaturan">Pengaturan</h2><button class="ikon-btn" id="tutupPengaturan" aria-label="Tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div id="tema" class="tema-pilih" hidden></div><div id="akun" class="tema-pilih" hidden></div>
+<div class="tema-pilih"><button class="btn garis" id="logout">Keluar</button></div></dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/supabase.js"></script>
 <script src="js/ui.js"></script>

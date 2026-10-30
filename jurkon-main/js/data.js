@@ -20,13 +20,13 @@ function tandaiRpcMati() { try { sessionStorage.setItem('rpcMati', String(Date.n
 function dariBaris(r) {
   return {
     id: r.id, user_id: r.user_id, parent_id: r.parent_id, content: r.content, created_at: r.created_at,
-    profiles: { username: r.username, nama: r.nama },
+    profiles: { username: r.username, nama: r.nama, foto_url: r.foto || null },
     likes: [{ count: Number(r.jumlah_suka) || 0 }],
     sudah_suka: !!r.sudah_suka
   };
 }
 
-// o: { mode: beranda|semua|cari|pengguna|balasan|satu, id, kata, sebelum, limit }
+// o: { mode: beranda|ikuti|semua|cari|pengguna|balasan|satu, id, kata, sebelum, limit }
 async function ambilPosting(o, saya) {
   const limit = o.limit || HALAMAN;
   if (!rpcMati()) {
@@ -51,10 +51,11 @@ async function ambilPostingLama(o, saya, limit) {
   else {
     q = q.is('parent_id', null);
     if (mode === 'cari') q = q.ilike('content', '%' + String(o.kata || '').replace(/[\\%_]/g, c => '\\' + c) + '%');
-    else if (mode === 'beranda' && saya) {
+    else if ((mode === 'beranda' || mode === 'ikuti') && saya) {
       const { data: f, error: ef } = await db.from('follows').select('following_id').eq('follower_id', saya.id);
       if (ef) return { data: null, error: ef, limit };
-      if (f && f.length) q = q.in('user_id', [saya.id, ...f.map(x => x.following_id)]);
+      // 'beranda': bila belum mengikuti siapa pun, tampilkan semua. 'ikuti': selalu hanya diri sendiri + yang diikuti.
+      if (mode === 'ikuti' || (f && f.length)) q = q.in('user_id', [saya.id, ...(f || []).map(x => x.following_id)]);
     }
   }
   const { data, error } = await q;
@@ -63,7 +64,7 @@ async function ambilPostingLama(o, saya, limit) {
   return { data, error: null, limit };
 }
 
-// Hasil: { data: {id, username, nama, bio, pengikut, mengikuti, saya_ikut, saya_blokir} | null, error }
+// Hasil: { data: {id, username, nama, bio, foto, pengikut, mengikuti, saya_ikut, saya_blokir} | null, error }
 async function ambilProfilInfo(username, saya) {
   if (!rpcMati()) {
     const { data, error } = await db.rpc('profil_info', { p_username: username || null });
@@ -82,7 +83,7 @@ async function ambilProfilInfo(username, saya) {
     db.from('follows').select('*').match({ follower_id: saya.id, following_id: p.id }).maybeSingle(),
     db.from('blocks').select('blocked_id').match({ blocker_id: saya.id, blocked_id: p.id }).maybeSingle()
   ]);
-  return { data: { id: p.id, username: p.username, nama: p.nama, bio: p.bio,
+  return { data: { id: p.id, username: p.username, nama: p.nama, bio: p.bio, foto: p.foto_url || null,
     pengikut: a.count || 0, mengikuti: b.count || 0, saya_ikut: !!c.data, saya_blokir: !!d.data }, error: null };
 }
 

@@ -84,6 +84,6 @@ async function tandaiSuka(posts, saya) {
   return posts;
 }
 
-const PILIH_POST = '*, profiles(username,nama), likes(count)';
+const PILIH_POST = '*, profiles(username,nama,foto_url), likes(count)';
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
