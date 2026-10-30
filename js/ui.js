@@ -9,21 +9,31 @@ function avatar(nama, ukuran) {
   return `<span class="avatar" style="width:${u}px;height:${u}px;font-size:${Math.round(u * 0.42)}px;background:hsl(${h} 50% 42%)">${esc(Array.from(n)[0].toUpperCase())}</span>`;
 }
 
+const IK = {
+  suka: '<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.9 3.8 4.5 7.2 4.5c1.9 0 3.700 1 4.800 2.700 1.100-1.700 2.900-2.700 4.800-2.700 3.400 0 5.600 3.400 4.400 6.700-1.700 4.700-9.200 9.300-9.200 9.300z"/></svg>',
+  balas: '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  lapor: '<svg viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/></svg>',
+  hapus: '<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>'
+};
+
 function htmlPost(p, saya) {
   const jml = p.likes?.[0]?.count ?? 0;
   const suka = p.sudah_suka ? 'sudah' : '';
   const nama = p.profiles.nama || p.profiles.username;
+  const milik = saya && saya.id === p.user_id;
   return `<article class="post" data-id="${p.id}">
-    <a class="ava" href="profil.html?u=${esc(p.profiles.username)}">${avatar(nama, 40)}</a>
+    <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="Profil ${esc(nama)}">${avatar(nama, 42)}</a>
     <div class="badan">
       <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>
-      <span class="user">@${esc(p.profiles.username)} · ${waktu(p.created_at)}</span></a>
+      <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
       <a href="detail.html?id=${p.id}"><div class="isi">${esc(p.content)}</div></a>
       <div class="aksi">
-        <button class="btn-suka ${suka}" data-id="${p.id}">♥ <span>${jml}</span></button>
-        <a href="detail.html?id=${p.id}">Balas</a>
-        <button class="btn-lapor" data-id="${p.id}">Laporkan</button>
-        ${saya && saya.id === p.user_id ? `<button class="btn-hapus" data-id="${p.id}">Hapus</button>` : ''}
+        <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="Suka">${IK.suka}<span>${jml}</span></button>
+        <a href="detail.html?id=${p.id}" aria-label="Balas">${IK.balas}<span>Balas</span></a>
+        <span class="sisi">
+          <button class="btn-lapor" data-id="${p.id}" aria-label="Laporkan" title="Laporkan">${IK.lapor}</button>
+          ${milik ? `<button class="btn-hapus" data-id="${p.id}" aria-label="Hapus" title="Hapus">${IK.hapus}</button>` : ''}
+        </span>
       </div>
     </div></article>`;
 }

@@ -20,4 +20,19 @@
     `<a href="${h}" class="${aktif === k ? 'aktif' : ''}" aria-label="${n}" title="${n}"${aktif === k ? ' aria-current="page"' : ''}>${ikon[k]}${n}</a>`).join('') +
     `<a href="post.html" class="nav-tulis" aria-label="Tulis" title="Tulis">${ikon.tulis}Tulis</a>`;
   document.body.appendChild(nav);
+
+  // Panel kanan (tampil hanya di layar lebar)
+  if (aktif) {
+    const p = document.createElement('aside');
+    p.className = 'panel';
+    p.setAttribute('aria-label', 'Tentang Jurkon');
+    p.innerHTML = `<section><h2>Catatan singkat</h2>
+      <div class="batas"><b>250</b><span>karakter per posting</span></div>
+      <p>Jurkon dibuat tenang dan ringkas. Tulis yang penting, lalu terhubung dengan orang-orang yang kamu pilih.</p></section>
+      <section><h2>Pintasan</h2><ul>
+        <li><a href="post.html">Tulis catatan baru</a></li>
+        <li><a href="explore.html">Cari orang atau topik</a></li>
+        <li><a href="aturan.html">Aturan dan privasi</a></li></ul></section>`;
+    document.body.appendChild(p);
+  }
 })();
