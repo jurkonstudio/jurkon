@@ -47,7 +47,7 @@ Beranda punya dua tab. **Publik** menampilkan semua posting utama; **Mengikuti**
 
 ## Mention @username
 
-Saat menulis posting atau balasan, mengetik `@` memunculkan saran akun (akun yang diikuti lebih dulu; ketik huruf untuk mencari username). Ketuk saran untuk menyisipkan. `@username` di dalam posting tampil sebagai tautan ke profil. Tanpa migrasi database. Kode: `js/mention.js`, `isiHtml()` di `js/ui.js`. Catatan: mention belum mengirim notifikasi.
+Saat menulis posting atau balasan, mengetik `@` memunculkan saran akun (akun yang diikuti lebih dulu; ketik huruf untuk mencari username). Ketuk saran untuk menyisipkan. `@username` di dalam posting tampil sebagai tautan ke profil. Tanpa migrasi database. Kode: `js/mention.js`, `isiHtml()` di `js/ui.js`. Mention mengirim notifikasi (migrasi 015).
 
 ## Foto profil & batas ubah bulanan
 
@@ -67,5 +67,15 @@ Di **Profil > Ubah profil**, pemilik akun bisa mengunggah, mengganti, atau mengh
 - **Perangkat:** tiap posting baru menyimpan iOS/Android/Web (dari browser), tampil kecil di bawah posting.
 - Tanpa migrasi 013, aplikasi tetap berjalan; fitur-fitur di atas hanya belum muncul.
 - Catatan: `007_anti_spam.sql` sudah diperbaiki (sintaks `CASE` di dalam `IF` ditolak Postgres); jalankan ulang file itu bila sebelumnya gagal.
-- **Notifikasi kutip/posting ulang:** jalankan `sql/014_notifikasi_kutip_ulang.sql`. "Tidak suka" sengaja tidak mengirim notifikasi (privat).
-- **Jalan pintas:** `sql/jalankan-pembaruan-terbaru.sql` = 007 (diperbaiki) + 013 + 014 dalam satu file; tempel di Supabase SQL Editor lalu Run.
+
+## Pesan hanya untuk akun yang saling mengikuti, dan notifikasi "Mengikuti"
+- **Database:** jalankan `sql/014_pesan_saling_ikuti_notif_mengikuti.sql` (setelah 002 dan 005; aman diulang). Jalankan SEBELUM mengunggah kode JS terbaru.
+- **Pesan:** pesan hanya bisa dikirim bila kedua akun saling mengikuti. Ditegakkan di database (fungsi `saling_ikuti`, kebijakan insert `messages`, dan `buka_percakapan`), jadi tidak bisa ditembus lewat API. Bila salah satu berhenti mengikuti, riwayat tetap terbaca tetapi kotak kirim terkunci. Di profil, tombol Kirim Pesan nonaktif sampai saling mengikuti.
+- **Notifikasi terpisah:** halaman Notifikasi punya dua tab. *Aktivitas* (suka, balasan, pengikut baru, pesan) dan *Mengikuti* (catatan baru dari akun yang kamu ikuti, jenis `posting`). Jumlah belum dibaca dan "Tandai semua dibaca" dihitung per tab; lencana menu menjumlahkan keduanya (ubah di `js/nav.js`, baris `setLencana('notifikasi', ...)`, bila hanya ingin Aktivitas). Panel kanan hanya menampilkan Aktivitas.
+- Notifikasi "Mengikuti" dibuat oleh trigger saat catatan utama diposting (balasan dan posting ulang murni tidak). Satu baris per pengikut, jadi akun dengan pengikut sangat banyak akan menulis banyak baris per posting; retensi 60 hari (`bersihkan_notifikasi`) berlaku juga di sini.
+
+## Notifikasi kutip, posting ulang, dan mention
+- **Database:** jalankan `sql/015_notif_kutip_ulang_mention.sql` (setelah 002, 005, 013, 014; aman diulang). Jalankan SEBELUM mengunggah kode JS terbaru.
+- Jenis baru di tab *Aktivitas*: `ulang` (catatanmu diposting ulang), `kutip` (catatanmu dikutip), `mention` (@usernamemu disebut di posting atau balasan).
+- Tidak ganda: pemilik catatan yang dibalas atau dikutip tidak mendapat mention lagi untuk catatan itu, dan pengikut yang sudah mendapat kutip/mention tidak mendapat notifikasi "Mengikuti" untuk catatan yang sama.
+- Maksimal 5 akun yang disebut per catatan yang diberi notifikasi. Membatalkan posting ulang menghapus notifikasinya.

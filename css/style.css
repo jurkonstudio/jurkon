@@ -462,3 +462,13 @@ a,button,summary,label{touch-action:manipulation}
 .menu-ulang-isi button:hover{background:color-mix(in srgb,var(--garis) 40%,transparent)}
 .menu-ulang-isi svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .menu-ulang-isi .batal{justify-content:center;color:var(--redup);font-weight:500}
+
+/* Pesan hanya untuk akun yang saling mengikuti */
+.syarat-ikuti{margin:0 0 8px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--aksen) 8%,transparent);color:var(--teks);font-size:14px;line-height:1.4}
+.syarat-ikuti a{color:var(--link,var(--aksen));font-weight:600;white-space:nowrap}
+.kirim textarea:disabled,.kirim .btn:disabled{opacity:.55;cursor:not-allowed}
+.hint-pesan{margin:10px 0 0;color:var(--redup);font-size:13px;line-height:1.4}
+.tombol .btn:disabled{opacity:.55;cursor:not-allowed}
+/* Tab notifikasi: Aktivitas / Mengikuti */
+.tab-feed .tab-hitung{display:inline-block;min-width:18px;height:18px;margin-left:6px;padding:0 5px;border-radius:999px;background:var(--aksen);color:#fff;font:700 11px/18px var(--sans);text-align:center;vertical-align:1px}
+.tab-feed .tab-hitung[hidden]{display:none}

@@ -253,7 +253,7 @@ function htmlUlang(p, saya) {
 (function pasangInteraksi() {
   const stat = new Map();     // id -> baris statistik (null bila tidak terlihat)
   const asli = new Map();     // id posting asli -> data posting (null bila tidak tersedia)
-  let antri = new Set(), timer = null, mati = false, sayaKini = null;
+  let antri = new Set(), timer = null, mati = false, sayaKini = null, ambilan = Promise.resolve();
   const PILIH = () => (typeof PILIH_POSTING !== 'undefined' ? PILIH_POSTING : '*, profiles(username,nama,foto_url)');
 
   async function pengguna() {
@@ -331,12 +331,19 @@ function htmlUlang(p, saya) {
     const perlu = [...new Set(semua.map(id => stat.get(id)).filter(r => r && r.kutip_id && !asli.has(r.kutip_id)).map(r => r.kutip_id))];
     if (perlu.length) {
       perlu.forEach(id => asli.set(id, null));
-      const { data } = await db.from('posts').select(PILIH()).in('id', perlu);
-      if (data && data.length) {
-        try { if (typeof tandaiSuka === 'function') await tandaiSuka(data, await pengguna()); } catch (e) {}
-        data.forEach(p => asli.set(p.id, p));
-      }
+      ambilan = ambilan.then(async () => {
+        try {
+          const { data } = await db.from('posts').select(PILIH()).in('id', perlu);
+          if (data && data.length) {
+            try { if (typeof tandaiSuka === 'function') await tandaiSuka(data, await pengguna()); } catch (e) {}
+            data.forEach(p => asli.set(p.id, p));
+          }
+        } catch (e) {}
+      });
     }
+    // Putaran lain yang berjalan bersamaan ikut menunggu di sini, supaya kartu tidak langsung
+    // menampilkan "tidak tersedia" sebelum posting aslinya selesai diambil.
+    await ambilan;
     for (const id of semua) {
       const r = stat.get(id);
       document.querySelectorAll('.ulang-kartu[data-id="' + sel(id) + '"]').forEach(el => isiUlang(el, r));

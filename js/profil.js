@@ -28,6 +28,13 @@ async function muat() {
   const milikSaya = p.id === saya.id;
   const pengikut = p.pengikut, mengikuti = p.mengikuti, ikut = p.saya_ikut, blk = p.saya_blokir;
   const nama = p.nama || p.username;
+  // Saling mengikuti = saya mengikuti dia DAN dia mengikuti saya. Dicek hanya bila saya sudah mengikuti.
+  let salingIkuti = false;
+  if (!milikSaya && ikut) {
+    const { data: balik } = await db.from('follows').select('follower_id')
+      .match({ follower_id: p.id, following_id: saya.id }).maybeSingle();
+    salingIkuti = !!balik;
+  }
   $('#judul').textContent = '@' + p.username;
   $('#atas').innerHTML = `<div class="profil-atas">
     <div class="kartu-kepala">${avatar(nama, 88, p.foto)}
@@ -38,9 +45,10 @@ async function muat() {
     <div class="tombol">${milikSaya
       ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button>`
       : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${esc(ikut ? t('feed.ikuti') : t('pf.ikuti'))}</button>
-         <button class="btn garis" id="pesan">${esc(t('pf.kirimPesan'))}</button>
+         <button class="btn garis" id="pesan"${salingIkuti ? '' : ' disabled aria-describedby="hintPesan"'}>${esc(t('pf.kirimPesan'))}</button>
          <div class="menu-lain"><button class="ikon-btn" id="menuLain" aria-label="${esc(t('pf.aksiLain'))}" aria-haspopup="menu" aria-expanded="false">${IKP.titik}</button>
-           <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${esc(blk ? t('pf.bukaBlokir') : t('pf.blokir', { u: p.username }))}</button></div></div>`}</div></div>`;
+           <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${esc(blk ? t('pf.bukaBlokir') : t('pf.blokir', { u: p.username }))}</button></div></div>`}</div>
+    ${milikSaya || salingIkuti ? '' : `<p class="hint-pesan" id="hintPesan">${esc(t('pf.hintPesan'))}</p>`}</div>`;
   // Tanggal bergabung: diambil terpisah supaya tidak butuh migrasi SQL
   db.from('profiles').select('created_at').eq('id', p.id).maybeSingle().then(({ data }) => {
     const el = $('#gabung');

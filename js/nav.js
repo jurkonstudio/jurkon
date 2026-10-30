@@ -52,7 +52,7 @@
     a.setAttribute('aria-label', n > 0 ? t(kunciBaca, { n }) : nama);
   }
   if (window.Notif) Notif.pada(s => {
-    setLencana('notifikasi', s.total, t('nav.notifikasi'), 'nav.unreadNotif');
+    setLencana('notifikasi', s.total + s.mengikuti, t('nav.notifikasi'), 'nav.unreadNotif');
     setLencana('pesan', s.pesan, t('nav.pesan'), 'nav.unreadPesan');
   });
 
@@ -63,7 +63,7 @@
     const lebar = matchMedia('(min-width:1280px)');
     async function isi() {
       if (!lebar.matches || !Notif.aktif) return;
-      const { data, error } = await Notif.terbaru(5);
+      const { data, error } = await Notif.terbaru(5, null, 'aktivitas');
       if (error) return;
       sudah = true;
       kotak.innerHTML = data.length ? data.map(n => {
