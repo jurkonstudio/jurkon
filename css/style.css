@@ -377,3 +377,26 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .post .induk svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .post .induk a{color:var(--link,var(--aksen));font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .post .induk a:hover{text-decoration:underline}
+
+/* Informasi di sheet pengaturan */
+.info-daftar{list-style:none;margin:0 0 12px;padding:0}
+.info-daftar li{border-bottom:1px dashed var(--garis)}
+.info-daftar li:last-child{border-bottom:0}
+.info-daftar a{display:block;padding:12px 0;color:var(--teks);text-decoration:none}
+.info-daftar a:hover,.info-daftar a:focus-visible{text-decoration:underline}
+
+/* Halaman dokumen: kebijakan, ketentuan, bantuan, tentang */
+.dokumen{line-height:1.65;overflow-wrap:anywhere}
+.dokumen h3{font-family:var(--serif);font-size:18px;margin-top:24px}
+.dokumen p,.dokumen li{margin-top:8px}
+.dokumen ul{margin:8px 0 8px 20px}
+.dokumen a{text-decoration:underline}
+.dokumen .tgl{font-size:13px;color:var(--redup);margin:0 0 12px}
+.dok-nav{margin-top:28px;padding-top:16px;border-top:1px dashed var(--garis);font-size:14px;color:var(--redup)}
+.faq{border-bottom:1px dashed var(--garis)}
+.faq summary{cursor:pointer;padding:14px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--redup);font-weight:400}
+.faq[open] summary::after{content:"\2212"}
+.faq>div{padding:0 0 14px}
+.faq>div p:first-child{margin-top:0}
