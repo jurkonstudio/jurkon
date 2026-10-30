@@ -9,7 +9,7 @@
 
   const POLA = /^[a-z0-9_]{3,20}$/;
   const info = $('#infoUser');
-  let t;
+  let tunda;
   const cek = async () => {
     const u = $('#username').value.trim().toLowerCase();
     if (!POLA.test(u)) { info.textContent = t('user.hint'); info.className = 'hitung'; return false; }
@@ -19,7 +19,7 @@
     info.textContent = t('sel.tersedia'); info.className = 'hitung';
     return true;
   };
-  $('#username').addEventListener('input', () => { clearTimeout(t); t = setTimeout(cek, 400); });
+  $('#username').addEventListener('input', () => { clearTimeout(tunda); tunda = setTimeout(cek, 400); });
 
   $('#simpan').onclick = async () => {
     const galat = $('#galat'); galat.textContent = '';

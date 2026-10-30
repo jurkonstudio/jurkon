@@ -1,4 +1,4 @@
-let saya = null, t, versi = 0, daf = null;
+let saya = null, tunda, versi = 0, daf = null;
 // Jelajah: tanpa kata kunci hanya menampilkan "Sorotan" (dilihat di atas ambang atau dipilih admin).
 // Dengan kata kunci, pencarian tetap menjangkau semua orang dan posting.
 async function muat() {
@@ -48,6 +48,6 @@ async function muat() {
   saya = await wajibLogin();
   if (!saya) return;
   pasangAksiPost(saya, muat);
-  $('#cari').addEventListener('input', () => { clearTimeout(t); t = setTimeout(muat, 350); });
+  $('#cari').addEventListener('input', () => { clearTimeout(tunda); tunda = setTimeout(muat, 350); });
   muat();
 })();

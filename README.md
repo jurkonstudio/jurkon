@@ -79,3 +79,10 @@ Di **Profil > Ubah profil**, pemilik akun bisa mengunggah, mengganti, atau mengh
 - Jenis baru di tab *Aktivitas*: `ulang` (catatanmu diposting ulang), `kutip` (catatanmu dikutip), `mention` (@usernamemu disebut di posting atau balasan).
 - Tidak ganda: pemilik catatan yang dibalas atau dikutip tidak mendapat mention lagi untuk catatan itu, dan pengikut yang sudah mendapat kutip/mention tidak mendapat notifikasi "Mengikuti" untuk catatan yang sama.
 - Maksimal 5 akun yang disebut per catatan yang diberi notifikasi. Membatalkan posting ulang menghapus notifikasinya.
+
+## Performa (pembaruan 016)
+
+- **Kamus bahasa dipecah per bahasa.** Sumber tetap `js/bahasa.js` (edit di sini). Setelah mengubahnya jalankan `node tools/pecah-bahasa.js` untuk membuat ulang `js/bahasa/<kode>.js` dan `js/bahasa-muat.js`, lalu commit semuanya. Browser hanya mengunduh satu bahasa (sekitar 16 KB, bukan 94 KB). `node tools/cek-bahasa.js` tetap dipakai untuk memeriksa kamus.
+- **Indeks database:** jalankan `sql/016_performa.sql` di Supabase (hanya menambah indeks, aman diulang).
+- **Service worker:** naikkan angka `CACHE` di `sw.js` setiap ada perubahan berkas statis (sekarang `jurkon-v29`).
+- **Chat** kini menyusul pesan yang terlewat saat koneksi realtime putus.

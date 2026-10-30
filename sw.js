@@ -1,7 +1,7 @@
-const CACHE = 'jurkon-v28';
+const CACHE = 'jurkon-v29';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.png', '/assets/logo-header-gelap.png',
-  '/js/bahasa.js', '/js/i18n.js', '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/ui.js', '/js/data.js', '/js/filter-data.js', '/js/filter.js', '/js/notif.js', '/js/notifikasi.js', '/js/nav.js', '/js/feed.js', '/js/post.js', '/js/mention.js', '/js/tulis.js',
+  '/js/bahasa-muat.js', '/js/bahasa/id.js', '/js/bahasa/en.js', '/js/bahasa/ms.js', '/js/bahasa/jv.js', '/js/bahasa/su.js', '/js/bahasa/zh.js', '/js/bahasa/ja.js', '/js/i18n.js', '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/ui.js', '/js/data.js', '/js/filter-data.js', '/js/filter.js', '/js/notif.js', '/js/notifikasi.js', '/js/nav.js', '/js/feed.js', '/js/post.js', '/js/mention.js', '/js/tulis.js',
   '/js/detail.js', '/js/explore.js', '/js/profil.js', '/js/akun.js', '/js/pesan.js', '/js/chat.js',
   '/js/auth.js', '/js/reset.js', '/js/selamat.js', '/js/admin.js',
   // Halaman utama ikut disimpan supaya tetap terbuka cepat di sinyal lemah
@@ -9,7 +9,7 @@ const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.png', '
 
 // Jaringan dulu supaya selalu segar, tetapi bila lambat (> ms) langsung pakai salinan tersimpan.
 // Jaringan tetap dilanjutkan di belakang dan memperbarui cache untuk kunjungan berikutnya.
-const WAKTU_TUNGGU = 2500;
+const WAKTU_TUNGGU = 1500;
 function jaringanDulu(e, r) {
   const jaringan = fetch(r, { cache: 'no-cache' }).then(res => {
     if (res.ok) { const salin = res.clone(); caches.open(CACHE).then(c => c.put(r, salin)); }

@@ -2,7 +2,7 @@
   const saya = await wajibLogin();
   if (!saya) return;
   const cid = param('id');
-  const { data: c } = await db.from('conversations').select('*').eq('id', cid).maybeSingle();
+  const { data: c } = await db.from('conversations').select('id,user_a,user_b').eq('id', cid).maybeSingle();
   if (!c) { $('#isi').innerHTML = '<div class="kosong">' + esc(t('chat.noConv')) + '</div>'; return; }
   const { data: o } = await db.from('profiles').select('username,nama,foto_url').eq('id', c.user_a === saya.id ? c.user_b : c.user_a).maybeSingle();
   const namaLawan = o ? (o.nama || o.username) : t('pesan.pengguna');
@@ -38,11 +38,14 @@
   // Status bisa berubah saat tab ditinggalkan (mis. dia berhenti mengikuti): cek ulang ketika kembali
   document.addEventListener('visibilitychange', async () => { if (!document.hidden) aturKirim(await cekSalingIkuti()); });
 
+  const KOLOM = 'id,conversation_id,sender_id,content,created_at';
   const sudah = new Set();
+  let terakhir = null;   // waktu pesan terbaru yang sudah tampil (untuk menyusul pesan yang terlewat)
   const tampil = m => {
     if (sudah.has(m.id)) return;
     const k = $('#isi .kosong'); if (k) k.remove();
     sudah.add(m.id);
+    if (!terakhir || m.created_at > terakhir) terakhir = m.created_at;
     const d = document.createElement('div');
     d.className = 'bubble ' + (m.sender_id === saya.id ? 'saya' : 'lawan');
     d.textContent = m.content;
@@ -51,15 +54,36 @@
   };
 
   // Ambil 200 pesan TERBARU (tanpa batas, Supabase hanya mengembalikan 1000 pesan TERLAMA)
-  const { data: pesan, error: ep } = await db.from('messages').select('*')
+  const { data: pesan, error: ep } = await db.from('messages').select(KOLOM)
     .eq('conversation_id', cid).order('created_at', { ascending: false }).limit(200);
   if (ep) { $('#isi').innerHTML = '<div class="kosong">' + esc(t('chat.gagalMuat', { pesan: ep.message })) + '</div>'; return; }
   (pesan || []).slice().reverse().forEach(tampil);
   if (!pesan || !pesan.length) $('#isi').innerHTML = kosong('pesan', t('chat.mulaiJ'), esc(t('chat.sapa', { nama: namaLawan })));
 
+  // Menyusul pesan yang terlewat saat koneksi realtime putus (sinyal hilang, tab di latar belakang).
+  // Aman dipanggil berulang: pesan yang sudah tampil dilewati.
+  let susulSibuk = false;
+  async function susul() {
+    if (susulSibuk) return;
+    susulSibuk = true;
+    try {
+      let q = db.from('messages').select(KOLOM).eq('conversation_id', cid)
+        .order('created_at', { ascending: true }).limit(200);
+      if (terakhir) q = q.gte('created_at', terakhir);
+      const { data, error } = await q;
+      if (!error && data) {
+        const baru = data.filter(m => !sudah.has(m.id));
+        baru.forEach(tampil);
+        if (baru.some(m => m.sender_id !== saya.id) && window.Notif) Notif.tandaiPercakapan(cid);
+      }
+    } catch (e) {} finally { susulSibuk = false; }
+  }
   db.channel('chat-' + cid).on('postgres_changes',
     { event: 'INSERT', schema: 'public', table: 'messages', filter: 'conversation_id=eq.' + cid },
-    p => { tampil(p.new); if (p.new.sender_id !== saya.id && window.Notif) Notif.tandaiPercakapan(cid); }).subscribe();
+    p => { tampil(p.new); if (p.new.sender_id !== saya.id && window.Notif) Notif.tandaiPercakapan(cid); })
+    .subscribe(status => { if (status === 'SUBSCRIBED') susul(); });   // juga menutup celah antara muat awal dan langganan aktif
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) susul(); });
+  window.addEventListener('online', susul);
   if (window.Notif) Notif.tandaiPercakapan(cid);
 
   const kirim = async () => {

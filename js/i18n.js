@@ -1,5 +1,6 @@
 // Bahasa tampilan: otomatis mengikuti bahasa ponsel/browser, atau dipilih manual di Pengaturan.
-// Dimuat di <head> setelah js/bahasa.js dan SEBELUM js/tema.js.
+// Dimuat di <head> setelah js/bahasa-muat.js (yang memuat js/bahasa/<kode>.js) dan SEBELUM js/tema.js.
+// Sumber kamus tetap js/bahasa.js; setelah mengubahnya jalankan: node tools/pecah-bahasa.js
 //
 // Pakai di JavaScript:   t('kunci')   atau   t('kunci', { n: 3 })
 // Pakai di HTML:         data-i="kunci"        -> isi teks
@@ -10,7 +11,7 @@
 //                        data-i-phs="kunci"    -> placeholder bergantian (dipisah |), dibaca ui.js
 //                        data-i-doc="kunci"    -> judul tab browser ("<teks> · Jurkon")
 (function () {
-  var DAFTAR = I18N_BAHASA, KAMUS = I18N_KAMUS;
+  var DAFTAR = I18N_BAHASA, KAMUS = (typeof I18N_KAMUS !== 'undefined') ? I18N_KAMUS : {};   // satu bahasa saja (js/bahasa/<kode>.js), nilainya teks langsung
   var KUNCI = 'bahasa';
   var KODE = DAFTAR.map(function (b) { return b.kode; });
 
@@ -32,15 +33,13 @@
 
   var pilihan = simpanan();
   if (pilihan !== 'auto' && KODE.indexOf(pilihan) < 0) pilihan = 'auto';
-  var kode = pilihan === 'auto' ? deteksi() : pilihan;
+  var kode = window.I18N_KODE || (pilihan === 'auto' ? deteksi() : pilihan);
   var idx = KODE.indexOf(kode);
   var locale = DAFTAR[idx].locale;
 
   function t(kunci, v) {
-    var baris = KAMUS[kunci];
-    if (!baris) return kunci;
-    var s = baris[idx];
-    if (s == null || s === '') s = baris[1] != null && baris[1] !== '' ? baris[1] : baris[0];
+    var s = KAMUS[kunci];
+    if (s == null) return kunci;
     if (v) s = s.replace(/\{(\w+)\}/g, function (m, k) { return v[k] != null ? v[k] : m; });
     return s;
   }

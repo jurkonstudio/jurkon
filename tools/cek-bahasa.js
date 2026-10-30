@@ -24,8 +24,8 @@ for (const [k, baris] of Object.entries(K)) {
 const pakai = new Set(), semuaTeks = [];
 const baca = d => fs.readdirSync(d, { withFileTypes: true }).forEach(e => {
   const p = path.join(d, e.name);
-  if (e.isDirectory()) { if (!['node_modules', '.git', 'sql', 'assets'].includes(e.name)) baca(p); return; }
-  if (!/\.(js|html)$/.test(e.name) || e.name === 'bahasa.js' || e.name === 'cek-bahasa.js') return;
+  if (e.isDirectory()) { if (!['node_modules', '.git', 'sql', 'assets', 'bahasa'].includes(e.name)) baca(p); return; }
+  if (!/\.(js|html)$/.test(e.name) || e.name === 'bahasa.js' || e.name === 'bahasa-muat.js' || e.name === 'cek-bahasa.js') return;
   const s = fs.readFileSync(p, 'utf8');
   semuaTeks.push(s);
   for (const m of s.matchAll(/\bt\('([a-zA-Z0-9_]+\.[a-zA-Z0-9_.]+)'/g)) pakai.add(m[1] + '|' + e.name);
