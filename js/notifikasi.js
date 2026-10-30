@@ -13,7 +13,7 @@
     const k = Notif.kalimat(n);
     const a = n.actor || {};
     return `<div class="notif-baris" role="listitem"><a class="notif ${n.dibaca ? '' : 'baru'}" href="${esc(k.href)}" data-id="${esc(n.id)}">
-      <span class="notif-ava">${avatar(a.nama || a.username, 44)}<i class="notif-jenis j-${esc(n.jenis)}" aria-hidden="true">${IKON_JENIS[n.jenis] || ''}</i></span>
+      <span class="notif-ava">${avatar(a.nama || a.username, 44, a.foto_url)}<i class="notif-jenis j-${esc(n.jenis)}" aria-hidden="true">${IKON_JENIS[n.jenis] || ''}</i></span>
       <span class="notif-isi"><span class="notif-teks">${k.html}</span>
         ${k.cuplikan ? `<span class="notif-cuplikan">${esc(k.cuplikan)}</span>` : ''}
         <span class="notif-waktu">${n.dibaca ? '' : '<span class="sr">Belum dibaca. </span>'}${waktu(n.created_at)}</span></span>

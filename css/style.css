@@ -46,7 +46,8 @@ textarea{min-height:100px;resize:none}
 .kirim textarea{min-height:44px;height:44px}
 
 /* ===== Tampilan lebih hidup ===== */
-.avatar{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:700;flex:none;background:var(--garis)}
+.avatar{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:700;flex:none;background:var(--garis);position:relative;overflow:hidden}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--bg)}
 .post{display:flex;gap:12px}
 .post .badan{min-width:0;flex:1}
 .post .ava{flex:none}
@@ -348,3 +349,13 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .pr-nama{font-family:var(--serif);font-size:18px;font-weight:650;overflow-wrap:anywhere}
 @media (min-width:768px){#atas .profil-atas{padding:28px 24px 24px}.bagian-judul{padding-left:24px;padding-right:24px}.lembar{margin:auto;border-radius:20px}}
 @media (prefers-reduced-motion:reduce){.lembar[open]{animation:none}}
+
+/* Foto profil & batas ubah bulanan */
+.foto-ubah{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.foto-ubah .btn{width:auto}
+.kuota{font-size:13px;color:var(--redup);margin-top:-4px}
+.kuota.habis{color:#b3261e}
+.lembar input:disabled{opacity:.6;cursor:not-allowed}
+.lembar .btn:disabled{opacity:.55;cursor:not-allowed}
+#lawan{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0}
+#lawan span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

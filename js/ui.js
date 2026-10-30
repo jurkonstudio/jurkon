@@ -1,13 +1,27 @@
 // Tampilan: avatar, keadaan kosong, efek memuat, placeholder bergantian.
 // Dimuat setelah supabase.js, jadi fungsi htmlPost di sini menggantikan yang lama.
 
-function avatar(nama, ukuran) {
+// Path foto di Supabase Storage (bucket "avatar") -> URL publik. URL penuh/blob dipakai apa adanya.
+function urlFoto(f) {
+  if (!f) return '';
+  if (/^(https?:|blob:|data:)/.test(f)) return f;
+  return SUPABASE_URL + '/storage/v1/object/public/avatar/' + String(f).split('/').map(encodeURIComponent).join('/');
+}
+
+// foto (opsional): path/URL foto profil. Huruf inisial tetap ada di bawahnya sebagai cadangan bila foto gagal dimuat.
+function avatar(nama, ukuran, foto) {
   const u = ukuran || 40;
   const n = (nama || '?').trim() || '?';
   let h = 0;
   for (const c of n) h = (h * 31 + c.charCodeAt(0)) % 360;
-  return `<span class="avatar" style="width:${u}px;height:${u}px;font-size:${Math.round(u * 0.42)}px;background:hsl(${h} 50% 42%)">${esc(Array.from(n)[0].toUpperCase())}</span>`;
+  const gb = foto ? `<img src="${esc(urlFoto(foto))}" alt="" loading="lazy" decoding="async">` : '';
+  return `<span class="avatar" style="width:${u}px;height:${u}px;font-size:${Math.round(u * 0.42)}px;background:hsl(${h} 50% 42%)">${esc(Array.from(n)[0].toUpperCase())}${gb}</span>`;
 }
+// Foto gagal dimuat -> buang gambarnya, huruf inisial muncul lagi
+document.addEventListener('error', e => {
+  const t = e.target;
+  if (t && t.tagName === 'IMG' && t.closest && t.closest('.avatar')) t.remove();
+}, true);
 
 const IK = {
   suka: '<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.9 3.8 4.5 7.2 4.5c1.9 0 3.700 1 4.800 2.700 1.100-1.700 2.900-2.700 4.800-2.700 3.400 0 5.600 3.400 4.400 6.700-1.700 4.700-9.200 9.300-9.200 9.300z"/></svg>',
@@ -28,7 +42,7 @@ function htmlPost(p, saya) {
   const nama = p.profiles.nama || p.profiles.username;
   const milik = saya && saya.id === p.user_id;
   return `<article class="post" data-id="${p.id}">
-    <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="Profil ${esc(nama)}">${avatar(nama, 42)}</a>
+    <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="Profil ${esc(nama)}">${avatar(nama, 42, p.profiles.foto_url)}</a>
     <div class="badan">
       <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
@@ -137,7 +151,7 @@ function pasangAksiPost(saya, muat) {
 })();
 
 // Kolom posting tanpa hitungan tertanam (likes(count)) agar tidak bergantung pada pengaturan agregat Supabase
-const PILIH_POSTING = '*, profiles(username,nama)';
+const PILIH_POSTING = '*, profiles(username,nama,foto_url)';
 
 // Menandai suka milikku sekaligus mengisi jumlah suka tiap posting (menggantikan versi di supabase.js)
 async function tandaiSuka(posts, saya) {

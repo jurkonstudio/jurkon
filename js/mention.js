@@ -36,7 +36,7 @@ function pasangMention(ta, saya) {
       const ids = (f || []).map(x => x.following_id);
       ids.forEach(i => ikuti.ids.add(i));
       if (ids.length) {
-        const { data: p } = await db.from('profiles').select('id,username,nama').in('id', ids.slice(0, 100)).order('username').limit(8);
+        const { data: p } = await db.from('profiles').select('id,username,nama,foto_url').in('id', ids.slice(0, 100)).order('username').limit(8);
         ikuti.profil = p || [];
       }
     } catch (e) {}
@@ -51,7 +51,7 @@ function pasangMention(ta, saya) {
   function gambar() {
     if (!items.length) { tutup(); return; }
     list.innerHTML = items.map((p, i) => `<li role="option" id="${list.id}-${i}" data-i="${i}" aria-selected="${i === idx}" class="${i === idx ? 'aktif' : ''}">
-      ${avatar(p.nama || p.username, 32)}
+      ${avatar(p.nama || p.username, 32, p.foto_url)}
       <span class="sebut-teks"><b>${esc(p.nama || p.username)}</b><span>@${esc(p.username)}</span></span></li>`).join('');
     list.hidden = false;
     ta.setAttribute('aria-activedescendant', `${list.id}-${idx}`);
@@ -66,7 +66,7 @@ function pasangMention(ta, saya) {
       const k = await muatIkuti();
       if (!kata) hasil = k.profil;
       else {
-        const { data } = await db.from('profiles').select('id,username,nama')
+        const { data } = await db.from('profiles').select('id,username,nama,foto_url')
           .ilike('username', kata.replace(/_/g, '\\_') + '%').order('username').limit(8);
         hasil = (data || []).slice().sort((a, b) => (k.ids.has(b.id) - k.ids.has(a.id)));
       }

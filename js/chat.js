@@ -4,9 +4,9 @@
   const cid = param('id');
   const { data: c } = await db.from('conversations').select('*').eq('id', cid).maybeSingle();
   if (!c) { $('#isi').innerHTML = '<div class="kosong">Percakapan tidak ditemukan.</div>'; return; }
-  const { data: o } = await db.from('profiles').select('username,nama').eq('id', c.user_a === saya.id ? c.user_b : c.user_a).maybeSingle();
+  const { data: o } = await db.from('profiles').select('username,nama,foto_url').eq('id', c.user_a === saya.id ? c.user_b : c.user_a).maybeSingle();
   const namaLawan = o ? (o.nama || o.username) : 'Pengguna';
-  $('#lawan').textContent = namaLawan;
+  $('#lawan').innerHTML = avatar(namaLawan, 30, o && o.foto_url) + '<span>' + esc(namaLawan) + '</span>';
   $('#teks').placeholder = 'Tulis pesan untuk ' + namaLawan + '...';
   pasangHitung($('#teks'), $('#hitung'), 750);
   pasangFilter($('#teks'));
