@@ -122,34 +122,67 @@ function daftarBerhalaman(el, ambil, kosongHtml, saya, opsi) {
   const render = (opsi && opsi.render) || (p => htmlPost(p, saya));
   const selItem = (opsi && opsi.item) || '.post';
   const kursor = (opsi && opsi.kursor) || (x => x.created_at);
-  let akhir = null, sibuk = false, batal = false;
+  // opsi.cache: nama cache halaman pertama di perangkat. Dipakai untuk tampil instan sebelum data segar tiba.
+  const kunciCache = opsi && opsi.cache && saya ? 'jk:' + saya.id + ':' + opsi.cache : null;
+  const bacaCache = () => {
+    if (!kunciCache) return null;
+    try { const c = JSON.parse(localStorage.getItem(kunciCache) || 'null'); return c && Date.now() - c.t < 864e5 && Array.isArray(c.d) && c.d.length ? c.d : null; } catch (e) { return null; }
+  };
+  const simpanCache = data => { if (kunciCache) try { localStorage.setItem(kunciCache, JSON.stringify({ t: Date.now(), d: data.slice(0, HALAMAN) })); } catch (e) {} };
+  const hapusCache = () => { if (kunciCache) try { localStorage.removeItem(kunciCache); } catch (e) {} };
+  const tanda = ds => ds.map(p => p.id + ':' + (p.likes && p.likes[0] ? p.likes[0].count : '') + ':' + p.sudah_suka + ':' + p.dilihat).join('|');
+  let akhir = null, sibuk = false, batal = false, io = null;
   const TOMBOL = '<button class="lagi" type="button">Muat lebih banyak</button>';
+  // Muat halaman berikutnya otomatis saat tombol hampir terlihat (gulir terasa tanpa putus); tombol tetap ada sebagai cadangan
+  function pantau() {
+    if (!('IntersectionObserver' in window)) return;
+    if (!io) io = new IntersectionObserver(es => {
+      if (!es.some(x => x.isIntersecting)) return;
+      const t = el.querySelector('.lagi');
+      if (t && !t.disabled && !sibuk) muat(false);
+    }, { rootMargin: '700px 0px' });
+    const t = el.querySelector('.lagi'); if (t) io.observe(t);
+  }
   async function muat(ulang) {
     if (sibuk || batal) return;
     sibuk = true;
-    if (ulang) { akhir = null; if (!el.querySelector(selItem)) el.innerHTML = skeleton(4); }
-    else { const b = el.querySelector('.lagi'); if (b) { b.disabled = true; b.textContent = 'Memuat…'; } }
+    let cacheData = null;
+    if (ulang) {
+      akhir = null;
+      if (!el.querySelector(selItem)) {
+        cacheData = bacaCache();
+        el.innerHTML = cacheData ? cacheData.map(render).join('') : skeleton(4);
+      }
+    } else { const b = el.querySelector('.lagi'); if (b) { b.disabled = true; b.textContent = 'Memuat…'; } }
     const r = await ambil(akhir);
     sibuk = false;
     if (batal) return;
     if (r.error) {
+      if (ulang && cacheData) return;   // data lama tetap tampil bila sedang tanpa sinyal
       if (ulang) el.innerHTML = '<div class="kosong"><h3>Gagal memuat</h3><p>' + esc(pesanGalat(r.error)) + '</p><button class="btn lagi-coba" type="button">Coba lagi</button></div>';
       else { const b = el.querySelector('.lagi'); if (b) { b.disabled = false; b.textContent = 'Gagal. Ketuk untuk coba lagi'; } }
       return;
     }
     const data = r.data || [];
-    if (ulang && !data.length) { el.innerHTML = typeof kosongHtml === 'function' ? kosongHtml() : (kosongHtml || ''); return; }
-    const html = data.map(render).join('');
+    if (ulang && !data.length) { hapusCache(); el.innerHTML = typeof kosongHtml === 'function' ? kosongHtml() : (kosongHtml || ''); return; }
     const lagi = data.length >= (r.limit || HALAMAN) ? TOMBOL : '';
-    if (ulang) el.innerHTML = html + lagi;
-    else { const b = el.querySelector('.lagi'); if (b) b.remove(); el.insertAdjacentHTML('beforeend', html + lagi); }
+    if (ulang) {
+      simpanCache(data);
+      // Bila sama dengan yang sudah tampil dari cache, jangan gambar ulang (tanpa kedip)
+      if (cacheData && tanda(cacheData) === tanda(data.slice(0, cacheData.length)) && cacheData.length === data.length) el.insertAdjacentHTML('beforeend', lagi);
+      else el.innerHTML = data.map(render).join('') + lagi;
+    } else {
+      const b = el.querySelector('.lagi'); if (b) { if (io) io.unobserve(b); b.remove(); }
+      el.insertAdjacentHTML('beforeend', data.map(render).join('') + lagi);
+    }
     if (data.length) akhir = r.kursorAkhir || kursor(data[data.length - 1]);
+    if (lagi) pantau();
   }
   el.addEventListener('click', e => {
     if (e.target.closest('.lagi')) muat(false);
     else if (e.target.closest('.lagi-coba')) muat(true);
   });
-  return { muat: () => muat(true), hentikan: () => { batal = true; } };
+  return { muat: () => muat(true), hentikan: () => { batal = true; if (io) io.disconnect(); } };
 }
 
 // ---- Views posting ----------------------------------------------------------

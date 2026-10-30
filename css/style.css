@@ -410,3 +410,11 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 /* Jelajah: bagian "Lagi ramai" */
 .ramai-judul p{margin-top:2px}
 #ramai{border-bottom:1px dashed var(--garis);padding-bottom:4px}
+
+/* Kecepatan & kehalusan */
+a,button,summary,label{touch-action:manipulation}
+@view-transition{navigation:auto}
+.nav{view-transition-name:menu-bawah}
+.panel{view-transition-name:panel-kanan}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.14s}
+@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}

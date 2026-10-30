@@ -136,13 +136,18 @@ function pasangAksiPost(saya, muat) {
       b.dataset.sibuk = '1';
       const sudah = b.classList.contains('sudah');
       const n = b.querySelector('span');
+      const awal = +n.textContent || 0;
+      // Tampilan langsung berubah (terasa instan); dikembalikan bila server menolak
+      b.classList.toggle('sudah');
+      n.textContent = Math.max(0, awal + (sudah ? -1 : 1));
       const { error } = sudah
         ? await db.from('likes').delete().match({ post_id: id, user_id: saya.id })
         : await db.from('likes').insert({ post_id: id, user_id: saya.id });
       delete b.dataset.sibuk;
-      if (error) { alert(/terlalu cepat|batas/i.test(error.message || '') ? error.message : 'Gagal memperbarui suka. Coba lagi.'); return; }
-      n.textContent = Math.max(0, +n.textContent + (sudah ? -1 : 1));
-      b.classList.toggle('sudah');
+      if (error) {
+        b.classList.toggle('sudah', sudah); n.textContent = awal;
+        alert(/terlalu cepat|batas/i.test(error.message || '') ? error.message : 'Gagal memperbarui suka. Coba lagi.');
+      }
     } else if (b.classList.contains('btn-lapor')) {
       const alasan = prompt('Alasan melaporkan (maks 300 karakter):');
       if (!alasan || !alasan.trim()) return;
@@ -187,3 +192,7 @@ async function tandaiSuka(posts, saya) {
   posts.forEach(p => { p.likes = [{ count: hitung[p.id] || 0 }]; p.sudah_suka = milik.has(p.id); });
   return posts;
 }
+
+// Cache daftar posting di perangkat (untuk tampil instan) dihapus saat keluar, supaya tidak tertinggal di perangkat bersama.
+function hapusCacheLokal() { try { Object.keys(localStorage).filter(k => k.startsWith('jk:')).forEach(k => localStorage.removeItem(k)); } catch (e) {} }
+try { db.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') hapusCacheLokal(); }); } catch (e) {}

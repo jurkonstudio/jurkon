@@ -41,7 +41,7 @@ async function muat() {
     () => kata
       ? (jmlOrang ? '' : kosong('cari', 'Tidak ditemukan', 'Tidak ada hasil untuk "' + esc(kata) + '". Coba kata lain.'))
       : kosong('cari', 'Belum ada sorotan', 'Posting yang banyak dibaca atau dipilih tim Jurkon akan muncul di sini. Untuk menemukan orang atau topik, pakai kolom pencarian di atas.'),
-    saya);
+    saya, kata ? undefined : { cache: 'sorotan' });
   daf.muat();
 }
 (async () => {

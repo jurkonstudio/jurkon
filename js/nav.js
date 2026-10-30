@@ -75,4 +75,13 @@
     Notif.pada(tunda);
     lebar.addEventListener('change', () => { if (lebar.matches && !sudah) isi(); });
   }
+
+  // Ambil lebih dulu halaman tab lain saat browser senggang, supaya perpindahan tab terasa cepat (dilewati bila Hemat Data aktif)
+  const hemat = navigator.connection && (navigator.connection.saveData || /(^|-)2g$/.test(navigator.connection.effectiveType || ''));
+  if (aktif && !hemat) (window.requestIdleCallback || (f => setTimeout(f, 1500)))(() => {
+    menu.forEach(([h, , k]) => {
+      if (k === aktif) return;
+      const l = document.createElement('link'); l.rel = 'prefetch'; l.href = h; document.head.appendChild(l);
+    });
+  });
 })();

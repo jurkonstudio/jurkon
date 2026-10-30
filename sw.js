@@ -1,9 +1,37 @@
-const CACHE = 'jurkon-v19';
+const CACHE = 'jurkon-v20';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
-const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.jpg', '/assets/logo.jpg',
+const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.jpg',
   '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/ui.js', '/js/data.js', '/js/filter-data.js', '/js/filter.js', '/js/notif.js', '/js/notifikasi.js', '/js/nav.js', '/js/feed.js', '/js/post.js', '/js/mention.js',
   '/js/detail.js', '/js/explore.js', '/js/profil.js', '/js/akun.js', '/js/pesan.js', '/js/chat.js',
-  '/js/auth.js', '/js/reset.js', '/js/selamat.js', '/js/admin.js'];
+  '/js/auth.js', '/js/reset.js', '/js/selamat.js', '/js/admin.js',
+  // Halaman utama ikut disimpan supaya tetap terbuka cepat di sinyal lemah
+  '/index.html', '/explore.html', '/notifikasi.html', '/pesan.html', '/profil.html', '/post.html', '/detail.html', '/chat.html'];
+
+// Jaringan dulu supaya selalu segar, tetapi bila lambat (> ms) langsung pakai salinan tersimpan.
+// Jaringan tetap dilanjutkan di belakang dan memperbarui cache untuk kunjungan berikutnya.
+const WAKTU_TUNGGU = 2500;
+function jaringanDulu(e, r) {
+  const jaringan = fetch(r).then(res => {
+    if (res.ok) { const salin = res.clone(); caches.open(CACHE).then(c => c.put(r, salin)); }
+    return res;
+  });
+  e.waitUntil(jaringan.catch(() => {}));
+  const cadangan = () => caches.match(r, { ignoreSearch: r.mode === 'navigate' });
+  return new Promise(selesai => {
+    let beres = false;
+    const timer = setTimeout(async () => {
+      const h = await cadangan();
+      if (h && !beres) { beres = true; selesai(h); }
+    }, WAKTU_TUNGGU);
+    jaringan.then(res => { if (!beres) { beres = true; clearTimeout(timer); selesai(res); } },
+      async () => {
+        clearTimeout(timer);
+        if (beres) return;
+        const h = await cadangan();
+        beres = true; selesai(h || Response.error());
+      });
+  });
+}
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -35,14 +63,6 @@ self.addEventListener('fetch', e => {
     }));
     return;
   }
-  // JS & CSS: jaringan dulu supaya HTML baru tidak bertemu skrip lama; cache hanya cadangan saat offline
-  if (/\.(css|js)$/.test(u.pathname)) {
-    e.respondWith(fetch(r).then(res => {
-      if (res.ok) { const salin = res.clone(); caches.open(CACHE).then(c => c.put(r, salin)); }
-      return res;
-    }).catch(() => caches.match(r).then(h => h || Response.error())));
-    return;
-  }
-  // Halaman HTML: selalu coba jaringan dulu
-  e.respondWith(fetch(r).catch(() => caches.match(r).then(h => h || Response.error())));
+  // JS, CSS, dan halaman HTML: jaringan dulu (supaya HTML baru tidak bertemu skrip lama), cadangan dari cache bila lambat/offline
+  e.respondWith(jaringanDulu(e, r));
 });

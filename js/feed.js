@@ -32,7 +32,7 @@ function pilihFeed(f, fokus) {
   const baru = el.cloneNode(false);
   el.replaceWith(baru);
   daf = daftarBerhalaman(baru, sebelum => ambilPosting({ mode: f === 'ikuti' ? 'ikuti' : 'semua', sebelum }, saya),
-    () => kosongFeed(f), saya);
+    () => kosongFeed(f), saya, { cache: 'feed-' + f });
   daf.muat();
   window.scrollTo({ top: 0 });
 }
