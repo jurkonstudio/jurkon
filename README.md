@@ -5,7 +5,7 @@ Stack: HTML/CSS/JS biasa + Supabase. Hosting: GitHub Pages.
 
 ## Langkah pasang
 1. **Supabase**: buat project baru → SQL Editor → tempel isi `sql/schema.sql` → Run.
-1b. Jalankan juga `sql/002_privasi_keamanan.sql`, `sql/003_feed_cepat.sql`, `sql/004_filter_konten.sql`, lalu `sql/006_feed_dua_bagian.sql`, `sql/007_anti_spam.sql`, dan `sql/008_foto_profil_limit.sql` (berurutan; `005_notifikasi.sql` opsional, lihat bagian Notifikasi). Tanpa 002, tidak ada blokir, batas spam, admin, hapus akun, dan ekspor data.
+1b. Jalankan juga `sql/002_privasi_keamanan.sql`, `sql/003_feed_cepat.sql`, `sql/004_filter_konten.sql`, lalu `sql/006_feed_dua_bagian.sql`, `sql/007_anti_spam.sql`, dan `sql/008_foto_profil_limit.sql` (berurutan; `005_notifikasi.sql` opsional, lihat bagian Notifikasi). Tanpa 002, tidak ada blokir, batas spam, admin, hapus akun, dan ekspor data. Migrasi lanjutan (013-018, termasuk foto/suara chat dan notifikasi) ada di bagian "Urutan migrasi terbaru" di bawah.
 2. Supabase → Project Settings → API → salin *Project URL* dan *anon public key* ke `js/supabase.js`.
 3. Supabase → Authentication → URL Configuration: isi Site URL dengan `https://jurkon.my.id`.
    Tambahkan juga `https://jurkon.my.id/reset.html` dan `https://jurkon.my.id/index.html` di *Redirect URLs* (wajib agar "Lupa kata sandi" dan login Google bisa kembali ke aplikasi).
@@ -90,9 +90,15 @@ Di **Profil > Ubah profil**, pemilik akun bisa mengunggah, mengganti, atau mengh
 ## Foto & pesan suara di chat (hilang setelah 10 menit)
 Di kotak kirim chat ada tombol kamera (foto) dan mikrofon (pesan suara, maks 60 detik). Berkas hanya bisa dibuka **10 menit** sejak dikirim; setelah itu gelembung berubah menjadi "sudah hilang". Foto dan suara hanya bisa dikirim antar akun yang saling mengikuti (aturan yang sama dengan pesan teks).
 
-- **Database:** jalankan `sql/017_media_pesan.sql` (setelah 002, 004, 007, 014; aman diulang) SEBELUM mengunggah kode JS terbaru. Isinya: kolom `media_jenis`/`media_path` di `messages`, bucket privat `media-pesan` (maks 3 MB per berkas), kebijakan storage, dan pembatas media (akun baru 10/jam, lainnya 40/jam; maks 12 unggahan per 10 menit).
+- **Database:** jalankan `sql/017_media_pesan.sql` (setelah 002, 004, 007, dan 014_pesan_saling_ikuti; aman diulang) SEBELUM mengunggah kode JS terbaru. Isinya: kolom `media_jenis`/`media_path` di `messages`, bucket privat `media-pesan` (maks 3 MB per berkas), kebijakan storage, dan pembatas media (akun baru 10/jam, lainnya 40/jam; maks 12 unggahan per 10 menit).
 - **Akses 10 menit ditegakkan di database:** kebijakan baca storage hanya meloloskan peserta percakapan selama 10 menit sejak unggah, jadi tidak bisa dibuka lagi lewat API walau berkasnya belum terhapus. Tautan yang dibuat klien juga berlaku paling lama sampai batas itu.
 - **Penghapusan fisik berkas:** ada dua lapis. (1) Cadangan: saat pengirim membuka chat, berkas miliknya yang kedaluwarsa dihapus. (2) Utama: Edge Function `supabase/functions/hapus-media-kedaluwarsa` membuang semua berkas lewat 10 menit. Pasang sekali: Supabase > Edge Functions > deploy folder itu (atau `supabase functions deploy hapus-media-kedaluwarsa`), lalu jadwalkan tiap 5 menit lewat Integrations > Cron (jenis Edge Function) atau pg_cron + pg_net. Kunci service_role disediakan Supabase di dalam fungsi; jangan dimasukkan ke repo.
 - **Foto:** dikecilkan ke maks 1280px dan disimpan ulang sebagai JPEG di perangkat, sehingga data EXIF/lokasi hilang. **Suara:** MP4/AAC bila didukung, selain itu WebM/Opus (Android Chrome lama merekam WebM, yang bisa gagal diputar di iPhone lama).
 - Rekam suara butuh HTTPS dan izin mikrofon (GitHub Pages sudah HTTPS). Tombol media otomatis tersembunyi bila migrasi 017 belum dijalankan atau perangkat tak mendukung rekam suara.
 - Catatan: foto dan suara tidak dimoderasi otomatis (filter kata hanya untuk teks). Blokir tetap berlaku. Pertimbangkan menambah satu kalimat di Kebijakan Privasi bahwa media chat hanya tersimpan 10 menit.
+
+## Notifikasi suka ikut hilang saat suka dibatalkan
+Jalankan `sql/018_hapus_notif_suka.sql` (setelah 005 dan 013; aman diulang). Bila suka dibatalkan, termasuk saat menekan "tidak suka" yang otomatis membatalkan suka, notifikasi "menyukai catatanmu" ikut dihapus (seperti posting ulang yang dibatalkan). Suka lagi sesudahnya memberi notifikasi baru; batas laju suka (007) mencegah penyalahgunaan.
+
+## Urutan migrasi terbaru
+`sql/jalankan-pembaruan-terbaru.sql` hanya memuat 007, 013, dan `014_notifikasi_kutip_ulang`. Migrasi berikut dijalankan **terpisah**, berurutan: `014_pesan_saling_ikuti_notif_mengikuti` -> `015_notif_kutip_ulang_mention` -> `016_performa` -> `017_media_pesan` -> `018_hapus_notif_suka`. Jalankan SQL dulu, baru unggah kode JS terbaru.
