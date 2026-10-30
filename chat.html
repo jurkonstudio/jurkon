@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2563eb">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/style.css">
+<title>Chat · Jurkon</title></head><body data-tab="pesan">
+<main><div class="header"><a href="pesan.html">← Pesan</a><span id="lawan"></span><span></span></div>
+<div class="chat" id="isi"></div></main>
+<div class="kirim"><div>
+  <textarea id="teks" placeholder="Tulis pesan..."></textarea>
+  <div class="baris"><span class="hitung" id="hitung"></span><button class="btn" id="kirim">Kirim</button></div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/chat.js"></script></body></html>

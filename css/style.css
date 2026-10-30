@@ -1,0 +1,44 @@
+:root{--bg:#fff;--teks:#111;--redup:#6b7280;--garis:#e5e7eb;--aksen:#2563eb;--bahaya:#dc2626}
+@media (prefers-color-scheme:dark){:root{--bg:#0b0b0c;--teks:#f3f4f6;--redup:#9ca3af;--garis:#26272b;--aksen:#60a5fa}}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--teks);line-height:1.5;padding-bottom:72px}
+main{max-width:600px;margin:0 auto}
+a{color:inherit;text-decoration:none}
+.header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--garis);padding:12px 16px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.kosong{padding:32px 16px;text-align:center;color:var(--redup)}
+.pad{padding:16px}
+.post{padding:14px 16px;border-bottom:1px solid var(--garis)}
+.post .nama{font-weight:600}
+.post .waktu,.post .user{color:var(--redup);font-size:14px}
+.post .isi{margin-top:4px;white-space:pre-wrap;word-break:break-word}
+.post .aksi{display:flex;gap:24px;margin-top:10px;color:var(--redup);font-size:14px}
+.post .aksi button{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0}
+.post .aksi .sudah{color:var(--bahaya)}
+textarea,input[type=text],input[type=email],input[type=password]{width:100%;padding:12px;background:transparent;color:var(--teks);border:1px solid var(--garis);border-radius:8px;font:inherit}
+textarea{min-height:100px;resize:none}
+.baris{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.hitung{font-size:13px;color:var(--redup)}
+.hitung.habis{color:var(--bahaya)}
+.btn{background:var(--aksen);color:#fff;border:0;border-radius:999px;padding:8px 18px;font:inherit;font-weight:600;cursor:pointer}
+.btn:disabled{opacity:.5}
+.btn.garis{background:transparent;color:var(--teks);border:1px solid var(--garis)}
+.form{display:grid;gap:12px;padding:16px}
+.galat{color:var(--bahaya);font-size:14px}
+.nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:var(--bg);border-top:1px solid var(--garis);padding:10px 0 calc(10px + env(safe-area-inset-bottom))}
+.nav a{color:var(--redup);font-size:12px;text-align:center}
+.nav a.aktif{color:var(--aksen);font-weight:600}
+.nav svg{display:block;margin:0 auto 2px;width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2}
+.fab{position:fixed;right:16px;bottom:84px;width:52px;height:52px;border-radius:50%;background:var(--aksen);color:#fff;font-size:28px;display:flex;align-items:center;justify-content:center}
+.profil-atas{padding:16px;border-bottom:1px solid var(--garis)}
+.profil-atas h2{font-size:20px}
+.profil-atas .bio{margin:8px 0}
+.profil-atas .stat{color:var(--redup);font-size:14px;margin-bottom:12px}
+.profil-atas .tombol{display:flex;gap:8px}
+.item{display:block;padding:14px 16px;border-bottom:1px solid var(--garis)}
+.chat{display:flex;flex-direction:column;padding:8px 0 130px}
+.bubble{max-width:80%;padding:8px 12px;border-radius:16px;margin:4px 12px;white-space:pre-wrap;word-break:break-word}
+.bubble.saya{background:var(--aksen);color:#fff;margin-left:auto}
+.bubble.lawan{background:var(--garis)}
+.kirim{position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--garis);padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+.kirim>div{max-width:600px;margin:0 auto}
+.kirim textarea{min-height:44px;height:44px}

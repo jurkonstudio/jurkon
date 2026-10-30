@@ -1,0 +1,20 @@
+(function () {
+  const ikon = {
+    beranda: '<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>',
+    explore: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
+    pesan: '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    profil: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>'
+  };
+  const menu = [
+    ['index.html', 'Beranda', 'beranda'],
+    ['explore.html', 'Jelajah', 'explore'],
+    ['pesan.html', 'Pesan', 'pesan'],
+    ['profil.html', 'Profil', 'profil']
+  ];
+  const aktif = document.body.dataset.tab;
+  const nav = document.createElement('nav');
+  nav.className = 'nav';
+  nav.innerHTML = menu.map(([h, n, k]) =>
+    `<a href="${h}" class="${aktif === k ? 'aktif' : ''}">${ikon[k]}${n}</a>`).join('');
+  document.body.appendChild(nav);
+})();
