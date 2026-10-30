@@ -74,6 +74,9 @@ textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,
 .merek img{border-radius:6px}
 .logo-login{padding:28px 24px 4px;text-align:center}
 .logo-login img{width:100%;max-width:340px;height:auto;border-radius:14px}
+.logo-login .logo-gelap{display:none}
+:root[data-theme=gelap] .logo-login .logo-terang{display:none}
+:root[data-theme=gelap] .logo-login .logo-gelap{display:inline-block}
 
 .header-logo{justify-content:flex-start;padding:6px 16px}
 .logo-wrap{display:block;border-radius:8px}
