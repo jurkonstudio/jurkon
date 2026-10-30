@@ -77,9 +77,10 @@ textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,
 
 .header-logo{justify-content:flex-start;padding:6px 16px}
 .logo-wrap{display:block;border-radius:8px}
-.logo-wrap img{height:46px;width:auto;display:block;mix-blend-mode:multiply}
-:root[data-theme=gelap] .logo-wrap{background:#f4efe6;padding:2px 8px}
-:root[data-theme=terang] .logo-wrap img,:root[data-theme=gelap] .logo-wrap img{mix-blend-mode:normal}
+.logo-wrap img{height:46px;width:auto;display:block}
+.logo-wrap .logo-gelap{display:none}
+:root[data-theme=gelap] .logo-wrap .logo-terang{display:none}
+:root[data-theme=gelap] .logo-wrap .logo-gelap{display:block}
 
 /* ===== Pemilih tema ===== */
 .tema-pilih{padding:16px;border-bottom:1px solid var(--garis)}
@@ -418,3 +419,16 @@ a,button,summary,label{touch-action:manipulation}
 .panel{view-transition-name:panel-kanan}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.14s}
 @media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}
+
+/* Hapus akun (gaya GitHub): zona berbahaya + dialog konfirmasi */
+.btn.bahaya{background:var(--bahaya);color:#fff}
+.btn.bahaya.garis{background:transparent;color:var(--bahaya);border:1px solid var(--bahaya)}
+.btn.bahaya:disabled{opacity:.45;cursor:not-allowed}
+.zona-bahaya{margin-top:24px;padding:14px 16px;border:1px solid var(--bahaya);border-radius:12px}
+.zona-bahaya h3{color:var(--bahaya);margin:0 0 4px}
+.zona-bahaya .btn{margin-top:10px}
+.hapus-peringatan{font-weight:600;margin-bottom:8px}
+.hapus-daftar{margin:0 0 12px 20px;color:var(--redup);font-size:14px}
+.hapus-label{display:block;font-size:14px;margin:12px 0 6px}
+.tautan-btn{background:none;border:0;padding:0;color:var(--link);text-decoration:underline;font:inherit;font-size:14px;cursor:pointer;min-height:36px}
+.hapus-dialog .lembar-kepala h2{color:var(--bahaya)}

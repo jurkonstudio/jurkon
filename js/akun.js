@@ -10,10 +10,14 @@
     <h3 style="margin-top:20px">${esc(t('ak.dataAkun'))}</h3>
     <div class="akun-aksi">
       <button class="btn garis" id="unduhData">${esc(t('ak.unduh'))}</button>
-      <button class="btn garis" id="hapusAkun" style="color:var(--bahaya)">${esc(t('ak.hapus'))}</button>
       <a id="linkAdmin" href="admin.html" hidden>${esc(t('ak.admin'))}</a>
     </div>
-    <p class="hitung" style="margin-top:8px">${esc(t('ak.infoData'))}</p>`;
+    <p class="hitung" style="margin-top:8px">${esc(t('ak.infoData'))}</p>
+    <div class="zona-bahaya">
+      <h3>${esc(t('ak.zona'))}</h3>
+      <p class="hitung">${esc(t('ak.zonaInfo'))}</p>
+      <button class="btn bahaya garis" id="hapusAkun">${esc(t('ak.hapus'))}</button>
+    </div>`;
 
   const infoEmail = document.getElementById('emailInfo');
   db.auth.getSession().then(({ data: { session } }) => {
@@ -50,17 +54,56 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   };
 
+  // Hapus akun ala GitHub: dialog peringatan, ketik username untuk konfirmasi, tombol baru aktif bila cocok.
   document.getElementById('hapusAkun').onclick = async () => {
-    const kata = t('ak.kataHapus');
-    const k = prompt(t('ak.konfirmHapus', { kata }));
-    // Kata konfirmasi dalam bahasa yang dipakai; "HAPUS" tetap diterima di semua bahasa
-    if (!k || ![kata.toLowerCase(), 'hapus'].includes(k.trim().toLowerCase())) return;
-    const { error } = await db.rpc('hapus_akun');
-    if (error) { alert(t('ak.gagalHapus', { pesan: error.message })); return; }
-    try { sessionStorage.clear(); } catch (e) {}
-    await db.auth.signOut();
-    alert(t('ak.terhapus'));
-    location.href = 'login.html';
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) return;
+    const { data: pr } = await db.from('profiles').select('username').eq('id', session.user.id).maybeSingle();
+    const nama = (pr && pr.username) || '';
+    if (!nama) return;
+    const dlg = document.createElement('dialog');
+    dlg.className = 'lembar hapus-dialog';
+    dlg.setAttribute('aria-labelledby', 'hapusJudul');
+    dlg.innerHTML = `<div class="lembar-kepala"><h2 id="hapusJudul">${esc(t('ak.hapusJudul'))}</h2>
+        <button type="button" class="ikon-btn" id="hdTutup" aria-label="${esc(t('umum.tutup'))}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <div class="form">
+        <p class="hapus-peringatan" role="alert">${esc(t('ak.hapusPeringatan', { username: '@' + nama }))}</p>
+        <ul class="hapus-daftar"><li>${esc(t('ak.hapusDaftar1'))}</li><li>${esc(t('ak.hapusDaftar2'))}</li><li>${esc(t('ak.hapusDaftar3'))}</li></ul>
+        <p><button type="button" class="tautan-btn" id="hdUnduh">${esc(t('ak.hapusUnduh'))}</button></p>
+        <label for="hdKetik" class="hapus-label">${esc(t('ak.hapusKetik', { username: nama }))}</label>
+        <input type="text" id="hdKetik" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false">
+        <div class="tombol" style="margin-top:14px">
+          <button type="button" class="btn garis" id="hdBatal">${esc(t('ak.batal'))}</button>
+          <button type="button" class="btn bahaya utama" id="hdHapus" disabled>${esc(t('ak.hapusTombol'))}</button>
+        </div>
+      </div>`;
+    document.body.appendChild(dlg);
+    const tutup = () => { dlg.close(); dlg.remove(); };
+    const input = dlg.querySelector('#hdKetik'), tombol = dlg.querySelector('#hdHapus');
+    input.addEventListener('input', () => {
+      tombol.disabled = input.value.trim().replace(/^@/, '').toLowerCase() !== nama.toLowerCase();
+    });
+    dlg.querySelector('#hdTutup').onclick = tutup;
+    dlg.querySelector('#hdBatal').onclick = tutup;
+    dlg.addEventListener('cancel', () => dlg.remove());
+    dlg.querySelector('#hdUnduh').onclick = () => document.getElementById('unduhData').click();
+    tombol.onclick = async () => {
+      if (tombol.disabled) return;
+      tombol.disabled = true; input.disabled = true;
+      tombol.textContent = t('ak.hapusProses');
+      const { error } = await db.rpc('hapus_akun');
+      if (error) {
+        alert(t('ak.gagalHapus', { pesan: error.message }));
+        input.disabled = false; tombol.textContent = t('ak.hapusTombol'); tombol.disabled = false;
+        return;
+      }
+      try { sessionStorage.clear(); } catch (e) {}
+      await db.auth.signOut();
+      alert(t('ak.terhapus'));
+      location.href = 'login.html';
+    };
+    dlg.showModal();
+    input.focus();
   };
 
   db.auth.getSession().then(async ({ data: { session } }) => {

@@ -1,6 +1,6 @@
-const CACHE = 'jurkon-v21';
+const CACHE = 'jurkon-v23';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
-const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.jpg',
+const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.png', '/assets/logo-header-gelap.png',
   '/js/bahasa.js', '/js/i18n.js', '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/ui.js', '/js/data.js', '/js/filter-data.js', '/js/filter.js', '/js/notif.js', '/js/notifikasi.js', '/js/nav.js', '/js/feed.js', '/js/post.js', '/js/mention.js',
   '/js/detail.js', '/js/explore.js', '/js/profil.js', '/js/akun.js', '/js/pesan.js', '/js/chat.js',
   '/js/auth.js', '/js/reset.js', '/js/selamat.js', '/js/admin.js',
