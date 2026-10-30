@@ -65,3 +65,9 @@ textarea{min-height:100px;resize:none}
 ::placeholder{color:var(--redup);opacity:.8}
 textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,transparent);border-color:var(--aksen)}
 @media (prefers-reduced-motion:reduce){.skel .avatar,.garis-skel{animation:none}}
+
+/* ===== Logo ===== */
+.merek{display:inline-flex;align-items:center;gap:8px;letter-spacing:.2px}
+.merek img{border-radius:6px}
+.logo-login{padding:28px 24px 4px;text-align:center}
+.logo-login img{width:100%;max-width:340px;height:auto;border-radius:14px}
