@@ -11,7 +11,7 @@ async function muat() {
   let judul = $('#judulSorotan');
   if (!judul) {
     judul = document.createElement('div'); judul.id = 'judulSorotan'; judul.className = 'bagian-judul ramai-judul';
-    judul.innerHTML = '<h2>Sorotan</h2><p class="hitung">Posting yang banyak dibaca atau dipilih tim Jurkon</p>';
+    judul.innerHTML = '<h2>' + esc(t('explore.sorotan')) + '</h2><p class="hitung">' + esc(t('explore.sorotanSub')) + '</p>';
     el.parentNode.insertBefore(judul, el);
   }
   judul.hidden = !!kata;
@@ -24,7 +24,7 @@ async function muat() {
     ]);
     if (ini !== versi) return;
     if (r1.error && r2.error) {
-      elOrang.innerHTML = '<div class="kosong"><p>Pencarian orang gagal: ' + esc(pesanGalat(r1.error)) + '</p></div>';
+      elOrang.innerHTML = '<div class="kosong"><p>' + esc(t('explore.gagalOrang', { pesan: pesanGalat(r1.error) })) + '</p></div>';
     } else {
       const peta = new Map();
       [...(r1.data || []), ...(r2.data || [])].forEach(o => peta.set(o.id, o));
@@ -39,8 +39,8 @@ async function muat() {
   daf = daftarBerhalaman(el,
     sebelum => kata ? ambilPosting({ mode: 'cari', kata, sebelum }, saya) : ambilSorotan({ sebelum }, saya),
     () => kata
-      ? (jmlOrang ? '' : kosong('cari', 'Tidak ditemukan', 'Tidak ada hasil untuk "' + esc(kata) + '". Coba kata lain.'))
-      : kosong('cari', 'Belum ada sorotan', 'Posting yang banyak dibaca atau dipilih tim Jurkon akan muncul di sini. Untuk menemukan orang atau topik, pakai kolom pencarian di atas.'),
+      ? (jmlOrang ? '' : kosong('cari', t('explore.tidakDitemukan'), esc(t('explore.tidakAda', { kata }))))
+      : kosong('cari', t('explore.belumJ'), t('explore.belumT')),
     saya, kata ? undefined : { cache: 'sorotan' });
   daf.muat();
 }

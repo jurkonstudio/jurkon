@@ -12,10 +12,10 @@
     $('#kirim').disabled = true;
     const { error } = await db.from('posts').insert({ user_id: saya.id, content });
     if (error) {
-      $('#galat').textContent = 'Gagal mengirim: ' + (
-        error.code === '23503' ? 'profilmu belum siap. Keluar lalu masuk lagi.'
-        : error.code === '42501' ? 'kamu belum diizinkan memposting. Keluar lalu masuk lagi.'
-        : pesanGalat(error));
+      $('#galat').textContent = t('post.gagal', { pesan:
+        error.code === '23503' ? t('post.e.profil')
+        : error.code === '42501' ? t('post.e.izin')
+        : pesanGalat(error) });
       $('#kirim').disabled = false;
     } else location.href = 'index.html';
   };

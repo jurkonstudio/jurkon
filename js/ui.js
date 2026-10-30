@@ -21,7 +21,7 @@ function avatar(nama, ukuran, foto) {
 const AKUN_RESMI = ['jurkon', 'journalconnection', 'jurnalkoneksi'];
 function lencanaResmi(u) {
   if (!AKUN_RESMI.includes(String(u || '').toLowerCase())) return '';
-  return '<svg class="centang" viewBox="0 0 24 24" role="img" aria-label="Akun resmi"><title>Akun resmi</title><circle cx="12" cy="12" r="11"/><path d="M7 12.5l3.2 3.2L17 9"/></svg>';
+  return '<svg class="centang" viewBox="0 0 24 24" role="img" aria-label="' + esc(t('pc.resmi')) + '"><title>' + esc(t('pc.resmi')) + '</title><circle cx="12" cy="12" r="11"/><path d="M7 12.5l3.2 3.2L17 9"/></svg>';
 }
 
 // Foto gagal dimuat -> buang gambarnya, huruf inisial muncul lagi
@@ -41,8 +41,9 @@ const IK = {
 // 1.234 -> "1,2 rb", 1.500.000 -> "1,5 jt" (angka kecil apa adanya)
 function ringkas(n) {
   n = Number(n) || 0;
-  const f = (x, s) => (Math.round(x * 10) / 10).toLocaleString('id-ID') + ' ' + s;
-  return n >= 1e6 ? f(n / 1e6, 'jt') : n >= 1e4 ? f(n / 1e3, 'rb') : n.toLocaleString('id-ID');
+  const loc = I18n.locale;
+  const f = (x, s) => (Math.round(x * 10) / 10).toLocaleString(loc) + (s.length === 1 ? '' : ' ') + s;
+  return n >= 1e6 ? f(n / 1e6, t('num.jt')) : n >= 1e4 ? f(n / 1e3, t('num.rb')) : n.toLocaleString(loc);
 }
 
 // Isi posting aman (di-escape), @username menjadi tautan ke profil
@@ -58,22 +59,22 @@ function htmlPost(p, saya, opsi) {
   const nama = p.profiles.nama || p.profiles.username;
   const milik = saya && saya.id === p.user_id;
   const induk = p.parent_id && !(opsi && opsi.tanpaInduk)
-    ? `<div class="induk">${IK.balas}<a href="detail.html?id=${p.parent_id}">Membalas ${p.induk_username ? '@' + esc(p.induk_username) : 'sebuah catatan'}</a></div>` : '';
+    ? `<div class="induk">${IK.balas}<a href="detail.html?id=${p.parent_id}">${esc(p.induk_username ? t('pc.membalasUser', { u: p.induk_username }) : t('pc.membalasCatatan'))}</a></div>` : '';
   const tayang = p.dilihat == null ? ''
-    : `<span class="tayang" title="Dilihat ${p.dilihat} kali" aria-label="Dilihat ${p.dilihat} kali">${IK.mata}<span>${ringkas(p.dilihat)}</span></span>`;
+    : `<span class="tayang" title="${esc(t('pc.dilihat', { n: p.dilihat }))}" aria-label="${esc(t('pc.dilihat', { n: p.dilihat }))}">${IK.mata}<span>${ringkas(p.dilihat)}</span></span>`;
   return `<article class="post" data-id="${p.id}">
-    <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="Profil ${esc(nama)}">${avatar(nama, 42, p.profiles.foto_url)}</a>
+    <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="${esc(t('pc.profilDari', { nama }))}">${avatar(nama, 42, p.profiles.foto_url)}</a>
     <div class="badan">
       <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>${lencanaResmi(p.profiles.username)}
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
       ${induk}<div class="isi">${isiHtml(p.content)}</div>
       <div class="aksi">
-        <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="Suka">${IK.suka}<span>${jml}</span></button>
-        <a href="detail.html?id=${p.id}" aria-label="Balas">${IK.balas}<span>Balas</span></a>
+        <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="${esc(t('pc.suka'))}">${IK.suka}<span>${jml}</span></button>
+        <a href="detail.html?id=${p.id}" aria-label="${esc(t('umum.balas'))}">${IK.balas}<span>${esc(t('umum.balas'))}</span></a>
         ${tayang}
         <span class="sisi">
-          <button class="btn-lapor" data-id="${p.id}" aria-label="Laporkan" title="Laporkan">${IK.lapor}</button>
-          ${milik ? `<button class="btn-hapus" data-id="${p.id}" aria-label="Hapus" title="Hapus">${IK.hapus}</button>` : ''}
+          <button class="btn-lapor" data-id="${p.id}" aria-label="${esc(t('pc.lapor'))}" title="${esc(t('pc.lapor'))}">${IK.lapor}</button>
+          ${milik ? `<button class="btn-hapus" data-id="${p.id}" aria-label="${esc(t('pc.hapus'))}" title="${esc(t('pc.hapus'))}">${IK.hapus}</button>` : ''}
         </span>
       </div>
     </div></article>`;
@@ -102,8 +103,8 @@ function skeleton(n) {
 }
 
 // Placeholder bergantian: <textarea data-ph="satu|dua|tiga">
-document.querySelectorAll('[data-ph]').forEach(el => {
-  const daftar = el.dataset.ph.split('|');
+document.querySelectorAll('[data-ph],[data-i-phs]').forEach(el => {
+  const daftar = (el.dataset.iPhs ? t(el.dataset.iPhs) : el.dataset.ph).split('|');
   let i = 0;
   el.placeholder = daftar[0];
   if (daftar.length > 1) {
@@ -146,18 +147,18 @@ function pasangAksiPost(saya, muat) {
       delete b.dataset.sibuk;
       if (error) {
         b.classList.toggle('sudah', sudah); n.textContent = awal;
-        alert(/terlalu cepat|batas/i.test(error.message || '') ? error.message : 'Gagal memperbarui suka. Coba lagi.');
+        alert(/terlalu cepat|batas/i.test(error.message || '') ? error.message : t('pc.gagalSuka'));
       }
     } else if (b.classList.contains('btn-lapor')) {
-      const alasan = prompt('Alasan melaporkan (maks 300 karakter):');
+      const alasan = prompt(t('pc.alasan'));
       if (!alasan || !alasan.trim()) return;
       const { error } = await db.from('reports').insert({ reporter_id: saya.id, post_id: id, alasan: alasan.trim().slice(0, 300) });
-      if (error) alert(error.code === '23505' ? 'Kamu sudah melaporkan posting ini.' : 'Gagal mengirim laporan: ' + error.message);
-      else alert('Laporan terkirim. Terima kasih.');
+      if (error) alert(error.code === '23505' ? t('pc.sudahLapor') : t('pc.gagalLapor', { pesan: error.message }));
+      else alert(t('pc.terkirim'));
     } else if (b.classList.contains('btn-hapus')) {
-      if (!confirm('Hapus posting ini?')) return;
+      if (!confirm(t('pc.konfirmHapus'))) return;
       const { error } = await db.from('posts').delete().eq('id', id);
-      if (error) alert('Gagal menghapus: ' + error.message); else muat();
+      if (error) alert(t('pc.gagalHapus', { pesan: error.message })); else muat();
     }
   });
 }

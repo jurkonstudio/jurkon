@@ -4,8 +4,8 @@
   const el = $('#daftar');
   el.innerHTML = skeleton(3);
   const { data, error } = await db.from('conversations').select('id,user_a,user_b,created_at');
-  if (error) { el.innerHTML = '<div class="kosong"><h3>Gagal memuat</h3><p>' + esc(error.message) + '</p></div>'; return; }
-  if (!data || !data.length) { el.innerHTML = kosong('pesan', 'Belum ada percakapan', 'Buka profil seseorang lalu tekan "Kirim Pesan" untuk menyapa.', 'explore.html', 'Cari orang'); return; }
+  if (error) { el.innerHTML = '<div class="kosong"><h3>' + esc(t('umum.gagalMuat')) + '</h3><p>' + esc(error.message) + '</p></div>'; return; }
+  if (!data || !data.length) { el.innerHTML = kosong('pesan', t('pesan.kosongJ'), t('pesan.kosongT'), 'explore.html', t('umum.cariOrang')); return; }
 
   // Pesan terakhir tiap percakapan, supaya daftar urut menurut aktivitas terbaru
   const cids = data.map(c => c.id);
@@ -22,9 +22,9 @@
   el.innerHTML = data.map((c, i) => {
     const o = peta[ids[i]] || {};
     const m = terakhir[c.id];
-    const cuplikan = m ? (m.sender_id === saya.id ? 'Kamu: ' : '') + m.content : 'Belum ada pesan';
+    const cuplikan = m ? (m.sender_id === saya.id ? t('pesan.kamu') : '') + m.content : t('pesan.belum');
     return `<a class="item dgn-avatar" href="chat.html?id=${c.id}">${avatar(o.nama || o.username, 44, o.foto_url)}
-      <div style="min-width:0"><b>${esc(o.nama || o.username || 'Pengguna')}</b>${lencanaResmi(o.username)} <span class="sub">${m ? waktu(m.created_at) : ''}</span>
+      <div style="min-width:0"><b>${esc(o.nama || o.username || t('pesan.pengguna'))}</b>${lencanaResmi(o.username)} <span class="sub">${m ? waktu(m.created_at) : ''}</span>
       <div class="sub" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(cuplikan)}</div></div></a>`;
   }).join('');
 })();

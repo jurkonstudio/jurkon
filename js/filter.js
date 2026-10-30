@@ -49,14 +49,20 @@ function periksaKonten(teks) {
 }
 
 // Kata yang ditandai untuk ditampilkan dalam pesan, mis. "anjing". Data pribadi tidak diulang.
-function filterSebut(h) { return h.kata ? ' (\u201c' + h.kata + '\u201d)' : ''; }
+function filterSebut(h) { return h.kata ? ' (' + t('filter.kata', { kata: h.kata }) + ')' : ''; }
+
+// Teks peringatan dalam bahasa yang sedang dipakai. Cadangan: teks Indonesia bawaan di filter-data.js.
+function filterPesan(h) {
+  const kunci = 'filter.' + h.kategori;
+  return (typeof I18N_KAMUS !== 'undefined' && I18N_KAMUS[kunci]) ? t(kunci) : h.pesan;
+}
 
 // Dipanggil tepat sebelum mengirim. Mengembalikan true jika boleh lanjut.
 //   tampilkan(pesan) dipakai untuk menampilkan alasan penolakan (mis. mengisi elemen galat).
 function bolehKirim(teks, tampilkan) {
   const h = periksaKonten(teks);
-  if (h.tingkat === 'blokir') { tampilkan(h.pesan + filterSebut(h)); return false; }
-  if (h.tingkat === 'peringatan') return confirm(h.pesan + filterSebut(h) + '\n\nOK = tetap kirim \u00b7 Batal = ubah dulu');
+  if (h.tingkat === 'blokir') { tampilkan(filterPesan(h) + filterSebut(h)); return false; }
+  if (h.tingkat === 'peringatan') return confirm(filterPesan(h) + filterSebut(h) + '\n\n' + t('filter.konfirmasi'));
   return true;
 }
 
@@ -74,7 +80,7 @@ function pasangFilter(textarea) {
       el.hidden = !h.tingkat;
       if (!h.tingkat) return;
       el.className = 'saran ' + h.tingkat;
-      el.textContent = h.pesan + filterSebut(h);
+      el.textContent = filterPesan(h) + filterSebut(h);
     }, 350);
   });
   return el;
@@ -85,6 +91,5 @@ function pesanKontenDilarang(error) {
   const m = (error && error.message) || '';
   if (!m.includes('KONTEN_DILARANG')) return null;
   const k = (m.split('KONTEN_DILARANG|')[1] || '').trim().split(/\s/)[0];
-  return (FILTER_KATEGORI[k] && FILTER_KATEGORI[k].pesan) || (FILTER_POLA.find(p => p.k === k) || {}).pesan
-    || 'Isi tulisanmu melanggar aturan Jurkon.';
+  return filterPesan({ kategori: k, pesan: (FILTER_KATEGORI[k] && FILTER_KATEGORI[k].pesan) || (FILTER_POLA.find(p => p.k === k) || {}).pesan || t('filter.umum') });
 }

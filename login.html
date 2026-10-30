@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap"></noscript>
+<script src="js/bahasa.js"></script><script src="js/i18n.js"></script>
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
 <meta name="description" content="Masuk atau daftar di Jurnal Koneksi, tempat berbagi catatan singkat dengan tenang dan aman.">
@@ -20,19 +21,19 @@
 <meta property="og:url" content="https://jurkon.my.id/login.html">
 <meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<title>Masuk · Jurkon</title></head><body>
-<main><h1 class="sr">Masuk ke Jurnal Koneksi</h1>
+<title data-i-doc="auth.masuk">Masuk · Jurkon</title></head><body>
+<main><h1 class="sr" data-i="auth.h1">Masuk ke Jurnal Koneksi</h1>
 <div class="logo-login"><img src="assets/logo.jpg" alt="Jurnal Koneksi" width="900" height="450"></div>
 <div class="form">
-  <input type="email" id="email" aria-label="Email" placeholder="nama@email.com" autocomplete="email">
-  <input type="password" id="sandi" aria-label="Kata sandi" placeholder="Kata sandi (minimal 6 karakter)" autocomplete="current-password">
+  <input type="email" id="email" aria-label="Email" data-i-aria="auth.email" placeholder="nama@email.com" data-i-ph="auth.emailPh" autocomplete="email">
+  <input type="password" id="sandi" aria-label="Kata sandi" data-i-aria="auth.sandi" placeholder="Kata sandi (minimal 6 karakter)" data-i-ph="auth.sandiPh" autocomplete="current-password">
   <div class="galat" id="galat" role="alert"></div>
-  <button class="btn" id="masuk">Masuk</button>
-  <button class="btn garis" id="daftar">Daftar</button>
-  <button class="btn garis" id="google">Lanjut dengan Google</button>
-  <p class="hitung" style="text-align:center"><a href="#" id="lupa" style="text-decoration:underline">Lupa kata sandi?</a></p>
-  <p class="hitung">Dengan mendaftar, kamu menyetujui <a href="ketentuan-layanan.html" style="text-decoration:underline">ketentuan layanan</a>, <a href="kebijakan-privasi.html" style="text-decoration:underline">kebijakan privasi</a>, dan <a href="aturan.html" style="text-decoration:underline">aturan</a>.</p>
-</div><div id="tema" class="tema-pilih"></div></main>
+  <button class="btn" id="masuk" data-i="auth.masuk">Masuk</button>
+  <button class="btn garis" id="daftar" data-i="auth.daftar">Daftar</button>
+  <button class="btn garis" id="google" data-i="auth.google">Lanjut dengan Google</button>
+  <p class="hitung" style="text-align:center"><a href="#" id="lupa" style="text-decoration:underline" data-i="auth.lupa">Lupa kata sandi?</a></p>
+  <p class="hitung" data-i-html="auth.setujuHtml">Dengan mendaftar, kamu menyetujui <a href="ketentuan-layanan.html" style="text-decoration:underline">ketentuan layanan</a>, <a href="kebijakan-privasi.html" style="text-decoration:underline">kebijakan privasi</a>, dan <a href="aturan.html" style="text-decoration:underline">aturan</a>.</p>
+</div><div id="tema" class="tema-pilih"></div><div id="bahasa" class="tema-pilih"></div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/supabase.js"></script>
 <script src="js/ui.js"></script>

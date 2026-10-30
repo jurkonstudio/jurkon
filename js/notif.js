@@ -59,14 +59,14 @@
   // Baris notifikasi -> { html: kalimat (sudah di-escape), cuplikan (teks biasa), href }
   function kalimat(n) {
     const a = n.actor || {};
-    const nama = '<b>' + esc(a.nama || a.username || 'Seseorang') + '</b>';
+    const nama = '<b>' + esc(a.nama || a.username || t('notif.seseorang')) + '</b>';
     const profil = a.username ? 'profil.html?u=' + encodeURIComponent(a.username) : 'notifikasi.html';
     const p = n.post;
-    if (n.jenis === 'suka') return { html: nama + ' menyukai catatanmu', cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail.html?id=' + p.id : profil };
-    if (n.jenis === 'balasan') return { html: nama + ' membalas catatanmu', cuplikan: p ? potong(p.content, 90) : '', href: p && p.parent_id ? 'detail.html?id=' + p.parent_id : profil };
-    if (n.jenis === 'ikuti') return { html: nama + ' mulai mengikutimu', cuplikan: '', href: profil };
-    if (n.jenis === 'pesan') return { html: nama + ' mengirim pesan baru', cuplikan: '', href: n.conversation_id ? 'chat.html?id=' + n.conversation_id : 'pesan.html' };
-    return { html: nama + ' berinteraksi denganmu', cuplikan: '', href: profil };
+    if (n.jenis === 'suka') return { html: t('notif.suka', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail.html?id=' + p.id : profil };
+    if (n.jenis === 'balasan') return { html: t('notif.balasan', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p && p.parent_id ? 'detail.html?id=' + p.parent_id : profil };
+    if (n.jenis === 'ikuti') return { html: t('notif.ikuti', { nama }), cuplikan: '', href: profil };
+    if (n.jenis === 'pesan') return { html: t('notif.pesan', { nama }), cuplikan: '', href: n.conversation_id ? 'chat.html?id=' + n.conversation_id : 'pesan.html' };
+    return { html: t('notif.lain', { nama }), cuplikan: '', href: profil };
   }
 
   async function terbaru(jumlah, sebelum) {

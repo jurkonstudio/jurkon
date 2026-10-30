@@ -1,6 +1,7 @@
 // Tema: kertas (bawaan), terang, gelap. Dimuat di <head> agar tidak berkedip.
 (function () {
   var DAFTAR = ['kertas', 'terang', 'gelap'];
+  var tr = function (k, awal) { return window.t ? window.t(k) : awal; };
   var WARNA = { kertas: '#fbf9f4', terang: '#ffffff', gelap: '#1c1917' };
   function baca() { try { var t = localStorage.getItem('tema'); return DAFTAR.indexOf(t) >= 0 ? t : 'kertas'; } catch (e) { return 'kertas'; } }
   function terapkan(t) {
@@ -17,10 +18,10 @@
     document.querySelectorAll('[data-tema]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.tema === t); });
   }
   window.pasangPilihTema = function (el) {
-    el.innerHTML = '<h3>Tema tampilan</h3><div class="tema-opsi">' +
-      '<button data-tema="kertas"><i class="k"></i>Kertas</button>' +
-      '<button data-tema="terang"><i class="t"></i>Terang</button>' +
-      '<button data-tema="gelap"><i class="g"></i>Gelap</button></div>';
+    el.innerHTML = '<h3>' + tr('set.tema', 'Tema tampilan') + '</h3><div class="tema-opsi">' +
+      '<button data-tema="kertas"><i class="k"></i>' + tr('set.kertas', 'Kertas') + '</button>' +
+      '<button data-tema="terang"><i class="t"></i>' + tr('set.terang', 'Terang') + '</button>' +
+      '<button data-tema="gelap"><i class="g"></i>' + tr('set.gelap', 'Gelap') + '</button></div>';
     el.querySelectorAll('[data-tema]').forEach(function (b) { b.onclick = function () { window.setTema(b.dataset.tema); }; });
     tandai();
   };

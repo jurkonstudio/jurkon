@@ -7,9 +7,9 @@ function pesanGalat(e) {
   const m = (e && e.message) || '';
   const dilarang = typeof pesanKontenDilarang === 'function' && pesanKontenDilarang(e);
   if (dilarang) return dilarang;
-  if (/failed to fetch|networkerror|load failed|network request/i.test(m)) return 'Tidak ada koneksi. Periksa sinyal lalu coba lagi.';
-  if (/jwt expired|invalid jwt/i.test(m)) return 'Sesi habis. Silakan masuk lagi.';
-  return m || 'Terjadi kesalahan. Coba lagi.';
+  if (/failed to fetch|networkerror|load failed|network request/i.test(m)) return t('err.offline');
+  if (/jwt expired|invalid jwt/i.test(m)) return t('err.sesi');
+  return m || t('err.umum');
 }
 const adaJaringan = e => !/failed to fetch|networkerror|load failed|network request/i.test((e && e.message) || '');
 
@@ -132,7 +132,7 @@ function daftarBerhalaman(el, ambil, kosongHtml, saya, opsi) {
   const hapusCache = () => { if (kunciCache) try { localStorage.removeItem(kunciCache); } catch (e) {} };
   const tanda = ds => ds.map(p => p.id + ':' + (p.likes && p.likes[0] ? p.likes[0].count : '') + ':' + p.sudah_suka + ':' + p.dilihat).join('|');
   let akhir = null, sibuk = false, batal = false, io = null;
-  const TOMBOL = '<button class="lagi" type="button">Muat lebih banyak</button>';
+  const TOMBOL = '<button class="lagi" type="button">' + esc(t('umum.muatLagi')) + '</button>';
   // Muat halaman berikutnya otomatis saat tombol hampir terlihat (gulir terasa tanpa putus); tombol tetap ada sebagai cadangan
   function pantau() {
     if (!('IntersectionObserver' in window)) return;
@@ -153,14 +153,14 @@ function daftarBerhalaman(el, ambil, kosongHtml, saya, opsi) {
         cacheData = bacaCache();
         el.innerHTML = cacheData ? cacheData.map(render).join('') : skeleton(4);
       }
-    } else { const b = el.querySelector('.lagi'); if (b) { b.disabled = true; b.textContent = 'Memuat…'; } }
+    } else { const b = el.querySelector('.lagi'); if (b) { b.disabled = true; b.textContent = t('umum.memuat'); } }
     const r = await ambil(akhir);
     sibuk = false;
     if (batal) return;
     if (r.error) {
       if (ulang && cacheData) return;   // data lama tetap tampil bila sedang tanpa sinyal
-      if (ulang) el.innerHTML = '<div class="kosong"><h3>Gagal memuat</h3><p>' + esc(pesanGalat(r.error)) + '</p><button class="btn lagi-coba" type="button">Coba lagi</button></div>';
-      else { const b = el.querySelector('.lagi'); if (b) { b.disabled = false; b.textContent = 'Gagal. Ketuk untuk coba lagi'; } }
+      if (ulang) el.innerHTML = '<div class="kosong"><h3>' + esc(t('umum.gagalMuat')) + '</h3><p>' + esc(pesanGalat(r.error)) + '</p><button class="btn lagi-coba" type="button">' + esc(t('umum.cobaLagi')) + '</button></div>';
+      else { const b = el.querySelector('.lagi'); if (b) { b.disabled = false; b.textContent = t('umum.ketukCoba'); } }
       return;
     }
     const data = r.data || [];

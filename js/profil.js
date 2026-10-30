@@ -19,11 +19,11 @@ document.addEventListener('keydown', e => {
 async function muat() {
   const { data: p, error } = await ambilProfilInfo(param('u'), saya);
   if (error) {
-    $('#atas').innerHTML = '<div class="kosong"><h3>Gagal memuat profil</h3><p>' + esc(pesanGalat(error)) + '</p><button class="btn" id="coba">Coba lagi</button></div>';
+    $('#atas').innerHTML = '<div class="kosong"><h3>' + esc(t('pf.gagal')) + '</h3><p>' + esc(pesanGalat(error)) + '</p><button class="btn" id="coba">' + esc(t('umum.cobaLagi')) + '</button></div>';
     $('#coba').onclick = muat;
     return;
   }
-  if (!p) { $('#atas').innerHTML = '<div class="kosong">Profil tidak ditemukan.</div>'; return; }
+  if (!p) { $('#atas').innerHTML = '<div class="kosong">' + esc(t('pf.noProfil')) + '</div>'; return; }
   profil = p;
   const milikSaya = p.id === saya.id;
   const pengikut = p.pengikut, mengikuti = p.mengikuti, ikut = p.saya_ikut, blk = p.saya_blokir;
@@ -33,25 +33,28 @@ async function muat() {
     <div class="kartu-kepala">${avatar(nama, 88, p.foto)}
       <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}</div>
         <div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div></div></div>
-    <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : (milikSaya ? 'Belum ada bio. Ketuk "Ubah profil" untuk memperkenalkan dirimu.' : 'Belum ada bio.')}</div>
-    <div class="stat"><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="Lihat ${pengikut} pengikut"><b>${pengikut}</b><span>pengikut</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="Lihat ${mengikuti} yang diikuti"><b>${mengikuti}</b><span>mengikuti</span></button></div>
+    <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : esc(milikSaya ? t('pf.bioKosongSaya') : t('pf.bioKosong'))}</div>
+    <div class="stat"><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="${esc(t('pf.lihatPengikut', { n: pengikut }))}"><b>${pengikut}</b><span>${esc(t('pf.pengikut'))}</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="${esc(t('pf.lihatMengikuti', { n: mengikuti }))}"><b>${mengikuti}</b><span>${esc(t('pf.mengikuti'))}</span></button></div>
     <div class="tombol">${milikSaya
-      ? '<button class="btn utama" id="ubah">Ubah profil</button>'
-      : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${ikut ? 'Mengikuti' : 'Ikuti'}</button>
-         <button class="btn garis" id="pesan">Kirim Pesan</button>
-         <div class="menu-lain"><button class="ikon-btn" id="menuLain" aria-label="Aksi lain" aria-haspopup="menu" aria-expanded="false">${IKP.titik}</button>
-           <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${blk ? 'Buka blokir' : 'Blokir @' + esc(p.username)}</button></div></div>`}</div></div>`;
+      ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button>`
+      : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${esc(ikut ? t('feed.ikuti') : t('pf.ikuti'))}</button>
+         <button class="btn garis" id="pesan">${esc(t('pf.kirimPesan'))}</button>
+         <div class="menu-lain"><button class="ikon-btn" id="menuLain" aria-label="${esc(t('pf.aksiLain'))}" aria-haspopup="menu" aria-expanded="false">${IKP.titik}</button>
+           <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${esc(blk ? t('pf.bukaBlokir') : t('pf.blokir', { u: p.username }))}</button></div></div>`}</div></div>`;
   // Tanggal bergabung: diambil terpisah supaya tidak butuh migrasi SQL
   db.from('profiles').select('created_at').eq('id', p.id).maybeSingle().then(({ data }) => {
     const el = $('#gabung');
     if (!el || !data || !data.created_at || profil !== p) return;
-    el.querySelector('span').textContent = 'Bergabung ' + new Date(data.created_at).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+    el.querySelector('span').textContent = t('pf.gabung', { tgl: new Date(data.created_at).toLocaleDateString(I18n.locale, { month: 'long', year: 'numeric' }) });
     el.hidden = false;
   });
   if (milikSaya) {
-    $('#keluar').innerHTML = `<button class="ikon-btn" id="bukaPengaturan" aria-label="Pengaturan">${IKP.gigi}</button>`;
+    $('#keluar').innerHTML = `<button class="ikon-btn" id="bukaPengaturan" aria-label="${esc(t('pf.pengaturan'))}">${IKP.gigi}</button>`;
     $('#bukaPengaturan').onclick = () => $('#lembarPengaturan').showModal();
     $('#tutupPengaturan').onclick = () => $('#lembarPengaturan').close();
+    $('#versi').textContent = t('set.versi', { v: '1.0.0' });
+    // Setelah ganti bahasa halaman dimuat ulang; buka lagi Pengaturan supaya terasa berkelanjutan
+    try { if (sessionStorage.getItem('bukaPengaturan') === '1') { sessionStorage.removeItem('bukaPengaturan'); $('#lembarPengaturan').showModal(); } } catch (e) {}
     $('#lembarPengaturan').onclick = e => { if (e.target === e.currentTarget) e.currentTarget.close(); };
     $('#logout').onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.href = 'login.html'; };
     $('#ubah').onclick = ubah;
@@ -76,16 +79,16 @@ async function muat() {
     $('#blokir').onclick = async () => {
       tutupMenu();
       if (blk) { await db.from('blocks').delete().match({ blocker_id: saya.id, blocked_id: p.id }); muat(); return; }
-      if (!confirm('Blokir @' + p.username + '? Posting kalian tidak akan saling terlihat dan tidak bisa saling berkirim pesan.')) return;
+      if (!confirm(t('pf.konfirmBlokir', { u: p.username }))) return;
       const { error } = await db.rpc('blokir', { target: p.id });
-      if (error) alert('Gagal memblokir: ' + error.message); else muat();
+      if (error) alert(t('pf.gagalBlokir', { pesan: error.message })); else muat();
     };
     $('#pesan').onclick = async () => {
       const { data, error } = await db.rpc('buka_percakapan', { lawan: p.id });
-      if (error) alert('Gagal: ' + error.message); else location.href = 'chat.html?id=' + data;
+      if (error) alert(t('pf.gagalAksi', { pesan: error.message })); else location.href = 'chat.html?id=' + data;
     };
   }
-  if (blk) { $('#tabProfil').hidden = true; $('#daftar').innerHTML = kosong('pena', 'Kamu memblokir akun ini', 'Posting @' + esc(p.username) + ' disembunyikan. Ketuk "Buka blokir" di menu ⋯ untuk melihatnya lagi.'); return; }
+  if (blk) { $('#tabProfil').hidden = true; $('#daftar').innerHTML = kosong('pena', t('pf.blokirJ'), t('pf.blokirT', { u: esc(p.username) })); return; }
   $('#tabProfil').hidden = false;
   $('#tp-suka').hidden = !(SUKA_PUBLIK || milikSaya);
   if (tabAktif === 'suka' && $('#tp-suka').hidden) tabAktif = 'catatan';
@@ -113,9 +116,9 @@ function tampilTab(fokus) {
     if (aktif) { $('#daftar').setAttribute('aria-labelledby', b.id); if (fokus) b.focus(); }
   });
   const kosongTab = {
-    catatan: () => milikSaya ? kosong('pena', 'Belum ada catatan', 'Ceritakan sesuatu hari ini, sependek apa pun.', 'post.html', 'Tulis sekarang') : kosong('pena', 'Belum ada posting', '@' + u + ' belum menulis apa pun.'),
-    balasan: () => milikSaya ? kosong('balas', 'Belum ada balasan', 'Balasanmu pada catatan orang lain akan muncul di sini.', 'explore.html', 'Cari catatan') : kosong('balas', 'Belum ada balasan', '@' + u + ' belum membalas catatan siapa pun.'),
-    suka: () => milikSaya ? kosong('suka', 'Belum ada yang kamu sukai', 'Catatan yang kamu beri suka akan terkumpul di sini.', 'explore.html', 'Jelajahi') : kosong('suka', 'Belum ada yang disukai', '@' + u + ' belum menyukai catatan apa pun.')
+    catatan: () => milikSaya ? kosong('pena', t('pf.k.catatanJ'), t('pf.k.catatanT'), 'post.html', t('umum.tulisSekarang')) : kosong('pena', t('pf.k.postJ'), t('pf.k.postT', { u })),
+    balasan: () => milikSaya ? kosong('balas', t('detail.noBalasanJ'), t('pf.k.balasanT'), 'explore.html', t('umum.cariCatatan')) : kosong('balas', t('detail.noBalasanJ'), t('pf.k.balasanOrangT', { u })),
+    suka: () => milikSaya ? kosong('suka', t('pf.k.sukaJ'), t('pf.k.sukaT'), 'explore.html', t('umum.jelajahi')) : kosong('suka', t('pf.k.sukaOrangJ'), t('pf.k.sukaOrangT', { u }))
   };
   const mode = { catatan: 'catatan_oleh', balasan: 'balasan_oleh', suka: 'disukai_oleh' }[tabAktif];
   if (daf) daf.hentikan();            // batalkan permintaan tab sebelumnya
@@ -138,10 +141,11 @@ function infoKuota(k, jenis, label) {
   const q = k && k[jenis];
   if (!q) return { teks: '', habis: false, sisa: Infinity };
   const sisa = Math.max(0, q.maks - q.pakai);
-  const tgl = new Date(k.reset).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+  const tgl = new Date(k.reset).toLocaleDateString(I18n.locale, { day: 'numeric', month: 'long', year: 'numeric' });
+  label = t(label);
   return sisa <= 0
-    ? { teks: `Batas ganti ${label} bulan ini sudah habis. Bisa lagi mulai ${tgl}.`, habis: true, sisa }
-    : { teks: `Sisa ganti ${label} bulan ini: ${sisa} dari ${q.maks}.`, habis: false, sisa };
+    ? { teks: t('pf.kuotaHabis', { label, tgl }), habis: true, sisa }
+    : { teks: t('pf.kuotaSisa', { label, sisa, maks: q.maks }), habis: false, sisa };
 }
 // Potong persegi dari tengah, kecilkan ke 320px, simpan JPEG (juga membuang data EXIF/lokasi)
 function ubahUkuranFoto(file, sisi) {
@@ -152,16 +156,16 @@ function ubahUkuranFoto(file, sisi) {
     img.onload = () => {
       try {
         const w = img.naturalWidth, h = img.naturalHeight, s = Math.min(w, h);
-        if (!s) throw new Error('Gambar kosong.');
+        if (!s) throw new Error(t('pf.foto.kosong'));
         const c = document.createElement('canvas'); c.width = c.height = sisi;
         const x = c.getContext('2d');
         x.fillStyle = '#fff'; x.fillRect(0, 0, sisi, sisi);
         x.drawImage(img, (w - s) / 2, (h - s) / 2, s, s, 0, 0, sisi, sisi);
         URL.revokeObjectURL(url);
-        c.toBlob(b => b ? ok(b) : gagal(new Error('Gagal memproses gambar.')), 'image/jpeg', 0.85);
+        c.toBlob(b => b ? ok(b) : gagal(new Error(t('pf.foto.proses'))), 'image/jpeg', 0.85);
       } catch (e) { URL.revokeObjectURL(url); gagal(e); }
     };
-    img.onerror = () => { URL.revokeObjectURL(url); gagal(new Error('File itu tidak bisa dibaca sebagai gambar.')); };
+    img.onerror = () => { URL.revokeObjectURL(url); gagal(new Error(t('pf.foto.baca'))); };
     img.src = url;
   });
 }
@@ -179,29 +183,29 @@ function ubah() {
   if ($('#lembarUbah')) return;
   const d = document.createElement('dialog');
   d.id = 'lembarUbah'; d.className = 'lembar'; d.setAttribute('aria-labelledby', 'jUbah');
-  d.innerHTML = `<div class="lembar-kepala"><h2 id="jUbah">Ubah profil</h2><button class="ikon-btn" id="uTutup" aria-label="Tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  d.innerHTML = `<div class="lembar-kepala"><h2 id="jUbah">${esc(t('pf.ubah'))}</h2><button class="ikon-btn" id="uTutup" aria-label="${esc(t('umum.tutup'))}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="pratinjau" id="uPratinjau"></div>
     <div id="formUbah" class="form">
-    <label for="uPilihFoto">Foto profil</label>
+    <label for="uPilihFoto">${esc(t('pf.u.foto'))}</label>
     <div class="foto-ubah">
-      <button type="button" class="btn garis" id="uPilihFoto">Pilih foto</button>
-      <button type="button" class="btn garis" id="uHapusFoto" hidden>Hapus foto</button>
+      <button type="button" class="btn garis" id="uPilihFoto">${esc(t('pf.u.pilihFoto'))}</button>
+      <button type="button" class="btn garis" id="uHapusFoto" hidden>${esc(t('pf.u.hapusFoto'))}</button>
       <input type="file" id="uFile" accept="image/jpeg,image/png,image/webp" hidden>
     </div>
     <div class="kuota" id="kFoto"></div>
-    <label for="uNama">Nama tampilan</label>
+    <label for="uNama">${esc(t('pf.u.nama'))}</label>
     <input type="text" id="uNama" maxlength="40" autocomplete="off" value="${esc(profil.nama || '')}">
     <div class="kuota" id="kNama"></div>
-    <label for="uBio">Bio</label>
-    <textarea id="uBio" style="min-height:70px" aria-label="Bio"></textarea>
+    <label for="uBio">${esc(t('pf.u.bio'))}</label>
+    <textarea id="uBio" style="min-height:70px" aria-label="${esc(t('pf.u.bio'))}"></textarea>
     <div class="baris"><span class="hitung" id="uHitung"></span></div>
-    <label for="uUser">Username</label>
+    <label for="uUser">${esc(t('pf.u.username'))}</label>
     <input type="text" id="uUser" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(profil.username)}">
-    <div class="hitung">Huruf kecil, angka, dan garis bawah (_), 3-20 karakter.</div>
+    <div class="hitung">${esc(t('user.hint'))}</div>
     <div class="kuota" id="kUser"></div>
-    <div class="hitung">Batas ganti foto, nama, dan username dihitung per bulan dan di-reset tiap tanggal 1.</div>
+    <div class="hitung">${esc(t('pf.u.batasInfo'))}</div>
     <div class="galat" id="uGalat" role="alert"></div>
-    <div class="tombol"><button class="btn utama" id="uSimpan">Simpan</button><button class="btn garis" id="uBatal">Batal</button></div></div>`;
+    <div class="tombol"><button class="btn utama" id="uSimpan">${esc(t('pf.u.simpan'))}</button><button class="btn garis" id="uBatal">${esc(t('pf.u.batal'))}</button></div></div>`;
   document.body.appendChild(d);
 
   let kuota = null, fotoBlob = null, fotoPratinjau = null, hapusFoto = false;
@@ -214,13 +218,13 @@ function ubah() {
 
   const pratinjau = () => {
     const n = $('#uNama').value.trim(), u = $('#uUser').value.trim().toLowerCase();
-    $('#uPratinjau').innerHTML = avatar(n || u || '?', 56, fotoKini()) + `<div class="profil-nama"><div class="pr-nama">${esc(n || u || 'Namamu')}</div><div class="profil-user">@${esc(u || 'username')}</div></div>`;
+    $('#uPratinjau').innerHTML = avatar(n || u || '?', 56, fotoKini()) + `<div class="profil-nama"><div class="pr-nama">${esc(n || u || t('pf.u.namamu'))}</div><div class="profil-user">@${esc(u || 'username')}</div></div>`;
     const ada = !!fotoKini();
     $('#uHapusFoto').hidden = !(ada || fotoBlob);
-    $('#uHapusFoto').textContent = fotoBlob ? 'Batalkan pilihan' : 'Hapus foto';
+    $('#uHapusFoto').textContent = fotoBlob ? t('pf.u.batalPilihan') : t('pf.u.hapusFoto');
   };
   const terapkanKuota = () => {
-    const f = infoKuota(kuota, 'foto', 'foto profil'), n = infoKuota(kuota, 'nama', 'nama'), u = infoKuota(kuota, 'username', 'username');
+    const f = infoKuota(kuota, 'foto', 'pf.l.foto'), n = infoKuota(kuota, 'nama', 'pf.l.nama'), u = infoKuota(kuota, 'username', 'pf.l.username');
     [['#kFoto', f], ['#kNama', n], ['#kUser', u]].forEach(([sel, k]) => { $(sel).textContent = k.teks; $(sel).classList.toggle('habis', k.habis); });
     $('#uPilihFoto').disabled = f.habis;
     if (f.habis) $('#uHapusFoto').disabled = true;
@@ -237,15 +241,15 @@ function ubah() {
     const f = $('#uFile').files[0]; $('#uFile').value = '';
     const galat = $('#uGalat'); galat.textContent = '';
     if (!f) return;
-    if (!/^image\/(jpeg|png|webp)$/.test(f.type)) { galat.textContent = 'Pakai foto berformat JPG, PNG, atau WebP.'; return; }
-    if (f.size > 15 * 1024 * 1024) { galat.textContent = 'Foto terlalu besar (maksimal 15 MB).'; return; }
+    if (!/^image\/(jpeg|png|webp)$/.test(f.type)) { galat.textContent = t('pf.foto.format'); return; }
+    if (f.size > 15 * 1024 * 1024) { galat.textContent = t('pf.foto.besar'); return; }
     try {
       fotoBlob = await ubahUkuranFoto(f);
       lepasPratinjau();
       fotoPratinjau = URL.createObjectURL(fotoBlob);
       hapusFoto = false;
       pratinjau();
-    } catch (e) { galat.textContent = e.message || 'Foto tidak bisa diproses.'; }
+    } catch (e) { galat.textContent = e.message || t('pf.foto.tidakBisa'); }
   };
   $('#uHapusFoto').onclick = () => {
     if (fotoBlob) { fotoBlob = null; lepasPratinjau(); } else hapusFoto = true;
@@ -258,21 +262,21 @@ function ubah() {
     const username = $('#uUser').value.trim().toLowerCase();
     const nama = $('#uNama').value.trim().slice(0, 40) || null;
     const galat = $('#uGalat'); galat.textContent = '';
-    if (!/^[a-z0-9_]{3,20}$/.test(username)) { galat.textContent = 'Username harus 3-20 karakter: huruf kecil, angka, atau garis bawah.'; return; }
+    if (!/^[a-z0-9_]{3,20}$/.test(username)) { galat.textContent = t('user.harus'); return; }
     const gabung = [$('#uNama').value, $('#uBio').value, username].join(' \n ');
     if (!bolehKirim(gabung, m => galat.textContent = m)) return;
 
     const ubahNama = nama !== (profil.nama || null), ubahUser = username !== profil.username;
     const ubahFoto = !!fotoBlob || (hapusFoto && !!profil.foto);
     const daftar = [];
-    [[ubahFoto, 'foto', 'foto profil'], [ubahNama, 'nama', 'nama'], [ubahUser, 'username', 'username']].forEach(([ya, jenis, label]) => {
+    [[ubahFoto, 'foto', 'pf.l.foto'], [ubahNama, 'nama', 'pf.l.nama'], [ubahUser, 'username', 'pf.l.username']].forEach(([ya, jenis, label]) => {
       if (!ya) return;
       const k = infoKuota(kuota, jenis, label);
       if (k.habis) { galat.textContent = k.teks; daftar.push(null); return; }
-      if (k.sisa !== Infinity) daftar.push(`${label} (sisa ${k.sisa} → ${k.sisa - 1})`);
+      if (k.sisa !== Infinity) daftar.push(t('pf.u.itemKuota', { label: t(label), sisa: k.sisa, baru: k.sisa - 1 }));
     });
     if (daftar.includes(null)) return;
-    if (daftar.length && !confirm('Perubahan ini memakai jatah ganti bulan ini:\n• ' + daftar.join('\n• ') + '\n\nLanjutkan?')) return;
+    if (daftar.length && !confirm(t('pf.u.konfirmKuota', { daftar: daftar.join('\n• ') }))) return;
 
     $('#uSimpan').disabled = true;
     const ubahan = { nama, bio: $('#uBio').value.trim().slice(0, 160) || null, username };
@@ -282,7 +286,7 @@ function ubah() {
       const { error: eu } = await db.storage.from('avatar').upload(pathBaru, fotoBlob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false });
       if (eu) {
         $('#uSimpan').disabled = false;
-        galat.textContent = /bucket not found/i.test(eu.message || '') ? 'Penyimpanan foto belum disiapkan. Jalankan sql/008_foto_profil_limit.sql di Supabase.' : 'Gagal mengunggah foto: ' + pesanGalat(eu);
+        galat.textContent = /bucket not found/i.test(eu.message || '') ? t('pf.foto.bucket') : t('pf.foto.gagalUnggah', { pesan: pesanGalat(eu) });
         return;
       }
       ubahan.foto_url = pathBaru;
@@ -292,7 +296,7 @@ function ubah() {
     $('#uSimpan').disabled = false;
     if (error) {
       if (pathBaru) db.storage.from('avatar').remove([pathBaru]).catch(() => {});
-      galat.textContent = error.code === '23505' ? 'Username sudah dipakai.' : error.code === '23514' ? 'Username harus 3-20 karakter: huruf kecil, angka, atau garis bawah.' : pesanGalat(error);
+      galat.textContent = error.code === '23505' ? t('user.dipakai') : error.code === '23514' ? t('user.harus') : pesanGalat(error);
       return;
     }
     if (ubahFoto) await bersihkanFoto(pathBaru);
@@ -322,14 +326,14 @@ async function bukaDaftarOrang(jenis) {
   if (!d) {
     d = document.createElement('dialog');
     d.id = 'lembarOrang'; d.className = 'lembar'; d.setAttribute('aria-labelledby', 'jOrang');
-    d.innerHTML = `<div class="lembar-kepala"><h2 id="jOrang"></h2><button class="ikon-btn" id="oTutup" aria-label="Tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="oIsi" aria-live="polite"></div>`;
+    d.innerHTML = `<div class="lembar-kepala"><h2 id="jOrang"></h2><button class="ikon-btn" id="oTutup" aria-label="${esc(t('umum.tutup'))}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="oIsi" aria-live="polite"></div>`;
     document.body.appendChild(d);
     d.onclick = e => { if (e.target === d) d.close(); };
     $('#oTutup').onclick = () => d.close();
   }
-  $('#jOrang').textContent = (pengikut ? 'Pengikut @' : 'Mengikuti @') + profil.username;
+  $('#jOrang').textContent = t(pengikut ? 'pf.o.pengikutDari' : 'pf.o.mengikutiDari', { u: profil.username });
   const isi = $('#oIsi');
-  isi.innerHTML = '<p class="hitung" style="padding:16px 20px">Memuat…</p>';
+  isi.innerHTML = '<p class="hitung" style="padding:16px 20px">' + esc(t('umum.memuat')) + '</p>';
   if (!d.open) d.showModal();
   const ini = ++orangVersi;
   const kolomIni = pengikut ? 'following_id' : 'follower_id';
@@ -337,11 +341,11 @@ async function bukaDaftarOrang(jenis) {
 
   const { data: rel, error } = await db.from('follows').select(kolomLain).eq(kolomIni, profil.id).limit(MAKS_ORANG);
   if (ini !== orangVersi) return;
-  if (error) { isi.innerHTML = '<div class="kosong"><p>Gagal memuat: ' + esc(pesanGalat(error)) + '</p></div>'; return; }
+  if (error) { isi.innerHTML = '<div class="kosong"><p>' + esc(t('pf.o.gagal', { pesan: pesanGalat(error) })) + '</p></div>'; return; }
   const ids = (rel || []).map(r => r[kolomLain]);
   if (!ids.length) {
-    isi.innerHTML = kosong('cari', pengikut ? 'Belum ada pengikut' : 'Belum mengikuti siapa pun',
-      pengikut ? 'Belum ada yang mengikuti akun ini.' : 'Akun ini belum mengikuti siapa pun.');
+    isi.innerHTML = kosong('cari', pengikut ? t('pf.o.belumPengikutJ') : t('pf.o.belumMengikutiJ'),
+      pengikut ? t('pf.o.belumPengikutT') : t('pf.o.belumMengikutiT'));
     return;
   }
   const potong = [];
@@ -352,28 +356,28 @@ async function bukaDaftarOrang(jenis) {
   ]);
   if (ini !== orangVersi) return;
   const galat = hasil.find(h => h.error);
-  if (galat) { isi.innerHTML = '<div class="kosong"><p>Gagal memuat: ' + esc(pesanGalat(galat.error)) + '</p></div>'; return; }
+  if (galat) { isi.innerHTML = '<div class="kosong"><p>' + esc(t('pf.o.gagal', { pesan: pesanGalat(galat.error) })) + '</p></div>'; return; }
   const sembunyi = new Set((blokir.data || []).map(b => b.blocked_id));
   const orang = hasil.flatMap(h => h.data || []).filter(o => !sembunyi.has(o.id))
-    .sort((a, b) => (a.nama || a.username).localeCompare(b.nama || b.username, 'id'));
+    .sort((a, b) => (a.nama || a.username).localeCompare(b.nama || b.username, I18n.locale));
   if (!orang.length) {
-    isi.innerHTML = kosong('cari', 'Tidak ada yang ditampilkan', 'Akun yang kamu blokir disembunyikan dari daftar ini.');
+    isi.innerHTML = kosong('cari', t('pf.o.kosongJ'), t('pf.o.kosongT'));
     return;
   }
   let tampil = 0;
   const baris = o => `<a class="item dgn-avatar" href="profil.html?u=${esc(o.username)}">
     ${avatar(o.nama || o.username, 44, o.foto_url)}
-    <div><b>${esc(o.nama || o.username)}</b>${lencanaResmi(o.username)}${o.id === saya.id ? ' <span class="sub">(kamu)</span>' : ''}
+    <div><b>${esc(o.nama || o.username)}</b>${lencanaResmi(o.username)}${o.id === saya.id ? ' <span class="sub">' + esc(t('pf.o.kamu')) + '</span>' : ''}
     <div class="sub">@${esc(o.username)}</div></div></a>`;
   const gambar = () => {
     const potongan = orang.slice(tampil, tampil + HALAMAN_ORANG);
     tampil += potongan.length;
     const lagi = tampil < orang.length;
-    const catatan = ids.length >= MAKS_ORANG && !lagi ? `<p class="hitung" style="padding:12px 20px">Menampilkan ${MAKS_ORANG} pertama.</p>` : '';
+    const catatan = ids.length >= MAKS_ORANG && !lagi ? `<p class="hitung" style="padding:12px 20px">${esc(t('pf.o.pertama', { n: MAKS_ORANG }))}</p>` : '';
     const html = potongan.map(baris).join('');
     if (tampil === potongan.length) isi.innerHTML = '<div id="oDaftar"></div><div id="oLagi"></div>';
     $('#oDaftar').insertAdjacentHTML('beforeend', html);
-    $('#oLagi').innerHTML = lagi ? '<div style="padding:12px 20px"><button type="button" class="btn garis" id="oLagiBtn">Tampilkan lebih banyak</button></div>' : catatan;
+    $('#oLagi').innerHTML = lagi ? '<div style="padding:12px 20px"><button type="button" class="btn garis" id="oLagiBtn">' + esc(t('pf.o.lagi')) + '</button></div>' : catatan;
     if (lagi) $('#oLagiBtn').onclick = gambar;
   };
   gambar();

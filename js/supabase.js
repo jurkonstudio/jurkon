@@ -14,12 +14,12 @@ function esc(t) {
 
 function waktu(iso) {
   const d = (Date.now() - new Date(iso)) / 1000;
-  if (d < 60) return 'baru saja';
-  if (d < 3600) return Math.floor(d / 60) + ' menit lalu';
-  if (d < 86400) return Math.floor(d / 3600) + ' jam lalu';
-  if (d < 172800) return 'kemarin';
-  if (d < 2592000) return Math.floor(d / 86400) + ' hari lalu';
-  return new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+  if (d < 60) return t('waktu.baru');
+  if (d < 3600) return t('waktu.menit', { n: Math.floor(d / 60) });
+  if (d < 86400) return t('waktu.jam', { n: Math.floor(d / 3600) });
+  if (d < 172800) return t('waktu.kemarin');
+  if (d < 2592000) return t('waktu.hari', { n: Math.floor(d / 86400) });
+  return new Date(iso).toLocaleDateString(I18n.locale, { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
 async function wajibLogin() {

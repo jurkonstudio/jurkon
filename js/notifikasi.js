@@ -16,14 +16,14 @@
       <span class="notif-ava">${avatar(a.nama || a.username, 44, a.foto_url)}<i class="notif-jenis j-${esc(n.jenis)}" aria-hidden="true">${IKON_JENIS[n.jenis] || ''}</i></span>
       <span class="notif-isi"><span class="notif-teks">${k.html}</span>
         ${k.cuplikan ? `<span class="notif-cuplikan">${esc(k.cuplikan)}</span>` : ''}
-        <span class="notif-waktu">${n.dibaca ? '' : '<span class="sr">Belum dibaca. </span>'}${waktu(n.created_at)}</span></span>
+        <span class="notif-waktu">${n.dibaca ? '' : '<span class="sr">' + esc(t('notif.srBaru')) + '</span>'}${waktu(n.created_at)}</span></span>
       ${n.dibaca ? '' : '<span class="notif-titik" aria-hidden="true"></span>'}</a></div>`;
   }
 
   const daf = daftarBerhalaman(el, async sebelum => {
     const { data, error } = await Notif.terbaru(HALAMAN, sebelum);
     return { data, error, limit: HALAMAN };
-  }, () => kosong('pesan', 'Belum ada notifikasi', 'Suka, balasan, pengikut baru, dan pesan untukmu akan muncul di sini.', 'explore.html', 'Cari orang'),
+  }, () => kosong('pesan', t('notif.kosongJ'), t('notif.kosongT'), 'explore.html', t('umum.cariOrang')),
   saya, { render: baris, item: '.notif' });
 
   function perbaruiTombol() { tombolSemua.hidden = !(Notif.total > 0); }
@@ -49,14 +49,14 @@
     tombolSemua.disabled = true;
     const { error } = await Notif.tandai(null);
     tombolSemua.disabled = false;
-    if (error) { alert('Gagal menandai: ' + pesanGalat(error)); return; }
+    if (error) { alert(t('notif.gagalTandai', { pesan: pesanGalat(error) })); return; }
     el.querySelectorAll('a.notif.baru').forEach(a => { a.classList.remove('baru'); const t = a.querySelector('.notif-titik'); if (t) t.remove(); });
   };
 
   // Notifikasi masuk saat halaman terbuka: tawarkan muat ulang, jangan menggeser daftar yang sedang dibaca
   Notif.padaBaru(() => {
     if (baru.firstChild) return;
-    baru.innerHTML = '<button class="pill-baru" type="button">Ada notifikasi baru \u00b7 ketuk untuk memuat</button>';
+    baru.innerHTML = '<button class="pill-baru" type="button">' + esc(t('notif.baru')) + '</button>';
     baru.firstChild.onclick = () => { baru.innerHTML = ''; window.scrollTo(0, 0); daf.muat(); };
   });
 

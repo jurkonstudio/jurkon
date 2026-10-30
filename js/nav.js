@@ -8,52 +8,52 @@
     tulis: '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'
   };
   const menu = [
-    ['index.html', 'Beranda', 'beranda'],
-    ['explore.html', 'Jelajah', 'explore'],
-    ['notifikasi.html', 'Notifikasi', 'notifikasi'],
-    ['pesan.html', 'Pesan', 'pesan'],
-    ['profil.html', 'Profil', 'profil']
+    ['index.html', t('nav.beranda'), 'beranda'],
+    ['explore.html', t('nav.explore'), 'explore'],
+    ['notifikasi.html', t('nav.notifikasi'), 'notifikasi'],
+    ['pesan.html', t('nav.pesan'), 'pesan'],
+    ['profil.html', t('nav.profil'), 'profil']
   ];
   const aktif = document.body.dataset.tab;
   const nav = document.createElement('nav');
   nav.className = 'nav';
-  nav.setAttribute('aria-label', 'Menu utama');
+  nav.setAttribute('aria-label', t('nav.menu'));
   nav.innerHTML = menu.map(([h, n, k]) =>
-    `<a href="${h}" data-k="${k}" class="${aktif === k ? 'aktif' : ''}" aria-label="${n}" title="${n}"${aktif === k ? ' aria-current="page"' : ''}>${ikon[k]}${n}${k === 'notifikasi' || k === 'pesan' ? '<span class="lencana" hidden></span>' : ''}</a>`).join('') +
-    `<a href="post.html" class="nav-tulis" aria-label="Tulis" title="Tulis">${ikon.tulis}Tulis</a>`;
+    `<a href="${h}" data-k="${k}" class="${aktif === k ? 'aktif' : ''}" aria-label="${esc(n)}" title="${esc(n)}"${aktif === k ? ' aria-current="page"' : ''}>${ikon[k]}${esc(n)}${k === 'notifikasi' || k === 'pesan' ? '<span class="lencana" hidden></span>' : ''}</a>`).join('') +
+    `<a href="post.html" class="nav-tulis" aria-label="${esc(t('nav.tulis'))}" title="${esc(t('nav.tulis'))}">${ikon.tulis}${esc(t('nav.tulis'))}</a>`;
   document.body.appendChild(nav);
 
   // Panel kanan (tampil hanya di layar lebar)
   if (aktif) {
     const p = document.createElement('aside');
     p.className = 'panel';
-    p.setAttribute('aria-label', 'Tentang Jurkon');
-    p.innerHTML = `<section id="panel-notif"><h2>Notifikasi</h2>
+    p.setAttribute('aria-label', t('panel.aria'));
+    p.innerHTML = `<section id="panel-notif"><h2>${esc(t('nav.notifikasi'))}</h2>
       <ul class="panel-notif"></ul>
-      <a class="lihat-semua" href="notifikasi.html">Lihat semua</a></section>
-      <section><h2>Catatan singkat</h2>
-      <div class="batas"><b>250</b><span>karakter per posting</span></div>
-      <p>Jurkon dibuat tenang dan ringkas. Tulis yang penting, lalu terhubung dengan orang-orang yang kamu pilih.</p></section>
-      <section><h2>Pintasan</h2><ul>
-        <li><a href="post.html">Tulis catatan baru</a></li>
-        <li><a href="explore.html">Cari orang atau topik</a></li>
-        <li><a href="aturan.html">Aturan dan privasi</a></li></ul></section>`;
+      <a class="lihat-semua" href="notifikasi.html">${esc(t('panel.lihatSemua'))}</a></section>
+      <section><h2>${esc(t('panel.catatan'))}</h2>
+      <div class="batas"><b>250</b><span>${esc(t('panel.karakter'))}</span></div>
+      <p>${esc(t('panel.teks'))}</p></section>
+      <section><h2>${esc(t('panel.pintasan'))}</h2><ul>
+        <li><a href="post.html">${esc(t('panel.tulisBaru'))}</a></li>
+        <li><a href="explore.html">${esc(t('panel.cari'))}</a></li>
+        <li><a href="aturan.html">${esc(t('panel.aturan'))}</a></li></ul></section>`;
     document.body.appendChild(p);
   }
 
   // Lencana belum dibaca (Notifikasi = semua jenis, Pesan = jenis pesan saja)
   const teksLencana = n => n > 99 ? '99+' : String(n);
-  function setLencana(k, n, nama, kata) {
+  function setLencana(k, n, nama, kunciBaca) {
     const a = nav.querySelector(`a[data-k="${k}"]`);
     if (!a) return;
     const l = a.querySelector('.lencana');
     l.hidden = n < 1;
     l.textContent = n > 0 ? teksLencana(n) : '';
-    a.setAttribute('aria-label', n > 0 ? `${nama}, ${n} ${kata} belum dibaca` : nama);
+    a.setAttribute('aria-label', n > 0 ? t(kunciBaca, { n }) : nama);
   }
   if (window.Notif) Notif.pada(s => {
-    setLencana('notifikasi', s.total, 'Notifikasi', 'notifikasi');
-    setLencana('pesan', s.pesan, 'Pesan', 'percakapan');
+    setLencana('notifikasi', s.total, t('nav.notifikasi'), 'nav.unreadNotif');
+    setLencana('pesan', s.pesan, t('nav.pesan'), 'nav.unreadPesan');
   });
 
   // Ringkasan 5 notifikasi terbaru di panel kanan (hanya dimuat bila panel terlihat)
@@ -68,8 +68,8 @@
       sudah = true;
       kotak.innerHTML = data.length ? data.map(n => {
         const k = Notif.kalimat(n);
-        return `<li><a class="${n.dibaca ? '' : 'baru'}" href="${esc(k.href)}"><span>${k.html}</span>${n.dibaca ? '' : '<span class="titik" aria-label="belum dibaca"></span>'}</a></li>`;
-      }).join('') : '<li class="sepi">Belum ada notifikasi.</li>';
+        return `<li><a class="${n.dibaca ? '' : 'baru'}" href="${esc(k.href)}"><span>${k.html}</span>${n.dibaca ? '' : '<span class="titik" aria-label="' + esc(t('panel.belumDibaca')) + '"></span>'}</a></li>`;
+      }).join('') : '<li class="sepi">' + esc(t('panel.sepi')) + '</li>';
     }
     const tunda = () => { clearTimeout(tunggu); tunggu = setTimeout(isi, 400); };
     Notif.pada(tunda);

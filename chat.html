@@ -8,15 +8,16 @@
 <link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap"></noscript>
+<script src="js/bahasa.js"></script><script src="js/i18n.js"></script>
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
 <meta name="robots" content="noindex">
-<title>Chat · Jurkon</title></head><body data-tab="pesan">
-<main><div class="header"><a href="pesan.html">← Pesan</a><h1 id="lawan"></h1><span></span></div>
+<title data-i-doc="chat.title">Chat · Jurkon</title></head><body data-tab="pesan">
+<main><div class="header"><a href="pesan.html" data-i="chat.kembali">← Pesan</a><h1 id="lawan"></h1><span></span></div>
 <div class="chat" id="isi"></div></main>
 <div class="kirim"><div>
-  <textarea id="teks" aria-label="Tulis pesan" placeholder="Tulis pesan..."></textarea>
-  <div class="baris"><span class="hitung" id="hitung"></span><button class="btn" id="kirim">Kirim</button></div>
+  <textarea id="teks" aria-label="Tulis pesan" data-i-aria="chat.aria" placeholder="Tulis pesan..." data-i-ph="chat.ph"></textarea>
+  <div class="baris"><span class="hitung" id="hitung"></span><button class="btn" id="kirim" data-i="umum.kirim">Kirim</button></div>
 </div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/supabase.js"></script>

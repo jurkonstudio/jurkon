@@ -11,7 +11,7 @@ function pasangMention(ta, saya) {
   list.className = 'sebut-list';
   list.id = 'sebut-' + Math.random().toString(36).slice(2, 8);
   list.setAttribute('role', 'listbox');
-  list.setAttribute('aria-label', 'Saran username');
+  list.setAttribute('aria-label', t('filter.saran'));
   list.hidden = true;
   wrap.appendChild(list);
   ta.setAttribute('aria-autocomplete', 'list');

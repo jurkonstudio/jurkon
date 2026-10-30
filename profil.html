@@ -8,31 +8,32 @@
 <link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap"></noscript>
+<script src="js/bahasa.js"></script><script src="js/i18n.js"></script>
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
 <meta name="robots" content="noindex">
-<title>Profil · Jurkon</title></head><body data-tab="profil">
+<title data-i-doc="nav.profil">Profil · Jurkon</title></head><body data-tab="profil">
 <main><div class="header"><h1 id="judul">Profil</h1><span id="keluar"></span></div>
 <div id="atas"><div class="profil-atas skel"><div class="kartu-kepala"><span class="avatar" style="width:88px;height:88px"></span><div style="flex:1"><div class="garis-skel" style="width:60%"></div><div class="garis-skel" style="width:35%"></div></div></div><div class="garis-skel" style="width:90%;margin-top:18px"></div><div class="garis-skel" style="width:70%"></div></div></div>
-<div class="tab-profil" id="tabProfil" role="tablist" aria-label="Isi profil" hidden>
-<button type="button" role="tab" id="tp-catatan" data-tp="catatan" aria-selected="true" aria-controls="daftar">Catatan</button>
-<button type="button" role="tab" id="tp-balasan" data-tp="balasan" aria-selected="false" aria-controls="daftar" tabindex="-1">Balasan</button>
-<button type="button" role="tab" id="tp-suka" data-tp="suka" aria-selected="false" aria-controls="daftar" tabindex="-1">Menyukai</button>
+<div class="tab-profil" id="tabProfil" role="tablist" aria-label="Isi profil" data-i-aria="pf.tabAria" hidden>
+<button type="button" role="tab" id="tp-catatan" data-tp="catatan" aria-selected="true" aria-controls="daftar" data-i="pf.tabCatatan">Catatan</button>
+<button type="button" role="tab" id="tp-balasan" data-tp="balasan" aria-selected="false" aria-controls="daftar" tabindex="-1" data-i="pf.tabBalasan">Balasan</button>
+<button type="button" role="tab" id="tp-suka" data-tp="suka" aria-selected="false" aria-controls="daftar" tabindex="-1" data-i="pf.tabSuka">Menyukai</button>
 </div>
 <div id="daftar" role="tabpanel" aria-labelledby="tp-catatan"></div></main>
 <dialog id="lembarPengaturan" class="lembar" aria-labelledby="jPengaturan">
-<div class="lembar-kepala"><h2 id="jPengaturan">Pengaturan</h2><button class="ikon-btn" id="tutupPengaturan" aria-label="Tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-<div id="tema" class="tema-pilih" hidden></div><div id="akun" class="tema-pilih" hidden></div>
-<div class="tema-pilih info-lembar"><h3>Informasi</h3>
+<div class="lembar-kepala"><h2 id="jPengaturan" data-i="pf.pengaturan">Pengaturan</h2><button class="ikon-btn" id="tutupPengaturan" aria-label="Tutup" data-i-aria="umum.tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div id="tema" class="tema-pilih" hidden></div><div id="bahasa" class="tema-pilih"></div><div id="akun" class="tema-pilih" hidden></div>
+<div class="tema-pilih info-lembar"><h3 data-i="set.info">Informasi</h3>
 <ul class="info-daftar">
-<li><a href="kebijakan-privasi.html">Kebijakan privasi</a></li>
-<li><a href="ketentuan-layanan.html">Ketentuan layanan</a></li>
-<li><a href="aturan.html">Aturan penggunaan</a></li>
-<li><a href="pusat-bantuan.html">Pusat bantuan</a></li>
-<li><a href="tentang.html">Tentang Jurkon</a></li>
+<li><a href="kebijakan-privasi.html" data-i="set.privasi">Kebijakan privasi</a></li>
+<li><a href="ketentuan-layanan.html" data-i="set.ketentuan">Ketentuan layanan</a></li>
+<li><a href="aturan.html" data-i="set.aturan">Aturan penggunaan</a></li>
+<li><a href="pusat-bantuan.html" data-i="set.bantuan">Pusat bantuan</a></li>
+<li><a href="tentang.html" data-i="set.tentang">Tentang Jurkon</a></li>
 </ul>
-<p class="hitung">Versi 1.0.0</p></div>
-<div class="tema-pilih"><button class="btn garis" id="logout">Keluar</button></div></dialog>
+<p class="hitung" data-i="set.catatanBahasa" style="margin-bottom:6px">Halaman informasi hukum tersedia dalam Bahasa Indonesia.</p><p class="hitung" id="versi">Versi 1.0.0</p></div>
+<div class="tema-pilih"><button class="btn garis" id="logout" data-i="set.keluar">Keluar</button></div></dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/supabase.js"></script>
 <script src="js/ui.js"></script>

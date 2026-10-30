@@ -8,8 +8,8 @@ function simpanFeed(f) { try { localStorage.setItem(KUNCI_FEED, f); } catch (e) 
 
 function kosongFeed(f) {
   return f === 'ikuti'
-    ? kosong('pena', 'Belum ada kiriman dari yang kamu ikuti', 'Ikuti beberapa orang lewat Jelajah, atau lihat dulu apa yang sedang ditulis di feed Publik.', 'explore.html', 'Cari orang')
-    : kosong('pena', 'Beranda masih sepi', 'Tulis catatan pertamamu, atau temukan orang untuk diikuti lewat Jelajah.', 'post.html', 'Tulis sekarang');
+    ? kosong('pena', t('feed.kosongIkutiJ'), t('feed.kosongIkutiT'), 'explore.html', t('umum.cariOrang'))
+    : kosong('pena', t('feed.kosongJ'), t('feed.kosongT'), 'post.html', t('umum.tulisSekarang'));
 }
 
 function muat() { return daf && daf.muat(); }
