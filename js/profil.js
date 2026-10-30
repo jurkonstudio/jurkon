@@ -1,27 +1,21 @@
-let saya = null, profil = null;
-async function ambilProfil() {
-  const u = param('u');
-  const q = db.from('profiles').select('*');
-  const { data } = u ? await q.eq('username', u).maybeSingle() : await q.eq('id', saya.id).maybeSingle();
-  return data;
-}
+let saya = null, profil = null, daf = null;
 async function muat() {
-  const p = await ambilProfil();
+  const { data: p, error } = await ambilProfilInfo(param('u'), saya);
+  if (error) {
+    $('#atas').innerHTML = '<div class="kosong"><h3>Gagal memuat profil</h3><p>' + esc(pesanGalat(error)) + '</p><button class="btn" id="coba">Coba lagi</button></div>';
+    $('#coba').onclick = muat;
+    return;
+  }
   if (!p) { $('#atas').innerHTML = '<div class="kosong">Profil tidak ditemukan.</div>'; return; }
   profil = p;
   const milikSaya = p.id === saya.id;
-  const [{ count: pengikut }, { count: mengikuti }, { data: ikut }, { data: blk }] = await Promise.all([
-    db.from('follows').select('*', { count: 'exact', head: true }).eq('following_id', p.id),
-    db.from('follows').select('*', { count: 'exact', head: true }).eq('follower_id', p.id),
-    db.from('follows').select('*').match({ follower_id: saya.id, following_id: p.id }).maybeSingle(),
-    db.from('blocks').select('blocked_id').match({ blocker_id: saya.id, blocked_id: p.id }).maybeSingle()
-  ]);
+  const pengikut = p.pengikut, mengikuti = p.mengikuti, ikut = p.saya_ikut, blk = p.saya_blokir;
   $('#judul').textContent = '@' + p.username;
   $('#atas').innerHTML = `<div class="profil-atas">
     <div class="baris-profil">${avatar(p.nama || p.username, 64)}
       <div><h2>${esc(p.nama || p.username)}</h2><div style="color:var(--redup)">@${esc(p.username)}</div></div></div>
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : (milikSaya ? 'Belum ada bio. Ketuk "Ubah profil" untuk memperkenalkan dirimu.' : 'Belum ada bio.')}</div>
-    <div class="stat">${pengikut || 0} pengikut · ${mengikuti || 0} mengikuti</div>
+    <div class="stat">${pengikut} pengikut · ${mengikuti} mengikuti</div>
     <div class="tombol">${milikSaya
       ? '<button class="btn garis" id="ubah">Ubah profil</button>'
       : `<button class="btn ${ikut ? 'garis' : ''}" id="ikuti">${ikut ? 'Mengikuti' : 'Ikuti'}</button>
@@ -51,9 +45,10 @@ async function muat() {
     };
   }
   if (blk) { $('#daftar').innerHTML = kosong('pena', 'Kamu memblokir akun ini', 'Posting @' + esc(p.username) + ' disembunyikan. Ketuk "Buka blokir" untuk melihatnya lagi.'); return; }
-  const { data: posts } = await db.from('posts').select(PILIH_POSTING).eq('user_id', p.id).order('created_at', { ascending: false }).limit(50);
-  await tandaiSuka(posts || [], saya);
-  $('#daftar').innerHTML = (posts || []).map(x => htmlPost(x, saya)).join('') || (milikSaya ? kosong('pena', 'Belum ada catatan', 'Ceritakan sesuatu hari ini, sependek apa pun.', 'post.html', 'Tulis sekarang') : kosong('pena', 'Belum ada posting', '@' + esc(p.username) + ' belum menulis apa pun.'));
+  if (daf) daf.hentikan();
+  daf = daftarBerhalaman($('#daftar'), sebelum => ambilPosting({ mode: 'pengguna', id: p.id, sebelum }, saya),
+    () => milikSaya ? kosong('pena', 'Belum ada catatan', 'Ceritakan sesuatu hari ini, sependek apa pun.', 'post.html', 'Tulis sekarang') : kosong('pena', 'Belum ada posting', '@' + esc(p.username) + ' belum menulis apa pun.'), saya);
+  daf.muat();
 }
 async function ubah() {
   const nama = prompt('Nama tampilan (maks 40):', profil.nama || '');

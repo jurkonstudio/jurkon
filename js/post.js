@@ -5,9 +5,15 @@
   $('#kirim').onclick = async () => {
     const content = $('#isi').value.trim();
     if (!content) return;
+    $('#galat').textContent = '';
     $('#kirim').disabled = true;
     const { error } = await db.from('posts').insert({ user_id: saya.id, content });
-    if (error) { $('#galat').textContent = 'Gagal mengirim: ' + error.message; $('#kirim').disabled = false; }
-    else location.href = 'index.html';
+    if (error) {
+      $('#galat').textContent = 'Gagal mengirim: ' + (
+        error.code === '23503' ? 'profilmu belum siap. Keluar lalu masuk lagi.'
+        : error.code === '42501' ? 'kamu belum diizinkan memposting. Keluar lalu masuk lagi.'
+        : pesanGalat(error));
+      $('#kirim').disabled = false;
+    } else location.href = 'index.html';
   };
 })();

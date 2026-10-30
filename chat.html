@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f5f1e6">
+<meta name="theme-color" content="#3b5998">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
+<meta name="robots" content="noindex">
 <title>Chat · Jurkon</title></head><body data-tab="pesan">
-<main><div class="header"><a href="pesan.html">← Pesan</a><span id="lawan"></span><span></span></div>
+<main><div class="header"><a href="pesan.html">← Pesan</a><h1 id="lawan"></h1><span></span></div>
 <div class="chat" id="isi"></div></main>
 <div class="kirim"><div>
-  <textarea id="teks" placeholder="Tulis pesan..."></textarea>
+  <textarea id="teks" aria-label="Tulis pesan" placeholder="Tulis pesan..."></textarea>
   <div class="baris"><span class="hitung" id="hitung"></span><button class="btn" id="kirim">Kirim</button></div>
 </div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>

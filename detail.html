@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f5f1e6">
+<meta name="theme-color" content="#3b5998">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
+<meta name="robots" content="noindex">
 <title>Posting · Jurkon</title></head><body data-tab="beranda">
-<main><div class="header"><a href="javascript:history.back()">← Kembali</a><span>Posting</span><span></span></div>
+<main><div class="header"><a href="javascript:history.back()">← Kembali</a><h1>Posting</h1><span></span></div>
 <div id="utama"></div>
 <div class="form">
-  <textarea id="isi" placeholder="Tulis balasanmu..." data-ph="Tulis balasanmu...|Tambahkan pendapatmu...|Beri semangat atau sapaan hangat..." style="min-height:70px"></textarea>
+  <textarea id="isi" aria-label="Tulis balasan" placeholder="Tulis balasanmu..." data-ph="Tulis balasanmu...|Tambahkan pendapatmu...|Beri semangat atau sapaan hangat..." style="min-height:70px"></textarea>
   <div class="baris"><span class="hitung" id="hitung"></span><button class="btn" id="kirim">Balas</button></div>
-  <div class="galat" id="galat"></div>
+  <div class="galat" id="galat" role="alert"></div>
 </div>
 <div id="balasan"></div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/supabase.js"></script>
 <script src="js/ui.js"></script>
+<script src="js/data.js"></script>
 <script src="js/detail.js"></script>
 <script src="js/nav.js"></script></body></html>
