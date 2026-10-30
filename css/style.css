@@ -42,3 +42,26 @@ textarea{min-height:100px;resize:none}
 .kirim{position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--garis);padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
 .kirim>div{max-width:600px;margin:0 auto}
 .kirim textarea{min-height:44px;height:44px}
+
+/* ===== Tampilan lebih hidup ===== */
+.avatar{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:700;flex:none;background:var(--garis)}
+.post{display:flex;gap:12px}
+.post .badan{min-width:0;flex:1}
+.post .ava{flex:none}
+.post:active{background:color-mix(in srgb,var(--garis) 35%,transparent)}
+.kosong{padding:56px 24px}
+.kosong-ikon{width:64px;height:64px;margin:0 auto 14px;border-radius:50%;background:color-mix(in srgb,var(--aksen) 12%,transparent);color:var(--aksen);display:flex;align-items:center;justify-content:center}
+.kosong-ikon svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kosong h3{color:var(--teks);font-size:17px;margin-bottom:4px}
+.kosong p{margin-bottom:16px;font-size:14px}
+.kosong .btn{display:inline-block}
+.skel .avatar{background:var(--garis);animation:kedip 1.2s ease-in-out infinite}
+.garis-skel{height:12px;border-radius:6px;background:var(--garis);margin:8px 0;animation:kedip 1.2s ease-in-out infinite}
+@keyframes kedip{0%,100%{opacity:1}50%{opacity:.45}}
+.redup{color:var(--redup);font-style:italic}
+.profil-atas .baris-profil{display:flex;gap:14px;align-items:center;margin-bottom:6px}
+.item.dgn-avatar{display:flex;gap:12px;align-items:center}
+.item .sub{color:var(--redup);font-size:14px}
+::placeholder{color:var(--redup);opacity:.8}
+textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,transparent);border-color:var(--aksen)}
+@media (prefers-reduced-motion:reduce){.skel .avatar,.garis-skel{animation:none}}

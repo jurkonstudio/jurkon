@@ -17,8 +17,9 @@ async function muat() {
   ]);
   $('#judul').textContent = '@' + p.username;
   $('#atas').innerHTML = `<div class="profil-atas">
-    <h2>${esc(p.nama || p.username)}</h2><div style="color:var(--redup)">@${esc(p.username)}</div>
-    <div class="bio">${esc(p.bio || '')}</div>
+    <div class="baris-profil">${avatar(p.nama || p.username, 64)}
+      <div><h2>${esc(p.nama || p.username)}</h2><div style="color:var(--redup)">@${esc(p.username)}</div></div></div>
+    <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : (milikSaya ? 'Belum ada bio. Ketuk "Ubah profil" untuk memperkenalkan dirimu.' : 'Belum ada bio.')}</div>
     <div class="stat">${pengikut || 0} pengikut · ${mengikuti || 0} mengikuti</div>
     <div class="tombol">${milikSaya
       ? '<button class="btn garis" id="ubah">Ubah profil</button>'
@@ -41,7 +42,7 @@ async function muat() {
   }
   const { data: posts } = await db.from('posts').select(PILIH_POST).eq('user_id', p.id).order('created_at', { ascending: false }).limit(50);
   await tandaiSuka(posts || [], saya);
-  $('#daftar').innerHTML = (posts || []).map(x => htmlPost(x, saya)).join('') || '<div class="kosong">Belum ada posting.</div>';
+  $('#daftar').innerHTML = (posts || []).map(x => htmlPost(x, saya)).join('') || (milikSaya ? kosong('pena', 'Belum ada catatan', 'Ceritakan sesuatu hari ini, sependek apa pun.', 'post.html', 'Tulis sekarang') : kosong('pena', 'Belum ada posting', '@' + esc(p.username) + ' belum menulis apa pun.'));
 }
 async function ubah() {
   const nama = prompt('Nama tampilan (maks 40):', profil.nama || '');

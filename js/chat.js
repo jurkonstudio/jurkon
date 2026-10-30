@@ -6,11 +6,13 @@
   if (!c) { $('#isi').innerHTML = '<div class="kosong">Percakapan tidak ditemukan.</div>'; return; }
   const { data: o } = await db.from('profiles').select('username,nama').eq('id', c.user_a === saya.id ? c.user_b : c.user_a).single();
   $('#lawan').textContent = o.nama || o.username;
+  $('#teks').placeholder = 'Tulis pesan untuk ' + (o.nama || o.username) + '...';
   pasangHitung($('#teks'), $('#hitung'), 750);
 
   const sudah = new Set();
   const tampil = m => {
     if (sudah.has(m.id)) return;
+    const k = $('#isi .kosong'); if (k) k.remove();
     sudah.add(m.id);
     const d = document.createElement('div');
     d.className = 'bubble ' + (m.sender_id === saya.id ? 'saya' : 'lawan');
@@ -20,6 +22,7 @@
   };
   const { data: pesan } = await db.from('messages').select('*').eq('conversation_id', cid).order('created_at');
   (pesan || []).forEach(tampil);
+  if (!pesan || !pesan.length) $('#isi').innerHTML = kosong('pesan', 'Mulai percakapan', 'Sapa ' + esc(o.nama || o.username) + ' dengan pesan pertamamu.');
 
   db.channel('chat-' + cid).on('postgres_changes',
     { event: 'INSERT', schema: 'public', table: 'messages', filter: 'conversation_id=eq.' + cid },

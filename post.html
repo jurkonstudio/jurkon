@@ -7,10 +7,11 @@
 <title>Tulis · Jurkon</title></head><body data-tab="beranda">
 <main><div class="header"><a href="index.html">← Batal</a><span>Tulis</span><span></span></div>
 <div class="form">
-  <textarea id="isi" placeholder="Apa yang ingin kamu catat hari ini?" autofocus></textarea>
+  <textarea id="isi" placeholder="Apa yang ingin kamu catat hari ini?" data-ph="Apa yang ingin kamu catat hari ini?|Ada kabar baik hari ini?|Satu hal yang kamu syukuri hari ini...|Ceritakan sedikit, 250 karakter cukup.|Apa yang sedang kamu pikirkan?" autofocus></textarea>
   <div class="baris"><span class="hitung" id="hitung"></span><button class="btn" id="kirim">Kirim</button></div>
   <div class="galat" id="galat"></div>
 </div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/supabase.js"></script>
+<script src="js/ui.js"></script>
 <script src="js/post.js"></script></body></html>

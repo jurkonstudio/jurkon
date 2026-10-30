@@ -6,7 +6,7 @@ async function muat() {
   const { data: b } = await db.from('posts').select(PILIH_POST).eq('parent_id', id).order('created_at');
   const semua = await tandaiSuka([p, ...(b || [])], saya);
   $('#utama').innerHTML = htmlPost(semua[0], saya);
-  $('#balasan').innerHTML = semua.slice(1).map(x => htmlPost(x, saya)).join('') || '<div class="kosong">Belum ada balasan.</div>';
+  $('#balasan').innerHTML = semua.slice(1).map(x => htmlPost(x, saya)).join('') || kosong('balas', 'Belum ada balasan', 'Jadilah yang pertama membalas.');
 }
 (async () => {
   saya = await wajibLogin();
