@@ -218,3 +218,16 @@ async function ambilRamai(saya) {
   }
   return r;
 }
+
+// Sorotan Jelajah (migrasi 012): posting dengan dilihat >= ambang, atau dipilih admin.
+// Bentuk hasil sama dengan ambilPosting: { data, error, limit } supaya cocok dengan daftarBerhalaman.
+async function ambilSorotan(o, saya) {
+  const limit = (o && o.limit) || HALAMAN;
+  const { data, error } = await db.rpc('posting_sorotan', { p_limit: limit, p_sebelum: (o && o.sebelum) || null });
+  if (error) {
+    if (/posting_sorotan|schema cache|does not exist/i.test(error.message || ''))
+      return { data: null, error: { message: 'Sorotan belum aktif. Jalankan migrasi 012 di Supabase.' }, limit };
+    return { data: null, error, limit };
+  }
+  return { data: (data || []).map(dariBaris), error: null, limit };
+}

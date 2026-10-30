@@ -1,22 +1,6 @@
-let saya = null, t, versi = 0, daf = null, versiRamai = 0;
-// Bagian "Lagi ramai" di paling atas: hanya tampil saat tidak sedang mencari
-function pastikanRamai() {
-  let el = $('#ramai');
-  if (!el) { el = document.createElement('div'); el.id = 'ramai'; $('#daftar').parentNode.insertBefore(el, $('#daftar')); }
-  return el;
-}
-async function muatRamai(tampil) {
-  const el = pastikanRamai();
-  const ini = ++versiRamai;
-  if (!tampil) { el.innerHTML = ''; return 0; }
-  if (!el.querySelector('.post')) el.innerHTML = '<div class="bagian-judul"><h2>Lagi ramai</h2></div>' + skeleton(2);
-  const { data, error } = await ambilRamai(saya);
-  if (ini !== versiRamai) return 0;
-  if (error || !data.length) { el.innerHTML = ''; return 0; }
-  el.innerHTML = '<div class="bagian-judul ramai-judul"><h2>Lagi ramai</h2><p class="hitung">Paling banyak disukai dan dibalas belakangan ini</p></div>'
-    + data.map(p => htmlPost(p, saya)).join('');
-  return data.length;
-}
+let saya = null, t, versi = 0, daf = null;
+// Jelajah: tanpa kata kunci hanya menampilkan "Sorotan" (dilihat di atas ambang atau dipilih admin).
+// Dengan kata kunci, pencarian tetap menjangkau semua orang dan posting.
 async function muat() {
   const kata = $('#cari').value.trim().replace(/^@/, '').slice(0, 50);
   const ini = ++versi;
@@ -24,13 +8,14 @@ async function muat() {
   const el = $('#daftar');
   let elOrang = $('#orang');
   if (!elOrang) { elOrang = document.createElement('div'); elOrang.id = 'orang'; el.parentNode.insertBefore(elOrang, el); }
+  let judul = $('#judulSorotan');
+  if (!judul) {
+    judul = document.createElement('div'); judul.id = 'judulSorotan'; judul.className = 'bagian-judul ramai-judul';
+    judul.innerHTML = '<h2>Sorotan</h2><p class="hitung">Posting yang banyak dibaca atau dipilih tim Jurkon</p>';
+    el.parentNode.insertBefore(judul, el);
+  }
+  judul.hidden = !!kata;
   let jmlOrang = 0;
-  // "Lagi ramai" di paling atas (tidak saat mencari); judul "Terbaru" hanya bila bagian ramai berisi
-  pastikanRamai();   // dibuat sebelum judul "Terbaru" agar urutan di layar benar: orang, ramai, terbaru, daftar
-  let judulBaru = $('#judulTerbaru');
-  if (!judulBaru) { judulBaru = document.createElement('div'); judulBaru.id = 'judulTerbaru'; judulBaru.className = 'bagian-judul'; judulBaru.hidden = true; judulBaru.innerHTML = '<h2>Terbaru</h2>'; el.parentNode.insertBefore(judulBaru, el); }
-  judulBaru.hidden = true;
-  muatRamai(!kata).then(n => { if (ini === versi) judulBaru.hidden = !n; });
   if (kata) {
     const pola = '%' + kata.replace(/[\\%_]/g, c => '\\' + c) + '%';   // escape karakter khusus LIKE
     const [r1, r2] = await Promise.all([
@@ -51,8 +36,12 @@ async function muat() {
         <div class="sub">${esc(o.bio || '')}</div></div></a>`).join('');
     }
   } else elOrang.innerHTML = '';
-  daf = daftarBerhalaman(el, sebelum => ambilPosting({ mode: kata ? 'cari' : 'semua', kata, sebelum }, saya),
-    () => jmlOrang ? '' : kosong('cari', 'Tidak ditemukan', kata ? 'Tidak ada hasil untuk "' + esc(kata) + '". Coba kata lain.' : 'Belum ada yang bisa dijelajahi.'), saya);
+  daf = daftarBerhalaman(el,
+    sebelum => kata ? ambilPosting({ mode: 'cari', kata, sebelum }, saya) : ambilSorotan({ sebelum }, saya),
+    () => kata
+      ? (jmlOrang ? '' : kosong('cari', 'Tidak ditemukan', 'Tidak ada hasil untuk "' + esc(kata) + '". Coba kata lain.'))
+      : kosong('cari', 'Belum ada sorotan', 'Posting yang banyak dibaca atau dipilih tim Jurkon akan muncul di sini. Untuk menemukan orang atau topik, pakai kolom pencarian di atas.'),
+    saya);
   daf.muat();
 }
 (async () => {

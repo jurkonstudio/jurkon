@@ -5,6 +5,39 @@
   const { data: adm } = await db.from('admins').select('user_id').eq('user_id', saya.id).maybeSingle();
   if (!adm) { el.innerHTML = '<div class="kosong">Halaman ini khusus admin.</div>'; return; }
 
+  // ---- Sorotan Jelajah: tandai / cabut posting pilihan ----------------------
+  const elSorot = $('#sorotan');
+  async function muatSorotan() {
+    const { data, error } = await db.from('posts').select('id,content,created_at,dilihat,profiles(username)')
+      .eq('disorot', true).order('created_at', { ascending: false }).limit(50);
+    const daftar = error
+      ? '<p class="hitung">Sorotan belum aktif (jalankan migrasi 012): ' + esc(error.message) + '</p>'
+      : !data.length ? '<p class="hitung">Belum ada posting yang kamu sorot.</p>'
+      : data.map(p => `<div class="item" style="display:flex;gap:10px;align-items:flex-start;justify-content:space-between">
+          <div><b>@${esc(p.profiles?.username || '?')}</b> <span class="sub">${waktu(p.created_at)} · dilihat ${p.dilihat ?? 0}</span>
+          <div class="isi">${esc(p.content)}</div></div>
+          <button class="btn garis" data-cabut="${p.id}">Cabut</button></div>`).join('');
+    elSorot.innerHTML = `<h3 style="font-family:var(--serif);font-size:17px;margin-bottom:6px">Sorotan Jelajah</h3>
+      <p class="hitung" style="margin-bottom:8px">Posting dengan dilihat di atas ambang otomatis tampil di Jelajah. Di sini kamu bisa memilih posting lain secara manual. Tempel tautan posting (detail.html?id=…) atau ID-nya.</p>
+      <input type="text" id="sorotId" aria-label="Tautan atau ID posting" placeholder="Tautan atau ID posting" autocomplete="off" autocapitalize="none" spellcheck="false">
+      <div style="margin:8px 0 14px"><button class="btn utama" id="sorotTambah">Sorot posting</button></div>${daftar}`;
+  }
+  elSorot.addEventListener('click', async e => {
+    const cabut = e.target.closest('button[data-cabut]');
+    if (cabut) {
+      const { error } = await db.rpc('sorot_posting', { p_id: cabut.dataset.cabut, p_nilai: false });
+      if (error) { alert('Gagal: ' + error.message); return; }
+      muatSorotan(); return;
+    }
+    if (!e.target.closest('#sorotTambah')) return;
+    const m = ($('#sorotId').value || '').match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i);
+    if (!m) { alert('ID posting tidak ditemukan. Tempel tautan atau ID lengkap.'); return; }
+    const { error } = await db.rpc('sorot_posting', { p_id: m[0].toLowerCase(), p_nilai: true });
+    if (error) { alert('Gagal: ' + error.message); return; }
+    muatSorotan();
+  });
+  muatSorotan();
+
   async function muat() {
     el.innerHTML = skeleton(2);
     const { data, error } = await db.from('reports')
