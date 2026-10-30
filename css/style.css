@@ -1,5 +1,6 @@
-:root{--bg:#fff;--teks:#111;--redup:#6b7280;--garis:#e5e7eb;--aksen:#2563eb;--bahaya:#dc2626}
-@media (prefers-color-scheme:dark){:root{--bg:#0b0b0c;--teks:#f3f4f6;--redup:#9ca3af;--garis:#26272b;--aksen:#60a5fa}}
+:root{color-scheme:light;--bg:#f6f0e4;--teks:#2b2623;--redup:#7a7066;--garis:#e0d5c0;--aksen:#b83227;--bahaya:#b42318}
+:root[data-theme=terang]{color-scheme:light;--bg:#fff;--teks:#111;--redup:#6b7280;--garis:#e5e7eb;--aksen:#2563eb;--bahaya:#dc2626}
+:root[data-theme=gelap]{color-scheme:dark;--bg:#0b0b0c;--teks:#f3f4f6;--redup:#9ca3af;--garis:#26272b;--aksen:#60a5fa;--bahaya:#f87171}
 *{box-sizing:border-box;margin:0}
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--teks);line-height:1.5;padding-bottom:72px}
 main{max-width:600px;margin:0 auto}
@@ -72,5 +73,18 @@ textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,
 .logo-login{padding:28px 24px 4px;text-align:center}
 .logo-login img{width:100%;max-width:340px;height:auto;border-radius:14px}
 
-.header-logo{background:#f6f0e4;padding:6px 16px}
-.header-logo img{height:46px;width:auto;display:block}
+.header-logo{justify-content:flex-start;padding:6px 16px}
+.logo-wrap{display:block;border-radius:8px}
+.logo-wrap img{height:46px;width:auto;display:block;mix-blend-mode:multiply}
+:root[data-theme=gelap] .logo-wrap{isolation:isolate;background:#f6f0e4;padding:2px 8px}
+
+/* ===== Pemilih tema ===== */
+.tema-pilih{padding:16px;border-bottom:1px solid var(--garis)}
+.tema-pilih h3{font-size:14px;color:var(--redup);font-weight:600;margin-bottom:10px}
+.tema-opsi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tema-opsi button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;background:transparent;color:var(--teks);border:1px solid var(--garis);border-radius:12px;font:inherit;font-size:13px;cursor:pointer}
+.tema-opsi button[aria-pressed=true]{border-color:var(--aksen);outline:2px solid color-mix(in srgb,var(--aksen) 35%,transparent);font-weight:600}
+.tema-opsi i{width:28px;height:28px;border-radius:50%;border:1px solid #8884}
+.tema-opsi i.k{background:linear-gradient(135deg,#f6f0e4 60%,#b83227 60%)}
+.tema-opsi i.t{background:linear-gradient(135deg,#fff 60%,#2563eb 60%)}
+.tema-opsi i.g{background:linear-gradient(135deg,#0b0b0c 60%,#60a5fa 60%)}

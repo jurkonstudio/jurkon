@@ -29,6 +29,7 @@ async function muat() {
     $('#keluar').innerHTML = '<a href="#" id="logout">Keluar</a>';
     $('#logout').onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.href = 'login.html'; };
     $('#ubah').onclick = ubah;
+    $('#tema').hidden = false;
   } else {
     $('#ikuti').onclick = async () => {
       if (ikut) await db.from('follows').delete().match({ follower_id: saya.id, following_id: p.id });
