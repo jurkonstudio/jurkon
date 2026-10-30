@@ -118,7 +118,7 @@
           <button type="button" id="gMata" aria-label="Tampilkan kata sandi">${ikon('mata')}</button></span></label>
         <button class="btn penuh" id="gKirim" type="submit">Masuk</button>
       </form>
-      <p class="kecil-ket">Pakai login Google? <a href="/login.html">Masuk lewat halaman utama</a>, lalu buka halaman ini lagi.</p>`);
+      <p class="kecil-ket"><a href="/index.html">← Kembali ke aplikasi</a></p>`);
     const f = el('fMasuk'), g = el('gGalat'), s = el('gSandi');
     el('gMata').onclick = () => { s.type = s.type === 'password' ? 'text' : 'password'; };
     el('gEmail').focus();

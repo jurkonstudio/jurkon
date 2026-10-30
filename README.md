@@ -8,8 +8,8 @@ Stack: HTML/CSS/JS biasa + Supabase. Hosting: GitHub Pages.
 1b. Jalankan juga `sql/002_privasi_keamanan.sql`, `sql/003_feed_cepat.sql`, `sql/004_filter_konten.sql`, lalu `sql/006_feed_dua_bagian.sql`, `sql/007_anti_spam.sql`, dan `sql/008_foto_profil_limit.sql` (berurutan; `005_notifikasi.sql` opsional, lihat bagian Notifikasi). Tanpa 002, tidak ada blokir, batas spam, admin, hapus akun, dan ekspor data. Migrasi lanjutan (013-019, termasuk foto/suara chat dan notifikasi) ada di bagian "Urutan migrasi terbaru" di bawah.
 2. Supabase → Project Settings → API → salin *Project URL* dan *anon public key* ke `js/supabase.js`.
 3. Supabase → Authentication → URL Configuration: isi Site URL dengan `https://jurkon.my.id`.
-   Tambahkan juga `https://jurkon.my.id/reset.html` dan `https://jurkon.my.id/index.html` di *Redirect URLs* (wajib agar "Lupa kata sandi" dan login Google bisa kembali ke aplikasi).
-   (Opsional) aktifkan login Google di Authentication → Providers.
+   Tambahkan juga `https://jurkon.my.id/reset.html` dan `https://jurkon.my.id/index.html` di *Redirect URLs* (wajib agar "Lupa kata sandi" bisa kembali ke aplikasi).
+   Login Google **dinonaktifkan sementara**: tombolnya dihapus dari `login.html` dan handler-nya dari `js/auth.js` (cara memasangnya lagi ada di komentar `js/auth.js`). Provider Google di Supabase tidak perlu diaktifkan.
 4. **GitHub**: buat repo, unggah semua isi folder ini (file `CNAME` harus di akar repo).
 5. Repo → Settings → Pages → Source: *Deploy from a branch* → `main` / root.
 6. Domain: di panel domain, buat record `A` ke 185.199.108.153, .109.153, .110.153, .111.153
@@ -29,7 +29,6 @@ Stack: HTML/CSS/JS biasa + Supabase. Hosting: GitHub Pages.
    a. Cloudflare > Turnstile > *Add site* (domain `jurkon.my.id`, mode Managed). Salin *Site key* ke `TURNSTILE_SITE_KEY` di `js/supabase.js`.
    b. Unggah kode ke GitHub dan tunggu Pages selesai.
    c. **Baru kemudian** Supabase > Authentication > Attack Protection > *Enable CAPTCHA protection* > Turnstile > tempel *Secret key*. (Urutan ini penting: bila CAPTCHA diaktifkan di Supabase sebelum kode baru tayang, login semua orang akan gagal. Mengisi site key lebih dulu aman karena token diabaikan selama CAPTCHA Supabase mati.)
-   d. Login Google tidak memakai CAPTCHA (Google sendiri yang memeriksa).
 3. **Pengaturan Auth Supabase** (Authentication):
    - *Providers > Email*: **Confirm email = ON** (tanpa ini email palsu langsung aktif), panjang sandi minimal 8, wajib huruf dan angka, aktifkan *Leaked password protection* bila paket Anda mendukung.
    - *Sign In / Providers*: **Allow anonymous sign-ins = OFF**; matikan provider yang tidak dipakai.
@@ -128,14 +127,14 @@ Jalankan `sql/018_hapus_notif_suka.sql` (setelah 005 dan 013; aman diulang). Bil
 
 ## Panel admin & landing page (migrasi 020)
 
-Halaman `admin.html` kini panel lengkap: **Ringkasan** (statistik + grafik 14 hari), **Laporan** (baru/selesai; hapus posting, bekukan penulis), **Pengguna** (cari, bekukan/buka, jadikan admin, hapus akun), **Posting** (cari, sorot, hapus), **Sorotan Jelajah**, **Landing & situs** (teks landing, pengumuman, buka/tutup pendaftaran), **Admin** (tambah/cabut admin), dan **Jejak** (log semua aksi admin).
+Panel admin (kini di `/murthehelp/031411`, lihat bagian terakhir) adalah panel lengkap: **Ringkasan** (statistik + grafik 14 hari), **Laporan** (baru/selesai; hapus posting, bekukan penulis), **Pengguna** (cari, bekukan/buka, jadikan admin, hapus akun), **Posting** (cari, sorot, hapus), **Sorotan Jelajah**, **Landing & situs** (teks landing, pengumuman, buka/tutup pendaftaran), **Admin** (tambah/cabut admin), dan **Jejak** (log semua aksi admin).
 
 1. Jalankan `sql/020_panel_admin.sql` di Supabase SQL Editor (setelah 002-019). Aman diulang. Hasil pemeriksaan di akhir skrip harus **tepat 1 baris: `landing_publik()`**.
 2. Jadikan dirimu admin (sekali saja, bila belum): `insert into admins (user_id) select id from auth.users where email = 'EMAIL-KAMU@contoh.com';`
-3. Buka `/admin.html` (di-`noindex`, hanya terlihat oleh admin). Admin berikutnya bisa ditambah dari tab *Admin*.
+3. Buka `/murthehelp/031411` (di-`noindex`, hanya terbuka untuk admin). Admin berikutnya bisa ditambah dari tab *Akses admin*.
 4. **Landing page** ada di `/landing.html` (teks, pengumuman, angka pengguna/catatan, dan status pendaftaran diambil dari Supabase). Untuk menjadikannya halaman depan domain, lihat catatan di bawah.
 
-Keamanan panel: semua aksi lewat fungsi `admin_*` yang memeriksa `is_admin()` di database; tabel `pengaturan_situs` dan `admin_log` tertutup untuk klien; setiap aksi tercatat di `admin_log`. Satu-satunya fungsi untuk pengunjung tanpa login adalah `landing_publik()` (hanya total pengguna, total catatan, dan teks landing, tanpa data pribadi). **Menjalankan ulang 019 mencabut hak itu**; jalankan ulang 020 setelahnya. Tombol *tutup pendaftaran* ditegakkan oleh trigger di `auth.users` (berlaku juga untuk login Google).
+Keamanan panel: semua aksi lewat fungsi `admin_*` yang memeriksa `is_admin()` di database; tabel `pengaturan_situs` dan `admin_log` tertutup untuk klien; setiap aksi tercatat di `admin_log`. Satu-satunya fungsi untuk pengunjung tanpa login adalah `landing_publik()` (hanya total pengguna, total catatan, dan teks landing, tanpa data pribadi). **Menjalankan ulang 019 mencabut hak itu**; jalankan ulang 020 setelahnya. Tombol *tutup pendaftaran* ditegakkan oleh trigger di `auth.users` (berlaku untuk semua cara pendaftaran).
 
 Menjadikan landing sebagai halaman depan: sekarang `index.html` adalah feed dan mengarahkan pengunjung tanpa login ke `login.html`. Cara termudah: ganti nama `index.html` menjadi `beranda.html`, ganti nama `landing.html` menjadi `index.html`, lalu perbarui tautan beranda di `js/nav.js`, `sw.js`, dan `manifest.json` (`start_url`). Atau biarkan apa adanya dan bagikan tautan `/landing.html`.
 
@@ -146,4 +145,9 @@ Alamat: `https://jurkon.my.id/murthehelp/031411` (file `murthehelp/031411.html`,
 - **Prasyarat database:** `sql/020_panel_admin.sql` sudah dijalankan, dan akunmu ada di tabel `admins` (lihat `sql/002_privasi_keamanan.sql`, `insert into admins (user_id) values ('<uuid>')`).
 - **Akses:** login email + sandi langsung di halaman; bila akun punya TOTP (2 langkah) kodenya diminta; akun non-admin melihat "Akses ditolak". Layar terkunci otomatis setelah 15 menit tidak aktif (ubah `MENIT_KUNCI` di `js/admin.js`).
 - **Penting:** semua aksi dijaga `is_admin()` di server (fungsi `admin_*`). Login/kunci di layar hanyalah lapisan tambahan. Halaman ber-`noindex` dan tidak dicantumkan di `robots.txt`/sitemap agar alamatnya tidak terbuka.
-- Login Google: masuk dulu lewat `/login.html`, lalu buka alamat di atas.
+
+## Login: perilaku kolom sandi
+Bila masuk gagal (sandi salah), kolom kata sandi dikosongkan dan kursor kembali ke sana, jadi pengguna wajib mengetik ulang; email tetap terisi (`js/auth.js`). Hal yang sama berlaku di halaman admin dan layar kunci admin. Batas percobaan gagal (kunci sementara setelah 5 kali) tetap berlaku.
+
+## Catatan versi cache
+Setiap perubahan JS/CSS/HTML yang ditampilkan ke pengguna perlu menaikkan `CACHE` di `sw.js` (sekarang `jurkon-v37`) agar HP tidak memakai berkas lama.
