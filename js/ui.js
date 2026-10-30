@@ -445,7 +445,11 @@ function htmlUlang(p, saya) {
       const b = e.target.closest('button[data-aksi]'); if (!b) return;
       const aksi = b.dataset.aksi;
       if (aksi === 'batal') return tutup();
-      if (aksi === 'kutip') { location.href = 'post.html?kutip=' + encodeURIComponent(id); return; }
+      if (aksi === 'kutip') {
+        if (window.Tulis) { tutup(); window.Tulis.buka({ kutip: id }); }
+        else location.href = 'post.html?kutip=' + encodeURIComponent(id);
+        return;
+      }
       b.disabled = true;
       const { data, error } = await db.rpc('toggle_ulang', { p_id: id, p_perangkat: deteksiPerangkat() });
       tutup();

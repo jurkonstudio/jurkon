@@ -34,6 +34,7 @@ const I18N_KAMUS = {
 
   // ---- Umum ----
   'umum.tutup': ['Tutup', 'Close', 'Tutup', 'Tutup', 'Tutup', '关闭', '閉じる'],
+'tulis.terkirim': ['Terkirim', 'Sent', 'Dihantar', 'Wis kekirim', 'Geus kakirim', '已发送', '送信しました'],
   'umum.memuat': ['Memuat…', 'Loading…', 'Memuatkan…', 'Lagi dimuat…', 'Keur dimuat…', '加载中…', '読み込み中…'],
   'umum.cobaLagi': ['Coba lagi', 'Try again', 'Cuba lagi', 'Coba maneh', 'Cobian deui', '重试', '再試行'],
   'umum.gagalMuat': ['Gagal memuat', 'Failed to load', 'Gagal memuatkan', 'Gagal dimuat', 'Gagal dimuat', '加载失败', '読み込みに失敗しました'],

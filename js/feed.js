@@ -52,4 +52,9 @@ function pilihFeed(f, fokus) {
     pilihFeed(feedAktif === 'publik' ? 'ikuti' : 'publik', true);
   });
   pilihFeed(bacaFeed());
+  // Catatan baru dari lembar tulis langsung muncul di feed
+  document.addEventListener('jurkon:terkirim', e => {
+    if (e.detail && e.detail.mode === 'balas') return;
+    e.preventDefault(); muat(); window.scrollTo({ top: 0 });
+  });
 })();

@@ -34,5 +34,6 @@ async function muat() {
     if (error) $('#galat').textContent = t('detail.gagal', { pesan: pesanGalat(error) });
     else { $('#galat').textContent = ''; $('#isi').value = ''; $('#isi').dispatchEvent(new Event('input')); muat(); }
   };
+  document.addEventListener('jurkon:terkirim', e => { e.preventDefault(); muat(); });
   muat();
 })();

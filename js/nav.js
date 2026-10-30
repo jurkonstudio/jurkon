@@ -76,6 +76,51 @@
     lebar.addEventListener('change', () => { if (lebar.matches && !sudah) isi(); });
   }
 
+  // Tulis / Balas / Kutip membuka lembar kecil (js/tulis.js), bukan halaman layar penuh.
+  // Tanpa JavaScript atau bila gagal dimuat, tautan tetap membuka post.html seperti biasa.
+  (function () {
+    const lokasi = o => o.balas ? 'detail.html?id=' + encodeURIComponent(o.balas)
+      : o.kutip ? 'post.html?kutip=' + encodeURIComponent(o.kutip) : 'post.html';
+    const butuh = [
+      ['js/filter-data.js', () => typeof periksaKonten === 'function'],
+      ['js/filter.js', () => typeof pasangFilter === 'function'],
+      ['js/mention.js', () => typeof pasangMention === 'function'],
+      ['js/tulis.js', () => !!(window.Tulis && window.Tulis.nyata)]
+    ];
+    let janji = null;
+    const muatSkrip = src => new Promise((ok, gagal) => {
+      const s = document.createElement('script'); s.src = src; s.async = false; s.onload = ok; s.onerror = gagal;
+      document.head.appendChild(s);
+    });
+    function siap() {
+      if (!janji) janji = butuh.reduce((p, [src, ada]) => p.then(() => ada() ? null : muatSkrip(src)), Promise.resolve())
+        .catch(e => { janji = null; throw e; });
+      return janji;
+    }
+    window.Tulis = {
+      buka(o) { siap().then(() => window.Tulis.nyata(o)).catch(() => { location.href = lokasi(o || {}); }); }
+    };
+    // Muat lebih awal saat senggang supaya lembar terbuka seketika
+    (window.requestIdleCallback || (f => setTimeout(f, 2500)))(() => { siap().catch(() => {}); });
+
+    document.addEventListener('click', e => {
+      if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest && e.target.closest('a[href]');
+      if (!a) return;
+      const h = a.getAttribute('href');
+      if (h === 'post.html') { e.preventDefault(); window.Tulis.buka({}); return; }
+      if (/^detail\.html\?id=/.test(h) && a.closest('.post .aksi')) {
+        const kartu = a.closest('.post[data-id]');
+        if (!kartu) return;
+        e.preventDefault();
+        // Di halaman detail, tombol Balas pada posting utama cukup mengarahkan ke kotak balasan yang sudah ada
+        const kotak = document.getElementById('isi');
+        if (kotak && kartu.closest('#utama')) { kotak.scrollIntoView({ block: 'center' }); kotak.focus(); return; }
+        window.Tulis.buka({ balas: kartu.dataset.id, kartu });
+      }
+    });
+  })();
+
   // Ambil lebih dulu halaman tab lain saat browser senggang, supaya perpindahan tab terasa cepat (dilewati bila Hemat Data aktif)
   const hemat = navigator.connection && (navigator.connection.saveData || /(^|-)2g$/.test(navigator.connection.effectiveType || ''));
   if (aktif && !hemat) (window.requestIdleCallback || (f => setTimeout(f, 1500)))(() => {

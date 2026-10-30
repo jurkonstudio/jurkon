@@ -408,3 +408,8 @@ async function bukaDaftarOrang(jenis) {
   };
   gambar();
 }
+
+// Catatan/balasan baru dari lembar tulis: segarkan daftar bila sedang melihat profil sendiri
+document.addEventListener('jurkon:terkirim', () => {
+  if (profil && saya && profil.id === saya.id && typeof tampilTab === 'function') tampilTab();
+});
