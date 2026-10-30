@@ -44,3 +44,7 @@ Beranda punya dua tab. **Publik** menampilkan semua posting utama; **Mengikuti**
 
 - Klien: `index.html` (tab), `js/feed.js` (logika), `css/style.css` (bagian *Tab feed*).
 - Database: jalankan `sql/006_feed_dua_bagian.sql` untuk menambah mode `ikuti` pada `daftar_posting`. Tanpa itu aplikasi tetap jalan, hanya akun yang belum mengikuti siapa pun akan melihat semua posting di tab Mengikuti.
+
+## Mention @username
+
+Saat menulis posting atau balasan, mengetik `@` memunculkan saran akun (akun yang diikuti lebih dulu; ketik huruf untuk mencari username). Ketuk saran untuk menyisipkan. `@username` di dalam posting tampil sebagai tautan ke profil. Tanpa migrasi database. Kode: `js/mention.js`, `isiHtml()` di `js/ui.js`. Catatan: mention belum mengirim notifikasi.

@@ -3,6 +3,7 @@
   if (!saya) return;
   pasangHitung($('#isi'), $('#hitung'), 250);
   pasangFilter($('#isi'));
+  pasangMention($('#isi'), saya);
   $('#kirim').onclick = async () => {
     const content = $('#isi').value.trim();
     if (!content) return;

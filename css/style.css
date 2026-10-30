@@ -292,3 +292,15 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .tab-feed button[aria-selected=true]{color:var(--teks);border-bottom-color:var(--aksen)}
 .tab-feed button:focus-visible{outline:2px solid var(--aksen);outline-offset:-4px;border-radius:6px}
 @media (min-width:768px){.tab-feed{margin-left:-24px;margin-right:-24px}}
+
+/* ===== Saran @username & tautan mention ===== */
+.sebut-wrap{position:relative}
+.sebut-list{position:absolute;left:0;right:0;top:100%;margin-top:4px;z-index:30;list-style:none;padding:4px;background:var(--bg);border:1px solid var(--garis);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.16)}
+.sebut-list li{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;cursor:pointer;min-height:48px}
+.sebut-list li.aktif{background:color-mix(in srgb,var(--aksen) 10%,transparent)}
+.sebut-teks{display:flex;flex-direction:column;min-width:0;line-height:1.25}
+.sebut-teks b{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sebut-teks span{font-size:13px;color:var(--redup)}
+.post .isi{cursor:pointer}
+.post .isi a.sebut{color:var(--link,var(--aksen));font-weight:600}
+.post .isi a.sebut:hover{text-decoration:underline}

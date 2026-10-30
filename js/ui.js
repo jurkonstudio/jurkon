@@ -16,6 +16,12 @@ const IK = {
   hapus: '<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>'
 };
 
+// Isi posting aman (di-escape), @username menjadi tautan ke profil
+function isiHtml(t) {
+  return esc(t).replace(/(^|[^a-z0-9_@])@([a-z0-9_]{3,20})(?![a-z0-9_])/gi,
+    (m, a, u) => `${a}<a class="sebut" href="profil.html?u=${u.toLowerCase()}">@${u}</a>`);
+}
+
 function htmlPost(p, saya) {
   const jml = p.likes?.[0]?.count ?? 0;
   const suka = p.sudah_suka ? 'sudah' : '';
@@ -26,7 +32,7 @@ function htmlPost(p, saya) {
     <div class="badan">
       <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
-      <a href="detail.html?id=${p.id}"><div class="isi">${esc(p.content)}</div></a>
+      <div class="isi">${isiHtml(p.content)}</div>
       <div class="aksi">
         <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="Suka">${IK.suka}<span>${jml}</span></button>
         <a href="detail.html?id=${p.id}" aria-label="Balas">${IK.balas}<span>Balas</span></a>
@@ -69,6 +75,17 @@ document.querySelectorAll('[data-ph]').forEach(el => {
       if (!el.value) { i = (i + 1) % daftar.length; el.placeholder = daftar[i]; }
     }, 3500);
   }
+});
+
+// Mengetuk isi posting membuka detail (tautan @username di dalamnya tetap ke profil)
+document.addEventListener('click', e => {
+  const isi = e.target.closest('.post .isi');
+  if (!isi || e.target.closest('a')) return;
+  if (String(window.getSelection ? getSelection() : '').length) return;   // sedang memilih teks
+  const post = isi.closest('.post');
+  const id = post && post.dataset.id;
+  if (!id || (/detail\.html$/.test(location.pathname) && param('id') === id)) return;
+  location.href = 'detail.html?id=' + id;
 });
 
 // Satu pendengar klik untuk semua tombol posting (menggantikan versi di supabase.js)
