@@ -1,8 +1,8 @@
 // Tema: kertas (bawaan), terang, gelap. Dimuat di <head> agar tidak berkedip.
 (function () {
   var DAFTAR = ['kertas', 'terang', 'gelap'];
-  var WARNA = { kertas: '#f6f0e4', terang: '#ffffff', gelap: '#0b0b0c' };
-  function baca() { try { var t = localStorage.getItem('tema'); return DAFTAR.indexOf(t) >= 0 ? t : 'kertas'; } catch (e) { return 'kertas'; } }
+  var WARNA = { kertas: '#f6f0e4', terang: '#3b5998', gelap: '#242526' };
+  function baca() { try { var t = localStorage.getItem('tema'); return DAFTAR.indexOf(t) >= 0 ? t : 'terang'; } catch (e) { return 'terang'; } }
   function terapkan(t) {
     document.documentElement.setAttribute('data-theme', t);
     var m = document.querySelector('meta[name=theme-color]');
