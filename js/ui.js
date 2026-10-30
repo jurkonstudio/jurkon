@@ -361,7 +361,9 @@ function htmlUlang(p, saya) {
       const id = x.dataset.id;
       if (stat.has(id) && (!x.classList.contains('ulang-kartu') || asli.has((stat.get(id) || {}).kutip_id))) {
         const r = stat.get(id);
-        if (x.classList.contains('ulang-kartu')) isiUlang(x, r); else if (r) hiasKartu(x, r);
+        // Kartu posting ulang yang digambar ulang (mis. dari cache lalu data segar) menunggu pengambilan
+        // posting asli yang masih berjalan, bukan langsung menampilkan "tidak tersedia".
+        if (x.classList.contains('ulang-kartu')) ambilan.then(() => isiUlang(x, stat.get(id))); else if (r) hiasKartu(x, r);
       } else { antri.add(id); ada = true; }
     });
     if (ada && !timer) timer = setTimeout(proses, 120);
