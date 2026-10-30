@@ -71,3 +71,6 @@ textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,
 .merek img{border-radius:6px}
 .logo-login{padding:28px 24px 4px;text-align:center}
 .logo-login img{width:100%;max-width:340px;height:auto;border-radius:14px}
+
+.header-logo{background:#f6f0e4;padding:6px 16px}
+.header-logo img{height:46px;width:auto;display:block}
