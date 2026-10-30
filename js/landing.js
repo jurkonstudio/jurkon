@@ -11,9 +11,9 @@
 
   // Tombol: pengunjung masuk -> ke beranda
   if (sesi) {
-    $('#ctaUtama').textContent = 'Buka beranda'; $('#ctaUtama').href = 'index.html';
-    $('#ctaAkhir').textContent = 'Buka beranda'; $('#ctaAkhir').href = 'index.html';
-    $('#navMasuk').textContent = 'Beranda'; $('#navMasuk').href = 'index.html';
+    $('#ctaUtama').textContent = 'Buka beranda'; $('#ctaUtama').href = '/index.html';
+    $('#ctaAkhir').textContent = 'Buka beranda'; $('#ctaAkhir').href = '/index.html';
+    $('#navMasuk').textContent = 'Beranda'; $('#navMasuk').href = '/index.html';
     $('#penutupJudul').textContent = 'Selamat datang kembali.';
   }
   if (!hasil) return;
