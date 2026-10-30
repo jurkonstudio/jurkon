@@ -108,3 +108,19 @@ function pasangAksiPost(saya, muat) {
     if (data && data.siap) { try { sessionStorage.setItem(kunci, '1'); } catch (e) {} }
   } catch (e) {}
 })();
+
+// Kolom posting tanpa hitungan tertanam (likes(count)) agar tidak bergantung pada pengaturan agregat Supabase
+const PILIH_POSTING = '*, profiles(username,nama)';
+
+// Menandai suka milikku sekaligus mengisi jumlah suka tiap posting (menggantikan versi di supabase.js)
+async function tandaiSuka(posts, saya) {
+  if (!posts.length) return posts;
+  const { data } = await db.from('likes').select('post_id,user_id').in('post_id', posts.map(p => p.id)).limit(5000);
+  const hitung = {}, milik = new Set();
+  (data || []).forEach(l => {
+    hitung[l.post_id] = (hitung[l.post_id] || 0) + 1;
+    if (saya && l.user_id === saya.id) milik.add(l.post_id);
+  });
+  posts.forEach(p => { p.likes = [{ count: hitung[p.id] || 0 }]; p.sudah_suka = milik.has(p.id); });
+  return posts;
+}

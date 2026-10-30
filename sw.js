@@ -1,4 +1,4 @@
-const CACHE = 'jurkon-v4';
+const CACHE = 'jurkon-v5';
 const FILES = ['/', '/index.html', '/css/style.css', '/js/supabase.js', '/js/nav.js'];
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))));
 self.addEventListener('fetch', e => {

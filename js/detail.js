@@ -1,9 +1,9 @@
 let saya = null;
 const id = param('id');
 async function muat() {
-  const { data: p } = await db.from('posts').select(PILIH_POST).eq('id', id).single();
+  const { data: p } = await db.from('posts').select(PILIH_POSTING).eq('id', id).single();
   if (!p) { $('#utama').innerHTML = '<div class="kosong">Posting tidak ditemukan.</div>'; return; }
-  const { data: b } = await db.from('posts').select(PILIH_POST).eq('parent_id', id).order('created_at');
+  const { data: b } = await db.from('posts').select(PILIH_POSTING).eq('parent_id', id).order('created_at');
   const semua = await tandaiSuka([p, ...(b || [])], saya);
   $('#utama').innerHTML = htmlPost(semua[0], saya);
   $('#balasan').innerHTML = semua.slice(1).map(x => htmlPost(x, saya)).join('') || kosong('balas', 'Belum ada balasan', 'Jadilah yang pertama membalas.');

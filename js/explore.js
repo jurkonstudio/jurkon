@@ -19,7 +19,7 @@ async function muat() {
       <div><b>${esc(o.nama || o.username)}</b> <span class="sub">@${esc(o.username)}</span>
       <div class="sub">${esc(o.bio || '')}</div></div></a>`).join('');
   }
-  let q = db.from('posts').select(PILIH_POST).is('parent_id', null).order('created_at', { ascending: false }).limit(30);
+  let q = db.from('posts').select(PILIH_POSTING).is('parent_id', null).order('created_at', { ascending: false }).limit(30);
   if (kata) q = q.ilike('content', pola);
   const { data } = await q;
   await tandaiSuka(data || [], saya);

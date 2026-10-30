@@ -51,7 +51,7 @@ async function muat() {
     };
   }
   if (blk) { $('#daftar').innerHTML = kosong('pena', 'Kamu memblokir akun ini', 'Posting @' + esc(p.username) + ' disembunyikan. Ketuk "Buka blokir" untuk melihatnya lagi.'); return; }
-  const { data: posts } = await db.from('posts').select(PILIH_POST).eq('user_id', p.id).order('created_at', { ascending: false }).limit(50);
+  const { data: posts } = await db.from('posts').select(PILIH_POSTING).eq('user_id', p.id).order('created_at', { ascending: false }).limit(50);
   await tandaiSuka(posts || [], saya);
   $('#daftar').innerHTML = (posts || []).map(x => htmlPost(x, saya)).join('') || (milikSaya ? kosong('pena', 'Belum ada catatan', 'Ceritakan sesuatu hari ini, sependek apa pun.', 'post.html', 'Tulis sekarang') : kosong('pena', 'Belum ada posting', '@' + esc(p.username) + ' belum menulis apa pun.'));
 }
