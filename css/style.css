@@ -400,3 +400,9 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .faq[open] summary::after{content:"\2212"}
 .faq>div{padding:0 0 14px}
 .faq>div p:first-child{margin-top:0}
+
+/* Pengikut / mengikuti yang bisa diketuk */
+.stat>.stat-btn{display:flex;align-items:baseline;gap:6px;background:none;border:0;padding:6px 0;margin:0;font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.stat>.stat-btn:hover span,.stat>.stat-btn:focus-visible span{text-decoration:underline}
+.stat>.stat-btn:focus-visible{outline:2px solid var(--teks);outline-offset:3px;border-radius:4px}
+#lembarOrang .item{display:flex}

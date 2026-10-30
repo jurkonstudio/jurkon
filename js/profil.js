@@ -34,7 +34,7 @@ async function muat() {
       <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}</div>
         <div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div></div></div>
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : (milikSaya ? 'Belum ada bio. Ketuk "Ubah profil" untuk memperkenalkan dirimu.' : 'Belum ada bio.')}</div>
-    <div class="stat"><div><b>${pengikut}</b><span>pengikut</span></div><div><b>${mengikuti}</b><span>mengikuti</span></div></div>
+    <div class="stat"><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="Lihat ${pengikut} pengikut"><b>${pengikut}</b><span>pengikut</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="Lihat ${mengikuti} yang diikuti"><b>${mengikuti}</b><span>mengikuti</span></button></div>
     <div class="tombol">${milikSaya
       ? '<button class="btn utama" id="ubah">Ubah profil</button>'
       : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${ikut ? 'Mengikuti' : 'Ikuti'}</button>
@@ -307,3 +307,74 @@ function ubah() {
   pasangAksiPost(saya, muat);
   muat();
 })();
+
+// ---- Daftar pengikut / mengikuti ------------------------------------------
+const MAKS_ORANG = 500, HALAMAN_ORANG = 30;
+let orangVersi = 0;
+document.addEventListener('click', e => {
+  const b = e.target.closest('.stat-btn');
+  if (b && profil) bukaDaftarOrang(b.dataset.daftar);
+});
+
+async function bukaDaftarOrang(jenis) {
+  const pengikut = jenis === 'pengikut';
+  let d = $('#lembarOrang');
+  if (!d) {
+    d = document.createElement('dialog');
+    d.id = 'lembarOrang'; d.className = 'lembar'; d.setAttribute('aria-labelledby', 'jOrang');
+    d.innerHTML = `<div class="lembar-kepala"><h2 id="jOrang"></h2><button class="ikon-btn" id="oTutup" aria-label="Tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div id="oIsi" aria-live="polite"></div>`;
+    document.body.appendChild(d);
+    d.onclick = e => { if (e.target === d) d.close(); };
+    $('#oTutup').onclick = () => d.close();
+  }
+  $('#jOrang').textContent = (pengikut ? 'Pengikut @' : 'Mengikuti @') + profil.username;
+  const isi = $('#oIsi');
+  isi.innerHTML = '<p class="hitung" style="padding:16px 20px">Memuat…</p>';
+  if (!d.open) d.showModal();
+  const ini = ++orangVersi;
+  const kolomIni = pengikut ? 'following_id' : 'follower_id';
+  const kolomLain = pengikut ? 'follower_id' : 'following_id';
+
+  const { data: rel, error } = await db.from('follows').select(kolomLain).eq(kolomIni, profil.id).limit(MAKS_ORANG);
+  if (ini !== orangVersi) return;
+  if (error) { isi.innerHTML = '<div class="kosong"><p>Gagal memuat: ' + esc(pesanGalat(error)) + '</p></div>'; return; }
+  const ids = (rel || []).map(r => r[kolomLain]);
+  if (!ids.length) {
+    isi.innerHTML = kosong('cari', pengikut ? 'Belum ada pengikut' : 'Belum mengikuti siapa pun',
+      pengikut ? 'Belum ada yang mengikuti akun ini.' : 'Akun ini belum mengikuti siapa pun.');
+    return;
+  }
+  const potong = [];
+  for (let i = 0; i < ids.length; i += 100) potong.push(ids.slice(i, i + 100));
+  const [hasil, blokir] = await Promise.all([
+    Promise.all(potong.map(c => db.from('profiles').select('id,username,nama,foto_url').in('id', c))),
+    db.from('blocks').select('blocked_id').eq('blocker_id', saya.id)
+  ]);
+  if (ini !== orangVersi) return;
+  const galat = hasil.find(h => h.error);
+  if (galat) { isi.innerHTML = '<div class="kosong"><p>Gagal memuat: ' + esc(pesanGalat(galat.error)) + '</p></div>'; return; }
+  const sembunyi = new Set((blokir.data || []).map(b => b.blocked_id));
+  const orang = hasil.flatMap(h => h.data || []).filter(o => !sembunyi.has(o.id))
+    .sort((a, b) => (a.nama || a.username).localeCompare(b.nama || b.username, 'id'));
+  if (!orang.length) {
+    isi.innerHTML = kosong('cari', 'Tidak ada yang ditampilkan', 'Akun yang kamu blokir disembunyikan dari daftar ini.');
+    return;
+  }
+  let tampil = 0;
+  const baris = o => `<a class="item dgn-avatar" href="profil.html?u=${esc(o.username)}">
+    ${avatar(o.nama || o.username, 44, o.foto_url)}
+    <div><b>${esc(o.nama || o.username)}</b>${lencanaResmi(o.username)}${o.id === saya.id ? ' <span class="sub">(kamu)</span>' : ''}
+    <div class="sub">@${esc(o.username)}</div></div></a>`;
+  const gambar = () => {
+    const potongan = orang.slice(tampil, tampil + HALAMAN_ORANG);
+    tampil += potongan.length;
+    const lagi = tampil < orang.length;
+    const catatan = ids.length >= MAKS_ORANG && !lagi ? `<p class="hitung" style="padding:12px 20px">Menampilkan ${MAKS_ORANG} pertama.</p>` : '';
+    const html = potongan.map(baris).join('');
+    if (tampil === potongan.length) isi.innerHTML = '<div id="oDaftar"></div><div id="oLagi"></div>';
+    $('#oDaftar').insertAdjacentHTML('beforeend', html);
+    $('#oLagi').innerHTML = lagi ? '<div style="padding:12px 20px"><button type="button" class="btn garis" id="oLagiBtn">Tampilkan lebih banyak</button></div>' : catatan;
+    if (lagi) $('#oLagiBtn').onclick = gambar;
+  };
+  gambar();
+}
