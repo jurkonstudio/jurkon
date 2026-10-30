@@ -22,18 +22,27 @@ function dariBaris(r) {
     id: r.id, user_id: r.user_id, parent_id: r.parent_id, content: r.content, created_at: r.created_at,
     profiles: { username: r.username, nama: r.nama, foto_url: r.foto || null },
     likes: [{ count: Number(r.jumlah_suka) || 0 }],
-    sudah_suka: !!r.sudah_suka
+    sudah_suka: !!r.sudah_suka,
+    dilihat: r.dilihat == null ? null : Number(r.dilihat),
+    induk_username: r.induk_username || null,
+    suka_pada: r.suka_pada || null
   };
 }
 
-// o: { mode: beranda|ikuti|semua|cari|pengguna|balasan|satu, id, kata, sebelum, limit }
+// Mode profil (migrasi 010). Fungsi SQL lama tidak mengenalnya dan akan membalas dengan feed biasa,
+// jadi hasilnya dicek: bila barisnya tidak punya kolom "dilihat", pakai cara lama.
+const MODE_PROFIL = ['catatan_oleh', 'balasan_oleh', 'disukai_oleh'];
+
+// o: { mode: beranda|ikuti|semua|cari|pengguna|balasan|satu|catatan_oleh|balasan_oleh|disukai_oleh, id, kata, sebelum, limit }
 async function ambilPosting(o, saya) {
   const limit = o.limit || HALAMAN;
   if (!rpcMati()) {
     const { data, error } = await db.rpc('daftar_posting', {
       p_mode: o.mode || 'beranda', p_id: o.id || null, p_kata: o.kata || null, p_limit: limit, p_sebelum: o.sebelum || null
     });
-    if (!error && Array.isArray(data)) return { data: data.map(dariBaris), error: null, limit };
+    const salah = MODE_PROFIL.includes(o.mode) && Array.isArray(data) && data.length && data[0].dilihat === undefined;
+    if (!error && Array.isArray(data) && !salah) return { data: data.map(dariBaris), error: null, limit };
+    if (salah) return ambilPostingLama(o, saya, limit);
     if (error && !adaJaringan(error)) return { data: null, error, limit };
     console.warn('daftar_posting belum tersedia, memakai cara lama:', error && error.message);
     tandaiRpcMati();
@@ -43,11 +52,14 @@ async function ambilPosting(o, saya) {
 
 async function ambilPostingLama(o, saya, limit) {
   const mode = o.mode || 'beranda';
+  if (mode === 'disukai_oleh') return ambilDisukaiLama(o, saya, limit);
   let q = db.from('posts').select(PILIH_POSTING).order('created_at', { ascending: mode === 'balasan' }).limit(limit);
   if (o.sebelum) q = q.lt('created_at', o.sebelum);
   if (mode === 'satu') q = q.eq('id', o.id);
   else if (mode === 'balasan') q = q.eq('parent_id', o.id);
   else if (mode === 'pengguna') q = q.eq('user_id', o.id);
+  else if (mode === 'catatan_oleh') q = q.eq('user_id', o.id).is('parent_id', null);
+  else if (mode === 'balasan_oleh') q = q.eq('user_id', o.id).not('parent_id', 'is', null);
   else {
     q = q.is('parent_id', null);
     if (mode === 'cari') q = q.ilike('content', '%' + String(o.kata || '').replace(/[\\%_]/g, c => '\\' + c) + '%');
@@ -62,6 +74,22 @@ async function ambilPostingLama(o, saya, limit) {
   if (error) return { data: null, error, limit };
   await tandaiSuka(data, saya);
   return { data, error: null, limit };
+}
+
+// Cara lama untuk tab Menyukai: ambil daftar suka dulu, lalu postingnya
+async function ambilDisukaiLama(o, saya, limit) {
+  let ql = db.from('likes').select('post_id,created_at').eq('user_id', o.id).order('created_at', { ascending: false }).limit(limit);
+  if (o.sebelum) ql = ql.lt('created_at', o.sebelum);
+  const { data: l, error: el } = await ql;
+  if (el) return { data: null, error: el, limit };
+  if (!l || !l.length) return { data: [], error: null, limit };
+  const { data: ps, error } = await db.from('posts').select(PILIH_POSTING).in('id', l.map(x => x.post_id));
+  if (error) return { data: null, error, limit };
+  const per = {}; (ps || []).forEach(p => { per[p.id] = p; });
+  // Posting yang tersembunyi (misalnya karena blokir) dilewati, tetapi penanda halaman tetap dari daftar suka
+  const hasil = l.map(x => per[x.post_id] ? Object.assign(per[x.post_id], { suka_pada: x.created_at }) : null).filter(Boolean);
+  await tandaiSuka(hasil, saya);
+  return { data: hasil, error: null, limit: l.length >= limit ? Math.min(limit, hasil.length) : limit, kursorAkhir: l[l.length - 1].created_at };
 }
 
 // Hasil: { data: {id, username, nama, bio, foto, pengikut, mengikuti, saya_ikut, saya_blokir} | null, error }
@@ -93,6 +121,7 @@ async function ambilProfilInfo(username, saya) {
 function daftarBerhalaman(el, ambil, kosongHtml, saya, opsi) {
   const render = (opsi && opsi.render) || (p => htmlPost(p, saya));
   const selItem = (opsi && opsi.item) || '.post';
+  const kursor = (opsi && opsi.kursor) || (x => x.created_at);
   let akhir = null, sibuk = false, batal = false;
   const TOMBOL = '<button class="lagi" type="button">Muat lebih banyak</button>';
   async function muat(ulang) {
@@ -114,7 +143,7 @@ function daftarBerhalaman(el, ambil, kosongHtml, saya, opsi) {
     const lagi = data.length >= (r.limit || HALAMAN) ? TOMBOL : '';
     if (ulang) el.innerHTML = html + lagi;
     else { const b = el.querySelector('.lagi'); if (b) b.remove(); el.insertAdjacentHTML('beforeend', html + lagi); }
-    if (data.length) akhir = data[data.length - 1].created_at;
+    if (data.length) akhir = r.kursorAkhir || kursor(data[data.length - 1]);
   }
   el.addEventListener('click', e => {
     if (e.target.closest('.lagi')) muat(false);
@@ -122,3 +151,40 @@ function daftarBerhalaman(el, ambil, kosongHtml, saya, opsi) {
   });
   return { muat: () => muat(true), hentikan: () => { batal = true; } };
 }
+
+// ---- Views posting ----------------------------------------------------------
+// Posting yang tampil di layar (>= 50%) dicatat sekali per akun lewat catat_tayang (migrasi 010).
+// Bila fungsinya belum ada, pencatatan berhenti diam-diam.
+(function pasangTayang() {
+  if (typeof db === 'undefined' || !('IntersectionObserver' in window)) return;
+  let antri = [], timer = null, mati = false;
+  let sudah = new Set();
+  try { sudah = new Set(JSON.parse(sessionStorage.getItem('tayang') || '[]')); } catch (e) {}
+  const simpan = () => { try { sessionStorage.setItem('tayang', JSON.stringify([...sudah].slice(-500))); } catch (e) {} };
+  async function kirim() {
+    timer = null;
+    if (mati || !antri.length) return;
+    const ids = antri.splice(0, 50);
+    if (antri.length) timer = setTimeout(kirim, 1000);
+    try {
+      const { error } = await db.rpc('catat_tayang', { p_ids: ids });
+      if (error && !/failed to fetch|network|load failed/i.test(error.message || '')) mati = true;
+    } catch (e) {}
+  }
+  const io = new IntersectionObserver(es => {
+    es.forEach(en => {
+      if (!en.isIntersecting) return;
+      const id = en.target.dataset.id;
+      io.unobserve(en.target);
+      if (!id || sudah.has(id)) return;
+      sudah.add(id); simpan(); antri.push(id);
+      if (!timer) timer = setTimeout(kirim, 1500);
+    });
+  }, { threshold: 0.5 });
+  const pantau = r => r.querySelectorAll && r.querySelectorAll('.post[data-id]').forEach(el => io.observe(el));
+  new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => {
+    if (n.nodeType !== 1) return;
+    if (n.matches && n.matches('.post[data-id]')) io.observe(n); else pantau(n);
+  }))).observe(document.body, { childList: true, subtree: true });
+  pantau(document);
+})();

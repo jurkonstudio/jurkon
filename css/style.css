@@ -364,3 +364,16 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .centang{width:1.05em;height:1.05em;margin-left:3px;vertical-align:-0.17em;flex:none}
 .centang circle{fill:#1d9bf0}
 .centang path{fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* Profil: tab Catatan / Balasan / Menyukai, views, dan baris "Membalas" */
+.tab-profil{display:flex;border-bottom:1px dashed var(--garis)}
+.tab-profil[hidden]{display:none}
+.tab-profil button{flex:1;min-height:46px;background:none;border:0;border-bottom:2px solid transparent;color:var(--redup);font:inherit;font-weight:600;cursor:pointer}
+.tab-profil button[hidden]{display:none}
+.tab-profil button[aria-selected=true]{color:var(--teks);border-bottom-color:var(--aksen)}
+.tab-profil button:focus-visible{outline:2px solid var(--aksen);outline-offset:-4px;border-radius:6px}
+.post .aksi .tayang{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 8px;color:var(--redup);font-variant-numeric:tabular-nums}
+.post .induk{display:flex;align-items:center;gap:6px;margin:2px 0 4px;font-size:13.5px;color:var(--redup)}
+.post .induk svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.post .induk a{color:var(--link,var(--aksen));font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post .induk a:hover{text-decoration:underline}

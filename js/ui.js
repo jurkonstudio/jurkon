@@ -34,8 +34,16 @@ const IK = {
   suka: '<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.9 3.8 4.5 7.2 4.5c1.9 0 3.700 1 4.800 2.700 1.100-1.700 2.900-2.700 4.800-2.700 3.400 0 5.600 3.400 4.400 6.700-1.700 4.700-9.200 9.300-9.200 9.300z"/></svg>',
   balas: '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
   lapor: '<svg viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/></svg>',
-  hapus: '<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>'
+  hapus: '<svg viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/></svg>',
+  mata: '<svg viewBox="0 0 24 24"><path d="M2 12s3.600-7 10-7 10 7 10 7-3.600 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>'
 };
+
+// 1.234 -> "1,2 rb", 1.500.000 -> "1,5 jt" (angka kecil apa adanya)
+function ringkas(n) {
+  n = Number(n) || 0;
+  const f = (x, s) => (Math.round(x * 10) / 10).toLocaleString('id-ID') + ' ' + s;
+  return n >= 1e6 ? f(n / 1e6, 'jt') : n >= 1e4 ? f(n / 1e3, 'rb') : n.toLocaleString('id-ID');
+}
 
 // Isi posting aman (di-escape), @username menjadi tautan ke profil
 function isiHtml(t) {
@@ -43,20 +51,26 @@ function isiHtml(t) {
     (m, a, u) => `${a}<a class="sebut" href="profil.html?u=${u.toLowerCase()}">@${u}</a>`);
 }
 
-function htmlPost(p, saya) {
+// opsi: { tanpaInduk: true } menyembunyikan baris "Membalas ..." (dipakai di halaman detail)
+function htmlPost(p, saya, opsi) {
   const jml = p.likes?.[0]?.count ?? 0;
   const suka = p.sudah_suka ? 'sudah' : '';
   const nama = p.profiles.nama || p.profiles.username;
   const milik = saya && saya.id === p.user_id;
+  const induk = p.parent_id && !(opsi && opsi.tanpaInduk)
+    ? `<div class="induk">${IK.balas}<a href="detail.html?id=${p.parent_id}">Membalas ${p.induk_username ? '@' + esc(p.induk_username) : 'sebuah catatan'}</a></div>` : '';
+  const tayang = p.dilihat == null ? ''
+    : `<span class="tayang" title="Dilihat ${p.dilihat} kali" aria-label="Dilihat ${p.dilihat} kali">${IK.mata}<span>${ringkas(p.dilihat)}</span></span>`;
   return `<article class="post" data-id="${p.id}">
     <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="Profil ${esc(nama)}">${avatar(nama, 42, p.profiles.foto_url)}</a>
     <div class="badan">
       <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>${lencanaResmi(p.profiles.username)}
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
-      <div class="isi">${isiHtml(p.content)}</div>
+      ${induk}<div class="isi">${isiHtml(p.content)}</div>
       <div class="aksi">
         <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="Suka">${IK.suka}<span>${jml}</span></button>
         <a href="detail.html?id=${p.id}" aria-label="Balas">${IK.balas}<span>Balas</span></a>
+        ${tayang}
         <span class="sisi">
           <button class="btn-lapor" data-id="${p.id}" aria-label="Laporkan" title="Laporkan">${IK.lapor}</button>
           ${milik ? `<button class="btn-hapus" data-id="${p.id}" aria-label="Hapus" title="Hapus">${IK.hapus}</button>` : ''}
@@ -69,7 +83,8 @@ const IKON = {
   pena: '<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
   cari: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
   pesan: '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
-  balas: '<svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>'
+  balas: '<svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>',
+  suka: '<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.9 3.8 4.5 7.2 4.5c1.9 0 3.700 1 4.800 2.700 1.100-1.700 2.900-2.700 4.800-2.700 3.400 0 5.600 3.400 4.400 6.700-1.700 4.700-9.200 9.300-9.200 9.300z"/></svg>'
 };
 
 function kosong(ikon, judul, teks, href, label) {

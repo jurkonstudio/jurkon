@@ -1,4 +1,6 @@
-let saya = null, profil = null, daf = null;
+let saya = null, profil = null, daf = null, tabAktif = 'catatan', tabTerpasang = false;
+const SUKA_PUBLIK = true;   // false = tab Menyukai hanya terlihat oleh pemilik profil
+const TAB_PROFIL = ['catatan', 'balasan', 'suka'];
 const IKP = {
   titik: '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>',
   gigi: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
@@ -83,11 +85,46 @@ async function muat() {
       if (error) alert('Gagal: ' + error.message); else location.href = 'chat.html?id=' + data;
     };
   }
-  if (blk) { $('#judulCatatan').hidden = true; $('#daftar').innerHTML = kosong('pena', 'Kamu memblokir akun ini', 'Posting @' + esc(p.username) + ' disembunyikan. Ketuk "Buka blokir" di menu ⋯ untuk melihatnya lagi.'); return; }
-  $('#judulCatatan').hidden = false;
-  if (daf) daf.hentikan();
-  daf = daftarBerhalaman($('#daftar'), sebelum => ambilPosting({ mode: 'pengguna', id: p.id, sebelum }, saya),
-    () => milikSaya ? kosong('pena', 'Belum ada catatan', 'Ceritakan sesuatu hari ini, sependek apa pun.', 'post.html', 'Tulis sekarang') : kosong('pena', 'Belum ada posting', '@' + esc(p.username) + ' belum menulis apa pun.'), saya);
+  if (blk) { $('#tabProfil').hidden = true; $('#daftar').innerHTML = kosong('pena', 'Kamu memblokir akun ini', 'Posting @' + esc(p.username) + ' disembunyikan. Ketuk "Buka blokir" di menu ⋯ untuk melihatnya lagi.'); return; }
+  $('#tabProfil').hidden = false;
+  $('#tp-suka').hidden = !(SUKA_PUBLIK || milikSaya);
+  if (tabAktif === 'suka' && $('#tp-suka').hidden) tabAktif = 'catatan';
+  if (!tabTerpasang) {
+    tabTerpasang = true;
+    const t = $('#tabProfil');
+    t.addEventListener('click', e => { const b = e.target.closest('[data-tp]'); if (b && b.dataset.tp !== tabAktif) { tabAktif = b.dataset.tp; tampilTab(); window.scrollTo({ top: Math.min(window.scrollY, $('#atas').offsetHeight) }); } });
+    t.addEventListener('keydown', e => {        // panah kiri/kanan berpindah tab
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      const ada = TAB_PROFIL.filter(k => !$('#tp-' + k).hidden);
+      const n = (ada.indexOf(tabAktif) + (e.key === 'ArrowRight' ? 1 : ada.length - 1)) % ada.length;
+      tabAktif = ada[n]; tampilTab(true);
+    });
+  }
+  tampilTab();
+}
+// Isi daftar sesuai tab: Catatan (posting utama), Balasan (balasan yang ditulisnya), Menyukai (yang ia sukai)
+function tampilTab(fokus) {
+  const p = profil, milikSaya = p.id === saya.id, u = esc(p.username);
+  TAB_PROFIL.forEach(k => {
+    const b = $('#tp-' + k), aktif = k === tabAktif;
+    b.setAttribute('aria-selected', aktif);
+    b.tabIndex = aktif ? 0 : -1;
+    if (aktif) { $('#daftar').setAttribute('aria-labelledby', b.id); if (fokus) b.focus(); }
+  });
+  const kosongTab = {
+    catatan: () => milikSaya ? kosong('pena', 'Belum ada catatan', 'Ceritakan sesuatu hari ini, sependek apa pun.', 'post.html', 'Tulis sekarang') : kosong('pena', 'Belum ada posting', '@' + u + ' belum menulis apa pun.'),
+    balasan: () => milikSaya ? kosong('balas', 'Belum ada balasan', 'Balasanmu pada catatan orang lain akan muncul di sini.', 'explore.html', 'Cari catatan') : kosong('balas', 'Belum ada balasan', '@' + u + ' belum membalas catatan siapa pun.'),
+    suka: () => milikSaya ? kosong('suka', 'Belum ada yang kamu sukai', 'Catatan yang kamu beri suka akan terkumpul di sini.', 'explore.html', 'Jelajahi') : kosong('suka', 'Belum ada yang disukai', '@' + u + ' belum menyukai catatan apa pun.')
+  };
+  const mode = { catatan: 'catatan_oleh', balasan: 'balasan_oleh', suka: 'disukai_oleh' }[tabAktif];
+  if (daf) daf.hentikan();            // batalkan permintaan tab sebelumnya
+  const el = $('#daftar');
+  el.innerHTML = '';                  // buang pendengar lama bersama isinya agar tidak dobel
+  const baru = el.cloneNode(false);
+  el.replaceWith(baru);
+  daf = daftarBerhalaman(baru, sebelum => ambilPosting({ mode, id: p.id, sebelum }, saya), kosongTab[tabAktif], saya,
+    tabAktif === 'suka' ? { kursor: x => x.suka_pada || x.created_at } : null);
   daf.muat();
 }
 // ---- Foto profil & batas ubah bulanan -------------------------------------

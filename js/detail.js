@@ -11,10 +11,10 @@ async function muat() {
     return;
   }
   if (!r1.data.length) { $('#utama').innerHTML = '<div class="kosong">Posting tidak ditemukan.</div>'; $('#balasan').innerHTML = ''; return; }
-  $('#utama').innerHTML = htmlPost(r1.data[0], saya);
+  $('#utama').innerHTML = htmlPost(r1.data[0], saya, { tanpaInduk: !r1.data[0].parent_id });
   $('#balasan').innerHTML = r2.error
     ? '<div class="kosong"><p>Balasan gagal dimuat: ' + esc(pesanGalat(r2.error)) + '</p></div>'
-    : r2.data.map(x => htmlPost(x, saya)).join('') || kosong('balas', 'Belum ada balasan', 'Jadilah yang pertama membalas.');
+    : r2.data.map(x => htmlPost(x, saya, { tanpaInduk: true })).join('') || kosong('balas', 'Belum ada balasan', 'Jadilah yang pertama membalas.');
 }
 (async () => {
   saya = await wajibLogin();

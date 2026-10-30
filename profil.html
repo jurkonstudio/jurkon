@@ -13,8 +13,12 @@
 <title>Profil · Jurkon</title></head><body data-tab="profil">
 <main><div class="header"><h1 id="judul">Profil</h1><span id="keluar"></span></div>
 <div id="atas"><div class="profil-atas skel"><div class="kartu-kepala"><span class="avatar" style="width:88px;height:88px"></span><div style="flex:1"><div class="garis-skel" style="width:60%"></div><div class="garis-skel" style="width:35%"></div></div></div><div class="garis-skel" style="width:90%;margin-top:18px"></div><div class="garis-skel" style="width:70%"></div></div></div>
-<div class="bagian-judul" id="judulCatatan" hidden><h2>Catatan</h2></div>
-<div id="daftar"></div></main>
+<div class="tab-profil" id="tabProfil" role="tablist" aria-label="Isi profil" hidden>
+<button type="button" role="tab" id="tp-catatan" data-tp="catatan" aria-selected="true" aria-controls="daftar">Catatan</button>
+<button type="button" role="tab" id="tp-balasan" data-tp="balasan" aria-selected="false" aria-controls="daftar" tabindex="-1">Balasan</button>
+<button type="button" role="tab" id="tp-suka" data-tp="suka" aria-selected="false" aria-controls="daftar" tabindex="-1">Menyukai</button>
+</div>
+<div id="daftar" role="tabpanel" aria-labelledby="tp-catatan"></div></main>
 <dialog id="lembarPengaturan" class="lembar" aria-labelledby="jPengaturan">
 <div class="lembar-kepala"><h2 id="jPengaturan">Pengaturan</h2><button class="ikon-btn" id="tutupPengaturan" aria-label="Tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
 <div id="tema" class="tema-pilih" hidden></div><div id="akun" class="tema-pilih" hidden></div>
