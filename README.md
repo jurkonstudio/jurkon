@@ -138,3 +138,12 @@ Halaman `admin.html` kini panel lengkap: **Ringkasan** (statistik + grafik 14 ha
 Keamanan panel: semua aksi lewat fungsi `admin_*` yang memeriksa `is_admin()` di database; tabel `pengaturan_situs` dan `admin_log` tertutup untuk klien; setiap aksi tercatat di `admin_log`. Satu-satunya fungsi untuk pengunjung tanpa login adalah `landing_publik()` (hanya total pengguna, total catatan, dan teks landing, tanpa data pribadi). **Menjalankan ulang 019 mencabut hak itu**; jalankan ulang 020 setelahnya. Tombol *tutup pendaftaran* ditegakkan oleh trigger di `auth.users` (berlaku juga untuk login Google).
 
 Menjadikan landing sebagai halaman depan: sekarang `index.html` adalah feed dan mengarahkan pengunjung tanpa login ke `login.html`. Cara termudah: ganti nama `index.html` menjadi `beranda.html`, ganti nama `landing.html` menjadi `index.html`, lalu perbarui tautan beranda di `js/nav.js`, `sw.js`, dan `manifest.json` (`start_url`). Atau biarkan apa adanya dan bagikan tautan `/landing.html`.
+
+## Pusat Kendali admin (`/murthehelp/031411`)
+
+Alamat: `https://jurkon.my.id/murthehelp/031411` (file `murthehelp/031411.html`, gaya `css/admin.css`, logika `js/admin.js`). Halaman lama `/031411/` hanya mengalihkan ke sini.
+
+- **Prasyarat database:** `sql/020_panel_admin.sql` sudah dijalankan, dan akunmu ada di tabel `admins` (lihat `sql/002_privasi_keamanan.sql`, `insert into admins (user_id) values ('<uuid>')`).
+- **Akses:** login email + sandi langsung di halaman; bila akun punya TOTP (2 langkah) kodenya diminta; akun non-admin melihat "Akses ditolak". Layar terkunci otomatis setelah 15 menit tidak aktif (ubah `MENIT_KUNCI` di `js/admin.js`).
+- **Penting:** semua aksi dijaga `is_admin()` di server (fungsi `admin_*`). Login/kunci di layar hanyalah lapisan tambahan. Halaman ber-`noindex` dan tidak dicantumkan di `robots.txt`/sitemap agar alamatnya tidak terbuka.
+- Login Google: masuk dulu lewat `/login.html`, lalu buka alamat di atas.
