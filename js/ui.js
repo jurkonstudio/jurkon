@@ -309,11 +309,50 @@ function htmlUlang(p, saya) {
   async function isiUlang(el, r) {
     const wadah = el.querySelector('.ulang-asli');
     if (!wadah || wadah.dataset.siap) return;
+    const kid = r && r.kutip_id;
     wadah.dataset.siap = '1';
-    const p = r && r.kutip_id ? asli.get(r.kutip_id) : null;
+    if (kid && !asli.has(kid)) {   // pengambilan gagal: tawarkan coba lagi
+      wadah.innerHTML = `<div class="kutipan hilang">${esc(t('umum.gagalMuat'))} <button type="button" class="tautan-btn ulang-coba">${esc(t('umum.cobaLagi'))}</button></div>`;
+      return;
+    }
+    const p = kid ? asli.get(kid) : null;
     if (p && p.content !== undefined) wadah.innerHTML = htmlPost(p, await pengguna());
     else wadah.innerHTML = htmlKutipan(null);
   }
+
+  // Ambil posting asli. Bila gagal (jaringan/server), jangan dicatat sebagai "tidak tersedia": kartu menawarkan coba lagi.
+  async function ambilAsli(ids) {
+    const dapat = new Map(), gagal = new Set();
+    try {
+      const { data, error } = await db.from('posts').select(PILIH()).in('id', ids);
+      if (error) throw error;
+      (data || []).forEach(p => dapat.set(p.id, p));
+    } catch (e) {
+      // Cadangan: tanpa gabungan profil, satu per satu
+      for (const id of ids) {
+        try {
+          const { data: p, error } = await db.from('posts').select('*').eq('id', id).maybeSingle();
+          if (error) { gagal.add(id); continue; }
+          if (!p) continue;
+          const { data: pr } = await db.from('profiles').select('username,nama,foto_url').eq('id', p.user_id).maybeSingle();
+          p.profiles = pr || { username: '', nama: null, foto_url: null };
+          dapat.set(id, p);
+        } catch (e2) { gagal.add(id); }
+      }
+    }
+    if (dapat.size) { try { if (typeof tandaiSuka === 'function') await tandaiSuka([...dapat.values()], await pengguna()); } catch (e) {} }
+    ids.forEach(id => { if (dapat.has(id)) asli.set(id, dapat.get(id)); else if (gagal.has(id)) asli.delete(id); });
+  }
+
+  // Dipakai tab Reposts di profil: baris posting ulang dan aslinya sudah di tangan, tak perlu diambil lagi
+  window.siapkanUlang = function (baris, aslinya) {
+    (aslinya || []).forEach(p => asli.set(p.id, p));
+    (baris || []).forEach(b => {
+      if (!b.kutip_id) return;
+      if (!asli.has(b.kutip_id)) asli.set(b.kutip_id, null);   // sudah dicari: memang tidak tersedia
+      stat.set(b.id, { id: b.id, jenis: 'ulang', kutip_id: b.kutip_id, perangkat: b.perangkat || null, tidak_suka: 0, saya_tidak_suka: false, ulang: 0, saya_ulang: false, kutip: 0 });
+    });
+  };
 
   async function proses() {
     timer = null;
@@ -327,19 +366,19 @@ function htmlUlang(p, saya) {
       bagian.forEach(id => stat.set(id, null));
       (data || []).forEach(r => stat.set(r.id, r));
     }
+    // Kartu posting ulang tanpa baris statistik: baca jenis & kutip_id langsung dari tabel
+    const tanpaStat = semua.filter(id => !stat.get(id) && document.querySelector('.ulang-kartu[data-id="' + sel(id) + '"]'));
+    if (tanpaStat.length) {
+      try {
+        const { data } = await db.from('posts').select('id,jenis,kutip_id').in('id', tanpaStat);
+        (data || []).forEach(r => stat.set(r.id, Object.assign({ perangkat: null, tidak_suka: 0, saya_tidak_suka: false, ulang: 0, saya_ulang: false, kutip: 0 }, r)));
+      } catch (e) {}
+    }
     // Ambil posting asli untuk kutipan dan posting ulang
     const perlu = [...new Set(semua.map(id => stat.get(id)).filter(r => r && r.kutip_id && !asli.has(r.kutip_id)).map(r => r.kutip_id))];
     if (perlu.length) {
       perlu.forEach(id => asli.set(id, null));
-      ambilan = ambilan.then(async () => {
-        try {
-          const { data } = await db.from('posts').select(PILIH()).in('id', perlu);
-          if (data && data.length) {
-            try { if (typeof tandaiSuka === 'function') await tandaiSuka(data, await pengguna()); } catch (e) {}
-            data.forEach(p => asli.set(p.id, p));
-          }
-        } catch (e) {}
-      });
+      ambilan = ambilan.then(() => ambilAsli(perlu));
     }
     // Putaran lain yang berjalan bersamaan ikut menunggu di sini, supaya kartu tidak langsung
     // menampilkan "tidak tersedia" sebelum posting aslinya selesai diambil.
@@ -430,6 +469,12 @@ function htmlUlang(p, saya) {
       const { error } = await db.from('posts').delete().eq('id', b.dataset.id);
       if (error) return galat(error);
       const k = b.closest('.ulang-kartu'); if (k) k.remove();
+    } else if (b.classList.contains('ulang-coba')) {
+      const kartu = b.closest('.ulang-kartu'), w = kartu && kartu.querySelector('.ulang-asli');
+      if (!w) return;
+      w.innerHTML = skeleton(1); delete w.dataset.siap;
+      antri.add(kartu.dataset.id);
+      if (!timer) timer = setTimeout(proses, 0);
     } else if (b.classList.contains('btn-suka')) {
       // Menyukai membatalkan "tidak suka" (dilakukan database); samakan tampilan setelah klik diproses
       setTimeout(() => {
@@ -448,3 +493,5 @@ function htmlUlang(p, saya) {
   }
   if (document.body) mulai(); else document.addEventListener('DOMContentLoaded', mulai);
 })();
+
+if (typeof IKON === 'object' && !IKON.ulang && typeof IK2 === 'object') IKON.ulang = IK2.ulang;

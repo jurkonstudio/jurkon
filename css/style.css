@@ -558,3 +558,14 @@ a,button,summary,label{touch-action:manipulation}
   .ikon-btn:hover{background:var(--ubin);box-shadow:inset 0 0 0 1px var(--ubin-garis),var(--bayang-1)}
 }
 @media (prefers-reduced-motion:reduce){.nav svg,.nav a,.ikon-btn,.tema-opsi button,.panel section,.panel li a{transition:none}.fab:active,.nav a:active,.nav a:active svg,.ikon-btn:active,.btn:active{transform:none}}
+<<<<<<< HEAD
+=======
+
+/* ===== Tab profil: 4 tab (Catatan, Balasan, Reposts, Menyukai) muat di layar HP ===== */
+.tab-profil button{min-width:0;padding:0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:420px){.tab-profil button{font-size:14px}}
+.ulang-kepala{background:color-mix(in srgb,var(--aksen) 4%,transparent)}
+.ulang-kepala svg{color:#1f8f5f}
+:root[data-theme=gelap] .ulang-kepala svg{color:#5fd3a0}
+.ulang-asli .kutipan.hilang .tautan-btn{margin-left:6px}
+>>>>>>> 1617679 (tab Reposts, perbaikan repost, bug bahasa notifikasi)

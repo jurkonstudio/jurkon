@@ -49,7 +49,7 @@
   function terapkan(akar) {
     akar = akar || document;
     var ambil = function (attr, fn) {
-      akar.querySelectorAll('[' + attr + ']').forEach(function (el) { fn(el, el.getAttribute(attr)); });
+      akar.querySelectorAll('[' + attr + ']').forEach(function (el) { var k = el.getAttribute(attr); if (KAMUS[k]) fn(el, k); });   // kunci tak dikenal: pertahankan teks bawaan HTML
     };
     ambil('data-i', function (el, k) { el.textContent = t(k); });
     ambil('data-i-html', function (el, k) { el.innerHTML = t(k); });

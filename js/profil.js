@@ -1,6 +1,6 @@
 let saya = null, profil = null, daf = null, tabAktif = 'catatan', tabTerpasang = false;
 const SUKA_PUBLIK = true;   // false = tab Menyukai hanya terlihat oleh pemilik profil
-const TAB_PROFIL = ['catatan', 'balasan', 'suka'];
+const TAB_PROFIL = ['catatan', 'balasan', 'ulang', 'suka'];
 const IKP = {
   titik: '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>',
   gigi: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
@@ -114,6 +114,23 @@ async function muat() {
   }
   tampilTab();
 }
+// Catatan tidak lagi memuat posting ulang (pindah ke tab Reposts). Fungsi daftar masih mengirim semuanya,
+// jadi disaring di sini; halaman berikutnya tetap mulai dari baris terakhir yang diambil.
+async function ambilTabProfil(mode, id, sebelum) {
+  const r = await ambilPosting({ mode, id, sebelum }, saya);
+  if (mode !== 'catatan_oleh' || r.error) return r;
+  let semua = r.data || [], akhir = semua.length ? semua[semua.length - 1].created_at : null;
+  let penuh = semua.length >= (r.limit || HALAMAN), sisa = semua.filter(x => x.content || x.parent_id);
+  for (let i = 0; i < 4 && !sisa.length && penuh && akhir; i++) {
+    const h = await ambilPosting({ mode, id, sebelum: akhir }, saya);
+    if (h.error) return h;
+    semua = h.data || [];
+    penuh = semua.length >= (h.limit || HALAMAN);
+    if (semua.length) akhir = semua[semua.length - 1].created_at;
+    sisa = semua.filter(x => x.content || x.parent_id);
+  }
+  return { data: sisa, error: null, limit: penuh ? Math.max(1, Math.min(HALAMAN, sisa.length)) : sisa.length + 1, kursorAkhir: akhir };
+}
 // Isi daftar sesuai tab: Catatan (posting utama), Balasan (balasan yang ditulisnya), Menyukai (yang ia sukai)
 function tampilTab(fokus) {
   const p = profil, milikSaya = p.id === saya.id, u = esc(p.username);
@@ -126,15 +143,16 @@ function tampilTab(fokus) {
   const kosongTab = {
     catatan: () => milikSaya ? kosong('pena', t('pf.k.catatanJ'), t('pf.k.catatanT'), 'post.html', t('umum.tulisSekarang')) : kosong('pena', t('pf.k.postJ'), t('pf.k.postT', { u })),
     balasan: () => milikSaya ? kosong('balas', t('detail.noBalasanJ'), t('pf.k.balasanT'), 'explore.html', t('umum.cariCatatan')) : kosong('balas', t('detail.noBalasanJ'), t('pf.k.balasanOrangT', { u })),
+    ulang: () => milikSaya ? kosong('ulang', t('pf.k.ulangJ'), t('pf.k.ulangT'), 'explore.html', t('umum.jelajahi')) : kosong('ulang', t('pf.k.ulangJ'), t('pf.k.ulangOrangT', { u })),
     suka: () => milikSaya ? kosong('suka', t('pf.k.sukaJ'), t('pf.k.sukaT'), 'explore.html', t('umum.jelajahi')) : kosong('suka', t('pf.k.sukaOrangJ'), t('pf.k.sukaOrangT', { u }))
   };
-  const mode = { catatan: 'catatan_oleh', balasan: 'balasan_oleh', suka: 'disukai_oleh' }[tabAktif];
+  const mode = { catatan: 'catatan_oleh', balasan: 'balasan_oleh', ulang: 'ulang_oleh', suka: 'disukai_oleh' }[tabAktif];
   if (daf) daf.hentikan();            // batalkan permintaan tab sebelumnya
   const el = $('#daftar');
   el.innerHTML = '';                  // buang pendengar lama bersama isinya agar tidak dobel
   const baru = el.cloneNode(false);
   el.replaceWith(baru);
-  daf = daftarBerhalaman(baru, sebelum => ambilPosting({ mode, id: p.id, sebelum }, saya), kosongTab[tabAktif], saya,
+  daf = daftarBerhalaman(baru, sebelum => ambilTabProfil(mode, p.id, sebelum), kosongTab[tabAktif], saya,
     tabAktif === 'suka' ? { kursor: x => x.suka_pada || x.created_at } : null);
   daf.muat();
 }

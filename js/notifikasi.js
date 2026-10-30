@@ -33,7 +33,7 @@
   const kosongTab = k => k === 'mengikuti'
     ? kosong('pena', t('notif.kosongIkutiJ'), t('notif.kosongIkutiT'), 'explore.html', t('umum.cariOrang'))
     : kosong('pesan', t('notif.kosongJ'), t('notif.kosongT'), 'explore.html', t('umum.cariOrang'));
-  const jumlahTab = k => k === 'mengikuti' ? Notif.mengikuti : Notif.total;
+  const jumlahTab = k => Number(k === 'mengikuti' ? Notif.mengikuti : Notif.total) || 0;
 
   function perbaruiTombol() {
     tombolSemua.hidden = !(jumlahTab(kelompok) > 0);

@@ -36,6 +36,7 @@ const MODE_PROFIL = ['catatan_oleh', 'balasan_oleh', 'disukai_oleh'];
 // o: { mode: beranda|ikuti|semua|cari|pengguna|balasan|satu|catatan_oleh|balasan_oleh|disukai_oleh, id, kata, sebelum, limit }
 async function ambilPosting(o, saya) {
   const limit = o.limit || HALAMAN;
+  if (o.mode === 'ulang_oleh') return ambilUlangOleh(o, saya, limit);
   if (!rpcMati()) {
     const { data, error } = await db.rpc('daftar_posting', {
       p_mode: o.mode || 'beranda', p_id: o.id || null, p_kata: o.kata || null, p_limit: limit, p_sebelum: o.sebelum || null
@@ -48,6 +49,25 @@ async function ambilPosting(o, saya) {
     tandaiRpcMati();
   }
   return ambilPostingLama(o, saya, limit);
+}
+
+// Tab Reposts di profil: posting ulang milik satu pengguna + posting aslinya, diambil langsung dari tabel
+async function ambilUlangOleh(o, saya, limit) {
+  let q = db.from('posts').select(PILIH_POSTING).eq('user_id', o.id).eq('jenis', 'ulang').order('created_at', { ascending: false }).limit(limit);
+  if (o.sebelum) q = q.lt('created_at', o.sebelum);
+  const { data, error } = await q;
+  if (error) return { data: null, error, limit };
+  const baris = data || [];
+  const ids = [...new Set(baris.map(r => r.kutip_id).filter(Boolean))];
+  let aslinya = [];
+  if (ids.length) {
+    const { data: a, error: ea } = await db.from('posts').select(PILIH_POSTING).in('id', ids);
+    if (ea) return { data: null, error: ea, limit };
+    aslinya = a || [];
+    try { await tandaiSuka(aslinya, saya); } catch (e) {}
+  }
+  if (typeof siapkanUlang === 'function') siapkanUlang(baris, aslinya);
+  return { data: baris, error: null, limit };
 }
 
 async function ambilPostingLama(o, saya, limit) {
