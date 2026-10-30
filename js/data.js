@@ -188,3 +188,33 @@ function daftarBerhalaman(el, ambil, kosongHtml, saya, opsi) {
   }))).observe(document.body, { childList: true, subtree: true });
   pantau(document);
 })();
+
+// Posting yang sedang ramai (migrasi 011). Cadangan bila fungsi SQL belum ada: urut dari jumlah suka.
+// Hasil: { data: [posting], error, jam } -- jam = rentang yang dipakai. Bila sepi dalam 3 hari, rentang dilebarkan jadi 7 hari.
+const BATAS_RAMAI = 10;
+function ramaiMati() { try { return Date.now() - (+sessionStorage.getItem('ramaiMati') || 0) < 120000; } catch (e) { return false; } }
+async function ambilRamaiJam(saya, jam) {
+  if (!ramaiMati()) {
+    const { data, error } = await db.rpc('posting_ramai', { p_limit: BATAS_RAMAI, p_jam: jam });
+    if (!error && Array.isArray(data)) return { data: data.map(dariBaris), error: null };
+    if (error && !adaJaringan(error)) return { data: null, error };
+    console.warn('posting_ramai belum tersedia, memakai cara cadangan:', error && error.message);
+    try { sessionStorage.setItem('ramaiMati', String(Date.now())); } catch (e) {}
+  }
+  const batas = new Date(Date.now() - jam * 3600e3).toISOString();
+  const { data, error } = await db.from('posts').select(PILIH_POSTING).is('parent_id', null)
+    .gt('created_at', batas).order('created_at', { ascending: false }).limit(100);
+  if (error) return { data: null, error };
+  await tandaiSuka(data, saya);
+  const skor = p => (p.likes[0].count) / Math.pow((Date.now() - new Date(p.created_at)) / 3600e3 + 2, 1.4);
+  const urut = data.filter(p => p.likes[0].count > 0).sort((a, b) => skor(b) - skor(a)).slice(0, BATAS_RAMAI);
+  return { data: urut, error: null };
+}
+async function ambilRamai(saya) {
+  let r = await ambilRamaiJam(saya, 72);
+  if (!r.error && r.data.length < 3) {
+    const lebar = await ambilRamaiJam(saya, 168);
+    if (!lebar.error && lebar.data.length > r.data.length) r = lebar;
+  }
+  return r;
+}

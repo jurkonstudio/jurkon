@@ -406,3 +406,7 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .stat>.stat-btn:hover span,.stat>.stat-btn:focus-visible span{text-decoration:underline}
 .stat>.stat-btn:focus-visible{outline:2px solid var(--teks);outline-offset:3px;border-radius:4px}
 #lembarOrang .item{display:flex}
+
+/* Jelajah: bagian "Lagi ramai" */
+.ramai-judul p{margin-top:2px}
+#ramai{border-bottom:1px dashed var(--garis);padding-bottom:4px}

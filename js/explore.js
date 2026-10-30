@@ -1,4 +1,22 @@
-let saya = null, t, versi = 0, daf = null;
+let saya = null, t, versi = 0, daf = null, versiRamai = 0;
+// Bagian "Lagi ramai" di paling atas: hanya tampil saat tidak sedang mencari
+function pastikanRamai() {
+  let el = $('#ramai');
+  if (!el) { el = document.createElement('div'); el.id = 'ramai'; $('#daftar').parentNode.insertBefore(el, $('#daftar')); }
+  return el;
+}
+async function muatRamai(tampil) {
+  const el = pastikanRamai();
+  const ini = ++versiRamai;
+  if (!tampil) { el.innerHTML = ''; return 0; }
+  if (!el.querySelector('.post')) el.innerHTML = '<div class="bagian-judul"><h2>Lagi ramai</h2></div>' + skeleton(2);
+  const { data, error } = await ambilRamai(saya);
+  if (ini !== versiRamai) return 0;
+  if (error || !data.length) { el.innerHTML = ''; return 0; }
+  el.innerHTML = '<div class="bagian-judul ramai-judul"><h2>Lagi ramai</h2><p class="hitung">Paling banyak disukai dan dibalas belakangan ini</p></div>'
+    + data.map(p => htmlPost(p, saya)).join('');
+  return data.length;
+}
 async function muat() {
   const kata = $('#cari').value.trim().replace(/^@/, '').slice(0, 50);
   const ini = ++versi;
@@ -7,6 +25,12 @@ async function muat() {
   let elOrang = $('#orang');
   if (!elOrang) { elOrang = document.createElement('div'); elOrang.id = 'orang'; el.parentNode.insertBefore(elOrang, el); }
   let jmlOrang = 0;
+  // "Lagi ramai" di paling atas (tidak saat mencari); judul "Terbaru" hanya bila bagian ramai berisi
+  pastikanRamai();   // dibuat sebelum judul "Terbaru" agar urutan di layar benar: orang, ramai, terbaru, daftar
+  let judulBaru = $('#judulTerbaru');
+  if (!judulBaru) { judulBaru = document.createElement('div'); judulBaru.id = 'judulTerbaru'; judulBaru.className = 'bagian-judul'; judulBaru.hidden = true; judulBaru.innerHTML = '<h2>Terbaru</h2>'; el.parentNode.insertBefore(judulBaru, el); }
+  judulBaru.hidden = true;
+  muatRamai(!kata).then(n => { if (ini === versi) judulBaru.hidden = !n; });
   if (kata) {
     const pola = '%' + kata.replace(/[\\%_]/g, c => '\\' + c) + '%';   // escape karakter khusus LIKE
     const [r1, r2] = await Promise.all([
