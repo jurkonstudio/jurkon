@@ -5,6 +5,8 @@ const HALAMAN = 20;
 
 function pesanGalat(e) {
   const m = (e && e.message) || '';
+  const dilarang = typeof pesanKontenDilarang === 'function' && pesanKontenDilarang(e);
+  if (dilarang) return dilarang;
   if (/failed to fetch|networkerror|load failed|network request/i.test(m)) return 'Tidak ada koneksi. Periksa sinyal lalu coba lagi.';
   if (/jwt expired|invalid jwt/i.test(m)) return 'Sesi habis. Silakan masuk lagi.';
   return m || 'Terjadi kesalahan. Coba lagi.';

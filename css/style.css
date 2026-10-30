@@ -241,3 +241,9 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
   .panel li a{display:flex;align-items:center;min-height:40px;padding:0 8px;border-radius:8px;font-size:14.5px}
   .panel li a:hover{background:color-mix(in srgb,var(--garis) 45%,transparent)}
 }
+
+/* Saran ramah dari filter konten (js/filter.js) */
+.saran{font-size:14px;line-height:1.45;padding:8px 12px;border-radius:8px;border:1px solid var(--garis);background:var(--latar);color:var(--teks)}
+.saran[hidden]{display:none}
+.saran.peringatan{border-color:#c98a12;background:rgba(201,138,18,.12)}
+.saran.blokir{border-color:var(--bahaya);background:rgba(180,35,24,.10);color:var(--bahaya)}

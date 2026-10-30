@@ -26,6 +26,7 @@
     const username = $('#username').value.trim().toLowerCase();
     if (!POLA.test(username)) { galat.textContent = 'Username harus 3-20 karakter: huruf kecil, angka, atau garis bawah.'; return; }
     if (!$('#setuju').checked) { galat.textContent = 'Centang persetujuan aturan dan kebijakan privasi dulu.'; return; }
+    if (!bolehKirim($('#nama').value + ' \n ' + username, m => galat.textContent = m)) return;
     $('#simpan').disabled = true;
     const { error } = await db.from('profiles')
       .update({ username, nama: $('#nama').value.trim().slice(0, 40) || null, siap: true }).eq('id', saya.id);
@@ -33,7 +34,7 @@
       $('#simpan').disabled = false;
       galat.textContent = error.code === '23505' ? 'Username sudah dipakai. Coba yang lain.'
         : error.code === '23514' ? 'Username harus 3-20 karakter: huruf kecil, angka, atau garis bawah.'
-        : error.message;
+        : (pesanKontenDilarang(error) || error.message);
       return;
     }
     try { sessionStorage.setItem('siap:' + saya.id, '1'); } catch (e) {}

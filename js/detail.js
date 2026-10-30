@@ -20,10 +20,13 @@ async function muat() {
   saya = await wajibLogin();
   if (!saya) return;
   pasangHitung($('#isi'), $('#hitung'), 250);
+  pasangFilter($('#isi'));
   pasangAksiPost(saya, muat);
   $('#kirim').onclick = async () => {
     const content = $('#isi').value.trim();
     if (!content) return;
+    $('#galat').textContent = '';
+    if (!bolehKirim(content, m => $('#galat').textContent = m)) return;
     $('#kirim').disabled = true;
     const { error } = await db.from('posts').insert({ user_id: saya.id, parent_id: id, content });
     $('#kirim').disabled = false;

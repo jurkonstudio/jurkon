@@ -9,6 +9,7 @@
   $('#lawan').textContent = namaLawan;
   $('#teks').placeholder = 'Tulis pesan untuk ' + namaLawan + '...';
   pasangHitung($('#teks'), $('#hitung'), 750);
+  pasangFilter($('#teks'));
 
   const sudah = new Set();
   const tampil = m => {
@@ -37,6 +38,7 @@
     const tombol = $('#kirim'), kotak = $('#teks');
     const content = kotak.value.trim();
     if (!content || tombol.disabled) return;
+    if (!bolehKirim(content, m => alert(m))) return;
     tombol.disabled = true;
     // Pesan sendiri langsung tampil dari hasil insert, tidak bergantung pada realtime
     const { data, error } = await db.from('messages')
@@ -52,6 +54,8 @@
   };
   function pesanGalatChat(e) {
     const m = (e && e.message) || '';
+    const dilarang = pesanKontenDilarang(e);
+    if (dilarang) return dilarang;
     if (/failed to fetch|networkerror|load failed|network request/i.test(m)) return 'Tidak ada koneksi. Periksa sinyal lalu coba lagi.';
     return m || 'Terjadi kesalahan. Coba lagi.';
   }

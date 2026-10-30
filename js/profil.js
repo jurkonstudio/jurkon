@@ -73,6 +73,8 @@ function ubah() {
     const username = $('#uUser').value.trim().toLowerCase();
     const galat = $('#uGalat'); galat.textContent = '';
     if (!/^[a-z0-9_]{3,20}$/.test(username)) { galat.textContent = 'Username harus 3-20 karakter: huruf kecil, angka, atau garis bawah.'; return; }
+    const gabung = [$('#uNama').value, $('#uBio').value, username].join(' \n ');
+    if (!bolehKirim(gabung, m => galat.textContent = m)) return;
     $('#uSimpan').disabled = true;
     const { error } = await db.from('profiles').update({
       nama: $('#uNama').value.trim().slice(0, 40) || null,
