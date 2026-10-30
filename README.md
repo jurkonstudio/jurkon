@@ -58,3 +58,14 @@ Di **Profil > Ubah profil**, pemilik akun bisa mengunggah, mengganti, atau mengh
 - **Penyimpanan**: bucket publik `avatar` (maks 512 KB per file, JPG/PNG/WebP). Pengguna hanya boleh mengunggah ke foldernya sendiri, maksimal 6 file tersimpan; foto lama dihapus otomatis setelah ganti. `foto_url` hanya boleh menunjuk ke folder milik sendiri.
 - **Urutan pasang**: jalankan `008` di Supabase DULU, baru unggah kode ke GitHub. Tanpa 008, kueri yang meminta kolom `foto_url` akan gagal.
 - Catatan: foto tidak dimoderasi otomatis. Laporan akun tetap lewat alur laporan yang ada, dan admin bisa mengosongkan `foto_url` lewat SQL Editor (tidak dibatasi jatah).
+
+## Dislike, kutip, posting ulang, dan penanda perangkat
+- **Database:** jalankan `sql/013_perangkat_dislike_kutip.sql` (setelah 002–012; aman diulang). Isinya: kolom `perangkat`, `jenis`, `kutip_id` di `posts`, tabel `dislikes`, fungsi `toggle_tidak_suka`, `toggle_ulang`, `statistik_posting`, dan pembatas posting yang mengenal kutip/ulang.
+- **Dislike:** jumlahnya tampil di tiap kartu; siapa yang dislike tidak terlihat orang lain. Menyukai posting otomatis membatalkan dislike, dan sebaliknya.
+- **Posting ulang:** ketuk ikon panah ganda → Posting ulang. Muncul di profil dan feed pengikut sebagai kartu "X memposting ulang". Posting ulang tidak memakai kuota menulis harian.
+- **Kutip:** ketuk ikon panah ganda → Kutip, tulis komentar; posting asli tampil sebagai kotak kutipan. Bila aslinya dihapus, kutipan tampil "tidak tersedia".
+- **Perangkat:** tiap posting baru menyimpan iOS/Android/Web (dari browser), tampil kecil di bawah posting.
+- Tanpa migrasi 013, aplikasi tetap berjalan; fitur-fitur di atas hanya belum muncul.
+- Catatan: `007_anti_spam.sql` sudah diperbaiki (sintaks `CASE` di dalam `IF` ditolak Postgres); jalankan ulang file itu bila sebelumnya gagal.
+- **Notifikasi kutip/posting ulang:** jalankan `sql/014_notifikasi_kutip_ulang.sql`. "Tidak suka" sengaja tidak mengirim notifikasi (privat).
+- **Jalan pintas:** `sql/jalankan-pembaruan-terbaru.sql` = 007 (diperbaiki) + 013 + 014 dalam satu file; tempel di Supabase SQL Editor lalu Run.

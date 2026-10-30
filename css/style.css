@@ -432,3 +432,33 @@ a,button,summary,label{touch-action:manipulation}
 .hapus-label{display:block;font-size:14px;margin:12px 0 6px}
 .tautan-btn{background:none;border:0;padding:0;color:var(--link);text-decoration:underline;font:inherit;font-size:14px;cursor:pointer;min-height:36px}
 .hapus-dialog .lembar-kepala h2{color:var(--bahaya)}
+
+/* Perangkat, dislike, posting ulang, kutipan */
+.post .perangkat{display:flex;align-items:center;gap:5px;margin:8px 0 0;color:var(--redup);font-size:12px;line-height:1}
+.post .perangkat svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.post .aksi .btn-tidaksuka.sudah{color:var(--link,var(--aksen))}
+.post .aksi .btn-tidaksuka.sudah svg{fill:currentColor}
+.post .aksi .btn-ulang.sudah{color:#1f8f5f}
+:root[data-theme=gelap] .post .aksi .btn-ulang.sudah{color:#5fd3a0}
+.post .aksi .btn-tidaksuka,.post .aksi .btn-ulang{min-width:40px;padding:0 6px}
+@media (max-width:479px){.post .aksi a[href^="detail"] span{display:none}}
+.kutipan{display:block;margin:8px 0 2px;padding:10px 12px;border:1px solid var(--garis);border-radius:12px;color:var(--teks);text-decoration:none;background:color-mix(in srgb,var(--garis) 22%,transparent)}
+.kutipan:hover{background:color-mix(in srgb,var(--garis) 40%,transparent)}
+.kutipan.hilang{color:var(--redup);font-size:14px;font-style:italic}
+.kutipan-kepala{display:block;font-size:13.5px;color:var(--redup);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kutipan-kepala b{color:var(--teks)}
+.kutipan-isi{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;margin-top:3px;font-size:15px;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+#kutipan:not(:empty){padding:0 0 12px}
+.ulang-kartu{border-bottom:1px solid var(--garis)}
+.ulang-kepala{display:flex;align-items:center;gap:8px;padding:10px 16px 0 16px;color:var(--redup);font-size:13.5px}
+.ulang-kepala svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ulang-kepala a{color:var(--redup);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ulang-kepala .waktu{margin-left:2px}
+.btn-batal-ulang{margin-left:auto;background:none;border:0;color:var(--link,var(--aksen));font:inherit;font-size:13px;cursor:pointer;min-height:32px;padding:0 6px}
+.ulang-asli .post{border-bottom:0}
+.menu-ulang{max-width:560px;padding:8px 12px calc(12px + env(safe-area-inset-bottom))}
+.menu-ulang-isi{display:flex;flex-direction:column;gap:2px}
+.menu-ulang-isi button{display:flex;align-items:center;gap:12px;min-height:52px;padding:0 12px;background:none;border:0;border-radius:12px;color:var(--teks);font:inherit;font-size:16px;font-weight:600;cursor:pointer;text-align:left}
+.menu-ulang-isi button:hover{background:color-mix(in srgb,var(--garis) 40%,transparent)}
+.menu-ulang-isi svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.menu-ulang-isi .batal{justify-content:center;color:var(--redup);font-weight:500}

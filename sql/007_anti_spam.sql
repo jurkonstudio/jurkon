@@ -37,11 +37,11 @@ begin
     raise exception 'Tulisanmu terlihat seperti spam (karakter berulang). Ringkas dulu ya.';
   end if;
   select count(*) into tautan from regexp_matches(teks, '(https?://|www\.)', 'gi');
-  if tautan > case when baru then 1 else 3 end then
+  if tautan > (case when baru then 1 else 3 end) then
     raise exception 'Terlalu banyak tautan dalam satu tulisan.';
   end if;
   select count(*) into sebut from regexp_matches(teks, '@[a-z0-9_]{3,20}', 'gi');
-  if sebut > case when baru then 2 else 5 end then
+  if sebut > (case when baru then 2 else 5 end) then
     raise exception 'Terlalu banyak sebutan @username dalam satu tulisan.';
   end if;
 end $$;
@@ -92,8 +92,8 @@ begin
   select count(*) filter (where created_at > now() - interval '1 minute'), count(*)
     into menit, hari
     from messages where sender_id = new.sender_id and created_at > now() - interval '1 day';
-  if menit >= case when baru then 8 else 15 end then raise exception 'Terlalu cepat. Tunggu sebentar lalu coba lagi.'; end if;
-  if hari >= case when baru then 100 else 300 end then raise exception 'Batas pesan harian tercapai. Coba lagi besok.'; end if;
+  if menit >= (case when baru then 8 else 15 end) then raise exception 'Terlalu cepat. Tunggu sebentar lalu coba lagi.'; end if;
+  if hari >= (case when baru then 100 else 300 end) then raise exception 'Batas pesan harian tercapai. Coba lagi besok.'; end if;
   perform cek_isi_spam(new.content, baru);
   select count(distinct conversation_id) into siaran from messages
     where sender_id = new.sender_id and created_at > now() - interval '1 hour'
@@ -102,7 +102,7 @@ begin
   select count(distinct conversation_id), coalesce(bool_or(conversation_id = new.conversation_id), false)
     into lawan, sudah
     from messages where sender_id = new.sender_id and created_at > now() - interval '1 day';
-  if not sudah and lawan >= case when baru then 5 else 30 end then
+  if not sudah and lawan >= (case when baru then 5 else 30 end) then
     raise exception 'Kamu sudah menghubungi terlalu banyak orang hari ini. Coba lagi besok.';
   end if;
   return new;
@@ -119,8 +119,8 @@ begin
   baru := akun_baru(new.user_id);
   select count(*) filter (where created_at > now() - interval '1 minute'), count(*)
     into menit, hari from likes where user_id = new.user_id and created_at > now() - interval '1 day';
-  if menit >= case when baru then 15 else 40 end then raise exception 'Terlalu cepat. Tunggu sebentar lalu coba lagi.'; end if;
-  if hari >= case when baru then 100 else 500 end then raise exception 'Batas suka harian tercapai. Coba lagi besok.'; end if;
+  if menit >= (case when baru then 15 else 40 end) then raise exception 'Terlalu cepat. Tunggu sebentar lalu coba lagi.'; end if;
+  if hari >= (case when baru then 100 else 500 end) then raise exception 'Batas suka harian tercapai. Coba lagi besok.'; end if;
   return new;
 end $$;
 drop trigger if exists batasi_suka_trg on likes;
@@ -136,9 +136,9 @@ begin
   select count(*) filter (where created_at > now() - interval '1 minute'),
          count(*) filter (where created_at > now() - interval '1 hour'), count(*)
     into menit, jam, hari from follows where follower_id = new.follower_id and created_at > now() - interval '1 day';
-  if menit >= case when baru then 5 else 10 end then raise exception 'Terlalu cepat. Tunggu sebentar lalu coba lagi.'; end if;
-  if jam >= case when baru then 20 else 60 end then raise exception 'Kamu mengikuti terlalu banyak akun dalam satu jam. Coba lagi nanti.'; end if;
-  if hari >= case when baru then 60 else 200 end then raise exception 'Batas ikuti harian tercapai. Coba lagi besok.'; end if;
+  if menit >= (case when baru then 5 else 10 end) then raise exception 'Terlalu cepat. Tunggu sebentar lalu coba lagi.'; end if;
+  if jam >= (case when baru then 20 else 60 end) then raise exception 'Kamu mengikuti terlalu banyak akun dalam satu jam. Coba lagi nanti.'; end if;
+  if hari >= (case when baru then 60 else 200 end) then raise exception 'Batas ikuti harian tercapai. Coba lagi besok.'; end if;
   return new;
 end $$;
 drop trigger if exists batasi_ikuti_trg on follows;
