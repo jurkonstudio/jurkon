@@ -29,7 +29,7 @@ async function muat() {
   $('#judul').textContent = '@' + p.username;
   $('#atas').innerHTML = `<div class="profil-atas">
     <div class="kartu-kepala">${avatar(nama, 88, p.foto)}
-      <div class="profil-nama"><h2>${esc(nama)}</h2><div class="profil-user">@${esc(p.username)}</div>
+      <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}</div>
         <div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div></div></div>
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : (milikSaya ? 'Belum ada bio. Ketuk "Ubah profil" untuk memperkenalkan dirimu.' : 'Belum ada bio.')}</div>
     <div class="stat"><div><b>${pengikut}</b><span>pengikut</span></div><div><b>${mengikuti}</b><span>mengikuti</span></div></div>

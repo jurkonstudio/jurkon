@@ -23,7 +23,7 @@ async function muat() {
       jmlOrang = orang.length;
       elOrang.innerHTML = orang.map(o => `<a class="item dgn-avatar" href="profil.html?u=${esc(o.username)}">
         ${avatar(o.nama || o.username, 44, o.foto_url)}
-        <div><b>${esc(o.nama || o.username)}</b> <span class="sub">@${esc(o.username)}</span>
+        <div><b>${esc(o.nama || o.username)}</b>${lencanaResmi(o.username)} <span class="sub">@${esc(o.username)}</span>
         <div class="sub">${esc(o.bio || '')}</div></div></a>`).join('');
     }
   } else elOrang.innerHTML = '';

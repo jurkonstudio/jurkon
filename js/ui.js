@@ -17,6 +17,13 @@ function avatar(nama, ukuran, foto) {
   const gb = foto ? `<img src="${esc(urlFoto(foto))}" alt="" loading="lazy" decoding="async">` : '';
   return `<span class="avatar" style="width:${u}px;height:${u}px;font-size:${Math.round(u * 0.42)}px;background:hsl(${h} 50% 42%)">${esc(Array.from(n)[0].toUpperCase())}${gb}</span>`;
 }
+// Lencana centang biru untuk akun resmi. Username-nya juga dicadangkan di SQL (migrasi 009).
+const AKUN_RESMI = ['jurkon', 'journalconnection', 'jurnalkoneksi'];
+function lencanaResmi(u) {
+  if (!AKUN_RESMI.includes(String(u || '').toLowerCase())) return '';
+  return '<svg class="centang" viewBox="0 0 24 24" role="img" aria-label="Akun resmi"><title>Akun resmi</title><circle cx="12" cy="12" r="11"/><path d="M7 12.5l3.2 3.2L17 9"/></svg>';
+}
+
 // Foto gagal dimuat -> buang gambarnya, huruf inisial muncul lagi
 document.addEventListener('error', e => {
   const t = e.target;
@@ -44,7 +51,7 @@ function htmlPost(p, saya) {
   return `<article class="post" data-id="${p.id}">
     <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="Profil ${esc(nama)}">${avatar(nama, 42, p.profiles.foto_url)}</a>
     <div class="badan">
-      <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>
+      <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>${lencanaResmi(p.profiles.username)}
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
       <div class="isi">${isiHtml(p.content)}</div>
       <div class="aksi">

@@ -359,3 +359,8 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .lembar .btn:disabled{opacity:.55;cursor:not-allowed}
 #lawan{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0}
 #lawan span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Lencana akun resmi */
+.centang{width:1.05em;height:1.05em;margin-left:3px;vertical-align:-0.17em;flex:none}
+.centang circle{fill:#1d9bf0}
+.centang path{fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
