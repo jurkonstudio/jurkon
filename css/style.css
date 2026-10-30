@@ -88,13 +88,14 @@ textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,
 /* ===== Pemilih tema ===== */
 .tema-pilih{padding:16px;border-bottom:1px solid var(--garis)}
 .tema-pilih h3{font-size:14px;color:var(--redup);font-weight:600;margin-bottom:10px}
-.tema-opsi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tema-opsi{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .tema-opsi button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;background:transparent;color:var(--teks);border:1px solid var(--garis);border-radius:12px;font:inherit;font-size:13px;cursor:pointer}
 .tema-opsi button[aria-pressed=true]{border-color:var(--aksen);outline:2px solid color-mix(in srgb,var(--aksen) 35%,transparent);font-weight:600}
 .tema-opsi i{width:28px;height:28px;border-radius:50%;border:1px solid #8884}
 .tema-opsi i.k{background:linear-gradient(135deg,#fbf9f4 60%,#ae2a22 60%)}
 .tema-opsi i.t{background:linear-gradient(135deg,#fff 60%,#b3261e 60%)}
 .tema-opsi i.g{background:linear-gradient(135deg,#12100f 60%,#ef7a6e 60%)}
+.tema-opsi i.c{background:linear-gradient(135deg,#f4f8ff 45%,#007aff 45%);box-shadow:inset 0 1px 0 #fff}
 
 .centang{display:flex;gap:8px;align-items:flex-start;font-size:14px}
 .centang input{margin-top:4px;flex:none}

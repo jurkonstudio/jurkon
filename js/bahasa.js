@@ -403,6 +403,7 @@ const I18N_KAMUS = {
   'set.kertas': ['Kertas', 'Paper', 'Kertas', 'Kertas', 'Kertas', '纸张', 'ペーパー'],
   'set.terang': ['Terang', 'Light', 'Cerah', 'Padhang', 'Caang', '浅色', 'ライト'],
   'set.gelap': ['Gelap', 'Dark', 'Gelap', 'Peteng', 'Poék', '深色', 'ダーク'],
+  'set.kaca': ['Kaca', 'Glass', 'Kaca', 'Kaca', 'Kaca', '玻璃', 'ガラス'],
   'set.info': ['Informasi', 'Information', 'Maklumat', 'Informasi', 'Émbaran', '信息', '情報'],
   'set.privasi': ['Kebijakan privasi', 'Privacy policy', 'Dasar privasi', 'Kabijakan privasi', 'Kawijakan privasi', '隐私政策', 'プライバシーポリシー'],
   'set.ketentuan': ['Ketentuan layanan', 'Terms of service', 'Terma perkhidmatan', 'Katentuan layanan', 'Katangtuan layanan', '服务条款', '利用規約'],

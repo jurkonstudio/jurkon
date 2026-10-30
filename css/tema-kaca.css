@@ -1,0 +1,210 @@
+/* =====================================================================
+   Tema "Kaca" (data-theme="kaca")
+   Gaya terinspirasi antarmuka iCloud di web + efek "Liquid Glass" Apple:
+   permukaan tembus pandang, blur + saturasi latar, sorot tepi (specular),
+   sudut membulat, font sistem Apple, biru sistem sebagai aksen.
+
+   Berkas ini HANYA dimuat oleh js/tema.js ketika tema Kaca dipilih,
+   jadi tema lain tidak terpengaruh dan tidak menambah ukuran unduhan.
+   Semua aturan diawali  :root[data-theme=kaca]  agar terisolasi.
+   ===================================================================== */
+
+/* ---------- 1. Token warna, font, bayang ---------- */
+:root[data-theme=kaca]{
+  color-scheme:light;
+  --bg:#fbfbfd;                         /* permukaan solid cadangan */
+  --latar:#eef2f9;
+  --teks:#1d1d1f;                       /* label utama Apple */
+  --redup:#6e6e73;                      /* label sekunder */
+  --garis:rgba(60,60,67,.16);           /* pemisah */
+  --aksen:#007aff;                      /* system blue */
+  --link:#0066cc;                       /* biru tautan iCloud */
+  --bahaya:#ff3b30;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;
+  --serif:var(--sans);
+
+  /* bahan kaca */
+  --kaca-isi:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.46));
+  --kaca-isi-tebal:linear-gradient(135deg,rgba(255,255,255,.88),rgba(255,255,255,.70));
+  --kaca-blur:blur(24px) saturate(180%);
+  --kaca-tepi:rgba(255,255,255,.65);
+  --kaca-kilau:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.30),inset 0 0 0 .5px rgba(255,255,255,.35);
+  --kaca-bayang:0 8px 32px rgba(31,48,110,.14),0 1px 3px rgba(31,48,110,.08);
+
+  --bayang-1:0 1px 2px rgba(20,30,70,.08);
+  --bayang-2:0 4px 16px rgba(20,30,70,.10),0 1px 2px rgba(20,30,70,.06);
+  --bayang-3:0 12px 40px rgba(20,30,70,.16),0 2px 6px rgba(20,30,70,.08);
+  --kilau:inset 0 1px 0 rgba(255,255,255,.9);
+  --ubin:rgba(0,122,255,.10);
+  --ubin-garis:rgba(0,122,255,.22);
+  accent-color:#007aff;
+}
+
+/* ---------- 2. Latar (wallpaper pastel ala iOS/iCloud) ---------- */
+:root[data-theme=kaca] body{
+  background:#eef2f9;
+  letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+:root[data-theme=kaca] body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(60% 48% at 12% 8%,#cfe2ff 0%,transparent 70%),
+    radial-gradient(55% 45% at 92% 18%,#e6d9ff 0%,transparent 70%),
+    radial-gradient(60% 50% at 85% 92%,#ffd9e8 0%,transparent 70%),
+    radial-gradient(52% 42% at 8% 88%,#d2f2ec 0%,transparent 70%),
+    #eef2f9;
+}
+:root[data-theme=kaca] main{
+  background:rgba(255,255,255,.55);
+  border-color:var(--kaca-tepi);
+}
+@media (min-width:768px){
+  :root[data-theme=kaca] main{box-shadow:var(--kaca-bayang);border-left:1px solid var(--kaca-tepi);border-right:1px solid var(--kaca-tepi)}
+  :root[data-theme=kaca] body:not([data-tab]) main{border-radius:22px;box-shadow:var(--kaca-bayang),var(--kaca-kilau);border:1px solid var(--kaca-tepi)}
+}
+
+/* ---------- 3. Header: kaca menempel di atas ---------- */
+:root[data-theme=kaca] .header{
+  background:var(--kaca-isi);
+  -webkit-backdrop-filter:var(--kaca-blur);backdrop-filter:var(--kaca-blur);
+  border-bottom:1px solid rgba(60,60,67,.10);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 24px -14px rgba(31,48,110,.28);
+  font-weight:600;
+}
+:root[data-theme=kaca] .tab-feed button{font-weight:600;border-bottom-width:2px}
+:root[data-theme=kaca] .tab-feed button[aria-selected=true]{color:var(--aksen);border-bottom-color:var(--aksen)}
+
+/* ---------- 4. Menu bawah: kapsul kaca melayang (HP) ---------- */
+@media (max-width:767.98px){
+  :root[data-theme=kaca] body{padding-bottom:96px}
+  :root[data-theme=kaca] body[data-tab=beranda] main{padding-bottom:104px}
+  :root[data-theme=kaca] .nav{
+    left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));
+    padding:6px 4px;border:1px solid var(--kaca-tepi);border-radius:30px;
+    background:var(--kaca-isi);
+    -webkit-backdrop-filter:var(--kaca-blur);backdrop-filter:var(--kaca-blur);
+    box-shadow:var(--kaca-kilau),var(--kaca-bayang);
+  }
+  :root[data-theme=kaca] main{min-height:100vh;min-height:100dvh}
+  :root[data-theme=kaca] .nav a{min-height:48px;padding:2px 4px;font-size:11px;letter-spacing:0}
+  :root[data-theme=kaca] .nav svg{padding:4px 12px}
+  :root[data-theme=kaca] .nav a.aktif::after{display:none}
+  :root[data-theme=kaca] .nav a.aktif{color:var(--aksen)}
+  :root[data-theme=kaca] .nav a.aktif svg{
+    background:rgba(0,122,255,.13);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 1px 3px rgba(0,122,255,.18);
+  }
+  :root[data-theme=kaca] .fab{bottom:calc(96px + env(safe-area-inset-bottom))}
+}
+@media (min-width:768px){
+  /* menu samping tablet/desktop tetap seperti aslinya; hanya warna ikon aktif yang disesuaikan */
+  :root[data-theme=kaca] .nav a.aktif{background:rgba(0,122,255,.13);color:var(--aksen)}
+}
+:root[data-theme=kaca] .nav a{transition:color .2s}
+
+/* ---------- 5. Tombol ---------- */
+:root[data-theme=kaca] .btn{font-weight:600;letter-spacing:-.01em}
+:root[data-theme=kaca] .btn:not(.garis):not(.bahaya):not(.x){
+  background:linear-gradient(180deg,#3d9bff 0%,#007aff 100%);
+  color:#fff;border:0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 1px 2px rgba(0,60,160,.30),0 4px 12px -4px rgba(0,122,255,.45);
+}
+:root[data-theme=kaca] .btn.bahaya:not(.garis){
+  background:linear-gradient(180deg,#ff6259 0%,#ff3b30 100%);color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 1px 2px rgba(160,20,10,.30),0 4px 12px -4px rgba(255,59,48,.45);
+}
+:root[data-theme=kaca] .btn:active{filter:brightness(.92)}
+:root[data-theme=kaca] .btn.garis:not(.bahaya){
+  background:var(--kaca-isi);color:var(--link);
+  border:1px solid var(--kaca-tepi);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);
+  box-shadow:var(--kaca-kilau),var(--bayang-1);
+}
+:root[data-theme=kaca] .fab{
+  background:linear-gradient(180deg,#4aa3ff 0%,#007aff 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 8px 22px -6px rgba(0,122,255,.55),0 2px 4px rgba(0,60,160,.25);
+}
+:root[data-theme=kaca] .ikon-btn{
+  background:var(--kaca-isi);border:1px solid var(--kaca-tepi);color:var(--teks);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);
+  box-shadow:var(--kaca-kilau),var(--bayang-1);
+}
+
+/* ---------- 6. Kolom isian (gaya iOS: isian abu transparan) ---------- */
+:root[data-theme=kaca] textarea,
+:root[data-theme=kaca] input[type=text],
+:root[data-theme=kaca] input[type=email],
+:root[data-theme=kaca] input[type=password]{
+  background:rgba(118,118,128,.12);
+  border:1px solid transparent;border-radius:12px;color:var(--teks);
+}
+:root[data-theme=kaca] textarea::placeholder,
+:root[data-theme=kaca] input::placeholder{color:rgba(60,60,67,.45)}
+:root[data-theme=kaca] textarea:focus,
+:root[data-theme=kaca] input:focus{
+  background:rgba(255,255,255,.85);border-color:var(--aksen);
+  outline:3px solid rgba(0,122,255,.25);outline-offset:0;
+}
+
+/* ---------- 7. Postingan & daftar ---------- */
+:root[data-theme=kaca] .post{border-bottom:1px solid rgba(60,60,67,.12)}
+@media (hover:hover){
+  :root[data-theme=kaca] .post:hover{background:rgba(255,255,255,.45)}
+}
+
+/* ---------- 8. Menu pop-up, panel, lembar bawah (kaca tebal) ---------- */
+:root[data-theme=kaca] .menu-isi,
+:root[data-theme=kaca] .sebut-list,
+:root[data-theme=kaca] .panel section{
+  background:var(--kaca-isi-tebal);
+  border:1px solid var(--kaca-tepi);border-radius:16px;
+  -webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);
+  box-shadow:var(--kaca-kilau),var(--bayang-3);
+}
+:root[data-theme=kaca] .menu-isi button:hover,
+:root[data-theme=kaca] .menu-isi button:active{background:rgba(0,122,255,.12)}
+:root[data-theme=kaca] .lembar{
+  background:var(--kaca-isi-tebal);
+  border-radius:28px 28px 0 0;
+  -webkit-backdrop-filter:blur(34px) saturate(180%);backdrop-filter:blur(34px) saturate(180%);
+  box-shadow:var(--kaca-kilau),0 -10px 50px rgba(20,30,70,.20);
+}
+:root[data-theme=kaca] .lembar::backdrop{
+  background:rgba(20,30,70,.22);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+}
+:root[data-theme=kaca] .kirim{
+  background:var(--kaca-isi);
+  -webkit-backdrop-filter:var(--kaca-blur);backdrop-filter:var(--kaca-blur);
+  border-top:1px solid var(--kaca-tepi);
+}
+
+/* ---------- 9. Halaman masuk: logo dalam bingkai kaca ---------- */
+:root[data-theme=kaca] .logo-login img{
+  border-radius:24px;
+  box-shadow:var(--kaca-kilau),0 12px 36px -10px rgba(31,48,110,.35);
+}
+
+/* ---------- 10. Pilihan tema (kartu kaca) ---------- */
+:root[data-theme=kaca] .tema-opsi button{
+  background:var(--kaca-isi);border:1px solid var(--kaca-tepi);border-radius:16px;
+  box-shadow:var(--kaca-kilau),var(--bayang-1);
+}
+:root[data-theme=kaca] .tema-opsi button[aria-pressed=true]{
+  background:rgba(0,122,255,.12);border-color:var(--aksen);
+  outline:2px solid rgba(0,122,255,.28);
+}
+
+/* ---------- 11. Cadangan & aksesibilitas ---------- */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  :root[data-theme=kaca]{--kaca-isi:rgba(250,251,255,.94);--kaca-isi-tebal:rgba(250,251,255,.98)}
+}
+@media (prefers-reduced-transparency:reduce){
+  :root[data-theme=kaca]{--kaca-isi:#f6f8fc;--kaca-isi-tebal:#fbfbfd;--kaca-blur:none}
+  :root[data-theme=kaca] *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+@media (prefers-contrast:more){
+  :root[data-theme=kaca]{--garis:rgba(60,60,67,.45);--kaca-tepi:rgba(60,60,67,.35);--redup:#4a4a4f}
+}
