@@ -104,7 +104,7 @@ function pasangAksiPost(saya, muat) {
         ? await db.from('likes').delete().match({ post_id: id, user_id: saya.id })
         : await db.from('likes').insert({ post_id: id, user_id: saya.id });
       delete b.dataset.sibuk;
-      if (error) { alert('Gagal memperbarui suka. Coba lagi.'); return; }
+      if (error) { alert(/terlalu cepat|batas/i.test(error.message || '') ? error.message : 'Gagal memperbarui suka. Coba lagi.'); return; }
       n.textContent = Math.max(0, +n.textContent + (sudah ? -1 : 1));
       b.classList.toggle('sudah');
     } else if (b.classList.contains('btn-lapor')) {

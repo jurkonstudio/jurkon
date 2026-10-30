@@ -65,8 +65,10 @@ async function muat() {
     };
     $('#ikuti').onclick = async () => {
       $('#ikuti').disabled = true;
-      if (ikut) await db.from('follows').delete().match({ follower_id: saya.id, following_id: p.id });
-      else await db.from('follows').insert({ follower_id: saya.id, following_id: p.id });
+      const { error } = ikut
+        ? await db.from('follows').delete().match({ follower_id: saya.id, following_id: p.id })
+        : await db.from('follows').insert({ follower_id: saya.id, following_id: p.id });
+      if (error) alert(pesanGalat(error));
       muat();
     };
     $('#blokir').onclick = async () => {
