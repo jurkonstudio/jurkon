@@ -88,13 +88,16 @@ async function ambilProfilInfo(username, saya) {
 
 // Daftar posting dengan tombol "Muat lebih banyak".
 // ambil(sebelum) -> { data, error, limit }. kosongHtml: teks HTML atau fungsi penghasilnya.
-function daftarBerhalaman(el, ambil, kosongHtml, saya) {
+// opsi (opsional): { render: baris => html, item: selektor item } untuk daftar selain posting.
+function daftarBerhalaman(el, ambil, kosongHtml, saya, opsi) {
+  const render = (opsi && opsi.render) || (p => htmlPost(p, saya));
+  const selItem = (opsi && opsi.item) || '.post';
   let akhir = null, sibuk = false, batal = false;
   const TOMBOL = '<button class="lagi" type="button">Muat lebih banyak</button>';
   async function muat(ulang) {
     if (sibuk || batal) return;
     sibuk = true;
-    if (ulang) { akhir = null; if (!el.querySelector('.post')) el.innerHTML = skeleton(4); }
+    if (ulang) { akhir = null; if (!el.querySelector(selItem)) el.innerHTML = skeleton(4); }
     else { const b = el.querySelector('.lagi'); if (b) { b.disabled = true; b.textContent = 'Memuat…'; } }
     const r = await ambil(akhir);
     sibuk = false;
@@ -106,7 +109,7 @@ function daftarBerhalaman(el, ambil, kosongHtml, saya) {
     }
     const data = r.data || [];
     if (ulang && !data.length) { el.innerHTML = typeof kosongHtml === 'function' ? kosongHtml() : (kosongHtml || ''); return; }
-    const html = data.map(p => htmlPost(p, saya)).join('');
+    const html = data.map(render).join('');
     const lagi = data.length >= (r.limit || HALAMAN) ? TOMBOL : '';
     if (ulang) el.innerHTML = html + lagi;
     else { const b = el.querySelector('.lagi'); if (b) b.remove(); el.insertAdjacentHTML('beforeend', html + lagi); }

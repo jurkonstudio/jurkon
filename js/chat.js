@@ -32,7 +32,8 @@
 
   db.channel('chat-' + cid).on('postgres_changes',
     { event: 'INSERT', schema: 'public', table: 'messages', filter: 'conversation_id=eq.' + cid },
-    p => tampil(p.new)).subscribe();
+    p => { tampil(p.new); if (p.new.sender_id !== saya.id && window.Notif) Notif.tandaiPercakapan(cid); }).subscribe();
+  if (window.Notif) Notif.tandaiPercakapan(cid);
 
   const kirim = async () => {
     const tombol = $('#kirim'), kotak = $('#teks');
