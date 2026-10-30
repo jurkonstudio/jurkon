@@ -1,6 +1,6 @@
-const CACHE = 'jurkon-v38';
+const CACHE = 'jurkon-v39';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
-const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.png', '/assets/logo-header-gelap.png',
+const STATIS = ['/css/style.css', '/css/tema-kaca.css', '/manifest.json', '/assets/logo-header.png', '/assets/logo-header-gelap.png',
   '/js/bahasa-muat.js', '/js/bahasa/id.js', '/js/bahasa/en.js', '/js/bahasa/ms.js', '/js/bahasa/jv.js', '/js/bahasa/su.js', '/js/bahasa/zh.js', '/js/bahasa/ja.js', '/js/i18n.js', '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/ui.js', '/js/data.js', '/js/filter-data.js', '/js/filter.js', '/js/notif.js', '/js/notifikasi.js', '/js/nav.js', '/js/feed.js', '/js/post.js', '/js/mention.js', '/js/tulis.js',
   '/js/detail.js', '/js/explore.js', '/js/profil.js', '/js/akun.js', '/js/pesan.js', '/js/chat.js',
   '/js/keamanan.js', '/js/kontak.js', '/js/auth.js', '/js/reset.js', '/js/selamat.js', '/js/admin.js', '/css/admin.css', '/css/landing.css', '/js/landing.js', '/landing.html', '/murthehelp/index.html',
