@@ -1,0 +1,100 @@
+/* Panel admin Jurkon. Memakai variabel tema dari style.css (kertas / terang / gelap). */
+.adm-body{padding-bottom:0}
+.adm{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh;min-height:100dvh}
+.adm-side{position:sticky;top:0;align-self:start;height:100vh;height:100dvh;display:flex;flex-direction:column;gap:6px;padding:16px 12px;background:var(--bg);border-right:1px solid var(--garis);overflow-y:auto}
+.adm-brand{display:flex;align-items:baseline;gap:8px;padding:4px 10px 14px;font-family:var(--serif);font-size:22px;font-weight:650}
+.adm-brand small{font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--redup);font-weight:600}
+#menu{display:flex;flex-direction:column;gap:2px}
+#menu a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;color:var(--redup);font-size:15px;font-weight:550}
+#menu a svg{width:19px;height:19px;flex:none;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+#menu a:hover{background:var(--latar);color:var(--teks)}
+#menu a.aktif{background:var(--latar);color:var(--link,var(--aksen))}
+#menu b{margin-left:auto;background:var(--bahaya);color:#fff;border-radius:999px;font-size:11px;line-height:1;padding:4px 7px;font-weight:700}
+.adm-side-bawah{margin-top:auto;display:grid;gap:2px;padding-top:12px;border-top:1px solid var(--garis);font-size:14px}
+.adm-side-bawah a{padding:7px 10px;color:var(--redup);border-radius:8px}
+.adm-side-bawah a:hover{background:var(--latar);color:var(--teks)}
+
+.adm-main{min-width:0;background:var(--latar)}
+.adm-top{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:60px;padding:8px 24px;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--garis)}
+.adm-top h1{font-family:var(--serif);font-size:22px;font-weight:650}
+.adm-isi{max-width:1040px;margin:0 auto;padding:24px}
+
+.kartu{background:var(--bg);border:1px solid var(--garis);border-radius:14px;padding:16px}
+.kartu+.kartu{margin-top:16px}
+.kartu h2{font-family:var(--serif);font-size:18px;font-weight:650;margin-bottom:4px}
+.kartu .ket{color:var(--redup);font-size:14px;margin-bottom:12px}
+.grid-stat{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.stat{display:block;background:var(--bg);border:1px solid var(--garis);border-radius:14px;padding:14px 16px}
+a.stat:hover{border-color:var(--aksen)}
+.stat .angka{font-family:var(--serif);font-size:28px;font-weight:650;line-height:1.15}
+.stat .label{color:var(--redup);font-size:13px;margin-top:2px}
+.stat.waspada .angka{color:var(--bahaya)}
+.seg{display:inline-flex;border:1px solid var(--garis);border-radius:999px;overflow:hidden;margin:0 0 12px}
+.seg button{background:none;border:0;color:var(--redup);font:inherit;font-size:13px;font-weight:600;padding:6px 14px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--aksen);color:#fff}
+.grafik{width:100%;height:auto;display:block}
+.grafik .batang{fill:var(--aksen);opacity:.88}
+.grafik text{fill:var(--redup);font-size:10px;font-family:var(--sans)}
+.grafik .nilai{fill:var(--teks);font-weight:600}
+.grafik line{stroke:var(--garis)}
+
+.bar-alat{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.bar-alat input[type=text],.bar-alat input[type=search]{flex:1;min-width:200px}
+.adm input[type=search],.adm input[type=email],.adm select{width:100%;padding:11px 12px;background:transparent;color:var(--teks);border:1px solid var(--garis);border-radius:8px;font:inherit}
+.adm .btn.kecil{padding:6px 13px;font-size:14px}
+.adm .btn.bahaya{background:var(--bahaya);color:#fff}
+.adm .btn.garis.bahaya{background:transparent;color:var(--bahaya);border:1px solid var(--bahaya)}
+
+.baris-adm{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;background:var(--bg);border:1px solid var(--garis);border-radius:14px}
+.baris-adm+.baris-adm{margin-top:10px}
+.baris-adm .badan{flex:1;min-width:0}
+.baris-adm .atas{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.baris-adm .nama{font-weight:650;word-break:break-word}
+.baris-adm .sub{color:var(--redup);font-size:13px;word-break:break-word}
+.baris-adm .teks{margin-top:6px;white-space:pre-wrap;word-break:break-word}
+.baris-adm .alasan{margin-top:6px;font-size:14px;color:var(--redup)}
+.baris-adm .aksi-adm{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.adm-ava{position:relative;flex:none;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;color:#fff;font-weight:700;overflow:hidden}
+.adm-ava img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lencana{display:inline-block;border-radius:999px;font-size:11px;font-weight:700;padding:2px 8px;border:1px solid var(--garis);color:var(--redup)}
+.lencana.merah{color:var(--bahaya);border-color:var(--bahaya)}
+.lencana.aksen{color:var(--aksen);border-color:var(--aksen)}
+.tabel-log{width:100%;border-collapse:collapse;font-size:14px}
+.tabel-log th,.tabel-log td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--garis);vertical-align:top}
+.tabel-log th{color:var(--redup);font-weight:600;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.gulir-x{overflow-x:auto}
+.form-adm{display:grid;gap:14px}
+.form-adm label{display:grid;gap:6px;font-weight:600;font-size:14px}
+.form-adm label small{font-weight:400;color:var(--redup)}
+.form-adm textarea{min-height:84px;resize:vertical}
+.form-adm .sakelar,.sakelar{display:flex;align-items:flex-start;gap:12px;font-weight:600}
+.sakelar input{width:20px;height:20px;margin-top:2px;accent-color:var(--aksen);flex:none}
+.sakelar small{display:block;font-weight:400;color:var(--redup)}
+.peringatan{border:1px solid var(--bahaya);color:var(--bahaya);border-radius:10px;padding:10px 12px;font-size:14px}
+.pita-info{display:flex;flex-wrap:wrap;gap:10px 18px;color:var(--redup);font-size:13px;margin-bottom:12px}
+.hapus-dlg{margin-top:14px}
+
+.adm-dlg{border:1px solid var(--garis);border-radius:16px;padding:20px;background:var(--bg);color:var(--teks);width:min(440px,calc(100vw - 32px))}
+.adm-dlg::backdrop{background:rgba(0,0,0,.45)}
+.adm-dlg h3{font-family:var(--serif);font-size:19px;margin-bottom:6px}
+.adm-dlg p{color:var(--redup);font-size:14px;margin-bottom:12px;white-space:pre-line}
+.adm-dlg .tombol{display:flex;flex-direction:row-reverse;justify-content:flex-start;gap:8px;margin-top:16px}
+.adm-dlg input[type=text]{width:100%}
+.adm-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:50;max-width:min(520px,calc(100vw - 32px));background:var(--teks);color:var(--bg);border-radius:12px;padding:11px 16px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.adm-toast.galat{background:var(--bahaya);color:#fff}
+
+@media (max-width:860px){
+  .adm{grid-template-columns:1fr}
+  .adm-side{position:sticky;top:0;z-index:6;height:auto;flex-direction:row;align-items:center;gap:8px;padding:8px 10px;border-right:0;border-bottom:1px solid var(--garis);overflow:visible}
+  .adm-brand{padding:0 6px 0 4px;font-size:18px}
+  .adm-brand small{display:none}
+  #menu{flex-direction:row;overflow-x:auto;gap:4px;scrollbar-width:none;flex:1}
+  #menu::-webkit-scrollbar{display:none}
+  #menu a{flex:none;padding:8px 12px;font-size:14px}
+  #menu a svg{display:none}
+  .adm-side-bawah{display:none}
+  .adm-top{top:53px;padding:6px 16px;min-height:52px}
+  .adm-top h1{font-size:19px}
+  .adm-isi{padding:16px}
+  .baris-adm{flex-direction:column}
+}

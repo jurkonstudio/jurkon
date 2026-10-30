@@ -125,3 +125,16 @@ Jalankan `sql/018_hapus_notif_suka.sql` (setelah 005 dan 013; aman diulang). Bil
 
 ## Urutan migrasi terbaru
 `sql/jalankan-pembaruan-terbaru.sql` hanya memuat 007, 013, dan `014_notifikasi_kutip_ulang`. Migrasi berikut dijalankan **terpisah**, berurutan: `014_pesan_saling_ikuti_notif_mengikuti` -> `015_notif_kutip_ulang_mention` -> `016_performa` -> `017_media_pesan` -> `018_hapus_notif_suka`. Jalankan SQL dulu, baru unggah kode JS terbaru.
+
+## Panel admin & landing page (migrasi 020)
+
+Halaman `admin.html` kini panel lengkap: **Ringkasan** (statistik + grafik 14 hari), **Laporan** (baru/selesai; hapus posting, bekukan penulis), **Pengguna** (cari, bekukan/buka, jadikan admin, hapus akun), **Posting** (cari, sorot, hapus), **Sorotan Jelajah**, **Landing & situs** (teks landing, pengumuman, buka/tutup pendaftaran), **Admin** (tambah/cabut admin), dan **Jejak** (log semua aksi admin).
+
+1. Jalankan `sql/020_panel_admin.sql` di Supabase SQL Editor (setelah 002-019). Aman diulang. Hasil pemeriksaan di akhir skrip harus **tepat 1 baris: `landing_publik()`**.
+2. Jadikan dirimu admin (sekali saja, bila belum): `insert into admins (user_id) select id from auth.users where email = 'EMAIL-KAMU@contoh.com';`
+3. Buka `/admin.html` (di-`noindex`, hanya terlihat oleh admin). Admin berikutnya bisa ditambah dari tab *Admin*.
+4. **Landing page** ada di `/landing.html` (teks, pengumuman, angka pengguna/catatan, dan status pendaftaran diambil dari Supabase). Untuk menjadikannya halaman depan domain, lihat catatan di bawah.
+
+Keamanan panel: semua aksi lewat fungsi `admin_*` yang memeriksa `is_admin()` di database; tabel `pengaturan_situs` dan `admin_log` tertutup untuk klien; setiap aksi tercatat di `admin_log`. Satu-satunya fungsi untuk pengunjung tanpa login adalah `landing_publik()` (hanya total pengguna, total catatan, dan teks landing, tanpa data pribadi). **Menjalankan ulang 019 mencabut hak itu**; jalankan ulang 020 setelahnya. Tombol *tutup pendaftaran* ditegakkan oleh trigger di `auth.users` (berlaku juga untuk login Google).
+
+Menjadikan landing sebagai halaman depan: sekarang `index.html` adalah feed dan mengarahkan pengunjung tanpa login ke `login.html`. Cara termudah: ganti nama `index.html` menjadi `beranda.html`, ganti nama `landing.html` menjadi `index.html`, lalu perbarui tautan beranda di `js/nav.js`, `sw.js`, dan `manifest.json` (`start_url`). Atau biarkan apa adanya dan bagikan tautan `/landing.html`.
