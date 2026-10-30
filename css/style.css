@@ -88,7 +88,7 @@ textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,
 /* ===== Pemilih tema ===== */
 .tema-pilih{padding:16px;border-bottom:1px solid var(--garis)}
 .tema-pilih h3{font-size:14px;color:var(--redup);font-weight:600;margin-bottom:10px}
-.tema-opsi{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tema-opsi{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .tema-opsi button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;background:transparent;color:var(--teks);border:1px solid var(--garis);border-radius:12px;font:inherit;font-size:13px;cursor:pointer}
 .tema-opsi button[aria-pressed=true]{border-color:var(--aksen);outline:2px solid color-mix(in srgb,var(--aksen) 35%,transparent);font-weight:600}
 .tema-opsi i{width:28px;height:28px;border-radius:50%;border:1px solid #8884}
@@ -96,6 +96,7 @@ textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,
 .tema-opsi i.t{background:linear-gradient(135deg,#fff 60%,#b3261e 60%)}
 .tema-opsi i.g{background:linear-gradient(135deg,#12100f 60%,#ef7a6e 60%)}
 .tema-opsi i.c{background:linear-gradient(135deg,#f4f8ff 45%,#007aff 45%);box-shadow:inset 0 1px 0 #fff}
+.tema-opsi i.a{background:linear-gradient(135deg,#1c1c1e 50%,#0a84ff 50%)}
 
 .centang{display:flex;gap:8px;align-items:flex-start;font-size:14px}
 .centang input{margin-top:4px;flex:none}
@@ -562,8 +563,6 @@ a,button,summary,label{touch-action:manipulation}
   .ikon-btn:hover{background:var(--ubin);box-shadow:inset 0 0 0 1px var(--ubin-garis),var(--bayang-1)}
 }
 @media (prefers-reduced-motion:reduce){.nav svg,.nav a,.ikon-btn,.tema-opsi button,.panel section,.panel li a{transition:none}.fab:active,.nav a:active,.nav a:active svg,.ikon-btn:active,.btn:active{transform:none}}
-<<<<<<< HEAD
-=======
 
 /* ===== Tab profil: 4 tab (Catatan, Balasan, Reposts, Menyukai) muat di layar HP ===== */
 .tab-profil button{min-width:0;padding:0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -572,7 +571,6 @@ a,button,summary,label{touch-action:manipulation}
 .ulang-kepala svg{color:#1f8f5f}
 :root[data-theme=gelap] .ulang-kepala svg{color:#5fd3a0}
 .ulang-asli .kutipan.hilang .tautan-btn{margin-left:6px}
->>>>>>> 1617679 (tab Reposts, perbaikan repost, bug bahasa notifikasi)
 
 
 /* ===== Lembar tulis: menulis & membalas tanpa layar penuh ===== */

@@ -1,0 +1,129 @@
+/* =====================================================================
+   Tema "Awan" (data-theme="awan")
+   Gaya antarmuka iCloud mode gelap (web / iOS): latar hitam, permukaan abu
+   gelap, pemisah setipis rambut, kontrol segmented, bar atas & bawah blur
+   tipis, biru sistem. Selalu gelap, tidak bergantung pada pengaturan perangkat.
+
+   Dimuat oleh js/tema.js hanya saat tema Awan dipilih. Semua aturan
+   diawali  :root[data-theme=awan]  sehingga tidak memengaruhi tema lain.
+   ===================================================================== */
+
+/* ---------- 1. Token (gelap iCloud) ---------- */
+:root[data-theme=awan]{
+  color-scheme:dark;
+  --bg:#1c1c1e;                         /* permukaan utama */
+  --latar:#000;                         /* latar belakang */
+  --teks:#f5f5f7;
+  --redup:#98989f;
+  --garis:rgba(84,84,88,.55);
+  --aksen:#0a84ff;                      /* system blue (gelap) */
+  --link:#409cff;
+  --bahaya:#ff453a;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;
+  --serif:var(--sans);
+
+  --a-bar:rgba(28,28,30,.72);           /* bar atas/bawah */
+  --a-isian:rgba(118,118,128,.24);      /* isian & segmented */
+  --a-kartu:#2c2c2e;                    /* kartu, menu, lembar */
+  --a-aktif:#636366;                    /* segmen terpilih */
+  --a-bayang:0 8px 30px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.4);
+
+  --bayang-1:0 0 0 rgba(0,0,0,0);
+  --bayang-2:0 1px 3px rgba(0,0,0,.5);
+  --bayang-3:var(--a-bayang);
+  --kilau:inset 0 0 0 0 transparent;
+  --ubin:rgba(10,132,255,.20);
+  --ubin-garis:rgba(10,132,255,.40);
+  accent-color:#0a84ff;
+}
+/* logo versi gelap */
+:root[data-theme=awan] .logo-wrap .logo-terang{display:none}
+:root[data-theme=awan] .logo-wrap .logo-gelap{display:block}
+:root[data-theme=awan] .logo-login .logo-terang{display:none}
+:root[data-theme=awan] .logo-login .logo-gelap{display:inline-block}
+
+/* ---------- 3. Dasar ---------- */
+:root[data-theme=awan] body{background:var(--latar);letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
+:root[data-theme=awan] main{background:var(--bg)}
+@media (min-width:768px){
+  :root[data-theme=awan] main{border-color:var(--garis)}
+  :root[data-theme=awan] body:not([data-tab]) main{border-radius:16px;border:0;box-shadow:var(--a-bayang)}
+}
+
+/* ---------- 4. Bar atas (header) ---------- */
+:root[data-theme=awan] .header{
+  background:var(--a-bar);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:1px solid var(--garis);box-shadow:none;font-weight:600;
+}
+/* tab feed jadi kontrol segmented iOS */
+:root[data-theme=awan] .tab-feed{margin:6px 0 8px;padding:2px;gap:0;background:var(--a-isian);border-radius:9px}
+:root[data-theme=awan] .tab-feed button{min-height:32px;border:0;border-radius:7px;font-size:13px;font-weight:500;color:var(--teks)}
+:root[data-theme=awan] .tab-feed button[aria-selected=true]{background:var(--a-aktif);color:var(--teks);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.35),0 1px 1px rgba(0,0,0,.25)}
+
+/* ---------- 5. Bar bawah (tab bar iOS) ---------- */
+@media (max-width:767.98px){
+  :root[data-theme=awan] .nav{
+    background:var(--a-bar);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+    border-top:1px solid var(--garis);box-shadow:none;
+  }
+  :root[data-theme=awan] main{min-height:100vh;min-height:100dvh}
+  :root[data-theme=awan] .nav a{font-size:10.5px;letter-spacing:0;padding:2px 4px}
+  :root[data-theme=awan] .nav a.aktif::after{display:none}
+  :root[data-theme=awan] .nav a.aktif{color:var(--aksen)}
+  :root[data-theme=awan] .nav svg{padding:2px 12px;background:none;box-shadow:none}
+  :root[data-theme=awan] .nav a.aktif svg{background:none;box-shadow:none}
+}
+@media (min-width:768px){
+  :root[data-theme=awan] .nav a.aktif{background:var(--ubin);color:var(--aksen)}
+}
+
+/* ---------- 6. Tombol ---------- */
+:root[data-theme=awan] .btn{font-weight:600;letter-spacing:-.01em;border-radius:12px}
+:root[data-theme=awan] .btn:not(.garis):not(.bahaya):not(.x){
+  background:var(--aksen);background-image:none;color:#fff;border:0;box-shadow:none;
+}
+:root[data-theme=awan] .btn.bahaya:not(.garis){background:var(--bahaya);background-image:none;color:#fff;box-shadow:none}
+:root[data-theme=awan] .btn.garis:not(.bahaya){background:var(--ubin);color:var(--aksen);border:0;box-shadow:none}
+:root[data-theme=awan] .btn:active{filter:brightness(.9)}
+:root[data-theme=awan] .fab{background:var(--aksen);box-shadow:0 4px 14px rgba(10,132,255,.45)}
+:root[data-theme=awan] .ikon-btn{background:var(--a-isian);border:0;color:var(--teks);box-shadow:none}
+
+/* ---------- 7. Isian ---------- */
+:root[data-theme=awan] textarea,
+:root[data-theme=awan] input[type=text],
+:root[data-theme=awan] input[type=email],
+:root[data-theme=awan] input[type=password]{
+  background:var(--a-isian);border:1px solid transparent;border-radius:10px;color:var(--teks);
+}
+:root[data-theme=awan] textarea:focus,
+:root[data-theme=awan] input:focus{background:var(--bg);border-color:var(--aksen);outline:3px solid color-mix(in srgb,var(--aksen) 28%,transparent);outline-offset:0}
+
+/* ---------- 8. Daftar, kartu, menu ---------- */
+:root[data-theme=awan] .post{border-bottom:1px solid var(--garis)}
+@media (hover:hover){:root[data-theme=awan] .post:hover{background:var(--a-isian)}}
+:root[data-theme=awan] .menu-isi,
+:root[data-theme=awan] .sebut-list,
+:root[data-theme=awan] .panel section{
+  background:var(--a-kartu);border:0;border-radius:14px;box-shadow:var(--a-bayang);
+}
+:root[data-theme=awan] .menu-isi button:hover,
+:root[data-theme=awan] .menu-isi button:active{background:var(--ubin)}
+:root[data-theme=awan] .lembar{background:var(--a-kartu);border-radius:16px 16px 0 0}
+:root[data-theme=awan] .lembar::backdrop{background:rgba(0,0,0,.55)}
+:root[data-theme=awan] .kirim{background:var(--a-bar);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:1px solid var(--garis)}
+
+/* ---------- 9. Login & pilihan tema ---------- */
+:root[data-theme=awan] .logo-login img{border-radius:18px;box-shadow:var(--a-bayang)}
+:root[data-theme=awan] .tema-opsi button{background:var(--a-kartu);border:1px solid var(--garis);border-radius:12px;box-shadow:none}
+:root[data-theme=awan] .tema-opsi button[aria-pressed=true]{background:var(--ubin);border-color:var(--aksen);outline:0;box-shadow:0 0 0 1px var(--aksen)}
+
+/* ---------- 10. Aksesibilitas ---------- */
+@media (prefers-reduced-transparency:reduce){
+  :root[data-theme=awan]{--a-bar:var(--bg)}
+  :root[data-theme=awan] *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+}
+@media (prefers-contrast:more){
+  :root[data-theme=awan]{--garis:rgba(235,235,245,.5);--redup:#c7c7cc}
+}
