@@ -9,8 +9,10 @@
 
   // Pesan terakhir tiap percakapan, supaya daftar urut menurut aktivitas terbaru
   const cids = data.map(c => c.id);
-  const { data: pesan } = await db.from('messages').select('conversation_id,sender_id,content,created_at')
+  const ambilPesan = kolom => db.from('messages').select(kolom)
     .in('conversation_id', cids).order('created_at', { ascending: false }).limit(300);
+  let { data: pesan, error: ep } = await ambilPesan('conversation_id,sender_id,content,created_at,media_jenis,media_path');
+  if (ep) ({ data: pesan } = await ambilPesan('conversation_id,sender_id,content,created_at'));   // migrasi 017 belum dijalankan
   const terakhir = {};
   (pesan || []).forEach(m => { if (!terakhir[m.conversation_id]) terakhir[m.conversation_id] = m; });
   const waktuC = c => new Date((terakhir[c.id] || c).created_at).getTime();
@@ -22,7 +24,7 @@
   el.innerHTML = data.map((c, i) => {
     const o = peta[ids[i]] || {};
     const m = terakhir[c.id];
-    const cuplikan = m ? (m.sender_id === saya.id ? t('pesan.kamu') : '') + m.content : t('pesan.belum');
+    const cuplikan = m ? (m.sender_id === saya.id ? t('pesan.kamu') : '') + (m.media_path ? t(m.media_jenis === 'foto' ? 'pesan.foto' : 'pesan.suara') : m.content) : t('pesan.belum');
     return `<a class="item dgn-avatar" href="chat.html?id=${c.id}">${avatar(o.nama || o.username, 44, o.foto_url)}
       <div style="min-width:0"><b>${esc(o.nama || o.username || t('pesan.pengguna'))}</b>${lencanaResmi(o.username)} <span class="sub">${m ? waktu(m.created_at) : ''}</span>
       <div class="sub" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(cuplikan)}</div></div></a>`;

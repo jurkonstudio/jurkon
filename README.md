@@ -86,3 +86,13 @@ Di **Profil > Ubah profil**, pemilik akun bisa mengunggah, mengganti, atau mengh
 - **Indeks database:** jalankan `sql/016_performa.sql` di Supabase (hanya menambah indeks, aman diulang).
 - **Service worker:** naikkan angka `CACHE` di `sw.js` setiap ada perubahan berkas statis (sekarang `jurkon-v29`).
 - **Chat** kini menyusul pesan yang terlewat saat koneksi realtime putus.
+
+## Foto & pesan suara di chat (hilang setelah 10 menit)
+Di kotak kirim chat ada tombol kamera (foto) dan mikrofon (pesan suara, maks 60 detik). Berkas hanya bisa dibuka **10 menit** sejak dikirim; setelah itu gelembung berubah menjadi "sudah hilang". Foto dan suara hanya bisa dikirim antar akun yang saling mengikuti (aturan yang sama dengan pesan teks).
+
+- **Database:** jalankan `sql/017_media_pesan.sql` (setelah 002, 004, 007, 014; aman diulang) SEBELUM mengunggah kode JS terbaru. Isinya: kolom `media_jenis`/`media_path` di `messages`, bucket privat `media-pesan` (maks 3 MB per berkas), kebijakan storage, dan pembatas media (akun baru 10/jam, lainnya 40/jam; maks 12 unggahan per 10 menit).
+- **Akses 10 menit ditegakkan di database:** kebijakan baca storage hanya meloloskan peserta percakapan selama 10 menit sejak unggah, jadi tidak bisa dibuka lagi lewat API walau berkasnya belum terhapus. Tautan yang dibuat klien juga berlaku paling lama sampai batas itu.
+- **Penghapusan fisik berkas:** ada dua lapis. (1) Cadangan: saat pengirim membuka chat, berkas miliknya yang kedaluwarsa dihapus. (2) Utama: Edge Function `supabase/functions/hapus-media-kedaluwarsa` membuang semua berkas lewat 10 menit. Pasang sekali: Supabase > Edge Functions > deploy folder itu (atau `supabase functions deploy hapus-media-kedaluwarsa`), lalu jadwalkan tiap 5 menit lewat Integrations > Cron (jenis Edge Function) atau pg_cron + pg_net. Kunci service_role disediakan Supabase di dalam fungsi; jangan dimasukkan ke repo.
+- **Foto:** dikecilkan ke maks 1280px dan disimpan ulang sebagai JPEG di perangkat, sehingga data EXIF/lokasi hilang. **Suara:** MP4/AAC bila didukung, selain itu WebM/Opus (Android Chrome lama merekam WebM, yang bisa gagal diputar di iPhone lama).
+- Rekam suara butuh HTTPS dan izin mikrofon (GitHub Pages sudah HTTPS). Tombol media otomatis tersembunyi bila migrasi 017 belum dijalankan atau perangkat tak mendukung rekam suara.
+- Catatan: foto dan suara tidak dimoderasi otomatis (filter kata hanya untuk teks). Blokir tetap berlaku. Pertimbangkan menambah satu kalimat di Kebijakan Privasi bahwa media chat hanya tersimpan 10 menit.

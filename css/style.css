@@ -591,3 +591,19 @@ a,button,summary,label{touch-action:manipulation}
 .toast.hilang{opacity:0}
 @keyframes toast-naik{from{opacity:0;transform:translate(-50%,10px)}}
 @media (prefers-reduced-motion:reduce){.toast{animation:none}.tulis-lembar{transition:none}}
+
+/* Foto & pesan suara di chat (hilang 10 menit) */
+.baris .alat{display:flex;align-items:center;gap:6px;min-width:0}
+.ikon{width:40px;height:40px;flex:none;border-radius:50%;border:1px solid var(--garis);background:transparent;color:var(--teks);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.ikon svg{width:20px;height:20px}
+.ikon:disabled{opacity:.55;cursor:not-allowed}
+.rekam{display:flex;align-items:center;gap:10px;min-height:44px;margin-bottom:8px;font-variant-numeric:tabular-nums}
+.rekam .titik{width:10px;height:10px;border-radius:50%;background:var(--bahaya);animation:kedip 1s infinite}
+.rekam .info{flex:1;min-width:0;font-size:13px;color:var(--redup)}
+@keyframes kedip{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.rekam .titik{animation:none}}
+.bubble.media{white-space:normal;padding:6px}
+.bubble.media img{display:block;max-width:100%;max-height:320px;border-radius:12px}
+.bubble.media audio{display:block;width:230px;max-width:100%}
+.bubble.media .sisa{font-size:12px;opacity:.75;margin:4px 6px 0}
+.bubble.hilang{font-style:italic;opacity:.75;white-space:normal}
