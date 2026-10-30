@@ -88,3 +88,11 @@ textarea:focus,input:focus{outline:2px solid color-mix(in srgb,var(--aksen) 45%,
 .tema-opsi i.k{background:linear-gradient(135deg,#f6f0e4 60%,#b83227 60%)}
 .tema-opsi i.t{background:linear-gradient(135deg,#fff 60%,#2563eb 60%)}
 .tema-opsi i.g{background:linear-gradient(135deg,#0b0b0c 60%,#60a5fa 60%)}
+
+.centang{display:flex;gap:8px;align-items:flex-start;font-size:14px}
+.centang input{margin-top:4px;flex:none}
+label{font-size:14px;color:var(--redup)}
+.centang{color:var(--teks)}
+.akun-aksi{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.akun-aksi a{font-size:14px;text-decoration:underline}
+.profil-atas .tombol{flex-wrap:wrap}

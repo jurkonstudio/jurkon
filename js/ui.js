@@ -60,3 +60,51 @@ document.querySelectorAll('[data-ph]').forEach(el => {
     }, 3500);
   }
 });
+
+// Satu pendengar klik untuk semua tombol posting (menggantikan versi di supabase.js)
+function pasangAksiPost(saya, muat) {
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('button[data-id]');
+    if (!b) return;
+    const id = b.dataset.id;
+    if (!saya) { location.href = 'login.html'; return; }
+    if (b.classList.contains('btn-suka')) {
+      if (b.dataset.sibuk) return;
+      b.dataset.sibuk = '1';
+      const sudah = b.classList.contains('sudah');
+      const n = b.querySelector('span');
+      const { error } = sudah
+        ? await db.from('likes').delete().match({ post_id: id, user_id: saya.id })
+        : await db.from('likes').insert({ post_id: id, user_id: saya.id });
+      delete b.dataset.sibuk;
+      if (error) { alert('Gagal memperbarui suka. Coba lagi.'); return; }
+      n.textContent = Math.max(0, +n.textContent + (sudah ? -1 : 1));
+      b.classList.toggle('sudah');
+    } else if (b.classList.contains('btn-lapor')) {
+      const alasan = prompt('Alasan melaporkan (maks 300 karakter):');
+      if (!alasan || !alasan.trim()) return;
+      const { error } = await db.from('reports').insert({ reporter_id: saya.id, post_id: id, alasan: alasan.trim().slice(0, 300) });
+      if (error) alert(error.code === '23505' ? 'Kamu sudah melaporkan posting ini.' : 'Gagal mengirim laporan: ' + error.message);
+      else alert('Laporan terkirim. Terima kasih.');
+    } else if (b.classList.contains('btn-hapus')) {
+      if (!confirm('Hapus posting ini?')) return;
+      const { error } = await db.from('posts').delete().eq('id', id);
+      if (error) alert('Gagal menghapus: ' + error.message); else muat();
+    }
+  });
+}
+
+// Akun yang belum memilih username diarahkan ke halaman selamat.html
+(async function jagaProfilSiap() {
+  const hal = location.pathname.split('/').pop();
+  if (['login.html', 'selamat.html', 'aturan.html'].includes(hal)) return;
+  try {
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) return;
+    const kunci = 'siap:' + session.user.id;
+    try { if (sessionStorage.getItem(kunci) === '1') return; } catch (e) {}
+    const { data } = await db.from('profiles').select('siap').eq('id', session.user.id).maybeSingle();
+    if (data && data.siap === false) { location.replace('selamat.html'); return; }
+    if (data && data.siap) { try { sessionStorage.setItem(kunci, '1'); } catch (e) {} }
+  } catch (e) {}
+})();
