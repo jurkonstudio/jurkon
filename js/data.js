@@ -26,7 +26,7 @@ function dariBaris(r) {
   };
 }
 
-// o: { mode: beranda|semua|cari|pengguna|balasan|satu, id, kata, sebelum, limit }
+// o: { mode: beranda|ikuti|semua|cari|pengguna|balasan|satu, id, kata, sebelum, limit }
 async function ambilPosting(o, saya) {
   const limit = o.limit || HALAMAN;
   if (!rpcMati()) {
@@ -51,10 +51,11 @@ async function ambilPostingLama(o, saya, limit) {
   else {
     q = q.is('parent_id', null);
     if (mode === 'cari') q = q.ilike('content', '%' + String(o.kata || '').replace(/[\\%_]/g, c => '\\' + c) + '%');
-    else if (mode === 'beranda' && saya) {
+    else if ((mode === 'beranda' || mode === 'ikuti') && saya) {
       const { data: f, error: ef } = await db.from('follows').select('following_id').eq('follower_id', saya.id);
       if (ef) return { data: null, error: ef, limit };
-      if (f && f.length) q = q.in('user_id', [saya.id, ...f.map(x => x.following_id)]);
+      // 'beranda': bila belum mengikuti siapa pun, tampilkan semua. 'ikuti': selalu hanya diri sendiri + yang diikuti.
+      if (mode === 'ikuti' || (f && f.length)) q = q.in('user_id', [saya.id, ...(f || []).map(x => x.following_id)]);
     }
   }
   const { data, error } = await q;

@@ -5,7 +5,7 @@ Stack: HTML/CSS/JS biasa + Supabase. Hosting: GitHub Pages.
 
 ## Langkah pasang
 1. **Supabase**: buat project baru → SQL Editor → tempel isi `sql/schema.sql` → Run.
-1b. Jalankan juga `sql/002_privasi_keamanan.sql`, `sql/003_feed_cepat.sql`, lalu `sql/004_filter_konten.sql` (berurutan). Tanpa 002, tidak ada blokir, batas spam, admin, hapus akun, dan ekspor data.
+1b. Jalankan juga `sql/002_privasi_keamanan.sql`, `sql/003_feed_cepat.sql`, `sql/004_filter_konten.sql`, lalu `sql/006_feed_dua_bagian.sql` (berurutan; `005_notifikasi.sql` opsional, lihat bagian Notifikasi). Tanpa 002, tidak ada blokir, batas spam, admin, hapus akun, dan ekspor data.
 2. Supabase → Project Settings → API → salin *Project URL* dan *anon public key* ke `js/supabase.js`.
 3. Supabase → Authentication → URL Configuration: isi Site URL dengan `https://jurkon.my.id`.
    Tambahkan juga `https://jurkon.my.id/reset.html` dan `https://jurkon.my.id/index.html` di *Redirect URLs* (wajib agar "Lupa kata sandi" dan login Google bisa kembali ke aplikasi).
@@ -37,3 +37,10 @@ Panel notifikasi dalam aplikasi: suka, balasan, pengikut baru, dan pesan baru, d
 - **Retensi:** `select bersihkan_notifikasi(60);` menghapus notifikasi lebih dari 60 hari. Petunjuk penjadwalan dengan pg_cron ada di akhir file SQL.
 - **Klien:** `js/notif.js` (jumlah, realtime, penyusun kalimat), `js/notifikasi.js` + `notifikasi.html` (daftar). Tab Notifikasi dan lencana ada di `js/nav.js`; ringkasan 5 terbaru tampil di panel kanan layar lebar.
 - Bila migrasi belum dijalankan, aplikasi tetap berjalan tanpa lencana.
+
+## Feed Beranda: Publik dan Mengikuti
+
+Beranda punya dua tab. **Publik** menampilkan semua posting utama; **Mengikuti** hanya posting sendiri dan akun yang diikuti (kosong bila belum mengikuti siapa pun, dengan ajakan ke Jelajah). Tab terakhir yang dipilih diingat di perangkat (`localStorage: feedAktif`, bawaan Publik).
+
+- Klien: `index.html` (tab), `js/feed.js` (logika), `css/style.css` (bagian *Tab feed*).
+- Database: jalankan `sql/006_feed_dua_bagian.sql` untuk menambah mode `ikuti` pada `daftar_posting`. Tanpa itu aplikasi tetap jalan, hanya akun yang belum mengikuti siapa pun akan melihat semua posting di tab Mengikuti.

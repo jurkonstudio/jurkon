@@ -20,7 +20,11 @@
 <meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <title>Beranda · Jurkon</title></head><body data-tab="beranda">
-<main><div class="header header-logo"><h1 class="sr">Beranda</h1><span class="logo-wrap"><img src="assets/logo-header.jpg" alt="Journal Connection" width="840" height="290"></span></div><div id="daftar"></div></main>
+<main><div class="header header-logo header-tab"><h1 class="sr">Beranda</h1><span class="logo-wrap"><img src="assets/logo-header.jpg" alt="Journal Connection" width="840" height="290"></span>
+<div class="tab-feed" role="tablist" aria-label="Jenis feed">
+<button type="button" role="tab" id="tab-publik" data-feed="publik" aria-selected="true" aria-controls="daftar">Publik</button>
+<button type="button" role="tab" id="tab-ikuti" data-feed="ikuti" aria-selected="false" aria-controls="daftar" tabindex="-1">Mengikuti</button>
+</div></div><div id="daftar" role="tabpanel" aria-labelledby="tab-publik"></div></main>
 <a class="fab" href="post.html" aria-label="Tulis">+</a>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/supabase.js"></script>

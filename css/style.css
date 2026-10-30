@@ -284,3 +284,11 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .panel .lihat-semua{font-size:14px;font-weight:600;color:var(--link,var(--aksen))}
 @media (prefers-reduced-motion:reduce){.lencana{animation:none}}
 .panel .lihat-semua{display:inline-block;margin-top:4px}
+
+/* ===== Tab feed Beranda: Publik | Mengikuti ===== */
+.header-tab{flex-wrap:wrap;align-content:flex-start;padding-bottom:0}
+.tab-feed{display:flex;flex:0 0 100%;margin:4px -16px 0}
+.tab-feed button{flex:1;min-height:44px;background:none;border:0;border-bottom:2px solid transparent;color:var(--redup);font:inherit;font-weight:600;cursor:pointer}
+.tab-feed button[aria-selected=true]{color:var(--teks);border-bottom-color:var(--aksen)}
+.tab-feed button:focus-visible{outline:2px solid var(--aksen);outline-offset:-4px;border-radius:6px}
+@media (min-width:768px){.tab-feed{margin-left:-24px;margin-right:-24px}}
