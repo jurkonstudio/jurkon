@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#3b5998">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<script src="js/tema.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<meta name="robots" content="noindex">
+<title>Atur ulang sandi · Jurkon</title></head><body>
+<main><div class="header"><h1>Atur ulang kata sandi</h1><span></span></div>
+<div class="form">
+  <p id="info">Memeriksa tautan…</p>
+  <input type="password" id="baru" aria-label="Kata sandi baru" placeholder="Kata sandi baru (minimal 6 karakter)" autocomplete="new-password" hidden>
+  <input type="password" id="ulang" aria-label="Ulangi kata sandi baru" placeholder="Ulangi kata sandi baru" autocomplete="new-password" hidden>
+  <div class="galat" id="galat" role="alert"></div>
+  <button class="btn" id="simpan" hidden>Simpan kata sandi</button>
+  <p class="hitung"><a href="login.html" style="text-decoration:underline">← Kembali ke halaman masuk</a></p>
+</div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/reset.js"></script></body></html>

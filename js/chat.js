@@ -4,9 +4,10 @@
   const cid = param('id');
   const { data: c } = await db.from('conversations').select('*').eq('id', cid).maybeSingle();
   if (!c) { $('#isi').innerHTML = '<div class="kosong">Percakapan tidak ditemukan.</div>'; return; }
-  const { data: o } = await db.from('profiles').select('username,nama').eq('id', c.user_a === saya.id ? c.user_b : c.user_a).single();
-  $('#lawan').textContent = o.nama || o.username;
-  $('#teks').placeholder = 'Tulis pesan untuk ' + (o.nama || o.username) + '...';
+  const { data: o } = await db.from('profiles').select('username,nama').eq('id', c.user_a === saya.id ? c.user_b : c.user_a).maybeSingle();
+  const namaLawan = o ? (o.nama || o.username) : 'Pengguna';
+  $('#lawan').textContent = namaLawan;
+  $('#teks').placeholder = 'Tulis pesan untuk ' + namaLawan + '...';
   pasangHitung($('#teks'), $('#hitung'), 750);
 
   const sudah = new Set();
@@ -20,19 +21,40 @@
     $('#isi').appendChild(d);
     window.scrollTo(0, document.body.scrollHeight);
   };
-  const { data: pesan } = await db.from('messages').select('*').eq('conversation_id', cid).order('created_at');
-  (pesan || []).forEach(tampil);
-  if (!pesan || !pesan.length) $('#isi').innerHTML = kosong('pesan', 'Mulai percakapan', 'Sapa ' + esc(o.nama || o.username) + ' dengan pesan pertamamu.');
+
+  // Ambil 200 pesan TERBARU (tanpa batas, Supabase hanya mengembalikan 1000 pesan TERLAMA)
+  const { data: pesan, error: ep } = await db.from('messages').select('*')
+    .eq('conversation_id', cid).order('created_at', { ascending: false }).limit(200);
+  if (ep) { $('#isi').innerHTML = '<div class="kosong">Gagal memuat pesan: ' + esc(ep.message) + '</div>'; return; }
+  (pesan || []).slice().reverse().forEach(tampil);
+  if (!pesan || !pesan.length) $('#isi').innerHTML = kosong('pesan', 'Mulai percakapan', 'Sapa ' + esc(namaLawan) + ' dengan pesan pertamamu.');
 
   db.channel('chat-' + cid).on('postgres_changes',
     { event: 'INSERT', schema: 'public', table: 'messages', filter: 'conversation_id=eq.' + cid },
     p => tampil(p.new)).subscribe();
 
-  $('#kirim').onclick = async () => {
-    const content = $('#teks').value.trim();
-    if (!content) return;
-    $('#teks').value = ''; $('#teks').dispatchEvent(new Event('input'));
-    const { error } = await db.from('messages').insert({ conversation_id: cid, sender_id: saya.id, content });
-    if (error) alert('Gagal mengirim: ' + error.message);
+  const kirim = async () => {
+    const tombol = $('#kirim'), kotak = $('#teks');
+    const content = kotak.value.trim();
+    if (!content || tombol.disabled) return;
+    tombol.disabled = true;
+    // Pesan sendiri langsung tampil dari hasil insert, tidak bergantung pada realtime
+    const { data, error } = await db.from('messages')
+      .insert({ conversation_id: cid, sender_id: saya.id, content }).select().single();
+    tombol.disabled = false;
+    if (error) {
+      // Teks dipertahankan agar tidak hilang saat gagal
+      alert('Gagal mengirim: ' + (error.code === '42501' ? 'Tidak dapat mengirim pesan ke pengguna ini.' : pesanGalatChat(error)));
+      return;
+    }
+    kotak.value = ''; kotak.dispatchEvent(new Event('input'));
+    tampil(data);
   };
+  function pesanGalatChat(e) {
+    const m = (e && e.message) || '';
+    if (/failed to fetch|networkerror|load failed|network request/i.test(m)) return 'Tidak ada koneksi. Periksa sinyal lalu coba lagi.';
+    return m || 'Terjadi kesalahan. Coba lagi.';
+  }
+  $('#kirim').onclick = kirim;
+  $('#teks').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); kirim(); } });
 })();

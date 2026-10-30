@@ -97,7 +97,7 @@ function pasangAksiPost(saya, muat) {
 // Akun yang belum memilih username diarahkan ke halaman selamat.html
 (async function jagaProfilSiap() {
   const hal = location.pathname.split('/').pop();
-  if (['login.html', 'selamat.html', 'aturan.html'].includes(hal)) return;
+  if (['login.html', 'selamat.html', 'aturan.html', 'reset.html'].includes(hal)) return;
   try {
     const { data: { session } } = await db.auth.getSession();
     if (!session) return;

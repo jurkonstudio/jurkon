@@ -50,16 +50,39 @@ async function muat() {
     () => milikSaya ? kosong('pena', 'Belum ada catatan', 'Ceritakan sesuatu hari ini, sependek apa pun.', 'post.html', 'Tulis sekarang') : kosong('pena', 'Belum ada posting', '@' + esc(p.username) + ' belum menulis apa pun.'), saya);
   daf.muat();
 }
-async function ubah() {
-  const nama = prompt('Nama tampilan (maks 40):', profil.nama || '');
-  if (nama === null) return;
-  const bio = prompt('Bio (maks 160):', profil.bio || '');
-  if (bio === null) return;
-  const username = prompt('Username (huruf kecil, angka, _ ; 3-20):', profil.username);
-  if (!username) return;
-  const { error } = await db.from('profiles').update({ nama: nama.slice(0, 40), bio: bio.slice(0, 160), username: username.toLowerCase() }).eq('id', saya.id);
-  if (error) alert(error.code === '23505' ? 'Username sudah dipakai.' : error.code === '23514' ? 'Username harus 3-20 karakter: huruf kecil, angka, atau garis bawah.' : 'Gagal: ' + error.message);
-  else location.href = 'profil.html?u=' + username.toLowerCase();
+function ubah() {
+  const el = $('#atas .tombol');
+  if (!el || $('#formUbah')) return;
+  const f = document.createElement('div');
+  f.id = 'formUbah'; f.className = 'form'; f.style.padding = '12px 0';
+  f.innerHTML = `<label for="uNama">Nama tampilan</label>
+    <input type="text" id="uNama" maxlength="40" autocomplete="off" value="${esc(profil.nama || '')}">
+    <label for="uBio">Bio</label>
+    <textarea id="uBio" style="min-height:70px" aria-label="Bio"></textarea>
+    <div class="baris"><span class="hitung" id="uHitung"></span></div>
+    <label for="uUser">Username</label>
+    <input type="text" id="uUser" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(profil.username)}">
+    <div class="hitung">Huruf kecil, angka, dan garis bawah (_), 3-20 karakter.</div>
+    <div class="galat" id="uGalat" role="alert"></div>
+    <div class="tombol"><button class="btn" id="uSimpan">Simpan</button><button class="btn garis" id="uBatal">Batal</button></div>`;
+  el.after(f);
+  $('#uBio').value = profil.bio || '';
+  pasangHitung($('#uBio'), $('#uHitung'), 160);
+  $('#uBatal').onclick = () => f.remove();
+  $('#uSimpan').onclick = async () => {
+    const username = $('#uUser').value.trim().toLowerCase();
+    const galat = $('#uGalat'); galat.textContent = '';
+    if (!/^[a-z0-9_]{3,20}$/.test(username)) { galat.textContent = 'Username harus 3-20 karakter: huruf kecil, angka, atau garis bawah.'; return; }
+    $('#uSimpan').disabled = true;
+    const { error } = await db.from('profiles').update({
+      nama: $('#uNama').value.trim().slice(0, 40) || null,
+      bio: $('#uBio').value.trim().slice(0, 160) || null,
+      username
+    }).eq('id', saya.id);
+    $('#uSimpan').disabled = false;
+    if (error) { galat.textContent = error.code === '23505' ? 'Username sudah dipakai.' : error.code === '23514' ? 'Username harus 3-20 karakter: huruf kecil, angka, atau garis bawah.' : pesanGalat(error); return; }
+    location.href = 'profil.html' + (username === profil.username ? '' : '?u=' + username);
+  };
 }
 (async () => {
   saya = await wajibLogin();

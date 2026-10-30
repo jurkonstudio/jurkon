@@ -156,3 +156,4 @@ textarea:focus-visible,input:focus-visible{outline-offset:0}
   .nav a.nav-tulis{justify-content:center;font-weight:700}
 }
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+[hidden]{display:none!important}
