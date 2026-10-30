@@ -97,7 +97,7 @@ $('#masuk').onclick = function () {
   jalankan(this, async () => {
     const opsi = adaCaptcha() ? { captchaToken: pakaiToken() } : undefined;
     const { error } = await db.auth.signInWithPassword(opsi ? { ...a, options: opsi } : a);
-    if (error) { catatGagal(); galat.textContent = t('auth.gagalMasuk', { pesan: terjemah(error.message) }); }
+    if (error) { catatGagal(); galat.textContent = t('auth.gagalMasuk', { pesan: terjemah(error.message) }); $('#sandi').value = ''; $('#sandi').focus(); }   // sandi salah: kosongkan, ketik ulang
     else { catatBerhasil(); location.href = 'index.html'; }
   });
 };
@@ -114,11 +114,8 @@ $('#daftar').onclick = function () {
     else location.href = 'index.html';
   });
 };
-$('#google').onclick = async () => {
-  galat.textContent = '';
-  const { error } = await db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/index.html' } });
-  if (error) galat.textContent = t('auth.gagalGoogle', { pesan: terjemah(error.message) });
-};
+// Login Google dinonaktifkan sementara (belum dikonfigurasi). Untuk mengaktifkan lagi: pasang tombol #google di login.html dan
+// handler db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/index.html' } }).
 $('#lupa').onclick = function (e) {
   e.preventDefault();
   const a = periksa(false); if (!a) { galat.textContent = t('auth.isiEmailDulu'); return; }
