@@ -15,12 +15,13 @@
   simpan.onclick = async () => {
     galat.textContent = '';
     const a = $('#baru').value, b = $('#ulang').value;
-    if (a.length < 6) { galat.textContent = t('auth.e.sandiPendek'); return; }
+    if (a.length < 8) { galat.textContent = t('auth.e.sandiPendek'); return; }
+    if (!Keamanan.sandiKuat(a, '')) { galat.textContent = t('auth.e.sandiLemah'); return; }
     if (a !== b) { galat.textContent = t('reset.harusSama'); return; }
     simpan.disabled = true;
     const { error } = await db.auth.updateUser({ password: a });
     simpan.disabled = false;
-    if (error) { galat.textContent = t('reset.gagalSimpan', { pesan: error.message }); return; }
+    if (error) { galat.textContent = t('reset.gagalSimpan', { pesan: /password|sandi/i.test(error.message) ? t('auth.e.sandiLemah') : t('err.umum') }); return; }
     info.textContent = t('reset.berhasil');
     setTimeout(() => { location.href = 'index.html'; }, 1200);
   };

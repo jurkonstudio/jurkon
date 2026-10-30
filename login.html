@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://yghgmfvlthzcuhelqesr.supabase.co; media-src 'self' blob: https://yghgmfvlthzcuhelqesr.supabase.co; connect-src 'self' https://yghgmfvlthzcuhelqesr.supabase.co wss://yghgmfvlthzcuhelqesr.supabase.co https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="js/keamanan.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fbf9f4">
 <link rel="manifest" href="manifest.json">
@@ -7,7 +10,7 @@
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap">
 <script src="js/bahasa-muat.js"></script><script src="js/i18n.js"></script>
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
@@ -26,7 +29,9 @@
 <div class="logo-login"><img src="assets/logo.jpg" alt="Jurnal Koneksi" width="900" height="450"></div>
 <div class="form">
   <input type="email" id="email" aria-label="Email" data-i-aria="auth.email" placeholder="nama@email.com" data-i-ph="auth.emailPh" autocomplete="email">
-  <input type="password" id="sandi" aria-label="Kata sandi" data-i-aria="auth.sandi" placeholder="Kata sandi (minimal 6 karakter)" data-i-ph="auth.sandiPh" autocomplete="current-password">
+  <input type="password" id="sandi" aria-label="Kata sandi" data-i-aria="auth.sandi" placeholder="Kata sandi (minimal 8 karakter)" data-i-ph="auth.sandiPh" autocomplete="current-password">
+  <div class="situs-jebakan" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden"><label>Situs web <input type="text" id="situs" name="situs" tabindex="-1" autocomplete="off"></label></div>
+  <div id="captcha" style="min-height:0;display:flex;justify-content:center"></div>
   <div class="galat" id="galat" role="alert"></div>
   <button class="btn" id="masuk" data-i="auth.masuk">Masuk</button>
   <button class="btn garis" id="daftar" data-i="auth.daftar">Daftar</button>
@@ -34,7 +39,7 @@
   <p class="hitung" style="text-align:center"><a href="#" id="lupa" style="text-decoration:underline" data-i="auth.lupa">Lupa kata sandi?</a></p>
   <p class="hitung" data-i-html="auth.setujuHtml">Dengan mendaftar, kamu menyetujui <a href="ketentuan-layanan.html" style="text-decoration:underline">ketentuan layanan</a>, <a href="kebijakan-privasi.html" style="text-decoration:underline">kebijakan privasi</a>, dan <a href="aturan.html" style="text-decoration:underline">aturan</a>.</p>
 </div><div id="tema" class="tema-pilih"></div><div id="bahasa" class="tema-pilih"></div></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script src="js/supabase.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/auth.js"></script></body></html>

@@ -1,9 +1,9 @@
-const CACHE = 'jurkon-v30';
+const CACHE = 'jurkon-v32';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.png', '/assets/logo-header-gelap.png',
   '/js/bahasa-muat.js', '/js/bahasa/id.js', '/js/bahasa/en.js', '/js/bahasa/ms.js', '/js/bahasa/jv.js', '/js/bahasa/su.js', '/js/bahasa/zh.js', '/js/bahasa/ja.js', '/js/i18n.js', '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/ui.js', '/js/data.js', '/js/filter-data.js', '/js/filter.js', '/js/notif.js', '/js/notifikasi.js', '/js/nav.js', '/js/feed.js', '/js/post.js', '/js/mention.js', '/js/tulis.js',
   '/js/detail.js', '/js/explore.js', '/js/profil.js', '/js/akun.js', '/js/pesan.js', '/js/chat.js',
-  '/js/auth.js', '/js/reset.js', '/js/selamat.js', '/js/admin.js',
+  '/js/keamanan.js', '/js/kontak.js', '/js/auth.js', '/js/reset.js', '/js/selamat.js', '/js/admin.js',
   // Halaman utama ikut disimpan supaya tetap terbuka cepat di sinyal lemah
   '/index.html', '/explore.html', '/notifikasi.html', '/pesan.html', '/profil.html', '/post.html', '/detail.html', '/chat.html'];
 
@@ -36,7 +36,8 @@ function jaringanDulu(e, r) {
 self.addEventListener('install', e => {
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then(c =>
-    Promise.allSettled(STATIS.concat([LIB]).map(u => c.add(new Request(u, { cache: 'reload' }))))));
+    Promise.allSettled(STATIS.map(u => c.add(new Request(u, { cache: 'reload' }))).concat(
+      [c.add(new Request(LIB, { cache: 'reload', mode: 'cors', credentials: 'omit' }))]))));
 });
 
 self.addEventListener('activate', e => {
@@ -50,6 +51,7 @@ self.addEventListener('fetch', e => {
   if (r.method !== 'GET') return;
   // Pustaka Supabase (versi dikunci): langsung dari cache, tanpa menunggu jaringan
   if (r.url === LIB) { e.respondWith(caches.match(r).then(h => h || fetch(r))); return; }
+  // Permintaan lintas-asal lain (kecuali pustaka di atas) tidak disentuh: tidak pernah disimpan di cache
   const u = new URL(r.url);
   if (u.origin !== self.location.origin) return;
   // Aset gambar/font/manifest: dari cache dulu, diperbarui diam-diam di belakang

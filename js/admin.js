@@ -41,7 +41,7 @@
   async function muat() {
     el.innerHTML = skeleton(2);
     const { data, error } = await db.from('reports')
-      .select('id,alasan,created_at,post_id,profiles(username),posts(id,content,profiles(username))')
+      .select('id,alasan,created_at,post_id,profiles(username),posts(id,content,user_id,profiles(username))')
       .eq('status', 'baru').order('created_at', { ascending: false }).limit(50);
     if (error) { el.innerHTML = '<div class="kosong">Gagal memuat: ' + esc(error.message) + '</div>'; return; }
     if (!data.length) { el.innerHTML = kosong('pena', 'Tidak ada laporan baru', 'Semua laporan sudah ditangani.'); return; }
@@ -51,12 +51,20 @@
       <div class="isi redup" style="margin-top:6px">Alasan: ${esc(r.alasan || '-')}</div>
       <div class="aksi">
         <button data-act="selesai" data-r="${r.id}">Tandai selesai</button>
-        ${r.posts ? `<button data-act="hapus" data-r="${r.id}" data-p="${r.post_id}" style="color:var(--bahaya)">Hapus posting</button>` : ''}
+        ${r.posts ? `<button data-act="hapus" data-r="${r.id}" data-p="${r.post_id}" style="color:var(--bahaya)">Hapus posting</button>
+        <button data-act="bekukan" data-r="${r.id}" data-u="${esc(r.posts.user_id)}" style="color:var(--bahaya)">Bekukan penulis</button>` : ''}
       </div></article>`).join('');
   }
   el.addEventListener('click', async e => {
     const b = e.target.closest('button[data-act]');
     if (!b) return;
+    if (b.dataset.act === 'bekukan') {
+      if (!confirm('Bekukan akun penulis? Ia tidak bisa posting, kirim pesan, suka, atau mengikuti, dan dikeluarkan dari semua perangkat.')) return;
+      const { error } = await db.rpc('bekukan_akun', { target: b.dataset.u, p_alasan: 'Dibekukan dari laporan ' + b.dataset.r });
+      if (error) { alert('Gagal: ' + error.message); return; }
+      alert('Akun dibekukan. Hapus posting dan tandai laporan selesai bila perlu.');
+      return;
+    }
     if (b.dataset.act === 'hapus') {
       if (!confirm('Hapus posting ini untuk semua orang?')) return;
       const { error } = await db.from('posts').delete().eq('id', b.dataset.p);

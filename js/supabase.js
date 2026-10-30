@@ -3,6 +3,10 @@
 const SUPABASE_URL = 'https://yghgmfvlthzcuhelqesr.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_kRhUqqmzTHW7igXOPPrcZA_VRHQ9C94';
 
+// Kunci SITUS Cloudflare Turnstile (publik, aman ditaruh di sini). Kosong = CAPTCHA mati.
+// WAJIB diisi bersamaan dengan mengaktifkan CAPTCHA di Supabase (Authentication > Attack Protection), lihat README.
+const TURNSTILE_SITE_KEY = '';
+
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const $ = (s, el = document) => el.querySelector(s);

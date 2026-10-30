@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /reset.html
+Disallow: /selamat.html
+Disallow: /chat.html
+Disallow: /pesan.html
 
 Sitemap: https://jurkon.my.id/sitemap.xml

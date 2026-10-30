@@ -5,7 +5,7 @@ Stack: HTML/CSS/JS biasa + Supabase. Hosting: GitHub Pages.
 
 ## Langkah pasang
 1. **Supabase**: buat project baru → SQL Editor → tempel isi `sql/schema.sql` → Run.
-1b. Jalankan juga `sql/002_privasi_keamanan.sql`, `sql/003_feed_cepat.sql`, `sql/004_filter_konten.sql`, lalu `sql/006_feed_dua_bagian.sql`, `sql/007_anti_spam.sql`, dan `sql/008_foto_profil_limit.sql` (berurutan; `005_notifikasi.sql` opsional, lihat bagian Notifikasi). Tanpa 002, tidak ada blokir, batas spam, admin, hapus akun, dan ekspor data. Migrasi lanjutan (013-018, termasuk foto/suara chat dan notifikasi) ada di bagian "Urutan migrasi terbaru" di bawah.
+1b. Jalankan juga `sql/002_privasi_keamanan.sql`, `sql/003_feed_cepat.sql`, `sql/004_filter_konten.sql`, lalu `sql/006_feed_dua_bagian.sql`, `sql/007_anti_spam.sql`, dan `sql/008_foto_profil_limit.sql` (berurutan; `005_notifikasi.sql` opsional, lihat bagian Notifikasi). Tanpa 002, tidak ada blokir, batas spam, admin, hapus akun, dan ekspor data. Migrasi lanjutan (013-019, termasuk foto/suara chat dan notifikasi) ada di bagian "Urutan migrasi terbaru" di bawah.
 2. Supabase → Project Settings → API → salin *Project URL* dan *anon public key* ke `js/supabase.js`.
 3. Supabase → Authentication → URL Configuration: isi Site URL dengan `https://jurkon.my.id`.
    Tambahkan juga `https://jurkon.my.id/reset.html` dan `https://jurkon.my.id/index.html` di *Redirect URLs* (wajib agar "Lupa kata sandi" dan login Google bisa kembali ke aplikasi).
@@ -17,9 +17,32 @@ Stack: HTML/CSS/JS biasa + Supabase. Hosting: GitHub Pages.
 7. Ikon aplikasi sudah ada di `assets/icons/`.
 
 ## Keamanan
-- Hanya pakai anon key di kode. Jangan pernah commit service_role key.
-- Semua tabel memakai Row Level Security (lihat schema.sql).
-- Batas 250/750 karakter dipasang di database, bukan hanya di tampilan.
+- Hanya pakai anon key di kode. Jangan pernah commit service_role key (`.gitignore` sudah menolak `.env`, `*.key`, `*.pem`).
+- Semua tabel memakai Row Level Security (lihat schema.sql). Batas 250/750 karakter dipasang di database, bukan hanya di tampilan.
+
+### Perlindungan dari bot & perusakan (pasang berurutan)
+
+**Kenyataan penting:** kunci anon Supabase itu publik, jadi bot tidak perlu membuka situs Anda; ia bisa memanggil API Supabase langsung. Karena itu perlindungan yang sungguhan harus ada di server (langkah 1-3). Lapisan di browser (CSP, honeypot, jeda gagal) hanya pelengkap.
+
+1. **Database:** jalankan `sql/019_anti_bot_keamanan.sql` (setelah 002-018). Isinya: hanya akun dengan email terverifikasi dan tidak dibekukan yang boleh posting/pesan/suka/ikuti/lapor; email sekali pakai ditolak saat daftar; karakter tak terlihat dan penimpa arah teks ditolak; hak `anon` dicabut dari semua tabel dan fungsi; daftar isi bucket avatar tidak lagi publik. Hasil akhir skrip harus **0 baris** (itu pemeriksaan otomatis). Admin dapat membekukan penulis dari halaman Admin (tombol *Bekukan penulis* pada laporan), atau `select bekukan_akun('<uuid>', 'alasan');` / `select buka_pembekuan('<uuid>');`.
+2. **CAPTCHA (Cloudflare Turnstile, gratis):**
+   a. Cloudflare > Turnstile > *Add site* (domain `jurkon.my.id`, mode Managed). Salin *Site key* ke `TURNSTILE_SITE_KEY` di `js/supabase.js`.
+   b. Unggah kode ke GitHub dan tunggu Pages selesai.
+   c. **Baru kemudian** Supabase > Authentication > Attack Protection > *Enable CAPTCHA protection* > Turnstile > tempel *Secret key*. (Urutan ini penting: bila CAPTCHA diaktifkan di Supabase sebelum kode baru tayang, login semua orang akan gagal. Mengisi site key lebih dulu aman karena token diabaikan selama CAPTCHA Supabase mati.)
+   d. Login Google tidak memakai CAPTCHA (Google sendiri yang memeriksa).
+3. **Pengaturan Auth Supabase** (Authentication):
+   - *Providers > Email*: **Confirm email = ON** (tanpa ini email palsu langsung aktif), panjang sandi minimal 8, wajib huruf dan angka, aktifkan *Leaked password protection* bila paket Anda mendukung.
+   - *Sign In / Providers*: **Allow anonymous sign-ins = OFF**; matikan provider yang tidak dipakai.
+   - *Rate Limits*: turunkan batas email, sign-in, dan token ke angka wajar. Pasang *Custom SMTP* sendiri (email bawaan Supabase sangat terbatas dan mudah dibuat penuh oleh bot).
+   - *URL Configuration*: Redirect URLs hanya domain Anda (tanpa wildcard `*`).
+   - *Sessions*: kecilkan *JWT expiry* (3600 dtk) dan aktifkan *Refresh token rotation*.
+   - Aktifkan TOTP/MFA dan 2FA untuk akun admin Anda, dan 2FA di akun GitHub, Supabase, dan registrar domain.
+4. **Browser:** setiap halaman kini memakai Content-Security-Policy (hanya skrip dari situs sendiri + jsDelivr [+ Cloudflare Turnstile di login]), `referrer` terbatas, pemblokir iframe (`js/keamanan.js`), dan tanpa skrip inline. Bila menambah layanan luar (analitik, font, dsb), tambahkan domainnya di meta CSP tiap HTML atau akan diblokir. Semua halaman sudah diuji di browser headless tanpa pelanggaran CSP (kecuali widget Turnstile, yang baru aktif setelah site key diisi, jadi uji login Anda sendiri setelah langkah 2). Bila dibingkai situs lain, halaman menyembunyikan diri.
+5. **SRI pustaka Supabase:** jalankan sekali di komputer Anda `node tools/pasang-sri.js` (menambahkan `integrity` ke tag `<script>` pustaka). Lalu naikkan `CACHE` di `sw.js` dan unggah ulang.
+6. **GitHub:** Settings > Branches > aturan proteksi `main` (wajib pull request, tanpa force-push), aktifkan Secret scanning dan Push protection, dan *Enforce HTTPS* di Pages.
+7. **Lapisan tambahan yang disarankan:** letakkan domain di belakang Cloudflare (gratis) untuk Bot Fight Mode, rate limiting, dan *Transform Rules* yang mengirim header sungguhan (`Strict-Transport-Security`, `X-Frame-Options: DENY`, `Permissions-Policy`, `frame-ancestors 'none'`); GitHub Pages sendiri tidak bisa mengirim header.
+
+Kerentanan ditemukan? Lihat `/.well-known/security.txt`.
 
 ## Filter konten terlarang
 Tulisan dicek sebelum dikirim (posting, balasan, pesan, nama, bio, username).
@@ -92,7 +115,7 @@ Di kotak kirim chat ada tombol kamera (foto) dan mikrofon (pesan suara, maks 60 
 
 - **Database:** jalankan `sql/017_media_pesan.sql` (setelah 002, 004, 007, dan 014_pesan_saling_ikuti; aman diulang) SEBELUM mengunggah kode JS terbaru. Isinya: kolom `media_jenis`/`media_path` di `messages`, bucket privat `media-pesan` (maks 3 MB per berkas), kebijakan storage, dan pembatas media (akun baru 10/jam, lainnya 40/jam; maks 12 unggahan per 10 menit).
 - **Akses 10 menit ditegakkan di database:** kebijakan baca storage hanya meloloskan peserta percakapan selama 10 menit sejak unggah, jadi tidak bisa dibuka lagi lewat API walau berkasnya belum terhapus. Tautan yang dibuat klien juga berlaku paling lama sampai batas itu.
-- **Penghapusan fisik berkas:** ada dua lapis. (1) Cadangan: saat pengirim membuka chat, berkas miliknya yang kedaluwarsa dihapus. (2) Utama: Edge Function `supabase/functions/hapus-media-kedaluwarsa` membuang semua berkas lewat 10 menit. Pasang sekali: Supabase > Edge Functions > deploy folder itu (atau `supabase functions deploy hapus-media-kedaluwarsa`), lalu jadwalkan tiap 5 menit lewat Integrations > Cron (jenis Edge Function) atau pg_cron + pg_net. Kunci service_role disediakan Supabase di dalam fungsi; jangan dimasukkan ke repo.
+- **Penghapusan fisik berkas:** ada dua lapis. (1) Cadangan: saat pengirim membuka chat, berkas miliknya yang kedaluwarsa dihapus. (2) Utama: Edge Function `supabase/functions/hapus-media-kedaluwarsa` membuang semua berkas lewat 10 menit. Pasang sekali: Supabase > Edge Functions > deploy folder itu (atau `supabase functions deploy hapus-media-kedaluwarsa`), lalu jadwalkan tiap 5 menit lewat Integrations > Cron (jenis Edge Function) atau pg_cron + pg_net. Kunci service_role disediakan Supabase di dalam fungsi; jangan dimasukkan ke repo. **Fungsi ini sekarang menolak panggilan tanpa rahasia bersama** (kunci anon itu publik): jalankan `supabase secrets set CRON_SECRET=<acak 32+ karakter>`, dan penjadwal harus mengirim `POST` dengan header `x-cron-secret: <nilai yang sama>` (Cron jenis HTTP Request, atau pg_cron + pg_net).
 - **Foto:** dikecilkan ke maks 1280px dan disimpan ulang sebagai JPEG di perangkat, sehingga data EXIF/lokasi hilang. **Suara:** MP4/AAC bila didukung, selain itu WebM/Opus (Android Chrome lama merekam WebM, yang bisa gagal diputar di iPhone lama).
 - Rekam suara butuh HTTPS dan izin mikrofon (GitHub Pages sudah HTTPS). Tombol media otomatis tersembunyi bila migrasi 017 belum dijalankan atau perangkat tak mendukung rekam suara.
 - Catatan: foto dan suara tidak dimoderasi otomatis (filter kata hanya untuk teks). Blokir tetap berlaku. Pertimbangkan menambah satu kalimat di Kebijakan Privasi bahwa media chat hanya tersimpan 10 menit.
