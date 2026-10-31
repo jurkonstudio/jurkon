@@ -36,6 +36,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `025_kunci_kolom_insert.sql` | trigger yang memaksa `created_at` = sekarang (dan `disorot` = false, `dilihat` = 0 di posts) saat klien insert; menutup pemalsuan jumlah tayang, sorotan, dan pembatas laju | setelah 024; hasil cek: 7 baris |
 | `026_sematkan_catatan.sql` | kolom `profiles.disematkan` + trigger yang memastikan hanya catatan utama milik sendiri (sudah tayang, tidak berumur) yang bisa disematkan | setelah 024 (disarankan setelah 025); hasil cek: 1 baris, 1 baris |
 | `027_catatan_publik.sql` | catatan publik per catatan: kolom `publik`, `jadikan_publik()`/`jadikan_privat()`, `catatan_publik()` dan `daftar_publik()` (boleh anon), kunci pengelola | setelah 026; hasil cek: tepat 3 fungsi yang boleh dipanggil anon |
+| `028_lencana_verified.sql` | lencana verified: kolom `profiles.verified`, trigger penjaga, `admin_set_verified()`, `daftar_verified()`, kolom `lencana` di `admin_cari_pengguna` | setelah 020 dan 021; hasil cek: 2 baris, 1 baris, 0 baris |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 

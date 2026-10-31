@@ -109,6 +109,7 @@ const I18N_KAMUS = {
   'pc.dilihat': ['Dilihat {n} kali', 'Viewed {n} times', 'Dilihat {n} kali', 'Dideleng {n} kaping', 'Ditingali {n} kali', '已被查看 {n} 次', '{n}回表示されました'],
   'pc.profilDari': ['Profil {nama}', 'Profile of {nama}', 'Profil {nama}', 'Profil {nama}', 'Profil {nama}', '{nama} 的主页', '{nama}のプロフィール'],
   'pc.resmi': ['Akun resmi', 'Official account', 'Akaun rasmi', 'Akun resmi', 'Akun resmi', '官方账号', '公式アカウント'],
+  'pc.verified': ['Akun terverifikasi', 'Verified account', 'Akaun disahkan', 'Akun wis diverifikasi', 'Akun geus diverifikasi', '已认证账号', '認証済みアカウント'],
   'pc.alasan': ['Alasan melaporkan (maks 300 karakter):', 'Reason for reporting (max 300 characters):', 'Sebab melaporkan (maks 300 aksara):', 'Alesan nglaporake (maks 300 aksara):', 'Alesan ngalaporkeun (maks 300 aksara):', '举报原因（最多 300 字）：', '報告の理由（最大300文字）：'],
   'pc.sudahLapor': ['Kamu sudah melaporkan posting ini.', 'You have already reported this post.', 'Anda sudah melaporkan hantaran ini.', 'Sampeyan wis nglaporake kiriman iki.', 'Anjeun geus ngalaporkeun kiriman ieu.', '你已经举报过这条帖子了。', 'この投稿はすでに報告済みです。'],
   'pc.gagalLapor': ['Gagal mengirim laporan: {pesan}', 'Failed to send the report: {pesan}', 'Gagal menghantar laporan: {pesan}', 'Gagal ngirim laporan: {pesan}', 'Gagal ngirim laporan: {pesan}', '举报发送失败：{pesan}', '報告を送信できませんでした：{pesan}'],

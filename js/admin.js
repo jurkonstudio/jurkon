@@ -427,11 +427,13 @@
     daftarU[u.id] = u;
     const lencana = [
       u.adalah_admin ? '<span class="lencana aksen">Admin</span>' : '',
+      u.lencana ? '<span class="lencana aksen">&#10003; Verified</span>' : '',
       u.dibekukan ? '<span class="lencana merah">Dibekukan</span>' : '',
       !u.terverifikasi ? '<span class="lencana kuning">Belum verifikasi</span>' : '',
       u.laporan_baru > 0 ? `<span class="lencana merah">${u.laporan_baru} laporan baru</span>` : ''
     ].join('');
     const t = [`<a class="btn kecil garis" href="/profil.html?u=${esc(u.username)}" target="_blank" rel="noopener">${ikon('luar')}Profil</a>`];
+    if (!u.dibekukan) t.push(`<button type="button" class="btn kecil ${u.lencana ? 'garis' : ''}" data-act="verifU" data-id="${u.id}">${u.lencana ? 'Cabut verified' : 'Beri verified'}</button>`);
     if (u.dibekukan) t.push(`<button type="button" class="btn kecil garis" data-act="bukaU" data-id="${u.id}">Buka pembekuan</button>`);
     else if (!u.adalah_admin) t.push(`<button type="button" class="btn kecil garis bahaya" data-act="bekukanU" data-id="${u.id}">Bekukan</button>`);
     if (!u.adalah_admin && !u.dibekukan && u.terverifikasi && u.email) t.push(`<button type="button" class="btn kecil garis" data-act="jadiAdmin" data-id="${u.id}">Jadikan admin</button>`);
@@ -442,7 +444,18 @@
       ${u.dibekukan ? `<div class="alasan"><b>Alasan beku:</b> ${esc(u.alasan_beku || '-')}</div>` : ''}
       <div class="aksi-b">${t.join('')}</div></div></article>`;
   }
-  async function vPengguna(g) { await daftarCari(g, 'admin_cari_pengguna', barisPengguna, 'Cari username, nama, email, atau ID…', () => qPengguna, v => { qPengguna = v; }, 'Tidak ada pengguna yang cocok.'); }
+  async function vPengguna(g) { await daftarCari(g, 'admin_cari_pengguna', barisPengguna, 'Cari username, nama, email, atau ID (ketik :verified untuk akun verified)…', () => qPengguna, v => { qPengguna = v; }, 'Tidak ada pengguna yang cocok.'); }
+  aksi.verifU = async b => {
+    const u = daftarU[b.dataset.id];
+    const beri = !u.lencana;
+    const a = await tanya({
+      judul: beri ? `Beri lencana verified ke @${u.username}?` : `Cabut lencana verified dari @${u.username}?`,
+      teks: beri ? 'Centang biru tampil di samping namanya di profil, feed, Jelajah, dan pesan. Berlaku dalam beberapa menit.' : 'Centang biru dicabut dari akunnya dalam beberapa menit.',
+      input: 'Catatan (opsional, masuk jejak admin)', ok: beri ? 'Beri verified' : 'Cabut'
+    });
+    if (a === null) return;
+    if (await jalankan(b, () => rpc('admin_set_verified', { target: u.id, p_nilai: beri, p_alasan: a || null }), beri ? `@${u.username} sekarang verified` : 'Lencana dicabut')) tampil();
+  };
   aksi.bekukanU = async b => {
     const u = daftarU[b.dataset.id];
     const a = await tanya({ judul: `Bekukan @${u.username}?`, teks: 'Ia tidak bisa posting, kirim pesan, suka, atau mengikuti, dan dikeluarkan dari semua perangkat.', input: 'Alasan (masuk jejak admin)', ok: 'Bekukan', bahaya: true });
@@ -674,7 +687,7 @@
   // ---------------------------------------------------------------- Jejak
   const LABEL = {
     hapus_posting: 'Hapus posting', bekukan_akun: 'Bekukan akun', buka_pembekuan: 'Buka pembekuan', hapus_akun: 'Hapus akun',
-    sorot: 'Sorot posting', cabut_sorot: 'Cabut sorotan', laporan_selesai: 'Laporan selesai', laporan_baru: 'Laporan dibuka kembali',
+    sorot: 'Sorot posting', cabut_sorot: 'Cabut sorotan', beri_verified: 'Beri verified', cabut_verified: 'Cabut verified', laporan_selesai: 'Laporan selesai', laporan_baru: 'Laporan dibuka kembali',
     laporan_selesai_massal: 'Laporan selesai (massal)', tambah_admin: 'Tambah admin', cabut_admin: 'Cabut admin', pengaturan: 'Ubah pengaturan'
   };
   async function vLog(g) {

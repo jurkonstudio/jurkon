@@ -20,3 +20,11 @@ Alamat: `https://jurkon.my.id/murthehelp/031411` (file `murthehelp/031411.html`,
 - **Prasyarat database:** `sql/020_panel_admin.sql` sudah dijalankan, dan akunmu ada di tabel `admins` (lihat `sql/002_privasi_keamanan.sql`, `insert into admins (user_id) values ('<uuid>')`).
 - **Akses:** login email + sandi langsung di halaman; bila akun punya TOTP (2 langkah) kodenya diminta; akun non-admin melihat "Akses ditolak". Layar terkunci otomatis setelah 15 menit tidak aktif (ubah `MENIT_KUNCI` di `js/admin.js`).
 - **Penting:** semua aksi dijaga `is_admin()` di server (fungsi `admin_*`). Login/kunci di layar hanyalah lapisan tambahan. Halaman ber-`noindex` dan tidak dicantumkan di `robots.txt`/sitemap agar alamatnya tidak terbuka.
+
+## Lencana verified (migrasi 028)
+
+Admin bisa memberi centang biru ke akun mana pun dari tab **Pengguna** di Pusat Kendali: cari akunnya, ketuk **Beri verified** (atau **Cabut verified**), isi catatan bila perlu. Ketik `:verified` di kotak cari untuk melihat semua akun verified.
+
+- **Database:** jalankan `sql/028_lencana_verified.sql` (setelah 020 dan 021) SEBELUM mengunggah kode JS. Kolom `profiles.verified` dijaga trigger, jadi pengguna tidak bisa memberi lencana ke dirinya sendiri lewat API. Setiap pemberian dan pencabutan tercatat di tab Jejak.
+- **Klien:** `js/ui.js` memanggil `daftar_verified()`, menyimpannya di localStorage, dan memperbaruinya paling cepat tiap 2 menit. Lencana muncul atau hilang di perangkat pengguna dalam beberapa menit. Akun resmi (`jurkon`, dst.) tetap bercentang lewat `AKUN_RESMI`.
+- Lencana mengikuti username saat ini. Bila akun verified mengganti username, lencana tetap melekat di akunnya.

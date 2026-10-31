@@ -17,12 +17,46 @@ function avatar(nama, ukuran, foto) {
   const gb = foto ? `<img src="${esc(urlFoto(foto))}" alt="" loading="lazy" decoding="async">` : '';
   return `<span class="avatar" style="width:${u}px;height:${u}px;font-size:${Math.round(u * 0.42)}px;background:hsl(${h} 50% 42%)">${esc(Array.from(n)[0].toUpperCase())}${gb}</span>`;
 }
-// Lencana centang biru untuk akun resmi. Username-nya juga dicadangkan di SQL (migrasi 009).
+// Lencana centang biru. Dua sumber:
+//  1) AKUN_RESMI: username yang dicadangkan di SQL (migrasi 009), selalu bercentang.
+//  2) Akun verified yang diberikan admin dari Pusat Kendali (migrasi 028), diambil lewat daftar_verified().
+// Daftar verified disimpan di localStorage dan diperbarui di belakang layar paling cepat tiap 2 menit,
+// jadi lencanaResmi() tetap sinkron dan tidak menambah kueri per kartu. Bila daftar belum pernah dimuat
+// (kunjungan pertama), kartu diberi penanda kosong yang diisi begitu daftar tiba.
 const AKUN_RESMI = ['jurkon', 'journalconnection', 'jurnalkoneksi'];
-function lencanaResmi(u) {
-  if (!AKUN_RESMI.includes(String(u || '').toLowerCase())) return '';
-  return '<svg class="centang" viewBox="0 0 24 24" role="img" aria-label="' + esc(t('pc.resmi')) + '"><title>' + esc(t('pc.resmi')) + '</title><circle cx="12" cy="12" r="11"/><path d="M7 12.5l3.2 3.2L17 9"/></svg>';
+const VF = { set: new Set(), siap: false };
+function svgCentang(kunci) {
+  return '<svg class="centang" viewBox="0 0 24 24" role="img" aria-label="' + esc(t(kunci)) + '"><title>' + esc(t(kunci)) + '</title><circle cx="12" cy="12" r="11"/><path d="M7 12.5l3.2 3.2L17 9"/></svg>';
 }
+function lencanaResmi(u) {
+  const n = String(u || '').toLowerCase();
+  if (!n) return '';
+  if (AKUN_RESMI.includes(n)) return svgCentang('pc.resmi');
+  if (VF.set.has(n)) return svgCentang('pc.verified');
+  return VF.siap ? '' : '<span class="vf" data-vf="' + esc(n) + '"></span>';
+}
+(function () {
+  const KUNCI = 'vf_daftar', TTL = 2 * 60 * 1000;
+  let umur = Infinity;
+  try {
+    const c = JSON.parse(localStorage.getItem(KUNCI) || 'null');
+    if (c && Array.isArray(c.u)) { VF.set = new Set(c.u); VF.siap = true; umur = Date.now() - (c.t || 0); }
+  } catch (e) {}
+  if (umur < TTL) return;
+  const selesai = () => {
+    VF.siap = true;
+    document.querySelectorAll('.vf[data-vf]').forEach(el => { el.outerHTML = lencanaResmi(el.getAttribute('data-vf')); });
+  };
+  try {
+    Promise.resolve(db.rpc('daftar_verified')).then(r => {
+      if (r && !r.error && Array.isArray(r.data)) {
+        VF.set = new Set(r.data.map(x => String(x).toLowerCase()));
+        try { localStorage.setItem(KUNCI, JSON.stringify({ t: Date.now(), u: r.data })); } catch (e) {}
+      }
+      selesai();
+    }).catch(selesai);
+  } catch (e) { selesai(); }
+})();
 
 // Foto gagal dimuat -> buang gambarnya, huruf inisial muncul lagi
 document.addEventListener('error', e => {
