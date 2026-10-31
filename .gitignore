@@ -10,3 +10,6 @@ supabase/.temp/
 supabase/.env
 node_modules/
 .DS_Store
+
+# Dibuat oleh tools/gabung-sql.js (tidak perlu di-commit)
+sql/schema-terbaru.sql
