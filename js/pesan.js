@@ -11,7 +11,8 @@
   const cids = data.map(c => c.id);
   const ambilPesan = kolom => db.from('messages').select(kolom)
     .in('conversation_id', cids).order('created_at', { ascending: false }).limit(300);
-  let { data: pesan, error: ep } = await ambilPesan('conversation_id,sender_id,content,created_at,media_jenis,media_path');
+  let { data: pesan, error: ep } = await ambilPesan('conversation_id,sender_id,content,created_at,media_jenis,media_path,dihapus_at');
+  if (ep) ({ data: pesan, error: ep } = await ambilPesan('conversation_id,sender_id,content,created_at,media_jenis,media_path'));   // migrasi 033 belum dijalankan
   if (ep) ({ data: pesan } = await ambilPesan('conversation_id,sender_id,content,created_at'));   // migrasi 017 belum dijalankan
   const terakhir = {};
   (pesan || []).forEach(m => { if (!terakhir[m.conversation_id]) terakhir[m.conversation_id] = m; });
@@ -46,7 +47,7 @@
     const m = terakhir[c.id];
     const nama = o.nama || o.username || t('pesan.pengguna');
     const awal = m && m.sender_id === saya.id ? t('pesan.kamu') : '';
-    const cuplikan = m ? awal + (m.media_path ? t(m.media_jenis === 'foto' ? 'pesan.foto' : 'pesan.suara') : m.content) : t('pesan.belum');
+    const cuplikan = m ? awal + (m.dihapus_at ? t('pesan.dihapus') : m.media_path ? t(m.media_jenis === 'foto' ? 'pesan.foto' : 'pesan.suara') : m.content) : t('pesan.belum');
     const baru = belum.has(c.id);
     const cari = (nama + ' ' + (o.username || '')).toLowerCase();
     return `<a class="psn-item${baru ? ' baru' : ''}" href="chat.html?id=${c.id}" data-cari="${esc(cari)}"${baru ? ' aria-label="' + esc(nama + ', ' + t('panel.belumDibaca')) + '"' : ''}>

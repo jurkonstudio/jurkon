@@ -20,6 +20,10 @@
 <div class="chat" id="isi"></div></main>
 <div class="kirim"><div>
   <p class="syarat-ikuti" id="syarat" role="status" hidden></p>
+  <div class="psn-edit" id="editBar" hidden>
+    <span class="psn-edit-isi"><b data-i="chat.mengedit">Mengedit pesan</b><small id="editCuplikan"></small></span>
+    <button class="ikon-btn" id="editBatal" type="button" aria-label="Batal" data-i-aria="chat.batal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
   <div class="rekam" id="rekam" hidden>
     <span class="titik"></span><span id="rekamWaktu">0:00</span><span class="info" data-i="chat.hilang10">Hilang otomatis setelah 10 menit</span>
     <button class="btn garis kecil" id="rekamBatal" type="button" data-i="chat.rekamBatal">Batal</button>
@@ -33,7 +37,7 @@
       <input type="file" id="foto" accept="image/*" hidden>
       <button class="ikon" id="btnMik" type="button" hidden aria-label="Rekam pesan suara" data-i-aria="chat.suara" title="Rekam pesan suara" data-i-title="chat.suara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
     </div>
-    <button class="psn-kirim" id="kirim" type="button" aria-label="Kirim" data-i-aria="umum.kirim"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
+    <button class="psn-kirim" id="kirim" type="button" aria-label="Kirim" data-i-aria="umum.kirim"><svg class="naik" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg><svg class="cek" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
   </div>
 </div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>

@@ -55,7 +55,7 @@ git push
 3. **Opsi sembunyikan tab Menyukai**: harus ditegakkan di RLS tabel `likes`, bukan hanya menyembunyikan tab (`SUKA_PUBLIK` sekarang berlaku untuk semua).
 4. **Tab Tersimpan** (bookmark, tabel privat baru).
 5. **Ringkasan menulis pribadi** tanpa streak, sesuai nuansa tenang.
-7. ~~Tampilan baru halaman Pesan~~ (selesai, tanpa SQL; lihat `docs/fitur.md`). Belum ada: tanda sudah dibaca (centang) di gelembung, dan balas/hapus per pesan.
+7. ~~Tampilan baru halaman Pesan~~ (selesai, tanpa SQL; lihat `docs/fitur.md`). Hapus per pesan dan edit selesai di migrasi 033 (lihat bagian di bawah). Belum ada: tanda sudah dibaca (centang) di gelembung, dan balas per pesan.
 6. ~~Kartu catatan untuk dibagikan~~ (selesai, tanpa SQL; lihat `docs/fitur.md`). Lanjutan yang masuk akal: tombol yang sama di halaman catatan publik `n.html`, dan font serif yang dibundel.
 
 Nomor 1 sampai 4 menambah kolom atau tabel, jadi **025 sebaiknya jalan lebih dulu**.
@@ -108,3 +108,14 @@ Jalankan `sql/030_angka_langsung.sql` di Supabase lebih dulu, baru unggah kode. 
 Tanpa SQL baru. Berkas: `js/ui.js` (`htmlPost`, `hiasKartu`, `isiHtml`, `htmlTautan`, `kenalSitus`), `css/style.css`, kamus (`tt.*`, 18 kunci × 7 bahasa), `docs/fitur.md`. Diuji di browser dengan backend tiruan di lima tema (Kertas, Terang, Gelap, Kaca, Awan) pada lebar 390 px; **belum diuji di Supabase asli dan HP**. Kasus tautan yang diuji: Spotify album, YouTube, tautan pendek, domain tiruan `spotify.com.evil.example`, `user:sandi@`, `localhost`, tanda baca sesudah alamat.
 Catatan: pada postingan milik sendiri di layar sempit, ikon Lapor dan Hapus turun ke baris kedua (aturan wrap yang sudah ada).
 
+## Sesi 31 Oktober (malam): tombol Kembali, edit dan hapus pesan
+
+**Bug Kembali:** `href="javascript:history.back()"` diblokir CSP (tanpa `unsafe-inline`), jadi tombolnya mati di `detail.html`, `aturan.html`, `tentang.html`, `pusat-bantuan.html`, `kebijakan-privasi.html`, `ketentuan-layanan.html`. Diganti `<a href="index.html" data-kembali>` plus pendengar klik di `js/keamanan.js`. Tanpa SQL.
+
+**Migrasi 033** (`sql/033_pesan_edit_hapus.sql`): edit dan hapus pesan. Kode selesai, sintaks dan kamus diperiksa (`node tools/cek-bahasa.js` OK, 507 kunci), **belum diuji di browser dan Postgres**. Pasang SQL dulu, jalankan tiga kueri pemeriksaan di akhir berkas, baru unggah kode. Tanpa 033 chat tetap jalan, menu hanya menawarkan Salin.
+
+Berkas berubah: `sql/033_pesan_edit_hapus.sql`, `js/chat.js`, `js/pesan.js`, `js/keamanan.js`, `chat.html`, enam halaman statis di atas, `css/style.css`, `js/bahasa.js` (+ turunan `js/bahasa/*.js`), `docs/fitur.md`, `sql/README.md`, `sw.js` (versi cache).
+
+Uji manual: (1) buka postingan lalu ketuk Kembali, harus ke halaman sebelumnya; buka `detail.html?id=...` langsung di tab baru, Kembali harus ke beranda. (2) Chat dengan akun saling-ikuti: ketuk pesan sendiri, Edit, ubah, centang; kedua layar menampilkan "diedit" tanpa muat ulang. (3) Hapus pesan teks dan foto; kedua layar berubah jadi "Pesan ini dihapus", daftar Pesan menampilkan "Pesan dihapus". (4) Berhenti saling mengikuti: Edit hilang dari menu, Hapus tetap ada. (5) Ketik draf, keluar chat, buka lagi: draf kembali.
+
+Ide berikutnya: balas pesan tertentu (kolom `balas_id`), tanda sudah dibaca, reaksi emoji, dan tombol salin tautan postingan di menu Detail.

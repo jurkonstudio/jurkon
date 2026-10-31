@@ -57,7 +57,9 @@
 
   // Foto & pesan suara (migrasi 017). Tanpa migrasi, tombol media disembunyikan dan chat teks tetap jalan.
   const adaMedia = !(await db.from('messages').select('media_path').limit(1)).error;
-  const KOLOM = 'id,conversation_id,sender_id,content,created_at' + (adaMedia ? ',media_jenis,media_path' : '');
+  // Edit & hapus pesan (migrasi 033). Tanpa migrasi, menu pesan hanya menawarkan Salin dan chat tetap jalan.
+  const adaEdit = !(await db.from('messages').select('dihapus_at').limit(1)).error;
+  const KOLOM = 'id,conversation_id,sender_id,content,created_at' + (adaMedia ? ',media_jenis,media_path' : '') + (adaEdit ? ',diedit_at,dihapus_at' : '');
   const bisaSuara = adaMedia && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
   $('#btnFoto').hidden = !adaMedia; $('#btnMik').hidden = !bisaSuara;
 
@@ -104,6 +106,7 @@
     if (!jam) jam = setInterval(detakJam, 5000);
   }
   const sudah = new Set();
+  const peta = new Map();   // id pesan -> { d, m }: gelembung yang tampil, untuk pembaruan (edit/hapus) tanpa muat ulang
   let terakhir = null;   // waktu pesan terbaru yang sudah tampil (untuk menyusul pesan yang terlewat)
   // Pemisah waktu ala aplikasi chat: label hari saat hari berganti, jam saja bila jeda > 30 menit.
   // Gelembung beruntun dari pengirim yang sama (jeda < 5 menit) dirapatkan dan sudutnya disambung.
@@ -134,10 +137,176 @@
     if (!label && pengirimAkhir === dari && ms - waktuAkhir < 5 * 60000) d.className += ' sambung';
     d.title = waktuM.toLocaleString(I18n.locale, { dateStyle: 'medium', timeStyle: 'short' });
     tglAkhir = kunciTgl; waktuAkhir = ms; pengirimAkhir = dari;
-    if (m.media_path) { d.className += ' media'; isiMedia(d, m); } else d.textContent = m.content;
+    d.dataset.id = m.id;
+    peta.set(m.id, { d, m });
+    isiGelembung(d, m);
     $('#isi').appendChild(d);
     window.scrollTo(0, document.body.scrollHeight);
   };
+
+
+  // ---- Isi gelembung, menu pesan (salin / edit / hapus), dan mode edit ----
+  const MASA_EDIT = 24 * 3600 * 1000;   // harus sama dengan batas di edit_pesan() (migrasi 033)
+  function isiGelembung(d, m) {
+    d.classList.remove('media', 'hilang', 'dihapus');
+    if (m.dihapus_at) {
+      aktif.delete(m.id);
+      d.querySelectorAll('audio').forEach(a => { a.pause(); a.removeAttribute('src'); a.load(); });
+      d.classList.add('hilang', 'dihapus');
+      d.textContent = '🚫 ' + t('chat.dihapus');
+    } else if (m.media_path) {
+      d.classList.add('media');
+      isiMedia(d, m);
+    } else {
+      d.textContent = m.content;
+      if (m.diedit_at) {
+        const l = document.createElement('span');
+        l.className = 'diedit'; l.textContent = t('chat.diedit');
+        d.append(' ', l);
+      }
+    }
+    const ada = daftarAksi(m).length > 0;
+    if (ada) { d.tabIndex = 0; d.setAttribute('aria-haspopup', 'dialog'); }
+    else { d.removeAttribute('tabindex'); d.removeAttribute('aria-haspopup'); }
+  }
+  // Menerapkan perubahan dari server atau dari aksi sendiri. Dilewati bila tidak ada yang berubah
+  // (susul() memanggilnya berulang; gelembung media tidak boleh digambar ulang tanpa perlu).
+  function perbarui(baru) {
+    const e = peta.get(baru.id);
+    if (!e) return;
+    const sama = (a, b) => (a || null) === (b || null);
+    if (sama(baru.dihapus_at, e.m.dihapus_at) && sama(baru.diedit_at, e.m.diedit_at)) return;
+    e.m = Object.assign({}, e.m, baru);
+    isiGelembung(e.d, e.m);
+    if (editId === e.m.id && e.m.dihapus_at) keluarEdit();   // pesan yang sedang diedit dihapus dari perangkat lain
+  }
+  const bisaEdit = m => adaEdit && boleh && m.sender_id === saya.id && !m.dihapus_at && !m.media_path &&
+    Date.now() - new Date(m.created_at).getTime() < MASA_EDIT;
+  function daftarAksi(m) {
+    if (m.dihapus_at) return [];
+    const a = [];
+    if (!m.media_path && m.content) a.push('salin');
+    if (bisaEdit(m)) a.push('edit');
+    if (adaEdit && m.sender_id === saya.id) a.push('hapus');
+    return a;
+  }
+  const IKON = {
+    salin: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/>',
+    edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>',
+    hapus: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/>'
+  };
+  const svgIkon = k => '<svg viewBox="0 0 24 24" aria-hidden="true">' + IKON[k] + '</svg>';
+
+  function bukaMenu(m) {
+    const aksi = daftarAksi(m);
+    if (!aksi.length) return;
+    const lama = document.getElementById('menuPesan'); if (lama) lama.remove();
+    const d = document.createElement('dialog');
+    d.id = 'menuPesan'; d.className = 'lembar lembar-psn'; d.setAttribute('aria-label', t('chat.menuAria'));
+    const cuplik = m.media_path ? '' : '<p class="psn-cuplik">' + esc(m.content) + '</p>';
+    d.innerHTML = cuplik + '<div class="psn-aksi">' + aksi.map(k =>
+      '<button type="button" data-k="' + k + '"' + (k === 'hapus' ? ' class="bahaya"' : '') + '>' + svgIkon(k) + '<span>' + esc(t('chat.' + k)) + '</span></button>').join('') + '</div>';
+    document.body.appendChild(d);
+    const tutup = () => { if (d.open) d.close(); d.remove(); };
+    d.onclick = e => {
+      if (e.target === d) return tutup();
+      const b = e.target.closest('button[data-k]');
+      if (!b) return;
+      if (b.dataset.k === 'salin') { tutup(); salinPesan(m); }
+      else if (b.dataset.k === 'edit') { tutup(); mulaiEdit(m); }
+      else if (b.dataset.k === 'hapus') {
+        // Konfirmasi di dalam lembar yang sama (tanpa kotak dialog bawaan browser)
+        d.innerHTML = '<div class="lembar-kepala"><h2>' + esc(t('chat.hapusJ')) + '</h2></div>' +
+          '<p class="psn-hapus-t">' + esc(t('chat.hapusT', { nama: namaLawan })) + '</p>' +
+          '<div class="form"><div class="tombol"><button type="button" class="btn garis" data-k="batal">' + esc(t('chat.batal')) + '</button>' +
+          '<button type="button" class="btn bahaya utama" data-k="ya">' + esc(t('chat.hapus')) + '</button></div></div>';
+        const ya = d.querySelector('[data-k="ya"]'); if (ya) ya.focus();
+      }
+      else if (b.dataset.k === 'batal') tutup();
+      else if (b.dataset.k === 'ya') { tutup(); hapusPesan(m); }
+    };
+    d.addEventListener('cancel', () => setTimeout(() => d.remove(), 0));
+    d.showModal();
+  }
+  async function salinPesan(m) {
+    try { await navigator.clipboard.writeText(m.content); toastUmum(t('chat.salinOk')); }
+    catch (e) { prompt(t('pc.salinManual'), m.content); }
+  }
+  async function hapusPesan(m) {
+    const { data, error } = await db.rpc('hapus_pesan', { p_id: m.id });
+    if (error) { alert(t('chat.gagalHapus', { pesan: galatRamah(error) })); return; }
+    if (data) db.storage.from(BUCKET).remove([data]).catch(() => {});   // foto/suara ikut dibuang dari storage
+    perbarui({ id: m.id, dihapus_at: new Date().toISOString(), diedit_at: null });
+  }
+  // Ketuk gelembung (atau Enter/Spasi saat terfokus) membuka menu. Memilih teks atau memutar suara tidak membukanya.
+  $('#isi').addEventListener('click', e => {
+    const d = e.target.closest('.bubble[data-id]');
+    if (!d || e.target.closest('audio, a')) return;
+    const sel = window.getSelection && window.getSelection().toString();
+    if (sel) return;
+    const x = peta.get(d.dataset.id);
+    if (x) bukaMenu(x.m);
+  });
+  $('#isi').addEventListener('keydown', e => {
+    if ((e.key !== 'Enter' && e.key !== ' ') || e.target.nodeName === 'AUDIO') return;
+    const d = e.target.closest && e.target.closest('.bubble[data-id][tabindex]');
+    if (!d || d !== e.target) return;
+    e.preventDefault();
+    const x = peta.get(d.dataset.id);
+    if (x) bukaMenu(x.m);
+  });
+
+  // Mode edit: kotak tulis dipakai ulang. Draf yang sedang diketik disimpan lalu dipulihkan setelah selesai.
+  let editId = null, drafAsli = '';
+  function mulaiEdit(m) {
+    if (!bisaEdit(m)) return;
+    const kotak = $('#teks');
+    editId = m.id; drafAsli = kotak.value;
+    kotak.value = m.content; kotak.dispatchEvent(new Event('input'));
+    $('#editCuplikan').textContent = m.content;
+    $('#editBar').hidden = false;
+    $('#kirim').classList.add('simpan'); $('#kirim').setAttribute('aria-label', t('chat.simpan'));
+    $('#btnFoto').hidden = true; $('#btnMik').hidden = true;
+    kotak.focus(); kotak.setSelectionRange(kotak.value.length, kotak.value.length);
+  }
+  function keluarEdit() {
+    if (editId === null) return;
+    editId = null;
+    $('#editBar').hidden = true;
+    $('#kirim').classList.remove('simpan'); $('#kirim').setAttribute('aria-label', t('umum.kirim'));
+    $('#btnFoto').hidden = !adaMedia; $('#btnMik').hidden = !bisaSuara;
+    $('#teks').value = drafAsli; $('#teks').dispatchEvent(new Event('input'));
+  }
+  async function simpanEdit(isi) {
+    const e = peta.get(editId), tombol = $('#kirim');
+    if (!e || e.m.dihapus_at) { keluarEdit(); return; }
+    if (isi === e.m.content) { keluarEdit(); return; }
+    if (!bolehKirim(isi, m => alert(m))) return;
+    tombol.disabled = true;
+    const { data, error } = await db.rpc('edit_pesan', { p_id: editId, p_isi: isi });
+    tombol.disabled = !boleh;
+    if (error) {
+      // Paling sering: tidak lagi saling mengikuti, lebih dari 24 jam, atau kata terlarang. Teks tetap di kotak.
+      const ok = await cekSalingIkuti();
+      aturKirim(ok);
+      alert(t('chat.gagalEdit', { pesan: galatRamah(error) }));
+      if (!ok) keluarEdit();
+      return;
+    }
+    const id = editId;
+    keluarEdit();
+    perbarui({ id, content: isi, diedit_at: data || new Date().toISOString() });
+  }
+  $('#editBatal').onclick = keluarEdit;
+  $('#teks').addEventListener('keydown', e => { if (e.key === 'Escape' && editId !== null) { e.preventDefault(); keluarEdit(); } });
+
+  // Draf per percakapan disimpan di perangkat (dihapus otomatis saat keluar akun, awalan jk:)
+  const KUNCI_DRAF = 'jk:draf:' + cid;
+  $('#teks').addEventListener('input', () => {
+    if (editId !== null) return;
+    try { const v = $('#teks').value; if (v) localStorage.setItem(KUNCI_DRAF, v); else localStorage.removeItem(KUNCI_DRAF); } catch (e) {}
+  });
+  try { const dr = localStorage.getItem(KUNCI_DRAF); if (dr && !$('#teks').value) { $('#teks').value = dr; $('#teks').dispatchEvent(new Event('input')); } } catch (e) {}
 
   // Ambil 200 pesan TERBARU (tanpa batas, Supabase hanya mengembalikan 1000 pesan TERLAMA)
   const { data: pesan, error: ep } = await db.from('messages').select(KOLOM)
@@ -169,11 +338,20 @@
         baru.forEach(tampil);
         if (baru.some(m => m.sender_id !== saya.id) && window.Notif) Notif.tandaiPercakapan(cid);
       }
+      // Edit/hapus yang terjadi saat koneksi putus: periksa 50 pesan terbaru yang sudah tampil
+      if (adaEdit) {
+        const { data: terbaru } = await db.from('messages').select(KOLOM).eq('conversation_id', cid)
+          .order('created_at', { ascending: false }).limit(50);
+        (terbaru || []).forEach(m => { if (sudah.has(m.id)) perbarui(m); });
+      }
     } catch (e) {} finally { susulSibuk = false; }
   }
   db.channel('chat-' + cid).on('postgres_changes',
     { event: 'INSERT', schema: 'public', table: 'messages', filter: 'conversation_id=eq.' + cid },
     p => { tampil(p.new); if (p.new.sender_id !== saya.id && window.Notif) Notif.tandaiPercakapan(cid); })
+    .on('postgres_changes',
+      { event: 'UPDATE', schema: 'public', table: 'messages', filter: 'conversation_id=eq.' + cid },
+      p => perbarui(p.new))
     .subscribe(status => { if (status === 'SUBSCRIBED') susul(); });   // juga menutup celah antara muat awal dan langganan aktif
   document.addEventListener('visibilitychange', () => { if (!document.hidden) susul(); });
   window.addEventListener('online', susul);
@@ -183,6 +361,7 @@
     const tombol = $('#kirim'), kotak = $('#teks');
     const content = kotak.value.trim();
     if (!boleh || !content || tombol.disabled) return;
+    if (editId !== null) return simpanEdit(content);
     if (!bolehKirim(content, m => alert(m))) return;
     tombol.disabled = true;
     // Pesan sendiri langsung tampil dari hasil insert, tidak bergantung pada realtime

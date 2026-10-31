@@ -32,3 +32,18 @@ window.Keamanan = {
     return true;
   }
 };
+
+// 3) Tombol "Kembali" (<a href="index.html" data-kembali>). CSP situs tidak mengizinkan skrip sebaris, jadi
+//    href="javascript:history.back()" diblokir browser dan tombolnya mati. Di sini: kembali ke halaman sebelumnya
+//    bila berasal dari halaman Jurkon lain; bila tidak (tautan dibagikan, tab baru, atau dari halaman masuk),
+//    tautan biasa ke href-nya (beranda) yang berjalan, jadi pengguna tidak pernah terjebak.
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest ? e.target.closest('a[data-kembali]') : null;
+  if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  var dariSitus = false;
+  try {
+    var r = document.referrer ? new URL(document.referrer) : null;
+    dariSitus = !!r && r.origin === location.origin && !/\/(login|reset|selamat)\.html$/.test(r.pathname);
+  } catch (x) {}
+  if (dariSitus && history.length > 1) { e.preventDefault(); history.back(); }
+});

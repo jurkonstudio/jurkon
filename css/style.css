@@ -1096,3 +1096,26 @@ body[data-tab=pesan] .psn-pil textarea:focus{outline:0;border:0}
 @media (prefers-reduced-motion:reduce){.psn-item,.psn-pil,.psn-kirim,.psn-cari,.psn-kembali{transition:none}.psn-kirim:active{transform:none}}
 #lawan.psn-lawan span:last-child{overflow:visible;text-overflow:clip;white-space:normal}
 .psn-cari input::-webkit-search-cancel-button{filter:grayscale(1) opacity(.7);cursor:pointer}
+
+/* Panel chat: menu pesan (salin/edit/hapus), mode edit, pesan dihapus */
+body[data-tab=pesan] .bubble[tabindex]{cursor:pointer;-webkit-tap-highlight-color:transparent}
+body[data-tab=pesan] .bubble[tabindex]:focus-visible{outline:2px solid var(--aksen);outline-offset:2px}
+.bubble .diedit{margin-left:6px;font-size:11.5px;opacity:.7;white-space:nowrap}
+body[data-tab=pesan] .bubble.saya.dihapus,body[data-tab=pesan] .bubble.lawan.dihapus{background:transparent;background-image:none;box-shadow:none;border:1px dashed var(--garis);color:var(--redup);font-size:14px;opacity:1}
+.lembar-psn{max-width:420px}
+.psn-cuplik{margin:14px 16px 4px;padding:10px 14px;border-radius:14px;background:color-mix(in srgb,var(--garis) 40%,transparent);color:var(--redup);font-size:14px;line-height:1.4;max-height:4.4em;overflow:hidden;white-space:pre-wrap;overflow-wrap:anywhere}
+.psn-aksi{display:flex;flex-direction:column;padding:8px 8px calc(12px + env(safe-area-inset-bottom))}
+.psn-aksi button{display:flex;align-items:center;gap:14px;min-height:52px;padding:0 14px;border:0;border-radius:12px;background:none;color:var(--teks);font:inherit;font-size:16px;text-align:left;cursor:pointer}
+.psn-aksi button:hover,.psn-aksi button:focus-visible{background:color-mix(in srgb,var(--garis) 45%,transparent)}
+.psn-aksi button.bahaya{color:var(--bahaya)}
+.psn-aksi svg{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.psn-hapus-t{padding:14px 20px 0;color:var(--redup);line-height:1.45}
+.psn-edit{display:flex;align-items:center;gap:10px;margin:0 0 8px;padding:4px 4px 4px 12px;border-left:3px solid var(--aksen);border-radius:10px;background:color-mix(in srgb,var(--aksen) 8%,var(--bg))}
+.psn-edit[hidden]{display:none}
+.psn-edit-isi{flex:1;min-width:0;display:flex;flex-direction:column;font-size:13px;line-height:1.35}
+.psn-edit-isi b{color:var(--aksen);font-weight:650}
+.psn-edit-isi small{color:var(--redup);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.psn-edit .ikon-btn{width:36px;height:36px;border:0}
+.psn-kirim .cek{display:none}
+.psn-kirim.simpan .naik{display:none}
+.psn-kirim.simpan .cek{display:block}
