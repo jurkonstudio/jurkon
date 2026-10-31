@@ -86,3 +86,11 @@ Jalur masuk organik: penulis boleh menjadikan **satu catatan** bisa dibaca siapa
 - **Klien:** `n.html` + `js/n.js` (halaman baca, boleh diindeks, tombol Laporkan untuk anggota yang login), `js/publik.js` (tombol dan dialog), kamus `pub.*`.
 - **Pratinjau WhatsApp/X dan sitemap:** butuh Worker Cloudflare, lihat `worker/README.md`. Tanpa Worker, fitur tetap jalan tetapi pratinjau tautan generik.
 - Tab Beranda "Publik" diganti label "Semua" karena artinya hanya "semua catatan untuk anggota", bukan publik di internet.
+
+## Angka aksi: tersembunyi saat 0 dan menyegarkan diri
+
+- Angka suka, tidak suka, posting ulang, dan tayang pada kartu **tidak ditampilkan sampai ada yang menyukai/melihat** (ikonnya tetap; ikon tayang ikut muncul saat angkanya > 0).
+- Kartu yang sedang terlihat di layar diperbarui sendiri lewat `angka_posting()` (`sql/030_angka_langsung.sql`), satu pemanggilan untuk semua kartu. Jeda 6 detik, melebar sampai 30 detik bila tidak ada perubahan, berhenti saat tab di latar belakang, dan menyegarkan cepat saat tab dibuka lagi. Angka yang berubah memberi animasi "tik" singkat (mati bila perangkat memakai "kurangi gerakan").
+- Ini polling ringan, bukan WebSocket. Tidak ada tabel baru dan tidak ada langganan Realtime. Tanpa migrasi 030 kartu tetap berfungsi, hanya tidak menyegarkan diri.
+- Kode: `setAngka()` dan `pasangAngkaLangsung()` di `js/ui.js`, gaya `.tik` di `css/style.css`.
+

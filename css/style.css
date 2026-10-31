@@ -776,3 +776,11 @@ body[data-tab=beranda] .logo-tengah img{height:44px;width:auto;max-width:none;di
    (column-gap 8px + margin) terlalu lebar. Di sini ikon dipusatkan ke garis dan celahnya dirapatkan. */
 .vf-lencana{align-self:center}
 .post .badan>a:first-child .vf-lencana{margin-left:-3px;width:1.1em;height:1.1em}
+
+/* Angka aksi: kosong bila 0, animasi "tik" saat berubah, tayang muncul setelah ada yang melihat */
+.post .aksi button>span,.post .aksi .tayang>span{display:inline-block;font-variant-numeric:tabular-nums}
+.post .aksi button>span:empty,.post .aksi .tayang>span:empty{display:none}
+.post .aksi .tayang[hidden]{display:none}
+.post .aksi span.tik{animation:angka-tik .42s cubic-bezier(.2,.8,.2,1)}
+@keyframes angka-tik{0%{transform:translateY(60%);opacity:0}60%{opacity:1}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.post .aksi span.tik{animation:none}}

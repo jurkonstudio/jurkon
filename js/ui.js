@@ -135,6 +135,22 @@ function ringkas(n) {
   return n >= 1e6 ? f(n / 1e6, t('num.jt')) : n >= 1e4 ? f(n / 1e3, t('num.rb')) : n.toLocaleString(loc);
 }
 
+// Angka di tombol aksi (suka, tidak suka, posting ulang, tayang): nilai asli disimpan di data-n,
+// angka 0 tidak ditampilkan (kosong), dan perubahan diberi animasi "tik" singkat.
+// Mengembalikan true bila nilainya berubah.
+function setAngka(el, n, tik) {
+  if (!el) return false;
+  n = Math.max(0, Math.floor(Number(n) || 0));
+  const lama = el.dataset.n === undefined ? null : Number(el.dataset.n);
+  if (lama === n) return false;
+  el.dataset.n = n;
+  el.textContent = n > 0 ? ringkas(n) : '';
+  if (tik !== false && lama !== null && window.matchMedia && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.classList.remove('tik'); void el.offsetWidth; el.classList.add('tik');
+  }
+  return true;
+}
+
 // Isi posting aman (di-escape): @username menjadi tautan ke profil, #tagar menjadi tautan ke pencarian Jelajah.
 // Tagar: 2-30 huruf/angka/garis bawah, minimal satu huruf (jadi "#1" atau "#2024" bukan tagar).
 // "&" dan "#" dikecualikan sebagai pendahulu supaya entitas HTML hasil esc() (misalnya &#39;) tidak ikut terbaca.
@@ -168,8 +184,9 @@ function htmlPost(p, saya, opsi) {
   const milik = saya && saya.id === p.user_id;
   const induk = p.parent_id && !(opsi && opsi.tanpaInduk)
     ? `<div class="induk">${IK.balas}<a href="detail.html?id=${p.parent_id}">${esc(p.induk_username ? t('pc.membalasUser', { u: p.induk_username }) : t('pc.membalasCatatan'))}</a></div>` : '';
+  // Tayang: tersembunyi sampai ada yang melihat; elemennya tetap ada supaya bisa muncul saat angkanya naik
   const tayang = p.dilihat == null ? ''
-    : `<span class="tayang" title="${esc(t('pc.dilihat', { n: p.dilihat }))}" aria-label="${esc(t('pc.dilihat', { n: p.dilihat }))}">${IK.mata}<span>${ringkas(p.dilihat)}</span></span>`;
+    : `<span class="tayang"${p.dilihat > 0 ? '' : ' hidden'} title="${esc(t('pc.dilihat', { n: p.dilihat }))}" aria-label="${esc(t('pc.dilihat', { n: p.dilihat }))}">${IK.mata}<span data-n="${Number(p.dilihat) || 0}">${p.dilihat > 0 ? ringkas(p.dilihat) : ''}</span></span>`;
   return `<article class="post" data-id="${p.id}">
     <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="${esc(t('pc.profilDari', { nama }))}">${avatar(nama, 42, p.profiles.foto_url)}</a>
     <div class="badan">
@@ -179,7 +196,7 @@ function htmlPost(p, saya, opsi) {
       ${p.kedaluwarsa && labelBerumur(p.kedaluwarsa) ? `<div class="berumur">${esc(labelBerumur(p.kedaluwarsa))}</div>` : ''}
       ${p.kapsul_ditulis ? '<div class="berumur">' + esc(t('pc.kapsulDitulis', { tgl: tglPanjang(p.kapsul_ditulis) })) + '</div>' : ''}
       <div class="aksi">
-        <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="${esc(t('pc.suka'))}">${IK.suka}<span>${jml}</span></button>
+        <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="${esc(t('pc.suka'))}">${IK.suka}<span data-n="${Number(jml) || 0}">${jml > 0 ? ringkas(jml) : ''}</span></button>
         <a href="detail.html?id=${p.id}" aria-label="${esc(t('umum.balas'))}">${IK.balas}<span>${esc(t('umum.balas'))}</span></a>
         ${tayang}
         <span class="sisi">
@@ -249,16 +266,16 @@ function pasangAksiPost(saya, muat) {
       b.dataset.sibuk = '1';
       const sudah = b.classList.contains('sudah');
       const n = b.querySelector('span');
-      const awal = +n.textContent || 0;
+      const awal = Number(n.dataset.n) || 0;
       // Tampilan langsung berubah (terasa instan); dikembalikan bila server menolak
       b.classList.toggle('sudah');
-      n.textContent = Math.max(0, awal + (sudah ? -1 : 1));
+      setAngka(n, awal + (sudah ? -1 : 1));
       const { error } = sudah
         ? await db.from('likes').delete().match({ post_id: id, user_id: saya.id })
         : await db.from('likes').insert({ post_id: id, user_id: saya.id });
       delete b.dataset.sibuk;
       if (error) {
-        b.classList.toggle('sudah', sudah); n.textContent = awal;
+        b.classList.toggle('sudah', sudah); setAngka(n, awal, false);
         alert(/terlalu cepat|batas/i.test(error.message || '') ? error.message : t('pc.gagalSuka'));
       }
     } else if (b.classList.contains('btn-lapor')) {
@@ -375,16 +392,16 @@ function htmlUlang(p, saya) {
 
   const sel = id => CSS.escape ? CSS.escape(id) : id;
 
-  function perbaruiTombol(id) {
+  function perbaruiTombol(id, tik) {
     const r = stat.get(id); if (!r) return;
     document.querySelectorAll('.btn-tidaksuka[data-id="' + sel(id) + '"]').forEach(b => {
       b.classList.toggle('sudah', !!r.saya_tidak_suka);
       b.setAttribute('aria-pressed', !!r.saya_tidak_suka);
-      b.querySelector('span').textContent = ringkas(r.tidak_suka);
+      setAngka(b.querySelector('span'), r.tidak_suka, tik);
     });
     document.querySelectorAll('.btn-ulang[data-id="' + sel(id) + '"]').forEach(b => {
       b.classList.toggle('sudah', !!r.saya_ulang);
-      b.querySelector('span').textContent = ringkas(Number(r.ulang) + Number(r.kutip));
+      setAngka(b.querySelector('span'), Number(r.ulang) + Number(r.kutip), tik);
     });
   }
 
@@ -398,7 +415,7 @@ function htmlUlang(p, saya) {
       const b = document.createElement('button');
       b.type = 'button'; b.className = kelas; b.dataset.id = id;
       b.setAttribute('aria-label', label); b.title = label;
-      b.innerHTML = ikon + '<span>0</span>';
+      b.innerHTML = ikon + '<span data-n="0"></span>';
       aksi.insertBefore(b, sebelum);
     };
     tombol('btn-tidaksuka', IK2.tidaksuka, t('pc.tidakSuka'));
@@ -414,7 +431,7 @@ function htmlUlang(p, saya) {
       const isi = el.querySelector('.isi');
       if (isi) isi.insertAdjacentHTML('afterend', htmlKutipan(asli.get(r.kutip_id) || null));
     }
-    perbaruiTombol(id);
+    perbaruiTombol(id, false);
   }
 
   async function isiUlang(el, r) {
@@ -537,7 +554,7 @@ function htmlUlang(p, saya) {
     // Tidak suka membatalkan suka: sesuaikan tombol suka di layar
     document.querySelectorAll('.btn-suka[data-id="' + sel(id) + '"]').forEach(k => {
       k.classList.remove('sudah');
-      const n = k.querySelector('span'); if (n) n.textContent = data.suka;
+      setAngka(k.querySelector('span'), data.suka);
     });
   }
 
@@ -610,3 +627,82 @@ function htmlUlang(p, saya) {
 })();
 
 if (typeof IKON === 'object' && !IKON.ulang && typeof IK2 === 'object') IKON.ulang = IK2.ulang;
+
+// ---- Angka langsung (migrasi 030) ---------------------------------------------------
+// Suka, tidak suka, posting ulang, dan tayang pada kartu yang sedang terlihat diperbarui sendiri.
+// Satu pemanggilan angka_posting() untuk semua kartu di layar; jedanya 6 detik, melebar sampai 30 detik
+// bila tidak ada perubahan, berhenti saat tab di latar belakang, dan kembali cepat saat tab dibuka lagi.
+// Bila migrasinya belum dipasang, bagian ini berhenti diam-diam dan kartu tetap berfungsi seperti biasa.
+(function pasangAngkaLangsung() {
+  if (typeof db === 'undefined') return;
+  const CEPAT = 6000, LAMBAT = 30000;
+  let jeda = CEPAT, timer = null, mati = false, jalan = false, masuk = null;
+  const sel = id => (window.CSS && CSS.escape) ? CSS.escape(id) : id;
+
+  function idTerlihat() {
+    const tinggi = window.innerHeight || 800, ids = new Set();
+    document.querySelectorAll('.post[data-id]').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.bottom > -tinggi && r.top < tinggi * 2) ids.add(el.dataset.id);   // layar ini ditambah satu layar di atas dan bawah
+    });
+    return [...ids].slice(0, 60);
+  }
+
+  function terapkan(r) {
+    let ubah = false;
+    document.querySelectorAll('.post[data-id="' + sel(r.id) + '"]').forEach(el => {
+      const suka = el.querySelector('.btn-suka');
+      if (suka && !suka.dataset.sibuk) ubah = setAngka(suka.querySelector('span'), r.suka) || ubah;   // jangan menimpa klik yang sedang diproses
+      const tdk = el.querySelector('.btn-tidaksuka');
+      if (tdk && !tdk.dataset.sibuk) ubah = setAngka(tdk.querySelector('span'), r.tidak_suka) || ubah;
+      const ulg = el.querySelector('.btn-ulang');
+      if (ulg) ubah = setAngka(ulg.querySelector('span'), Number(r.ulang) + Number(r.kutip)) || ubah;
+      const ty = el.querySelector('.tayang');
+      if (ty && r.dilihat != null) {
+        const n = Number(r.dilihat) || 0;
+        if (setAngka(ty.querySelector('span'), n)) {
+          ubah = true; ty.hidden = n <= 0;
+          const label = t('pc.dilihat', { n: n });
+          ty.title = label; ty.setAttribute('aria-label', label);
+        }
+      }
+    });
+    return ubah;
+  }
+
+  async function putaran() {
+    timer = null;
+    if (mati || jalan) return;
+    if (document.hidden) return;   // dilanjutkan oleh visibilitychange
+    jalan = true;
+    let ubah = false;
+    try {
+      if (masuk === null) { const { data: { session } } = await db.auth.getSession(); masuk = !!session; }
+      const ids = masuk ? idTerlihat() : [];
+      if (ids.length) {
+        const { data, error } = await db.rpc('angka_posting', { p_ids: ids });
+        if (error) {
+          if (/PGRST202|42883|does not exist|could not find/i.test((error.code || '') + ' ' + (error.message || ''))) { mati = true; return; }
+          jeda = Math.min(LAMBAT, jeda * 2);   // gangguan sementara: pelan-pelan saja
+        } else {
+          (data || []).forEach(r => { ubah = terapkan(r) || ubah; });
+          jeda = ubah ? CEPAT : Math.min(LAMBAT, Math.round(jeda * 1.4));
+        }
+      }
+    } catch (e) { jeda = Math.min(LAMBAT, jeda * 2); }
+    finally { jalan = false; jadwal(); }
+  }
+
+  function jadwal(tunda) {
+    if (mati || timer || document.hidden) return;
+    timer = setTimeout(putaran, tunda == null ? jeda : tunda);
+  }
+
+  // Dipanggil dari mana saja setelah tindakan sendiri, agar angka lain ikut menyegarkan cepat
+  window.segarkanAngka = function () { jeda = CEPAT; if (timer) { clearTimeout(timer); timer = null; } jadwal(1200); };
+
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) { jeda = CEPAT; if (timer) { clearTimeout(timer); timer = null; } jadwal(400); } });
+  window.addEventListener('online', () => { jeda = CEPAT; jadwal(400); });
+  try { db.auth.onAuthStateChange(() => { masuk = null; }); } catch (e) {}
+  jadwal(3000);
+})();
