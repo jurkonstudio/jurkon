@@ -752,3 +752,13 @@ body[data-tab=beranda] .logo-tengah img{height:44px;width:auto;max-width:none;di
 .pub-ajak p{color:var(--redup);margin-bottom:12px}
 .pub-lapor{margin:0 16px 8px;text-align:center}
 .pub-lapor button{background:none;border:0;color:var(--redup);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer}
+
+/* Baris aksi: bila ikon tidak muat di layar sempit (suka, balas, tidak suka, ulang, tayang, lapor, sematkan,
+   publik, hapus), turun ke baris kedua. Sebelumnya meluber ke kanan sehingga ikon hapus terpotong. */
+.post .badan{min-width:0}
+.post .aksi{flex-wrap:wrap;row-gap:0}
+.post .aksi .sisi{flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:479px){
+  .post .aksi button,.post .aksi a,.post .aksi .tayang{min-width:38px;padding-left:6px;padding-right:6px}
+  .post .aksi .sisi button{min-width:38px}
+}
