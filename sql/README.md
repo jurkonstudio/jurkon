@@ -33,6 +33,8 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `022_pastikan_rls_anggota.sql` | menghapus kebijakan baca terbuka (`using (true)`) dan memastikan hanya anggota login yang bisa membaca | setelah 021; hasil akhir: 0 baris (lihat kueri cek di berkas) |
 | `023_catatan_berumur.sql` | catatan berumur (hilang otomatis), kolom `kedaluwarsa` di feed | setelah 021 |
 | `024_kapsul_waktu.sql` | kapsul waktu: kolom `terbuka_pada`, kebijakan baca, `kapsul_saya()`, `batalkan_kapsul()`, kolom `kapsul_ditulis` di feed | setelah 023 |
+| `025_kunci_kolom_insert.sql` | trigger yang memaksa `created_at` = sekarang (dan `disorot` = false, `dilihat` = 0 di posts) saat klien insert; menutup pemalsuan jumlah tayang, sorotan, dan pembatas laju | setelah 024; hasil cek: 7 baris |
+| `026_sematkan_catatan.sql` | kolom `profiles.disematkan` + trigger yang memastikan hanya catatan utama milik sendiri (sudah tayang, tidak berumur) yang bisa disematkan | setelah 024 (disarankan setelah 025); hasil cek: 1 baris, 1 baris |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 

@@ -5,6 +5,7 @@ const IKP = {
   titik: '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>',
   gigi: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   bagikan: '<svg viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>',
+  semat: '<svg viewBox="0 0 24 24"><path d="M9 4h6l-1 6 3 3H7l3-3-1-6zM12 13v7"/></svg>',
   kalender: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'
 };
 function tutupMenu() {
@@ -109,7 +110,7 @@ async function muat() {
       if (error) alert(t('pf.gagalAksi', { pesan: galatRamah(error) })); else location.href = 'chat.html?id=' + data;
     };
   }
-  if (blk) { $('#tabProfil').hidden = true; $('#daftar').innerHTML = kosong('pena', t('pf.blokirJ'), t('pf.blokirT', { u: esc(p.username) })); return; }
+  if (blk) { $('#tabProfil').hidden = true; $('#sematan').innerHTML = ''; $('#daftar').innerHTML = kosong('pena', t('pf.blokirJ'), t('pf.blokirT', { u: esc(p.username) })); return; }
   $('#tabProfil').hidden = false;
   $('#tp-suka').hidden = !(SUKA_PUBLIK || milikSaya);
   $('#tp-kapsul').hidden = !milikSaya;            // Kapsul hanya terlihat oleh pemilik profil
@@ -127,6 +128,9 @@ async function muat() {
       tabAktif = ada[n]; tampilTab(true);
     });
   }
+  const sem = await ambilDisematkan(p.id);
+  if (profil !== p) return;
+  p.disematkanId = sem;
   tampilTab();
 }
 // Catatan tidak lagi memuat posting ulang (pindah ke tab Reposts). Fungsi daftar masih mengirim semuanya,
@@ -134,21 +138,23 @@ async function muat() {
 async function ambilTabProfil(mode, id, sebelum) {
   const r = await ambilPosting({ mode, id, sebelum }, saya);
   if (mode !== 'catatan_oleh' || r.error) return r;
+  const sem = profil && profil.id === id ? profil.disematkanId : null;   // yang disematkan tampil di puncak, bukan dobel di daftar
   let semua = r.data || [], akhir = semua.length ? semua[semua.length - 1].created_at : null;
-  let penuh = semua.length >= (r.limit || HALAMAN), sisa = semua.filter(x => x.content || x.parent_id);
+  let penuh = semua.length >= (r.limit || HALAMAN), sisa = semua.filter(x => (x.content || x.parent_id) && x.id !== sem);
   for (let i = 0; i < 4 && !sisa.length && penuh && akhir; i++) {
     const h = await ambilPosting({ mode, id, sebelum: akhir }, saya);
     if (h.error) return h;
     semua = h.data || [];
     penuh = semua.length >= (h.limit || HALAMAN);
     if (semua.length) akhir = semua[semua.length - 1].created_at;
-    sisa = semua.filter(x => x.content || x.parent_id);
+    sisa = semua.filter(x => (x.content || x.parent_id) && x.id !== sem);
   }
   return { data: sisa, error: null, limit: penuh ? Math.max(1, Math.min(HALAMAN, sisa.length)) : sisa.length + 1, kursorAkhir: akhir };
 }
 // Isi daftar sesuai tab: Catatan (posting utama), Balasan (balasan yang ditulisnya), Menyukai (yang ia sukai)
 function tampilTab(fokus) {
   clearInterval(kapsulTimer);
+  muatSematan();
   const p = profil, milikSaya = p.id === saya.id, u = esc(p.username);
   TAB_PROFIL.forEach(k => {
     const b = $('#tp-' + k), aktif = k === tabAktif;
@@ -216,6 +222,41 @@ async function tampilKapsul(el) {
     if (lewat && Date.now() - kapsulMuatAkhir > 20000) tampilKapsul(el);
   }, 30000);
 }
+
+// ---- Catatan disematkan ------------------------------------------------------
+let sematanVersi = 0;
+async function ambilDisematkan(id) {
+  try {
+    const { data, error } = await db.from('profiles').select('disematkan').eq('id', id).maybeSingle();   // error = migrasi 026 belum dijalankan
+    return error || !data ? null : (data.disematkan || null);
+  } catch (e) { return null; }
+}
+// Tombol sematkan di kartu catatan milik sendiri (dipanggil oleh htmlPost di js/ui.js)
+function tombolSemat(p, milik) {
+  if (!milik || !profil || !saya || profil.id !== saya.id || p.parent_id || p.kedaluwarsa) return '';
+  const sudah = profil.disematkanId === p.id, teks = t(sudah ? 'pf.lepasSemat' : 'pf.semat');
+  return `<button class="btn-semat${sudah ? ' aktif' : ''}" data-id="${p.id}" aria-pressed="${sudah}" aria-label="${esc(teks)}" title="${esc(teks)}">${IKP.semat}</button>`;
+}
+function muatSematan() {
+  const kotak = $('#sematan'), p = profil, ini = ++sematanVersi;
+  kotak.innerHTML = '';
+  if (tabAktif !== 'catatan' || !p || !p.disematkanId) return;
+  ambilPosting({ mode: 'satu', id: p.disematkanId, limit: 1 }, saya).then(({ data }) => {
+    if (ini !== sematanVersi || tabAktif !== 'catatan' || profil !== p || !data || !data.length) return;
+    kotak.innerHTML = '<div class="sematan-label">' + IKP.semat + '<span>' + esc(t('pf.disematkan')) + '</span></div>' + htmlPost(data[0], saya);
+  });
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('.btn-semat');
+  if (!b || b.disabled || !profil || !saya || profil.id !== saya.id) return;
+  b.disabled = true;
+  const lepas = profil.disematkanId === b.dataset.id;
+  const { error } = await db.from('profiles').update({ disematkan: lepas ? null : b.dataset.id }).eq('id', saya.id);
+  if (error) { b.disabled = false; tampilToast(t('pf.gagalSemat', { pesan: galatRamah(error) })); return; }
+  profil.disematkanId = lepas ? null : b.dataset.id;
+  tampilToast(t(lepas ? 'pf.sematDilepas' : 'pf.tersemat'));
+  tampilTab();
+});
 
 // ---- Bagikan profil ---------------------------------------------------------
 function tampilToast(teks) {

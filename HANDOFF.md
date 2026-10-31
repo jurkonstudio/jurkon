@@ -50,19 +50,34 @@ git push
 
 ## Berikutnya (urutan usulan)
 
-1. **Sematkan satu catatan di profil** (kolom baru di `profiles` + trigger agar catatannya milik sendiri, catatan utama, bukan kapsul belum terbuka).
+1. ~~Sematkan satu catatan di profil~~ (selesai, lihat bagian 026 di bawah).
 2. **Lapor akun dan Bisukan** di menu ⋯ (butuh SQL).
 3. **Opsi sembunyikan tab Menyukai**: harus ditegakkan di RLS tabel `likes`, bukan hanya menyembunyikan tab (`SUKA_PUBLIK` sekarang berlaku untuk semua).
 4. **Tab Tersimpan** (bookmark, tabel privat baru).
 5. **Ringkasan menulis pribadi** tanpa streak, sesuai nuansa tenang.
 
-Nomor 1 sampai 4 menambah kolom atau tabel. Sebaiknya migrasi **025** (perbaikan celah kebijakan update `profiles` yang membolehkan pemilik mengisi kolom apa pun di barisnya) jalan lebih dulu atau bersamaan; perbaikannya satu trigger kecil.
+Nomor 1 sampai 4 menambah kolom atau tabel, jadi **025 sebaiknya jalan lebih dulu**.
 
-Cek apakah celah itu pernah dipakai, di SQL Editor:
+## Migrasi 026: sematkan catatan
+
+Kode selesai, **belum diuji** (sandbox tanpa Postgres dan browser). Pasang SQL dulu: `sql/026_sematkan_catatan.sql` (kolom `profiles.disematkan` + trigger `jaga_disematkan_trg`), jalankan uji di bagian pemeriksaannya, baru unggah kode. Tanpa 026, halaman profil tetap jalan (sematan dianggap kosong) tetapi tombol pin akan menampilkan galat.
+Berkas: `profil.html` (wadah `#sematan`), `js/profil.js` (`tombolSemat`, `muatSematan`, penyaring daftar), `js/ui.js` (tombol di `htmlPost`, hanya bila `tombolSemat` ada), `css/style.css`, kamus.
+Uji: di profil sendiri ketuk pin di satu catatan, catatan pindah ke puncak dengan label "Disematkan" dan hilang dari daftar di bawahnya; ketuk pin lagi untuk melepas; hapus catatan yang disematkan, sematan hilang sendiri. Balasan, kutipan, dan catatan berumur tidak punya pin atau ditolak server.
+Catatan: daftar baris dari `daftar_posting` tidak memuat kolom `jenis`, jadi catatan kutipan tetap menampilkan pin tetapi ditolak server dengan pesan berbahasa Indonesia.
+
+## Migrasi 025 (celah dari penilaian awal)
+
+Kebijakan insert `posts` hanya mengecek `auth.uid() = user_id`, dan tidak ada trigger yang mereset `created_at`, `disorot`, atau `dilihat`. Anggota login bisa memanggil API langsung untuk memasang sorotan, memalsukan jumlah tayang, menempelkan catatan di puncak feed (`created_at` masa depan), atau lolos pembatas laju (`created_at` masa lalu). Hal yang sama berlaku untuk `likes`, `follows`, `messages`, `reports`, `dislikes`, dan `blocks`.
+
+`sql/025_kunci_kolom_insert.sql` memasang trigger `a0_kunci_kolom_trg` (BEFORE INSERT) di tujuh tabel itu. Isinya memaksa `created_at := now()` dan, khusus `posts`, `disorot := false` dan `dilihat := 0`, bila `auth.uid()` tidak null. Insert dari SQL Editor dan service role tidak berubah.
+
+Status: ditulis, **belum dijalankan** (sandbox tidak punya Postgres). Urutan: jalankan uji "sebelum" di bagian pemeriksaan berkas itu (dalam transaksi rollback), jalankan migrasi, ulangi uji (created_at harus = sekarang, disorot = f, dilihat = 0), lalu jalankan kueri pencari baris yang sudah terlanjur dimanipulasi:
 ```
-select id, created_at, disorot, dilihat from posts where disorot or created_at > now() order by created_at desc;
+select id, user_id, created_at, disorot, dilihat from posts where disorot or created_at > now() order by created_at desc;
 ```
-Baris `disorot` yang dikenal dari panel admin itu wajar. Yang mencurigakan: `created_at` di masa depan atau `dilihat` tidak masuk akal.
+Baris `disorot` yang dikenal dari panel admin itu wajar. Yang mencurigakan: `created_at` di masa depan atau `dilihat` tidak masuk akal. Baris lama tidak diubah migrasi; bersihkan sendiri setelah diperiksa.
+
+Daftar temuan lain dari penilaian awal yang belum dikerjakan: cadangan data pertama, TOTP admin dan admin kedua, konfirmasi setelan Auth Supabase ("Confirm email"), notifikasi saat kapsul terbuka, jalur publik untuk pertumbuhan.
 
 Tidak disarankan sekarang: gambar sampul dan tautan di bio (foto belum dimoderasi; tautan membuka celah spam dan phishing).
 

@@ -713,3 +713,7 @@ a,button,summary,label{touch-action:manipulation}
 .kapsul-waktu{display:flex;flex-direction:column;gap:2px;min-width:0}
 .kapsul-sisa{color:var(--teks);font-weight:600}
 @media (max-width:420px){.tab-profil.lima button{font-size:13px;padding:0 2px}}
+/* Catatan disematkan di puncak profil */
+.sematan-label{display:flex;align-items:center;gap:6px;padding:10px 16px 0;color:var(--redup);font-size:13px;font-weight:600}
+.sematan-label svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.post .aksi .btn-semat:hover,.post .aksi .btn-semat.aktif{color:var(--aksen)}

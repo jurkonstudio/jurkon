@@ -502,5 +502,11 @@ const I18N_KAMUS = {
   'pf.bagikanJudul': ["{nama} (@{u}) di Jurkon", "{nama} (@{u}) on Jurkon", "{nama} (@{u}) di Jurkon", "{nama} (@{u}) ing Jurkon", "{nama} (@{u}) di Jurkon", "Jurkon 上的 {nama}（@{u}）", "Jurkon の {nama}（@{u}）"],
   'pf.tertaut': ["Tautan profil disalin", "Profile link copied", "Pautan profil disalin", "Tautan profil disalin", "Tautan profil disalin", "已复制主页链接", "プロフィールのリンクをコピーしました"],
   'pf.salinManual': ["Salin tautan profil ini:", "Copy this profile link:", "Salin pautan profil ini:", "Salinen tautan profil iki:", "Salin tautan profil ieu:", "请复制此主页链接：", "このプロフィールのリンクをコピーしてください："],
+  'pf.disematkan': ["Disematkan", "Pinned", "Disemat", "Disematake", "Disematkeun", "已置顶", "固定済み"],
+  'pf.semat': ["Sematkan di profil", "Pin to profile", "Semat pada profil", "Sematake ing profil", "Sematkeun dina profil", "置顶到主页", "プロフィールに固定"],
+  'pf.lepasSemat': ["Lepas sematan", "Unpin", "Lepaskan semat", "Copot sematan", "Lepaskeun sematan", "取消置顶", "固定を解除"],
+  'pf.tersemat': ["Catatan disematkan", "Note pinned", "Catatan disemat", "Cathetan wis disematake", "Catetan geus disematkeun", "笔记已置顶", "ノートを固定しました"],
+  'pf.sematDilepas': ["Sematan dilepas", "Unpinned", "Semat dilepaskan", "Sematan wis dicopot", "Sematan geus dilepaskeun", "已取消置顶", "固定を解除しました"],
+  'pf.gagalSemat': ["Gagal menyematkan: {pesan}", "Could not pin: {pesan}", "Gagal menyemat: {pesan}", "Gagal nyematake: {pesan}", "Gagal nyematkeun: {pesan}", "置顶失败：{pesan}", "固定できませんでした：{pesan}"],
   'pc.kapsulDitulis': ["Kapsul waktu, ditulis {tgl}", "Time capsule, written {tgl}", "Kapsul masa, ditulis {tgl}", "Kapsul wektu, ditulis {tgl}", "Kapsul waktos, ditulis {tgl}", "时间胶囊，写于 {tgl}", "タイムカプセル（{tgl}に作成）"]
 };
