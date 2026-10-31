@@ -309,7 +309,7 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 .sebut-teks b{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sebut-teks span{font-size:13px;color:var(--redup)}
 .post .isi{cursor:pointer}
-.post .isi a.sebut{color:var(--link,var(--aksen));font-weight:600}
+.post .isi a.sebut,.post .isi a.tagar{color:var(--link,var(--aksen));font-weight:600}
 .post .isi a.sebut:hover{text-decoration:underline}
 
 /* Profil: desain ulang (kartu, aksi, lembar bawah, pengaturan) */

@@ -48,6 +48,9 @@ async function muat() {
   saya = await wajibLogin();
   if (!saya) return;
   pasangAksiPost(saya, muat);
+  // Dari tautan #tagar di posting: isi kolom cari lebih dulu (explore.html?q=%23tagar)
+  const q = (param('q') || '').trim().slice(0, 50);
+  if (q) $('#cari').value = q;
   $('#cari').addEventListener('input', () => { clearTimeout(tunda); tunda = setTimeout(muat, 350); });
   muat();
 })();

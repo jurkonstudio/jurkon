@@ -46,10 +46,14 @@ function ringkas(n) {
   return n >= 1e6 ? f(n / 1e6, t('num.jt')) : n >= 1e4 ? f(n / 1e3, t('num.rb')) : n.toLocaleString(loc);
 }
 
-// Isi posting aman (di-escape), @username menjadi tautan ke profil
+// Isi posting aman (di-escape): @username menjadi tautan ke profil, #tagar menjadi tautan ke pencarian Jelajah.
+// Tagar: 2-30 huruf/angka/garis bawah, minimal satu huruf (jadi "#1" atau "#2024" bukan tagar).
+// "&" dan "#" dikecualikan sebagai pendahulu supaya entitas HTML hasil esc() (misalnya &#39;) tidak ikut terbaca.
 function isiHtml(t) {
   return esc(t).replace(/(^|[^a-z0-9_@])@([a-z0-9_]{3,20})(?![a-z0-9_])/gi,
-    (m, a, u) => `${a}<a class="sebut" href="profil.html?u=${u.toLowerCase()}">@${u}</a>`);
+    (m, a, u) => `${a}<a class="sebut" href="profil.html?u=${u.toLowerCase()}">@${u}</a>`)
+    .replace(/(^|[^\p{L}\p{N}_&#])#(?=[\p{N}_]*\p{L})([\p{L}\p{N}_]{2,30})(?![\p{L}\p{N}_])/gu,
+      (m, a, g) => `${a}<a class="sebut tagar" href="explore.html?q=${encodeURIComponent('#' + g)}">#${g}</a>`);
 }
 
 // opsi: { tanpaInduk: true } menyembunyikan baris "Membalas ..." (dipakai di halaman detail)
