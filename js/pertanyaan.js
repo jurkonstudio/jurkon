@@ -100,7 +100,7 @@ async function pqStatus(tgl, saya) {
     if (!s) { el.hidden = true; return; }
     el.innerHTML = '<div class="ringkasan-kepala"><b>' + esc(t('pq.judul')) + '</b></div>' +
       '<p class="pq-teks">' + esc(teks) + '</p><div class="pq-baris">' +
-      (s.sudah ? '<span class="pq-hitung">' + esc(t('pq.sudah')) + '</span>'
+      (s.sudah ? '<span class="pq-hitung pq-ok">\u2713 ' + esc(t('pq.sudah')) + '</span>'
         : '<button type="button" class="btn kecil pq-jawab">' + esc(t('pq.jawab')) + '</button>') +
       '<a class="pq-lihat" href="pertanyaan.html">' + esc(s.jumlah ? t('pq.hitung', { n: s.jumlah }) : t('pq.lihat')) + ' \u2192</a></div>';
     el.hidden = false;

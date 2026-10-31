@@ -14,6 +14,7 @@
 <script src="js/bahasa-muat.js"></script><script src="js/i18n.js"></script>
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/login.css">
 <meta name="description" content="Masuk atau daftar di Jurnal Koneksi, tempat berbagi catatan singkat dengan tenang dan aman.">
 <link rel="canonical" href="https://jurkon.my.id/login.html">
 <meta property="og:type" content="website">
@@ -24,20 +25,25 @@
 <meta property="og:url" content="https://jurkon.my.id/login.html">
 <meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<title data-i-doc="auth.masuk">Masuk · Jurkon</title></head><body>
+<title data-i-doc="auth.masuk">Masuk · Jurkon</title></head><body class="login">
 <main><h1 class="sr" data-i="auth.h1">Masuk ke Jurnal Koneksi</h1>
-<div class="logo-login"><img class="logo-terang" src="assets/logo.webp" alt="Jurnal Koneksi" width="900" height="450"><img class="logo-gelap" src="assets/logo-gelap.webp" alt="" aria-hidden="true" width="900" height="450"></div>
-<div class="form">
-  <input type="email" id="email" aria-label="Email" data-i-aria="auth.email" placeholder="nama@email.com" data-i-ph="auth.emailPh" autocomplete="email">
-  <input type="password" id="sandi" aria-label="Kata sandi" data-i-aria="auth.sandi" placeholder="Kata sandi (minimal 8 karakter)" data-i-ph="auth.sandiPh" autocomplete="current-password">
+<div class="lg-merek"><img class="logo-terang" src="assets/logo-header.webp" alt="Jurnal Koneksi" width="408" height="138"><img class="logo-gelap" src="assets/logo-header-gelap.webp" alt="" aria-hidden="true" width="408" height="138"></div>
+<p class="lg-judul" aria-hidden="true" data-i="auth.masuk">Masuk</p>
+<div class="lg-form">
+  <div class="lg-f"><label for="email" data-i="auth.email">Email</label>
+    <input type="email" id="email" placeholder="nama@email.com" data-i-ph="auth.emailPh" autocomplete="email" autocapitalize="none" spellcheck="false" inputmode="email"></div>
+  <div class="lg-f"><div class="lg-baris"><label for="sandi" data-i="auth.sandi">Kata sandi</label><a href="#" id="lupa" data-i="auth.lupa">Lupa kata sandi?</a></div>
+    <input type="password" id="sandi" placeholder="Kata sandi (minimal 8 karakter)" data-i-ph="auth.sandiPh" autocomplete="current-password"></div>
   <div class="situs-jebakan" aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden"><label>Situs web <input type="text" id="situs" name="situs" tabindex="-1" autocomplete="off"></label></div>
   <div id="captcha" style="min-height:0;display:flex;justify-content:center"></div>
   <div class="galat" id="galat" role="alert"></div>
-  <button class="btn" id="masuk" data-i="auth.masuk">Masuk</button>
-  <button class="btn garis" id="daftar" data-i="auth.daftar">Daftar</button>
-  <p class="hitung" style="text-align:center"><a href="#" id="lupa" style="text-decoration:underline" data-i="auth.lupa">Lupa kata sandi?</a></p>
-  <p class="hitung" data-i-html="auth.setujuHtml">Dengan mendaftar, kamu menyetujui <a href="ketentuan-layanan.html" style="text-decoration:underline">ketentuan layanan</a>, <a href="kebijakan-privasi.html" style="text-decoration:underline">kebijakan privasi</a>, dan <a href="aturan.html" style="text-decoration:underline">aturan</a>.</p>
-</div><div id="bahasa" class="tema-pilih"></div></main>
+  <div class="lg-aksi">
+    <button class="btn" id="masuk" data-i="auth.masuk">Masuk</button>
+    <button class="btn garis" id="daftar" data-i="auth.daftar">Daftar</button>
+  </div>
+  <hr class="lg-pisah">
+  <p class="lg-setuju" data-i-html="auth.setujuHtml">Dengan mendaftar, kamu menyetujui <a href="ketentuan-layanan.html" style="text-decoration:underline">ketentuan layanan</a>, <a href="kebijakan-privasi.html" style="text-decoration:underline">kebijakan privasi</a>, dan <a href="aturan.html" style="text-decoration:underline">aturan</a>.</p>
+</div><div id="bahasa" class="tema-pilih lg-bahasa"></div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script src="js/supabase.js"></script>
 <script src="js/ui.js"></script>

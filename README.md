@@ -1,3 +1,23 @@
+# Update Jurkon, 1 November 2026
+
+Halaman masuk dirombak, dokumen hukum dirapikan, dan kebijakan privasi disesuaikan dengan kode. Tanpa SQL.
+
+| Pekerjaan | Berkas | Perlu SQL? | Status |
+|---|---|---|---|
+| Halaman masuk baru (padat, mengikuti 5 tema) | `login.html`, `css/login.css` | Tidak | Diuji tampilan di Chromium (5 tema, HP dan desktop); login sungguhan belum diuji |
+| Tipografi dokumen hukum | `css/dokumen.css`, `kebijakan-privasi.html`, `ketentuan-layanan.html`, `aturan.html` | Tidak | Sama |
+| Kebijakan privasi: bahasa, hitungan gagal masuk, Cloudflare Turnstile (sudah aktif: kunci situs terisi di `js/supabase.js`) | `kebijakan-privasi.html` | Tidak | Perlu dibaca pemilik sebelum rilis |
+| Pertanyaan harian: tampilan baru, jalur hari, jawab kemarin, pemuat jawaban tahan gagal | `pertanyaan.html`, `js/pertanyaan-halaman.js`, `js/pertanyaan.js`, `css/style.css`, `css/tema-kaca.css`, `css/tema-awan.css` | Tidak | Diuji dengan Supabase tiruan di Chromium; belum diuji di produksi |
+| Cache offline | `sw.js` | Tidak | Jalankan `node tools/naikkan-cache.js` |
+
+Catatan:
+- `css/login.css` hanya mengatur ukuran dan tata letak; warna isian dan tombol tetap dari `style.css`, `tema-kaca.css`, `tema-awan.css`. Tema baru otomatis ikut bila mengikuti pola itu.
+- Tidak ada kunci bahasa baru (memakai `auth.*` yang ada), jadi `node tools/cek-bahasa.js` tetap OK.
+- Teks privasi **tidak** diubah soal isi hukum selain tiga penyesuaian di atas. Pernyataan "masuk dengan Google" masih ada padahal tombol Google dinonaktifkan di `js/auth.js`; biarkan bila akan diaktifkan lagi, hapus bila tidak.
+- Pasang: `git pull --rebase`, `unzip -o jurkon-patch.zip`, `node tools/naikkan-cache.js`, `git add -A`, `git commit -m "Login baru, dokumen hukum, privasi"`, `git push`.
+
+---
+
 # Update Jurkon, 31 Oktober 2026
 
 Catatan pembaruan sesi ini: kapsul waktu, perapian tampilan di Google dan WhatsApp, dan persiapan cadangan data.

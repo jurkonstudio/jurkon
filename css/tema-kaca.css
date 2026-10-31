@@ -208,3 +208,11 @@
 @media (prefers-contrast:more){
   :root[data-theme=kaca]{--garis:rgba(60,60,67,.45);--kaca-tepi:rgba(60,60,67,.35);--redup:#4a4a4f}
 }
+
+/* ---------- Pertanyaan harian: kartu kaca ---------- */
+:root[data-theme=kaca] .pq-kepala,
+:root[data-theme=kaca] .pq-kartu{
+  background:var(--kaca-isi);border:1px solid var(--kaca-tepi);
+  -webkit-backdrop-filter:var(--kaca-blur);backdrop-filter:var(--kaca-blur);
+  box-shadow:var(--kaca-kilau),var(--bayang-2);
+}

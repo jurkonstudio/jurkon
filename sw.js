@@ -3,12 +3,12 @@
 // tanpa menunggu jaringan. HTML, JS, dan CSS selalu berasal dari versi yang sama, jadi tidak pernah campur lama-baru.
 // Versi baru terpasang di belakang layar saat sw.js berubah.
 // JANGAN edit angka CACHE secara manual: jalankan  node tools/naikkan-cache.js  sebelum unggah.
-const CACHE = 'jurkon-29bd40d3';
+const CACHE = 'jurkon-1e10f59d';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 
 // Hanya yang dipakai hampir setiap kunjungan. Bahasa lain, tema Kaca/Awan, admin, dan landing disimpan
 // otomatis saat pertama dipakai, jadi pemasangan pertama lebih ringan.
-const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.webp', '/assets/logo-header-gelap.webp',
+const STATIS = ['/css/style.css', '/css/login.css', '/css/dokumen.css', '/manifest.json', '/assets/logo-header.webp', '/assets/logo-header-gelap.webp',
   '/js/bahasa-muat.js', '/js/bahasa/id.js', '/js/bahasa/en.js', '/js/i18n.js', '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/ui.js', '/js/data.js',
   '/js/filter-data.js', '/js/filter.js', '/js/notif.js', '/js/notifikasi.js', '/js/nav.js', '/js/feed.js', '/js/post.js', '/js/mention.js', '/js/tulis.js',
   '/js/detail.js', '/js/explore.js', '/js/profil.js', '/js/akun.js', '/js/pesan.js', '/js/chat.js', '/js/keamanan.js', '/js/kontak.js', '/js/auth.js',

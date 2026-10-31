@@ -127,3 +127,8 @@
 @media (prefers-contrast:more){
   :root[data-theme=awan]{--garis:rgba(235,235,245,.5);--redup:#c7c7cc}
 }
+
+/* ---------- Pertanyaan harian ---------- */
+:root[data-theme=awan] .pq-kepala,
+:root[data-theme=awan] .pq-kartu{background:var(--a-kartu);border:0;border-radius:16px}
+:root[data-theme=awan] .pq-hari.aktif{background:var(--a-aktif);border-color:transparent}

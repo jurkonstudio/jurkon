@@ -1,3 +1,11 @@
+# Handoff tambahan, 1 November 2026
+
+Login baru (`login.html` + `css/login.css`), `css/dokumen.css` untuk tiga halaman hukum, dan tiga penyesuaian di `kebijakan-privasi.html` (tanggal, pilihan bahasa dan hitungan gagal masuk di bagian 6, Cloudflare Turnstile di bagian 5; Turnstile memang aktif). Tanpa SQL. Belum diuji: login sungguhan di produksi, tombol lihat sandi (belum dibuat, butuh kunci bahasa baru).
+Pertanyaan harian: lihat `docs/fitur.md` (perbaikan 1 November 2026). Penyebab asli galat "Failed to load" di daftar jawaban belum terbukti dari kode; pemuat sekarang punya cadangan dan menampilkan kode galat.
+Ide berikutnya: indikator kekuatan sandi, login Google/Apple (butuh konfigurasi Supabase), pemilih tema kecil di halaman masuk.
+
+---
+
 # Handoff Jurkon, 31 Oktober 2026
 
 Sesi ini: usulan fitur halaman profil, nomor 1 dan 2 selesai. Tidak ada SQL baru.

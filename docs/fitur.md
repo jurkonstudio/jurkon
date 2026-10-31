@@ -108,6 +108,8 @@ Satu pertanyaan sama untuk semua orang tiap hari (hari menurut WIB), dipilih dar
 
 - **Database:** jalankan `sql/032_pertanyaan_harian.sql` (setelah 024) SEBELUM mengunggah kode JS. Jawaban adalah catatan biasa dengan `posts.pertanyaan_tgl`; satu jawaban per akun per hari, tanggal harus hari ini atau kemarin (WIB), hanya catatan utama biasa.
 - **Klien:** kartu dan data di `js/pertanyaan.js`, halaman di `js/pertanyaan-halaman.js`, mode `jawab` di lembar tulis (`js/tulis.js`). Tanpa migrasi 032 kartu otomatis tidak tampil.
+- **Perbaikan 1 November 2026 (tanpa SQL, tanpa kunci bahasa baru):** tanggal selalu tampil di kepala halaman; jalur tujuh hari (chip) untuk berpindah hari, tombol Sebelumnya/Berikutnya tetap ada; tombol **Jawab juga tampil untuk kemarin** (server memang menerima hari ini dan kemarin WIB); tanda centang pada "Kamu sudah menjawab"; pertanyaan memakai font serif tema; kartu mengikuti tema Kaca dan Awan; kerangka muat saat kepala belum siap.
+- **Daftar jawaban gagal dimuat:** kueri utama `posts` + profil tertanam dicoba dulu; bila server menolaknya, halaman mengambil `posts` lalu `profiles` terpisah. Kode galat asli dicatat di konsol (`pertanyaan: gagal memuat jawaban`) dan tampil kecil di bawah daftar (mis. `PGRST200`). Bila kode itu muncul terus, periksa kebijakan baca `posts` dan relasi `posts.user_id` ke `profiles`.
 - **Teks pertanyaan hanya berbahasa Indonesia**; teks antarmukanya (`pq.*`) tersedia di 7 bahasa.
 
 ## Kartu catatan (gambar untuk dibagikan)
@@ -145,3 +147,9 @@ Hanya perubahan tampilan dan perilaku di klien. Tanpa SQL, tanpa tabel atau kolo
 
 ## Tombol Kembali
 `href="javascript:history.back()"` tidak jalan karena CSP situs melarang skrip sebaris (tombol Kembali di Detail Posting dan halaman Aturan, Tentang, Bantuan, Privasi, dan Ketentuan mati). Sekarang tombolnya `<a href="index.html" data-kembali>`; `js/keamanan.js` memasang satu pendengar klik yang memanggil `history.back()` bila halaman dibuka dari halaman Jurkon lain (bukan dari login, reset, atau selamat), dan selain itu tautan biasa ke beranda yang berjalan. Halaman baru yang butuh tombol Kembali cukup memakai atribut `data-kembali`.
+
+## Halaman masuk: tampilan baru
+- `login.html` memakai `css/login.css`: label di atas isian, "Lupa kata sandi?" di baris label sandi, tombol Masuk dan Daftar selebar penuh, pemilih bahasa satu baris. Id elemen (`email`, `sandi`, `situs`, `captcha`, `galat`, `masuk`, `daftar`, `lupa`, `bahasa`) tidak berubah karena dipakai `js/auth.js`.
+- Warna tidak ditimpa; tema Kaca dan Awan mengatur isian dan tombol seperti di halaman lain. Logo memakai `assets/logo-header*.webp` (versi gelap untuk tema Gelap dan Awan).
+- Isian 16px di HP (mencegah zoom otomatis iOS), 14,5px di layar lebar.
+- `css/dokumen.css` memberi tipografi padat untuk `kebijakan-privasi.html`, `ketentuan-layanan.html`, dan `aturan.html` (kelas `.dokumen`).
