@@ -121,3 +121,14 @@ Catatan milik sendiri bisa dijadikan gambar PNG untuk Story Instagram, WhatsApp,
 - **Hanya untuk catatan sendiri yang punya isi.** Posting ulang murni dan catatan orang lain tidak mendapat tombol.
 - **Kode:** `js/kartu.js` (dimuat setelah `js/publik.js` di index, detail, profil, explore, pertanyaan), `tombolKartu()` dipanggil `htmlPost` di `js/ui.js`, gaya di akhir `css/style.css`, kamus `kartu.*` di 7 bahasa. Jalankan `node tools/naikkan-cache.js` sebelum unggah.
 - **Catatan:** font Source Serif 4 tidak dimuat aplikasi, jadi kartu memakai serif bawaan perangkat (Iowan Old Style, Charter, atau Georgia); tampilannya sedikit berbeda antar perangkat. Mau seragam? Sertakan berkas font WOFF2 sendiri dan muat dengan `@font-face`.
+
+## Pesan: tampilan baru (daftar dan panel chat)
+
+Hanya perubahan tampilan dan perilaku di klien. Tanpa SQL, tanpa tabel atau kolom baru.
+
+- **Daftar percakapan** (`pesan.html`, `js/pesan.js`): baris dengan foto 52px, nama, cuplikan pesan, dan waktu ringkas (jam bila hari ini, "kemarin", nama hari dalam seminggu, selebihnya tanggal). Percakapan yang belum dibaca ditandai titik warna aksen, nama dan cuplikan menebal, dan waktu berwarna aksen. Penanda dibaca dari tabel `notifications` (jenis `pesan`, `dibaca = false`); bila kueri itu gagal, daftar tetap tampil tanpa penanda.
+- **Kolom cari** muncul bila ada lebih dari 4 percakapan. Menyaring di perangkat menurut nama dan username (boleh memakai awalan @), tanpa kueri baru.
+- **Panel chat** (`chat.html`, `js/chat.js`): kepala berisi tombol kembali (ikon), foto, nama, dan @username yang bisa diketuk ke profil. Gelembung dari pengirim yang sama dengan jeda kurang dari 5 menit dirapatkan dan sudutnya disambung. Pemisah waktu: label hari ("Hari ini · 20.29") saat hari berganti, atau jam saja bila jeda lebih dari 30 menit. Menahan atau mengarahkan kursor ke gelembung menampilkan tanggal dan jam lengkap (atribut `title`).
+- **Kotak kirim berbentuk pil**: kotak tulis tumbuh otomatis sampai kira-kira 5 baris, ikon foto dan mikrofon di dalam pil, tombol kirim berupa lingkaran dengan panah (redup saat kosong). Penghitung karakter hanya muncul mulai 600 dari 750 karakter. Semua ID elemen lama (`#teks`, `#kirim`, `#btnFoto`, `#btnMik`, `#hitung`, `#barisKirim`, `#rekam`, `#syarat`) dipertahankan, jadi logika foto, suara, kunci saling-ikuti, dan realtime tidak berubah.
+- Teks placeholder kotak tulis sekarang selalu "Tulis pesan..." karena nama lawan bicara sudah ada di kepala halaman (kunci `chat.phNama` tidak lagi dipakai).
+- **Gaya:** blok terakhir di `css/style.css` ("Pesan: desain ulang"), hanya memakai token tema sehingga ikut Kertas, Terang, Gelap, Kaca, dan Awan. Kunci kamus baru: `pesan.cari`, `pesan.cariKosong`, `chat.hariIni` (7 bahasa).

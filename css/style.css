@@ -1020,3 +1020,79 @@ textarea{min-height:80px}
 .kartu-grup .kartu-tema.kertas{background:#fbf9f4;color:#231f1c}
 .kartu-grup .kartu-tema.gelap{background:#1c1917;color:#ece6dc}
 .kartu-grup .kartu-tema.merah{background:#ae2a22;color:#fff7f0}
+
+/* ===== Pesan: desain ulang (pesan.html, chat.html) =====
+   Hanya memakai token tema (--bg, --teks, --redup, --garis, --aksen), jadi ikut semua tema. */
+
+/* Daftar percakapan */
+.psn-cari{display:flex;align-items:center;gap:8px;margin:10px 16px 4px;padding:0 14px;height:42px;border-radius:999px;background:color-mix(in srgb,var(--garis) 45%,var(--bg));color:var(--redup);transition:box-shadow .15s}
+.psn-cari[hidden]{display:none}
+.psn-cari svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.psn-cari input{flex:1;min-width:0;height:100%;padding:0;border:0;border-radius:0;background:transparent;color:var(--teks);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
+.psn-cari input:focus{outline:0;border:0}
+.psn-cari:focus-within{box-shadow:0 0 0 2px color-mix(in srgb,var(--aksen) 45%,transparent)}
+.psn-daftar{padding:6px 0}
+.psn-item{display:flex;align-items:center;gap:14px;padding:10px 16px;position:relative;transition:background .15s}
+.psn-item[hidden]{display:none}
+.psn-item+.psn-item::before{content:"";position:absolute;top:0;left:82px;right:0;height:1px;background:var(--garis);opacity:.7}
+.psn-item:hover{background:color-mix(in srgb,var(--garis) 30%,transparent)}
+.psn-item:active{background:color-mix(in srgb,var(--garis) 50%,transparent)}
+.psn-ava{flex:none;display:inline-flex}
+.psn-isi{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.psn-atas{display:flex;align-items:center;gap:4px;min-width:0}
+.psn-nama{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:16px}
+.psn-waktu{margin-left:auto;padding-left:8px;flex:none;font-size:12.5px;color:var(--redup);font-variant-numeric:tabular-nums}
+.psn-bawah{display:flex;align-items:center;gap:8px;min-width:0}
+.psn-cuplikan{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--redup);font-size:14.5px}
+.psn-titik{flex:none;width:10px;height:10px;border-radius:50%;background:var(--aksen)}
+.psn-item.baru .psn-nama{font-weight:700}
+.psn-item.baru .psn-cuplikan{color:var(--teks);font-weight:600}
+.psn-item.baru .psn-waktu{color:var(--aksen);font-weight:600}
+.psn-kosong{padding:28px 16px;text-align:center;color:var(--redup);font-size:14px}
+.psn-kosong[hidden]{display:none}
+
+/* Panel chat: kepala */
+.header.psn-kepala{justify-content:flex-start;gap:4px;padding:4px 12px 4px 4px;background-color:color-mix(in srgb,var(--bg) 95%,transparent)}
+.header .psn-kembali{flex:none;width:44px;height:44px;margin:0;padding:0;justify-content:center;border-radius:50%;color:var(--teks);transition:background .15s}
+.psn-kembali svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.psn-kembali:hover{background:color-mix(in srgb,var(--garis) 40%,transparent)}
+.header .psn-lawan,#lawan.psn-lawan{justify-content:flex-start;gap:0;flex:1;min-width:0;font-family:var(--sans);font-size:16px;font-weight:600;line-height:1.2;letter-spacing:0}
+.header .psn-profil{display:flex;align-items:center;gap:10px;min-width:0;min-height:44px;margin:0;padding:0}
+.psn-nm{display:flex;flex-direction:column;min-width:0}
+.psn-nm b{display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden;white-space:nowrap;font-weight:650;font-size:16px}
+.psn-nm small{font-size:12.5px;font-weight:400;color:var(--redup);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Panel chat: gelembung */
+body[data-tab=pesan] .chat{padding:10px 0 110px}
+body[data-tab=pesan] .bubble{max-width:78%;padding:9px 14px;margin:6px 12px 0;border-radius:20px;font-size:15.5px;line-height:1.4}
+body[data-tab=pesan] .bubble.saya{align-self:flex-end;background:var(--aksen);color:#fff;border-bottom-right-radius:6px}
+body[data-tab=pesan] .bubble.lawan{align-self:flex-start;background:color-mix(in srgb,var(--garis) 60%,var(--bg));color:var(--teks);border-bottom-left-radius:6px}
+body[data-tab=pesan] .bubble.sambung{margin-top:2px}
+body[data-tab=pesan] .bubble.saya.sambung{border-top-right-radius:6px}
+body[data-tab=pesan] .bubble.lawan.sambung{border-top-left-radius:6px}
+body[data-tab=pesan] .bubble.media{padding:5px}
+body[data-tab=pesan] .bubble.media img{border-radius:15px}
+.psn-hari{align-self:center;margin:18px 12px 6px;padding:3px 12px;border-radius:999px;background:color-mix(in srgb,var(--garis) 40%,transparent);color:var(--redup);font-size:12px;font-variant-numeric:tabular-nums}
+
+/* Panel chat: kotak kirim berbentuk pil */
+body[data-tab=pesan] .kirim{padding:8px 12px calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.psn-komposer{display:flex;align-items:flex-end;gap:8px}
+.psn-komposer[hidden]{display:none}
+.psn-pil{position:relative;flex:1;min-width:0;display:flex;align-items:flex-end;gap:2px;padding:4px 6px 4px 16px;border:1px solid transparent;border-radius:24px;background:color-mix(in srgb,var(--garis) 45%,var(--bg));transition:border-color .15s,background .15s}
+.psn-pil:focus-within{border-color:color-mix(in srgb,var(--aksen) 55%,transparent);background:var(--bg)}
+body[data-tab=pesan] .psn-pil textarea{flex:1;min-width:0;height:36px;min-height:36px;max-height:128px;padding:8px 0;border:0;border-radius:0;background:transparent;box-shadow:none;font-size:16px;line-height:1.35;overflow-y:auto}
+body[data-tab=pesan] .psn-pil textarea:focus{outline:0;border:0}
+.psn-pil .ikon{width:36px;height:36px;border:0;color:var(--redup);transition:color .15s,background .15s}
+.psn-pil .ikon:hover:not(:disabled){color:var(--aksen);background:color-mix(in srgb,var(--aksen) 10%,transparent)}
+.psn-pil .ikon[hidden]{display:none}
+.psn-pil .hitung{position:absolute;right:14px;top:-22px;display:none;font-size:12px}
+.psn-pil .hitung.tampil{display:block}
+.psn-kirim{flex:none;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:var(--aksen);color:#fff;cursor:pointer;transition:transform .12s,opacity .15s}
+.psn-kirim svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.psn-kirim:active:not(:disabled){transform:scale(.9)}
+.psn-kirim.kosong,.psn-kirim:disabled{opacity:.5}
+.psn-kirim:disabled{cursor:not-allowed}
+.rekam{padding:6px 8px 6px 14px;border-radius:24px;background:color-mix(in srgb,var(--garis) 45%,var(--bg))}
+@media (prefers-reduced-motion:reduce){.psn-item,.psn-pil,.psn-kirim,.psn-cari,.psn-kembali{transition:none}.psn-kirim:active{transform:none}}
+#lawan.psn-lawan span:last-child{overflow:visible;text-overflow:clip;white-space:normal}
+.psn-cari input::-webkit-search-cancel-button{filter:grayscale(1) opacity(.7);cursor:pointer}

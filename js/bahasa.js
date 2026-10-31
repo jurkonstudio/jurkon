@@ -597,6 +597,10 @@ const I18N_KAMUS = {
   'kartu.unduh': ["Unduh", "Download", "Muat turun", "Undhuh", "Undeur", "下载", "保存"],
   'kartu.alt': ["Pratinjau kartu catatan", "Note card preview", "Pratonton kad nota", "Pratinjau kertu cathetan", "Pratinjau kartu catetan", "笔记卡片预览", "ノートカードのプレビュー"],
   'kartu.gagal': ["Gagal membuat gambar. Coba lagi.", "Could not make the image. Try again.", "Gagal membuat imej. Cuba lagi.", "Gagal gawe gambar. Coba maneh.", "Gagal nyieun gambar. Cobian deui.", "生成图片失败,请重试。", "画像を作れませんでした。もう一度お試しください。"],
-  'kartu.diunduh': ["Gambar disimpan ke perangkatmu.", "The image was saved to your device.", "Imej disimpan ke peranti anda.", "Gambar disimpen ing piranti sampeyan.", "Gambarna disimpen dina parangkat anjeun.", "图片已保存到你的设备。", "画像を端末に保存しました。"]
+  'kartu.diunduh': ["Gambar disimpan ke perangkatmu.", "The image was saved to your device.", "Imej disimpan ke peranti anda.", "Gambar disimpen ing piranti sampeyan.", "Gambarna disimpen dina parangkat anjeun.", "图片已保存到你的设备。", "画像を端末に保存しました。"],
+  'pesan.cari': ["Cari percakapan", "Search conversations", "Cari perbualan", "Golek obrolan", "Pilari obrolan", "搜索对话", "会話を検索"],
+  'pesan.cariKosong': ["Tidak ada percakapan untuk “{kata}”.", "No conversations for “{kata}”.", "Tiada perbualan untuk “{kata}”.", "Ora ana obrolan kanggo “{kata}”.", "Euweuh obrolan keur “{kata}”.", "没有与“{kata}”相关的对话。", "「{kata}」に一致する会話はありません。"],
+  'chat.hariIni': ["Hari ini", "Today", "Hari ini", "Dina iki", "Poé ieu", "今天", "今日"]
 };
+
 

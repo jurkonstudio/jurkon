@@ -6,10 +6,27 @@
   if (!c) { $('#isi').innerHTML = '<div class="kosong">' + esc(t('chat.noConv')) + '</div>'; return; }
   const { data: o } = await db.from('profiles').select('username,nama,foto_url').eq('id', c.user_a === saya.id ? c.user_b : c.user_a).maybeSingle();
   const namaLawan = o ? (o.nama || o.username) : t('pesan.pengguna');
-  $('#lawan').innerHTML = avatar(namaLawan, 30, o && o.foto_url) + '<span>' + esc(namaLawan) + '</span>' + lencanaResmi(o && o.username);
-  $('#teks').placeholder = t('chat.phNama', { nama: namaLawan });
+  const isiLawan = avatar(namaLawan, 38, o && o.foto_url) +
+    '<span class="psn-nm"><b>' + esc(namaLawan) + lencanaResmi(o && o.username) + '</b>' + (o && o.username ? '<small>@' + esc(o.username) + '</small>' : '') + '</span>';
+  $('#lawan').innerHTML = o && o.username
+    ? '<a class="psn-profil" href="profil.html?u=' + encodeURIComponent(o.username) + '">' + isiLawan + '</a>'
+    : '<span class="psn-profil">' + isiLawan + '</span>';
+  if (o && o.username) document.title = namaLawan + ' · Jurkon';
+  $('#teks').placeholder = t('chat.ph');   // nama lawan bicara sudah tampil di kepala halaman
   pasangHitung($('#teks'), $('#hitung'), 750);
   pasangFilter($('#teks'));
+  // Kotak tulis tumbuh sampai ±5 baris; tombol kirim redup saat kosong; penghitung hanya muncul mendekati batas
+  (function () {
+    const kotak = $('#teks'), btn = $('#kirim'), hit = $('#hitung');
+    const atur = () => {
+      kotak.style.height = '';
+      if (kotak.value) kotak.style.height = Math.min(kotak.scrollHeight, 128) + 'px';
+      btn.classList.toggle('kosong', !kotak.value.trim());
+      hit.classList.toggle('tampil', kotak.value.length >= 600);
+    };
+    kotak.addEventListener('input', atur);
+    atur();
+  })();
 
   // Pesan hanya boleh dikirim bila kedua akun saling mengikuti (juga ditegakkan di database, migrasi 014).
   // Riwayat tetap terbaca; hanya kotak kirim yang dikunci.
@@ -88,13 +105,35 @@
   }
   const sudah = new Set();
   let terakhir = null;   // waktu pesan terbaru yang sudah tampil (untuk menyusul pesan yang terlewat)
+  // Pemisah waktu ala aplikasi chat: label hari saat hari berganti, jam saja bila jeda > 30 menit.
+  // Gelembung beruntun dari pengirim yang sama (jeda < 5 menit) dirapatkan dan sudutnya disambung.
+  let tglAkhir = '', waktuAkhir = 0, pengirimAkhir = null;
+  const jamTeks = d => d.toLocaleTimeString(I18n.locale, { hour: '2-digit', minute: '2-digit' });
+  const huruf = x => x.charAt(0).toUpperCase() + x.slice(1);
+  function labelHari(d) {
+    const awal = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+    const sel = Math.round((awal(new Date()) - awal(d)) / 86400000);
+    if (sel <= 0) return t('chat.hariIni');
+    if (sel === 1) return huruf(t('waktu.kemarin'));
+    return d.toLocaleDateString(I18n.locale, { weekday: 'long', day: 'numeric', month: 'long', year: d.getFullYear() === new Date().getFullYear() ? undefined : 'numeric' });
+  }
   const tampil = m => {
     if (sudah.has(m.id)) return;
     const k = $('#isi .kosong'); if (k) k.remove();
     sudah.add(m.id);
     if (!terakhir || m.created_at > terakhir) terakhir = m.created_at;
+    const waktuM = new Date(m.created_at), ms = waktuM.getTime();
+    const kunciTgl = waktuM.getFullYear() + '-' + waktuM.getMonth() + '-' + waktuM.getDate();
+    let label = '';
+    if (kunciTgl !== tglAkhir) label = labelHari(waktuM) + ' · ' + jamTeks(waktuM);
+    else if (ms - waktuAkhir > 30 * 60000) label = jamTeks(waktuM);
+    if (label) { const p = document.createElement('div'); p.className = 'psn-hari'; p.textContent = label; $('#isi').appendChild(p); }
+    const dari = m.sender_id === saya.id ? 'saya' : 'lawan';
     const d = document.createElement('div');
-    d.className = 'bubble ' + (m.sender_id === saya.id ? 'saya' : 'lawan');
+    d.className = 'bubble ' + dari;
+    if (!label && pengirimAkhir === dari && ms - waktuAkhir < 5 * 60000) d.className += ' sambung';
+    d.title = waktuM.toLocaleString(I18n.locale, { dateStyle: 'medium', timeStyle: 'short' });
+    tglAkhir = kunciTgl; waktuAkhir = ms; pengirimAkhir = dari;
     if (m.media_path) { d.className += ' media'; isiMedia(d, m); } else d.textContent = m.content;
     $('#isi').appendChild(d);
     window.scrollTo(0, document.body.scrollHeight);
