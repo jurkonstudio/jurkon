@@ -124,6 +124,7 @@ const IK = {
   balas: '<svg viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>',
   lapor: '<svg viewBox="0 0 24 24"><path d="M4 22V4"/><path d="M4 4h13l-2.5 4.5L17 13H4"/></svg>',
   hapus: '<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></svg>',
+  bagikan: '<svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m8 7 4-4 4 4"/><path d="M4 13v5a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-5"/></svg>',
   mata: '<svg viewBox="0 0 24 24"><path d="M6 20v-6M12 20V4M18 20V10"/></svg>'
 };
 
@@ -312,7 +313,8 @@ function htmlPost(p, saya, opsi) {
         <span class="grup-suka"><button class="btn-suka ${suka}" data-id="${p.id}" aria-label="${esc(t('pc.suka'))}">${IK.suka}<span data-n="${Number(jml) || 0}">${jml > 0 ? ringkas(jml) : ''}</span></button></span>
         ${tayang}
         <span class="sisi">
-          <button class="btn-lapor" data-id="${p.id}" aria-label="${esc(t('pc.lapor'))}" title="${esc(t('pc.lapor'))}">${IK.lapor}</button>
+          <button type="button" class="btn-bagikan" aria-label="${esc(t('pc.bagikan'))}" title="${esc(t('pc.bagikan'))}">${IK.bagikan}</button>
+          ${milik ? '' : `<button class="btn-lapor" data-id="${p.id}" aria-label="${esc(t('pc.lapor'))}" title="${esc(t('pc.lapor'))}">${IK.lapor}</button>`}
           ${typeof tombolSemat === 'function' ? tombolSemat(p, milik) : ''}
           ${typeof tombolPublik === 'function' ? tombolPublik(p, milik) : ''}
           ${milik ? `<button class="btn-hapus" data-id="${p.id}" aria-label="${esc(t('pc.hapus'))}" title="${esc(t('pc.hapus'))}">${IK.hapus}</button>` : ''}
@@ -364,6 +366,32 @@ document.addEventListener('click', e => {
   const id = post && post.dataset.id;
   if (!id || (/detail\.html$/.test(location.pathname) && param('id') === id)) return;
   location.href = 'detail.html?id=' + id;
+});
+
+// Toast kecil yang dipakai bersama semua halaman (gaya .toast)
+function toastUmum(teks) {
+  const el = document.createElement('div');
+  el.className = 'toast'; el.setAttribute('role', 'status'); el.textContent = teks;
+  document.body.appendChild(el);
+  setTimeout(() => el.classList.add('hilang'), 2200);
+  setTimeout(() => el.remove(), 2600);
+}
+// Bagikan catatan: lembar bagikan bawaan ponsel bila ada, kalau tidak salin tautannya.
+// Tombol ini tidak butuh login, jadi dipisah dari pasangAksiPost.
+document.addEventListener('click', async e => {
+  const b = e.target.closest('.btn-bagikan');
+  if (!b) return;
+  const post = b.closest('.post'), id = post && post.dataset.id;
+  if (!id) return;
+  const url = location.origin + '/detail.html?id=' + encodeURIComponent(id);
+  const el = post.querySelector('.nama');
+  const nama = (el && el.textContent.trim()) || 'Jurkon';
+  if (navigator.share) {
+    try { await navigator.share({ title: t('pc.bagikanJudul', { nama }), url }); return; }
+    catch (err) { if (err && err.name === 'AbortError') return; }
+  }
+  try { await navigator.clipboard.writeText(url); toastUmum(t('pub.tersalin')); }
+  catch (err) { prompt(t('pc.salinManual'), url); }
 });
 
 // Satu pendengar klik untuk semua tombol posting (menggantikan versi di supabase.js)

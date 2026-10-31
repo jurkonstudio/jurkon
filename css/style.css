@@ -935,3 +935,63 @@ textarea{min-height:80px}
 .post .aksi .btn-suka.sudah svg{fill:currentColor;stroke:currentColor}
 .nav svg{stroke-width:1.8}
 .nav a.aktif svg{stroke-width:2.3}
+
+/* ===== Bagikan catatan & panel laporan akun ===== */
+.post .aksi .btn-bagikan:active{background:color-mix(in srgb,var(--link,var(--aksen)) 14%,transparent)}
+@media (hover:hover){.post .aksi .btn-bagikan:hover{color:var(--link,var(--aksen))}}
+.lembar-lapor .lapor-badan{padding:12px 16px 20px;display:grid;gap:12px}
+.lapor-tanya{font-weight:650;font-size:15px}
+.lapor-daftar{display:grid;gap:0;border:1px solid var(--garis);border-radius:12px;overflow:hidden}
+.lapor-opsi{display:flex;align-items:center;gap:12px;min-height:44px;padding:0 14px;cursor:pointer;font-size:14.5px}
+.lapor-opsi+.lapor-opsi{border-top:1px solid var(--garis)}
+.lapor-opsi input{width:18px;height:18px;margin:0;accent-color:var(--aksen);flex:none}
+.lapor-opsi:has(input:checked){background:color-mix(in srgb,var(--aksen) 9%,transparent);font-weight:600}
+.lapor-rinci{display:grid;gap:6px;font-size:13px;color:var(--redup)}
+.lapor-rinci textarea{min-height:72px;font-size:14.5px;color:var(--teks)}
+.lapor-rinci .hitung{justify-self:end}
+.lapor-catatan{font-size:12.5px;color:var(--redup);line-height:1.45}
+.lembar-lapor .tombol .btn{flex:1;min-height:42px}
+.lembar-lapor .btn:disabled{opacity:.45}
+
+/* ===== Kartu profil modern: banner, avatar menimpa banner, statistik ringkas ===== */
+#atas .profil-atas{--pp:var(--k-pad);padding:0 var(--pp) 14px;border-bottom:1px solid var(--garis);background:var(--bg);
+  display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:start}
+@media (min-width:768px){#atas .profil-atas{--pp:20px;padding:0 var(--pp) 16px}}
+/* Banner dari warna aksen, tanpa markup tambahan */
+#atas .profil-atas::before{content:"";grid-column:1/-1;grid-row:1;height:92px;margin:0 calc(-1 * var(--pp));
+  background:radial-gradient(120% 140% at 12% 0%,color-mix(in srgb,var(--aksen) 55%,transparent),transparent 60%),
+             linear-gradient(135deg,color-mix(in srgb,var(--aksen) 62%,#101010),color-mix(in srgb,var(--aksen) 22%,var(--bg)))}
+.kartu-kepala{display:contents}
+#atas .profil-atas .avatar{grid-column:1;grid-row:2;width:76px!important;height:76px!important;font-size:30px!important;
+  margin-top:-38px;box-shadow:0 0 0 4px var(--bg);z-index:1}
+#atas .profil-nama{grid-column:1/-1;grid-row:3;margin-top:8px}
+#atas .profil-atas h2{font-family:var(--sans);font-size:20px;font-weight:750;letter-spacing:-.015em;line-height:1.2;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+#atas .profil-atas h2 .vf-lencana{width:1.05em;height:1.05em;flex:none}
+.profil-user{font-size:14px;margin-top:1px;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.profil-user .label-ikut{margin:0;padding:1px 7px;font-size:11.5px}
+.profil-gabung{font-size:13px;margin-top:6px;gap:5px}
+.profil-gabung svg{width:14px;height:14px}
+#atas .profil-atas .bio{grid-column:1/-1;grid-row:4;margin:10px 0 0;font-family:var(--sans);font-size:14.5px;line-height:1.45}
+#atas .profil-atas .bio.redup{font-style:normal;color:var(--redup);font-size:13.5px}
+#atas .profil-atas .stat{grid-column:1/-1;grid-row:5;gap:18px;margin:12px 0 0;font-size:14px}
+.stat b{font-family:var(--sans);font-size:15px;font-weight:700}
+.stat span{font-size:13.5px}
+.stat>.stat-btn,.stat>.stat-item{padding:2px 0;gap:4px}
+
+/* Tombol: baris penuh di bawah statistik; di profil sendiri naik ke sisi kanan avatar */
+#atas .profil-atas .tombol{grid-column:1/-1;grid-row:6;margin-top:14px;gap:8px}
+#atas .profil-atas .tombol .btn{min-height:36px;padding:0 16px;font-size:13.5px;font-weight:650}
+#atas .profil-atas .tombol .ikon-btn{width:36px;height:36px}
+#atas .profil-atas .tombol .ikon-btn svg{width:18px;height:18px}
+#atas .profil-atas .tombol .btn.utama.garis{background:transparent}
+#atas .profil-atas .tombol:has(#ubah){grid-column:2;grid-row:2;justify-self:end;align-self:center;margin-top:10px}
+#ubah{flex:none!important;background:transparent!important;color:var(--teks)!important;border:1px solid color-mix(in srgb,var(--teks) 28%,var(--garis))!important}
+@media (hover:hover){#ubah:hover{background:color-mix(in srgb,var(--teks) 7%,transparent)!important}}
+.hint-pesan{grid-column:1/-1;grid-row:7;margin-top:8px;font-size:12.5px}
+
+/* Tab: garis tipis, indikator pendek di tengah */
+.tab-profil{border-bottom:1px solid var(--garis)}
+.tab-profil button{position:relative;min-height:42px;font-size:14px;font-weight:600;border-bottom:0;background:none!important}
+.tab-profil button[aria-selected=true]{color:var(--teks);border-bottom:0}
+.tab-profil button[aria-selected=true]::after{content:"";position:absolute;left:50%;bottom:0;width:30px;height:3px;margin-left:-15px;border-radius:3px 3px 0 0;background:var(--aksen)}
+@media (max-width:420px){.tab-profil button,.tab-profil.lima button{font-size:13.5px}}

@@ -552,5 +552,21 @@ const I18N_KAMUS = {
   'pf.tersemat': ["Catatan disematkan", "Note pinned", "Catatan disemat", "Cathetan wis disematake", "Catetan geus disematkeun", "笔记已置顶", "ノートを固定しました"],
   'pf.sematDilepas': ["Sematan dilepas", "Unpinned", "Semat dilepaskan", "Sematan wis dicopot", "Sematan geus dilepaskeun", "已取消置顶", "固定を解除しました"],
   'pf.gagalSemat': ["Gagal menyematkan: {pesan}", "Could not pin: {pesan}", "Gagal menyemat: {pesan}", "Gagal nyematake: {pesan}", "Gagal nyematkeun: {pesan}", "置顶失败：{pesan}", "固定できませんでした：{pesan}"],
-  'pc.kapsulDitulis': ["Kapsul waktu, ditulis {tgl}", "Time capsule, written {tgl}", "Kapsul masa, ditulis {tgl}", "Kapsul wektu, ditulis {tgl}", "Kapsul waktos, ditulis {tgl}", "时间胶囊，写于 {tgl}", "タイムカプセル（{tgl}に作成）"]
+  'pc.kapsulDitulis': ["Kapsul waktu, ditulis {tgl}", "Time capsule, written {tgl}", "Kapsul masa, ditulis {tgl}", "Kapsul wektu, ditulis {tgl}", "Kapsul waktos, ditulis {tgl}", "时间胶囊，写于 {tgl}", "タイムカプセル（{tgl}に作成）"],
+  'pc.bagikan': ["Bagikan", "Share", "Kongsi", "Bagekna", "Bagikeun", "分享", "共有"],
+  'pc.bagikanJudul': ["Catatan dari {nama} di Jurkon", "A note from {nama} on Jurkon", "Nota daripada {nama} di Jurkon", "Cathetan saka {nama} ing Jurkon", "Catetan ti {nama} di Jurkon", "{nama} 在 Jurkon 的笔记", "{nama} さんの Jurkon のノート"],
+  'pc.salinManual': ["Salin tautan catatan ini:", "Copy this note link:", "Salin pautan nota ini:", "Salinen tautan cathetan iki:", "Salin tautan catetan ieu:", "请复制此笔记链接：", "このノートのリンクをコピー："],
+  'pf.lapor': ["Laporkan @{u}", "Report @{u}", "Laporkan @{u}", "Laporake @{u}", "Laporkeun @{u}", "举报 @{u}", "@{u} を報告"],
+  'pf.laporJudul': ["Laporkan akun", "Report account", "Laporkan akaun", "Laporake akun", "Laporkeun akun", "举报账号", "アカウントを報告"],
+  'pf.laporTanya': ["Apa masalah dengan @{u}?", "What's wrong with @{u}?", "Apakah masalah dengan @{u}?", "Apa masalahe karo @{u}?", "Naon masalahna jeung @{u}?", "@{u} 有什么问题？", "@{u} の何が問題ですか？"],
+  'pf.lk.spam': ["Spam atau iklan", "Spam or ads", "Spam atau iklan", "Spam utawa iklan", "Spam atawa iklan", "垃圾信息或广告", "スパムまたは広告"],
+  'pf.lk.pelecehan': ["Pelecehan atau perundungan", "Harassment or bullying", "Gangguan atau buli", "Pelecehan utawa perundungan", "Pelecehan atawa perundungan", "骚扰或霸凌", "嫌がらせやいじめ"],
+  'pf.lk.palsu': ["Akun palsu atau meniru orang lain", "Fake account or impersonation", "Akaun palsu atau menyamar", "Akun palsu utawa nyamar", "Akun palsu atawa nyamar", "虚假账号或冒充他人", "偽アカウントやなりすまし"],
+  'pf.lk.tak_pantas': ["Konten tidak pantas", "Inappropriate content", "Kandungan tidak sesuai", "Konten ora pantes", "Eusi teu pantes", "不当内容", "不適切なコンテンツ"],
+  'pf.lk.lainnya': ["Lainnya", "Something else", "Lain-lain", "Liyane", "Lianna", "其他", "その他"],
+  'pf.laporRinci': ["Detail tambahan (opsional)", "More details (optional)", "Butiran tambahan (pilihan)", "Rincian tambahan (opsional)", "Rincian tambahan (opsional)", "补充说明（可选）", "詳細（任意）"],
+  'pf.laporKirim': ["Kirim laporan", "Send report", "Hantar laporan", "Kirim laporan", "Kirim laporan", "提交举报", "報告を送信"],
+  'pf.laporBatal': ["Batal", "Cancel", "Batal", "Batal", "Batal", "取消", "キャンセル"],
+  'pf.laporCatatan': ["Laporan hanya dibaca tim Jurkon. @{u} tidak diberi tahu siapa yang melapor.", "Only the Jurkon team sees reports. @{u} is not told who reported.", "Laporan hanya dibaca pasukan Jurkon. @{u} tidak diberitahu siapa yang melapor.", "Laporan mung diwaca tim Jurkon. @{u} ora dikandhani sapa sing nglapor.", "Laporan ngan dibaca tim Jurkon. @{u} henteu dibéjaan saha nu ngalaporkeun.", "举报仅由 Jurkon 团队查看，@{u} 不会知道是谁举报的。", "報告は Jurkon チームだけが確認します。誰が報告したかは @{u} には伝わりません。"],
+  'pf.laporSudah': ["Kamu sudah melaporkan akun ini.", "You have already reported this account.", "Anda sudah melaporkan akaun ini.", "Sampeyan wis nglaporake akun iki.", "Anjeun geus ngalaporkeun akun ieu.", "你已举报过此账号。", "このアカウントはすでに報告済みです。"]
 };

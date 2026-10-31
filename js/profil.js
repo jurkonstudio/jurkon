@@ -51,7 +51,7 @@ async function muat() {
       : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${esc(ikut ? t('feed.ikuti') : diaMengikuti ? t('pf.ikutiBalik') : t('pf.ikuti'))}</button>
          <button class="btn garis" id="pesan"${salingIkuti ? '' : ' disabled aria-describedby="hintPesan"'}>${esc(t('pf.kirimPesan'))}</button>
          <div class="menu-lain"><button class="ikon-btn" id="menuLain" aria-label="${esc(t('pf.aksiLain'))}" aria-haspopup="menu" aria-expanded="false">${IKP.titik}</button>
-           <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="bagikan">${esc(t('pf.bagikan'))}</button><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${esc(blk ? t('pf.bukaBlokir') : t('pf.blokir', { u: p.username }))}</button></div></div>`}</div>
+           <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="bagikan">${esc(t('pf.bagikan'))}</button><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${esc(blk ? t('pf.bukaBlokir') : t('pf.blokir', { u: p.username }))}</button><button role="menuitem" id="laporAkun" class="bahaya">${esc(t('pf.lapor', { u: p.username }))}</button></div></div>`}</div>
     ${milikSaya || salingIkuti ? '' : `<p class="hint-pesan" id="hintPesan">${esc(t('pf.hintPesan'))}</p>`}</div>`;
   // Jumlah posting (sama dengan isi tab Catatan: bukan balasan, bukan repost). Dihitung terpisah, tanpa migrasi SQL.
   db.from('posts').select('*', { count: 'exact', head: true })
@@ -98,6 +98,7 @@ async function muat() {
       muat();
     };
     $('#bagikan').onclick = () => { tutupMenu(); bagikanProfil(); };
+    $('#laporAkun').onclick = () => { tutupMenu(); bukaLaporAkun(p); };
     $('#blokir').onclick = async () => {
       tutupMenu();
       if (blk) { await db.from('blocks').delete().match({ blocker_id: saya.id, blocked_id: p.id }); muat(); return; }
@@ -265,6 +266,56 @@ function tampilToast(teks) {
   document.body.appendChild(el);
   setTimeout(() => el.classList.add('hilang'), 2200);
   setTimeout(() => el.remove(), 2600);
+}
+// ---- Laporkan akun ---------------------------------------------------------
+// Memerlukan sql/031_laporan_akun.sql (kolom target_user_id dan kategori di tabel reports).
+const KATEGORI_LAPOR = ['spam', 'pelecehan', 'palsu', 'tak_pantas', 'lainnya'];
+const labelLapor = () => ({ spam: t('pf.lk.spam'), pelecehan: t('pf.lk.pelecehan'), palsu: t('pf.lk.palsu'), tak_pantas: t('pf.lk.tak_pantas'), lainnya: t('pf.lk.lainnya') });
+function bukaLaporAkun(p) {
+  const lama = document.getElementById('lembarLapor');
+  if (lama) lama.remove();
+  const L = labelLapor();
+  const d = document.createElement('dialog');
+  d.id = 'lembarLapor'; d.className = 'lembar lembar-lapor'; d.setAttribute('aria-labelledby', 'jLapor');
+  d.innerHTML = `<div class="lembar-kepala"><h2 id="jLapor">${esc(t('pf.laporJudul'))}</h2>
+      <button type="button" class="ikon-btn" id="tutupLapor" aria-label="${esc(t('umum.tutup'))}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="lapor-badan">
+      <p class="lapor-tanya">${esc(t('pf.laporTanya', { u: p.username }))}</p>
+      <div class="lapor-daftar" role="radiogroup" aria-labelledby="jLapor">${KATEGORI_LAPOR.map(k =>
+        `<label class="lapor-opsi"><input type="radio" name="kategoriLapor" value="${k}"><span>${esc(L[k])}</span></label>`).join('')}</div>
+      <label class="lapor-rinci"><span>${esc(t('pf.laporRinci'))}</span>
+        <textarea id="rinciLapor" maxlength="300" rows="3"></textarea><small class="hitung" id="hitungLapor">0/300</small></label>
+      <p class="lapor-catatan">${esc(t('pf.laporCatatan', { u: p.username }))}</p>
+      <div class="tombol"><button type="button" class="btn garis" id="batalLapor">${esc(t('pf.laporBatal'))}</button>
+        <button type="button" class="btn utama" id="kirimLapor" disabled>${esc(t('pf.laporKirim'))}</button></div>
+    </div>`;
+  document.body.appendChild(d);
+  const kirim = d.querySelector('#kirimLapor'), rinci = d.querySelector('#rinciLapor');
+  const tutup = () => { d.close(); d.remove(); };
+  d.querySelector('#tutupLapor').onclick = tutup;
+  d.querySelector('#batalLapor').onclick = tutup;
+  d.onclick = e => { if (e.target === d) tutup(); };
+  d.addEventListener('cancel', () => setTimeout(() => d.remove(), 0));
+  d.addEventListener('change', e => { if (e.target.name === 'kategoriLapor') kirim.disabled = false; });
+  rinci.oninput = () => { d.querySelector('#hitungLapor').textContent = rinci.value.length + '/300'; };
+  kirim.onclick = async () => {
+    const pilih = d.querySelector('input[name="kategoriLapor"]:checked');
+    if (!pilih) return;
+    kirim.disabled = true;
+    const { error } = await db.from('reports').insert({
+      reporter_id: saya.id, target_user_id: p.id, kategori: pilih.value,
+      alasan: (rinci.value.trim() || L[pilih.value]).slice(0, 300)
+    });
+    if (error) {
+      kirim.disabled = false;
+      alert(error.code === '23505' ? t('pf.laporSudah') : t('pc.gagalLapor', { pesan: galatRamah(error) }));
+      if (error.code === '23505') tutup();
+      return;
+    }
+    tutup();
+    tampilToast(t('pc.terkirim'));
+  };
+  d.showModal();
 }
 async function bagikanProfil() {
   const p = profil;

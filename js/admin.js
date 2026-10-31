@@ -362,9 +362,16 @@
   // ---------------------------------------------------------------- Laporan
   let fLap = 'baru';
   async function vLaporan(g) {
-    const { data, error } = await db.from('reports')
-      .select('id,alasan,created_at,status,post_id,profiles(username),posts(id,content,user_id,profiles(username))')
+    // Setelah migrasi 031, reports punya dua relasi ke profiles (pelapor dan akun yang dilaporkan),
+    // jadi relasinya harus disebut jelas. Bila 031 belum dijalankan, pakai kueri lama (laporan catatan saja).
+    let { data, error } = await db.from('reports')
+      .select('id,alasan,kategori,created_at,status,post_id,target_user_id,pelapor:profiles!reports_reporter_id_fkey(username),sasaran:profiles!reports_target_user_id_fkey(username),posts(id,content,user_id,profiles(username))')
       .eq('status', fLap).order('created_at', { ascending: false }).limit(60);
+    if (error) {
+      ({ data, error } = await db.from('reports')
+        .select('id,alasan,created_at,status,post_id,pelapor:profiles(username),posts(id,content,user_id,profiles(username))')
+        .eq('status', fLap).order('created_at', { ascending: false }).limit(60));
+    }
     if (!aktif(g)) return;
     if (error) throw error;
     const seg = `<div class="bar-alat"><div class="seg"><button type="button" data-act="fLap" data-k="baru" aria-pressed="${fLap === 'baru'}">Baru</button>
@@ -372,17 +379,21 @@
     const daftar = !data.length
       ? kosongHtml(fLap === 'baru' ? 'Tidak ada laporan baru' : 'Belum ada laporan selesai', fLap === 'baru' ? 'Semua laporan sudah ditangani.' : '')
       : '<div class="daftar">' + data.map(r => {
-        const p = r.posts, penulis = p?.profiles?.username || '?';
+        const akun = !r.post_id && r.target_user_id;
+        const p = r.posts, penulis = akun ? (r.sasaran?.username || '?') : (p?.profiles?.username || '?');
+        const sasaranId = akun ? r.target_user_id : p?.user_id;
+        const KAT = { spam: 'Spam atau iklan', pelecehan: 'Pelecehan atau perundungan', palsu: 'Akun palsu atau meniru', tak_pantas: 'Konten tidak pantas', lainnya: 'Lainnya' };
         const tombol = fLap === 'baru'
           ? `<button type="button" class="btn kecil garis" data-act="lapSelesai" data-r="${r.id}">${ikon('cek')}Tandai selesai</button>
+             ${akun ? `<a class="btn kecil garis" href="/profil.html?u=${encodeURIComponent(penulis)}" target="_blank" rel="noopener">${ikon('luar')}Buka profil</a>` : ''}
              ${p ? `<a class="btn kecil garis" href="/detail.html?id=${esc(p.id)}" target="_blank" rel="noopener">${ikon('luar')}Buka posting</a>
-             <button type="button" class="btn kecil garis bahaya" data-act="lapHapus" data-p="${esc(p.id)}">Hapus posting</button>
-             <button type="button" class="btn kecil garis bahaya" data-act="lapBekukan" data-u="${esc(p.user_id)}" data-n="${esc(penulis)}" data-r="${r.id}">Bekukan penulis</button>` : ''}`
+             <button type="button" class="btn kecil garis bahaya" data-act="lapHapus" data-p="${esc(p.id)}">Hapus posting</button>` : ''}
+             ${sasaranId ? `<button type="button" class="btn kecil garis bahaya" data-act="lapBekukan" data-u="${esc(sasaranId)}" data-n="${esc(penulis)}" data-r="${r.id}">${akun ? 'Bekukan akun' : 'Bekukan penulis'}</button>` : ''}`
           : `<button type="button" class="btn kecil garis" data-act="lapBuka" data-r="${r.id}">Buka kembali</button>`;
         return `<article class="baris">${ava(penulis, null, true)}<div class="badan">
-          <div class="atas-b"><span class="nama">@${esc(penulis)}</span><span class="sub">dilaporkan oleh @${esc(r.profiles?.username || '?')} · ${wkt(r.created_at)}</span></div>
-          <div class="teks">${esc(p?.content || '(posting sudah dihapus)')}</div>
-          <div class="alasan"><b>Alasan:</b> ${esc(r.alasan || '-')}</div>
+          <div class="atas-b"><span class="nama">@${esc(penulis)}</span><span class="sub">${akun ? 'laporan akun · ' : ''}dilaporkan oleh @${esc(r.pelapor?.username || '?')} · ${wkt(r.created_at)}</span></div>
+          ${akun ? '' : `<div class="teks">${esc(p?.content || '(posting sudah dihapus)')}</div>`}
+          <div class="alasan"><b>${akun && r.kategori ? esc(KAT[r.kategori] || r.kategori) + ' · ' : ''}Alasan:</b> ${esc(r.alasan || '-')}</div>
           <div class="aksi-b">${tombol}</div></div></article>`;
       }).join('') + '</div>';
     isiEl.innerHTML = seg + daftar;
