@@ -40,6 +40,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `029_masa_aktif_verified.sql` | masa aktif lencana (permanen atau 7/30/90/365 hari), kolom `verified_sampai`, `admin_set_verified` dengan `p_hari` | setelah 028; hasil cek: 1 baris, 1 baris, 0 baris |
 | `030_angka_langsung.sql` | fungsi `angka_posting` untuk angka suka/tidak suka/ulang/tayang yang menyegarkan diri di kartu | setelah 013; hasil cek: 0 baris, lalu 1 baris |
 | `031_laporan_akun.sql` | laporan akun: kolom `reports.target_user_id` dan `kategori`, aturan anti lapor diri sendiri, satu laporan per akun per pelapor | setelah 020; hasil cek: 2 baris, 3 baris |
+| `032_pertanyaan_harian.sql` | pertanyaan harian: kolom `posts.pertanyaan_tgl`, satu jawaban per akun per hari, trigger penjaga | setelah 024; hasil cek: 1 baris, 2 baris, 1 baris |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 

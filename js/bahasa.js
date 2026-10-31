@@ -568,5 +568,19 @@ const I18N_KAMUS = {
   'pf.laporKirim': ["Kirim laporan", "Send report", "Hantar laporan", "Kirim laporan", "Kirim laporan", "提交举报", "報告を送信"],
   'pf.laporBatal': ["Batal", "Cancel", "Batal", "Batal", "Batal", "取消", "キャンセル"],
   'pf.laporCatatan': ["Laporan hanya dibaca tim Jurkon. @{u} tidak diberi tahu siapa yang melapor.", "Only the Jurkon team sees reports. @{u} is not told who reported.", "Laporan hanya dibaca pasukan Jurkon. @{u} tidak diberitahu siapa yang melapor.", "Laporan mung diwaca tim Jurkon. @{u} ora dikandhani sapa sing nglapor.", "Laporan ngan dibaca tim Jurkon. @{u} henteu dibéjaan saha nu ngalaporkeun.", "举报仅由 Jurkon 团队查看，@{u} 不会知道是谁举报的。", "報告は Jurkon チームだけが確認します。誰が報告したかは @{u} には伝わりません。"],
-  'pf.laporSudah': ["Kamu sudah melaporkan akun ini.", "You have already reported this account.", "Anda sudah melaporkan akaun ini.", "Sampeyan wis nglaporake akun iki.", "Anjeun geus ngalaporkeun akun ieu.", "你已举报过此账号。", "このアカウントはすでに報告済みです。"]
+  'pf.laporSudah': ["Kamu sudah melaporkan akun ini.", "You have already reported this account.", "Anda sudah melaporkan akaun ini.", "Sampeyan wis nglaporake akun iki.", "Anjeun geus ngalaporkeun akun ieu.", "你已举报过此账号。", "このアカウントはすでに報告済みです。"],
+  // ---- Pertanyaan harian ----
+  'pq.judul': ["Pertanyaan hari ini", "Question of the day", "Soalan hari ini", "Pitakonan dina iki", "Patarosan poé ieu", "今日的问题", "今日の質問"],
+  'pq.harian': ["Pertanyaan harian", "Daily question", "Soalan harian", "Pitakonan saben dina", "Patarosan poéan", "每日一问", "毎日の質問"],
+  'pq.jawab': ["Jawab", "Answer", "Jawab", "Wangsulana", "Jawab", "回答", "答える"],
+  'pq.lihat': ["Lihat jawaban", "See answers", "Lihat jawapan", "Delengen wangsulan", "Tingali jawaban", "查看回答", "回答を見る"],
+  'pq.hitung': ["{n} jawaban", "{n} answers", "{n} jawapan", "{n} wangsulan", "{n} jawaban", "{n} 个回答", "{n} 件の回答"],
+  'pq.sudah': ["Kamu sudah menjawab hari ini", "You answered today", "Anda sudah menjawab hari ini", "Sampeyan wis mangsuli dina iki", "Anjeun parantos ngajawab poé ieu", "你今天已经回答了", "今日はもう回答しました"],
+  'pq.kosongJ': ["Belum ada jawaban", "No answers yet", "Belum ada jawapan", "Durung ana wangsulan", "Acan aya jawaban", "还没有回答", "まだ回答がありません"],
+  'pq.kosongT': ["Jadilah yang pertama menjawab pertanyaan ini.", "Be the first to answer this question.", "Jadilah yang pertama menjawab soalan ini.", "Dadia sing pisanan mangsuli pitakonan iki.", "Jadi nu kahiji ngajawab patarosan ieu.", "来做第一个回答的人吧。", "最初に答えてみましょう。"],
+  'pq.sebelumnya': ["Sebelumnya", "Previous", "Sebelumnya", "Sadurunge", "Samemehna", "前一天", "前の日"],
+  'pq.berikutnya': ["Berikutnya", "Next", "Seterusnya", "Sabanjure", "Salajengna", "后一天", "次の日"],
+  'pq.terkirim': ["Jawabanmu terkirim.", "Your answer was posted.", "Jawapan anda dihantar.", "Wangsulanmu wis kekirim.", "Jawaban anjeun geus kakirim.", "回答已发送。", "回答を送信しました。"],
+  'pq.sudahGalat': ["Kamu sudah menjawab pertanyaan ini.", "You already answered this question.", "Anda sudah menjawab soalan ini.", "Sampeyan wis mangsuli pitakonan iki.", "Anjeun geus ngajawab patarosan ieu.", "你已经回答过这个问题了。", "この質問にはすでに回答しています。"],
+  'pq.ph': ["Tulis jawabanmu…", "Write your answer…", "Tulis jawapan anda…", "Tulisen wangsulanmu…", "Tulis jawaban anjeun…", "写下你的回答…", "回答を書いてください…"]
 };

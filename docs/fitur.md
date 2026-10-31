@@ -102,3 +102,10 @@ Jalur masuk organik: penulis boleh menjadikan **satu catatan** bisa dibaca siapa
 - **Keamanan tautan** (`htmlTautan` di `js/ui.js`): nama situs hanya dikenali dari domain yang persis cocok (`spotify.com.situs-lain.com` dianggap situs tak dikenal dan tampil dengan domain aslinya); alamat dengan `user:sandi@` dan alamat tanpa titik (mis. `localhost`) tidak dijadikan tautan; tautan pendek (bit.ly, s.id, t.co, dst.) diberi tanda peringatan karena tujuannya tersembunyi; dibuka di tab baru dengan `rel="noopener noreferrer nofollow ugc"`. Tidak ada permintaan ke situs lain (tanpa gambar atau judul yang diambil dari luar), jadi tidak ada kebocoran IP dan tidak ada perubahan CSP.
 - Situs yang dikenali: Spotify, YouTube, Instagram, TikTok, X, Facebook, GitHub, Wikipedia, Google Maps, WhatsApp, Telegram. Tambah di `kenalSitus()`. Teks jenis ada di kamus (`tt.*`).
 
+## Pertanyaan harian
+
+Satu pertanyaan sama untuk semua orang tiap hari (hari menurut WIB), dipilih dari daftar `PQ_BANK` di `js/pertanyaan.js` (hari ke-N mod jumlah pertanyaan). Kartunya tampil di Beranda; halaman penuh `pertanyaan.html` menampilkan semua jawaban dan bisa membuka pertanyaan 30 hari ke belakang (`?tgl=YYYY-MM-DD`).
+
+- **Database:** jalankan `sql/032_pertanyaan_harian.sql` (setelah 024) SEBELUM mengunggah kode JS. Jawaban adalah catatan biasa dengan `posts.pertanyaan_tgl`; satu jawaban per akun per hari, tanggal harus hari ini atau kemarin (WIB), hanya catatan utama biasa.
+- **Klien:** kartu dan data di `js/pertanyaan.js`, halaman di `js/pertanyaan-halaman.js`, mode `jawab` di lembar tulis (`js/tulis.js`). Tanpa migrasi 032 kartu otomatis tidak tampil.
+- **Teks pertanyaan hanya berbahasa Indonesia**; teks antarmukanya (`pq.*`) tersedia di 7 bahasa.

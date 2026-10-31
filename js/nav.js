@@ -79,7 +79,7 @@
   // Tulis / Balas / Kutip membuka lembar kecil (js/tulis.js), bukan halaman layar penuh.
   // Tanpa JavaScript atau bila gagal dimuat, tautan tetap membuka post.html seperti biasa.
   (function () {
-    const lokasi = o => o.balas ? 'detail.html?id=' + encodeURIComponent(o.balas)
+    const lokasi = o => o.pertanyaan ? 'pertanyaan.html' : o.balas ? 'detail.html?id=' + encodeURIComponent(o.balas)
       : o.kutip ? 'post.html?kutip=' + encodeURIComponent(o.kutip) : 'post.html';
     const butuh = [
       ['js/filter-data.js', () => typeof periksaKonten === 'function'],

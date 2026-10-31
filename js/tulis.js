@@ -144,6 +144,7 @@
     sibuk = true; kirimBtn.disabled = true;
     const baris = { user_id: saya.id, content: isi };
     if (kini.mode === 'balas') baris.parent_id = kini.id;
+    else if (kini.mode === 'jawab') { baris.pertanyaan_tgl = kini.tgl; }
     else if (kini.mode === 'kutip') { baris.jenis = 'kutip'; baris.kutip_id = kini.id; }
     else {
       const jam = +(dlg.querySelector('#tulisUmur') || {}).value || 0; if (jam > 0) baris.kedaluwarsa = new Date(Date.now() + jam * 36e5).toISOString();
@@ -154,6 +155,7 @@
     const { error } = await kirimPosting(baris);
     sibuk = false; kirimBtn.disabled = false;
     if (error) {
+      if (kini.mode === 'jawab' && error.code === '23505') { galat.textContent = t('pq.sudahGalat'); return; }
       galat.textContent = t(kini.mode === 'balas' ? 'detail.gagal' : 'post.gagal', { pesan: pesan(error) });
       return;
     }
@@ -161,7 +163,7 @@
     delete draf[kini.kunci];
     ta.value = ''; ta.dispatchEvent(new Event('input'));
     tutup();
-    toast(baris.terbuka_pada ? t('tulis.kapsulTerkirim', { tgl: tglPanjang(baris.terbuka_pada) }) : t('tulis.terkirim'));
+    toast(info.mode === 'jawab' ? t('pq.terkirim') : baris.terbuka_pada ? t('tulis.kapsulTerkirim', { tgl: tglPanjang(baris.terbuka_pada) }) : t('tulis.terkirim'));
     document.dispatchEvent(new CustomEvent('jurkon:terkirim', { detail: info, cancelable: true }));
   }
 
@@ -171,9 +173,9 @@
     saya = await wajibLogin();
     if (!saya) return;
     if (!dlg) bangun();
-    const mode = o.balas ? 'balas' : o.kutip ? 'kutip' : 'tulis';
+    const mode = o.balas ? 'balas' : o.kutip ? 'kutip' : o.pertanyaan ? 'jawab' : 'tulis';
     const id = o.balas || o.kutip || null;
-    kini = { mode, id, kunci: mode + ':' + (id || '') };
+    kini = { mode, id, tgl: o.pertanyaan ? o.pertanyaan.tgl : null, kunci: mode + ':' + (id || (o.pertanyaan ? o.pertanyaan.tgl : '')) };
     galat.textContent = ''; kirimBtn.disabled = false; konteks.innerHTML = '';
     dlg.querySelector('#tulisUmurBox').hidden = mode !== 'tulis'; dlg.querySelector('#tulisUmur').value = '0';
     dlg.querySelector('#tulisKapsulBox').hidden = mode !== 'tulis'; dlg.querySelector('#tulisKapsul').value = ''; dlg.querySelector('#tulisKapsulTgl').value = ''; dlg.querySelector('#tulisKapsulTgl').hidden = true;
@@ -188,6 +190,11 @@
       kirimBtn.textContent = t('umum.balas');
       konteks.innerHTML = '<div class="tulis-konteks"><b>' + esc(nama) + '</b> <span>@' + esc(user) + '</span><p>' + esc(teks) + '</p></div>';
       pilihPlaceholder('detail.ph');
+    } else if (mode === 'jawab') {
+      judul.textContent = t('pq.judul');
+      kirimBtn.textContent = t('umum.kirim');
+      ta.placeholder = t('pq.ph');
+      konteks.innerHTML = '<div class="tulis-konteks"><p>' + esc(o.pertanyaan.teks) + '</p></div>';
     } else if (mode === 'kutip') {
       judul.textContent = t('post.kutipJudul');
       kirimBtn.textContent = t('umum.kirim');

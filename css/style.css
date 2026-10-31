@@ -995,3 +995,14 @@ textarea{min-height:80px}
 .tab-profil button[aria-selected=true]{color:var(--teks);border-bottom:0}
 .tab-profil button[aria-selected=true]::after{content:"";position:absolute;left:50%;bottom:0;width:30px;height:3px;margin-left:-15px;border-radius:3px 3px 0 0;background:var(--aksen)}
 @media (max-width:420px){.tab-profil button,.tab-profil.lima button{font-size:13.5px}}
+
+/* Pertanyaan harian */
+.pq-teks{margin:4px 0 12px;font-size:17px;line-height:1.45;font-weight:600}
+.pq-baris{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.pq-hitung{font-size:13px;color:var(--redup)}
+.pq-lihat{font-size:13px;font-weight:600;color:var(--aksen);text-decoration:none}
+.pq-kepala{margin:12px 16px;padding:16px;border:1px solid var(--garis);border-radius:14px;background:color-mix(in srgb,var(--aksen) 6%,var(--bg))}
+.pq-label{font-size:13px;font-weight:600;color:var(--aksen)}
+.pq-kepala .pq-besar{font-size:20px}
+.pq-geser{display:flex;justify-content:space-between;margin-top:14px;padding-top:10px;border-top:1px solid var(--garis);font-size:14px}
+.pq-geser a{color:var(--aksen);text-decoration:none;font-weight:600}
