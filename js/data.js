@@ -18,7 +18,8 @@ function dariBaris(r) {
     sudah_suka: !!r.sudah_suka,
     dilihat: r.dilihat == null ? null : Number(r.dilihat),
     induk_username: r.induk_username || null,
-    suka_pada: r.suka_pada || null
+    suka_pada: r.suka_pada || null,
+    kedaluwarsa: r.kedaluwarsa || null
   };
 }
 
@@ -179,14 +180,15 @@ function daftarBerhalaman(el, ambil, kosongHtml, saya, opsi) {
     const data = r.data || [];
     if (ulang && !data.length) { hapusCache(); el.innerHTML = typeof kosongHtml === 'function' ? kosongHtml() : (kosongHtml || ''); return; }
     const lagi = data.length >= (r.limit || HALAMAN) ? TOMBOL : '';
+    const penutup = lagi || ((opsi && typeof opsi.ujung === 'function') ? opsi.ujung() : '');
     if (ulang) {
       simpanCache(data);
       // Bila sama dengan yang sudah tampil dari cache, jangan gambar ulang (tanpa kedip)
-      if (cacheData && tanda(cacheData) === tanda(data.slice(0, cacheData.length)) && cacheData.length === data.length) el.insertAdjacentHTML('beforeend', lagi);
-      else el.innerHTML = data.map(render).join('') + lagi;
+      if (cacheData && tanda(cacheData) === tanda(data.slice(0, cacheData.length)) && cacheData.length === data.length) el.insertAdjacentHTML('beforeend', penutup);
+      else el.innerHTML = data.map(render).join('') + penutup;
     } else {
       const b = el.querySelector('.lagi'); if (b) { if (io) io.unobserve(b); b.remove(); }
-      el.insertAdjacentHTML('beforeend', data.map(render).join('') + lagi);
+      el.insertAdjacentHTML('beforeend', data.map(render).join('') + penutup);
     }
     if (data.length) akhir = r.kursorAkhir || kursor(data[data.length - 1]);
     if (lagi) pantau();

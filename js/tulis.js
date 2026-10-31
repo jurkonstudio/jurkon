@@ -29,6 +29,9 @@
       '<button type="button" class="ikon-btn" data-tutup aria-label="' + esc(t('umum.tutup')) + '">' + IKON_TUTUP + '</button></div>' +
       '<div id="tulisKonteks"></div>' +
       '<div class="form"><textarea id="tulisIsi" rows="4"></textarea>' +
+      '<div class="umur-catatan" id="tulisUmurBox" hidden><label for="tulisUmur">' + esc(t('tulis.umur')) + '</label>' +
+      '<select id="tulisUmur"><option value="0">' + esc(t('tulis.umurTetap')) + '</option><option value="24">' + esc(t('tulis.umur24')) +
+      '</option><option value="168">' + esc(t('tulis.umur7')) + '</option></select></div>' +
       '<div class="baris"><span class="hitung" id="tulisHitung"></span><button type="button" class="btn" id="tulisKirim"></button></div>' +
       '<div class="galat" id="tulisGalat" role="alert"></div></div>';
     document.body.appendChild(dlg);
@@ -72,6 +75,7 @@
     const baris = { user_id: saya.id, content: isi };
     if (kini.mode === 'balas') baris.parent_id = kini.id;
     else if (kini.mode === 'kutip') { baris.jenis = 'kutip'; baris.kutip_id = kini.id; }
+    else { const jam = +(dlg.querySelector('#tulisUmur') || {}).value || 0; if (jam > 0) baris.kedaluwarsa = new Date(Date.now() + jam * 36e5).toISOString(); }
     const { error } = await kirimPosting(baris);
     sibuk = false; kirimBtn.disabled = false;
     if (error) {
@@ -96,6 +100,7 @@
     const id = o.balas || o.kutip || null;
     kini = { mode, id, kunci: mode + ':' + (id || '') };
     galat.textContent = ''; kirimBtn.disabled = false; konteks.innerHTML = '';
+    dlg.querySelector('#tulisUmurBox').hidden = mode !== 'tulis'; dlg.querySelector('#tulisUmur').value = '0';
     ta.value = draf[kini.kunci] || ''; ta.dispatchEvent(new Event('input'));
 
     if (mode === 'balas') {

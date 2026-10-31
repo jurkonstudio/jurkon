@@ -462,5 +462,17 @@ const I18N_KAMUS = {
   'filter.umum': ['Isi tulisanmu melanggar aturan Jurkon.', 'Your text breaks the Jurkon rules.', 'Tulisan anda melanggar peraturan Jurkon.', 'Isi tulisan sampeyan nerak aturan Jurkon.', 'Eusi tulisan anjeun ngalanggar aturan Jurkon.', '你的内容违反了 Jurkon 的规则。', '文章が Jurkon のルールに違反しています。'],
   'filter.konfirmasi': ['OK = tetap kirim · Batal = ubah dulu', 'OK = send anyway · Cancel = edit first', 'OK = tetap hantar · Batal = ubah dahulu', 'OK = tetep kirim · Batal = owahi dhisik', 'OK = tetep kirim · Batal = robah heula', '确定 = 仍然发送 · 取消 = 先修改', 'OK＝そのまま送信 · キャンセル＝先に修正'],
   'filter.kata': ['“{kata}”', '“{kata}”', '“{kata}”', '“{kata}”', '“{kata}”', '“{kata}”', '「{kata}」'],
-  'filter.saran': ['Saran username', 'Username suggestions', 'Cadangan nama pengguna', 'Saran username', 'Saran username', '用户名建议', 'ユーザー名の候補']
+  'filter.saran': ['Saran username', 'Username suggestions', 'Cadangan nama pengguna', 'Saran username', 'Saran username', '用户名建议', 'ユーザー名の候補'],
+  'feed.ujungJ': ["Kamu sudah sampai ujung", "You’ve reached the end", "Anda sudah sampai ke hujung", "Sampeyan wis tekan pungkasan", "Anjeun parantos dugi ka tungtung", "你已经看完了", "ここまでです"],
+  'feed.ujungT': ["Tidak ada catatan baru lagi. Istirahat dulu, atau temukan orang baru di Jelajah.", "No more new notes. Take a break, or find new people in Explore.", "Tiada lagi catatan baharu. Berehatlah, atau cari orang baharu di Teroka.", "Wis ora ana cathetan anyar. Ngaso sik, utawa golek wong anyar ing Jelajah.", "Teu aya deui catetan anyar. Reureuh heula, atawa milarian jalma anyar di Jelajah.", "没有更多新笔记了。休息一下，或到“探索”发现新朋友。", "これ以上新しいノートはありません。ひと休みするか、「探索」で新しい人を見つけましょう。"],
+  'feed.ujungTombol': ["Buka Jelajah", "Open Explore", "Buka Teroka", "Bukak Jelajah", "Buka Jelajah", "打开探索", "探索を開く"],
+  'feed.ringkasan': ["Ringkasan hari ini", "Today’s digest", "Ringkasan hari ini", "Ringkesan dina iki", "Ringkesan poé ayeuna", "今日摘要", "今日のまとめ"],
+  'feed.ringkasanTutup': ["Sembunyikan sampai besok", "Hide until tomorrow", "Sembunyikan sehingga esok", "Singidake nganti sesuk", "Sumputkeun nepi ka isukan", "明天再显示", "明日まで非表示"],
+  'tulis.umur': ["Hilang setelah", "Disappears after", "Hilang selepas", "Ilang sawise", "Leungit sanggeus", "多久后消失", "消えるまで"],
+  'tulis.umurTetap': ["Tidak pernah", "Never", "Tidak pernah", "Ora tau", "Moal pernah", "不消失", "なし"],
+  'tulis.umur24': ["24 jam", "24 hours", "24 jam", "24 jam", "24 jam", "24 小时", "24時間"],
+  'tulis.umur7': ["7 hari", "7 days", "7 hari", "7 dina", "7 poé", "7 天", "7日間"],
+  'pc.hilangMenit': ["Hilang dalam {n} menit", "Disappears in {n} min", "Hilang dalam {n} minit", "Ilang ing {n} menit", "Leungit dina {n} menit", "{n} 分钟后消失", "{n}分後に消えます"],
+  'pc.hilangJam': ["Hilang dalam {n} jam", "Disappears in {n} hr", "Hilang dalam {n} jam", "Ilang ing {n} jam", "Leungit dina {n} jam", "{n} 小时后消失", "{n}時間後に消えます"],
+  'pc.hilangHari': ["Hilang dalam {n} hari", "Disappears in {n} days", "Hilang dalam {n} hari", "Ilang ing {n} dina", "Leungit dina {n} poé", "{n} 天后消失", "{n}日後に消えます"]
 };

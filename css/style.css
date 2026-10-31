@@ -678,3 +678,20 @@ a,button,summary,label{touch-action:manipulation}
 .lembar-set .info-daftar a{justify-content:flex-start}
 .lembar-set .info-daftar a span{flex:1}
 .lembar-set .btn.penuh svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ===== Ujung feed, Ringkasan hari ini, catatan berumur ===== */
+.ujung-feed{padding:28px 20px 36px;text-align:center;color:var(--redup);border-bottom:1px solid var(--garis)}
+.ujung-feed b{display:block;color:var(--teks);font-size:16px;margin-bottom:4px}
+.ujung-feed p{margin:0 0 14px;font-size:14px}
+.ringkasan{margin:12px 16px;padding:12px 14px;border:1px solid var(--garis);border-radius:14px;background:color-mix(in srgb,var(--aksen) 6%,var(--bg))}
+.ringkasan[hidden]{display:none}
+.ringkasan-kepala{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.ringkasan-kepala b{font-size:14px}
+.ringkasan-tutup{background:none;border:0;color:var(--redup);font:inherit;font-size:22px;line-height:1;cursor:pointer;padding:4px 8px}
+.ringkasan-baris{display:block;padding:8px 0;border-top:1px solid var(--garis)}
+.ringkasan-nama{display:block;font-weight:600;font-size:14px}
+.ringkasan-isi{display:block;color:var(--redup);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.berumur{margin-top:6px;font-size:13px;color:var(--redup)}
+.umur-catatan{display:flex;align-items:center;gap:8px;margin-top:8px;font-size:14px;color:var(--redup)}
+.umur-catatan[hidden]{display:none}
+.umur-catatan select{background:transparent;color:var(--teks);border:1px solid var(--garis);border-radius:8px;padding:6px 8px;font:inherit}

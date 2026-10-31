@@ -57,6 +57,15 @@ function isiHtml(t) {
 }
 
 // opsi: { tanpaInduk: true } menyembunyikan baris "Membalas ..." (dipakai di halaman detail)
+// Label sisa waktu untuk catatan berumur ("Hilang dalam 3 jam")
+function labelBerumur(iso) {
+  const s = (new Date(iso) - Date.now()) / 1000;
+  if (!(s > 0)) return '';
+  if (s < 3600) return t('pc.hilangMenit', { n: Math.max(1, Math.round(s / 60)) });
+  if (s < 86400) return t('pc.hilangJam', { n: Math.round(s / 3600) });
+  return t('pc.hilangHari', { n: Math.round(s / 86400) });
+}
+
 function htmlPost(p, saya, opsi) {
   if (!p.content && !p.parent_id) return htmlUlang(p, saya);   // posting ulang: isinya diambil dari posting asli
   const jml = p.likes?.[0]?.count ?? 0;
@@ -73,6 +82,7 @@ function htmlPost(p, saya, opsi) {
       <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>${lencanaResmi(p.profiles.username)}
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
       ${induk}<div class="isi">${isiHtml(p.content)}</div>
+      ${p.kedaluwarsa && labelBerumur(p.kedaluwarsa) ? `<div class="berumur">${esc(labelBerumur(p.kedaluwarsa))}</div>` : ''}
       <div class="aksi">
         <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="${esc(t('pc.suka'))}">${IK.suka}<span>${jml}</span></button>
         <a href="detail.html?id=${p.id}" aria-label="${esc(t('umum.balas'))}">${IK.balas}<span>${esc(t('umum.balas'))}</span></a>
