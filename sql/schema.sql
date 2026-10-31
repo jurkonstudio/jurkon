@@ -88,18 +88,18 @@ alter table messages enable row level security;
 alter table reports enable row level security;
 alter table blocks enable row level security;
 
-create policy "profil dibaca semua" on profiles for select using (true);
+create policy "profil dibaca semua" on profiles for select using (auth.uid() is not null);
 create policy "ubah profil sendiri" on profiles for update using (auth.uid() = id);
 
-create policy "posting dibaca semua" on posts for select using (true);
+create policy "posting dibaca semua" on posts for select using (auth.uid() is not null);
 create policy "posting sendiri" on posts for insert with check (auth.uid() = user_id);
 create policy "hapus posting sendiri" on posts for delete using (auth.uid() = user_id);
 
-create policy "like dibaca semua" on likes for select using (true);
+create policy "like dibaca semua" on likes for select using (auth.uid() is not null);
 create policy "like sendiri" on likes for insert with check (auth.uid() = user_id);
 create policy "batal like sendiri" on likes for delete using (auth.uid() = user_id);
 
-create policy "follow dibaca semua" on follows for select using (true);
+create policy "follow dibaca semua" on follows for select using (auth.uid() is not null);
 create policy "ikuti sendiri" on follows for insert with check (auth.uid() = follower_id);
 create policy "berhenti ikuti" on follows for delete using (auth.uid() = follower_id);
 

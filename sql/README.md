@@ -30,6 +30,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `019_anti_bot_keamanan.sql` | pengerasan keamanan dan anti-bot | hasil akhir harus 0 baris |
 | `020_panel_admin.sql` | panel admin dan pengaturan landing | hasil akhir harus 1 baris: `landing_publik()` |
 | `021_mfa_admin.sql` | `is_admin()` mewajibkan sesi 2 langkah (aal2) bila admin sudah punya TOTP | setelah 020; hasil akhir: daftar admin dan status 2 langkah |
+| `022_pastikan_rls_anggota.sql` | menghapus kebijakan baca terbuka (`using (true)`) dan memastikan hanya anggota login yang bisa membaca | setelah 021; hasil akhir: 0 baris (lihat kueri cek di berkas) |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 
