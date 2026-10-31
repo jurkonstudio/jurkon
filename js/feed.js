@@ -85,4 +85,18 @@ function pilihFeed(f, fokus) {
     if (e.detail && e.detail.mode === 'balas') return;
     e.preventDefault(); muat(); window.scrollTo({ top: 0 });
   });
+  // Gulir turun: header dan menu bawah menyingkir (HP). Gulir naik, atau di puncak: muncul lagi.
+  (function () {
+    const HP = window.matchMedia('(max-width:767px)');
+    let terakhir = window.scrollY, menunggu = false;
+    function periksa() {
+      menunggu = false;
+      const y = Math.max(0, window.scrollY), selisih = y - terakhir;
+      if (!HP.matches || y < 80) document.body.classList.remove('gulir-turun');
+      else if (selisih > 12) document.body.classList.add('gulir-turun');
+      else if (selisih < -8) document.body.classList.remove('gulir-turun');
+      if (Math.abs(selisih) > 8) terakhir = y;
+    }
+    window.addEventListener('scroll', () => { if (!menunggu) { menunggu = true; requestAnimationFrame(periksa); } }, { passive: true });
+  })();
 })();
