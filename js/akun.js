@@ -2,22 +2,28 @@
 (function () {
   const el = document.getElementById('akun');
   if (!el) return;
-  el.innerHTML = `<h3>${esc(t('ak.email'))}</h3>
-    <p class="hitung" id="emailKini" style="margin:0 0 8px">${esc(t('umum.memuat'))}</p>
-    <input type="email" id="emailBaru" aria-label="${esc(t('ak.emailBaruPh'))}" placeholder="${esc(t('ak.emailBaruPh'))}" autocomplete="email" autocapitalize="none" spellcheck="false">
-    <div class="akun-aksi" style="margin-top:8px"><button class="btn garis" id="gantiEmail">${esc(t('ak.ganti'))}</button></div>
-    <p class="hitung" id="emailInfo" role="status" style="margin-top:8px">${esc(t('ak.infoGanti'))}</p>
-    <h3 style="margin-top:20px">${esc(t('ak.dataAkun'))}</h3>
-    <div class="akun-aksi">
-      <button class="btn garis" id="unduhData">${esc(t('ak.unduh'))}</button>
-      <a id="linkAdmin" href="/murthehelp/031411" hidden>${esc(t('ak.admin'))}</a>
-    </div>
-    <p class="hitung" style="margin-top:8px">${esc(t('ak.infoData'))}</p>
-    <div class="zona-bahaya">
+  el.innerHTML = `<section class="set-grup set-email">
+      <h3>${esc(t('ak.email'))}</h3>
+      <p class="set-nilai" id="emailKini">${esc(t('umum.memuat'))}</p>
+      <div class="set-isian">
+        <input type="email" id="emailBaru" aria-label="${esc(t('ak.emailBaruPh'))}" placeholder="${esc(t('ak.emailBaruPh'))}" autocomplete="email" autocapitalize="none" spellcheck="false">
+        <button class="btn garis" id="gantiEmail">${esc(t('ak.ganti'))}</button>
+      </div>
+      <p class="hitung" id="emailInfo" role="status">${esc(t('ak.infoGanti'))}</p>
+    </section>
+    <section class="set-grup set-data">
+      <h3>${esc(t('ak.dataAkun'))}</h3>
+      <div class="akun-aksi">
+        <button class="btn garis" id="unduhData">${esc(t('ak.unduh'))}</button>
+        <a id="linkAdmin" href="/murthehelp/031411" hidden>${esc(t('ak.admin'))}</a>
+      </div>
+      <p class="hitung">${esc(t('ak.infoData'))}</p>
+    </section>
+    <section class="set-grup zona-bahaya">
       <h3>${esc(t('ak.zona'))}</h3>
       <p class="hitung">${esc(t('ak.zonaInfo'))}</p>
       <button class="btn bahaya garis" id="hapusAkun">${esc(t('ak.hapus'))}</button>
-    </div>`;
+    </section>`;
 
   const infoEmail = document.getElementById('emailInfo');
   db.auth.getSession().then(({ data: { session } }) => {

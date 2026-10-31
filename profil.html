@@ -25,19 +25,25 @@
 <button type="button" role="tab" id="tp-suka" data-tp="suka" aria-selected="false" aria-controls="daftar" tabindex="-1" data-i="pf.tabSuka">Menyukai</button>
 </div>
 <div id="daftar" role="tabpanel" aria-labelledby="tp-catatan"></div></main>
-<dialog id="lembarPengaturan" class="lembar" aria-labelledby="jPengaturan">
+<dialog id="lembarPengaturan" class="lembar lembar-set" aria-labelledby="jPengaturan">
 <div class="lembar-kepala"><h2 id="jPengaturan" data-i="pf.pengaturan">Pengaturan</h2><button class="ikon-btn" id="tutupPengaturan" aria-label="Tutup" data-i-aria="umum.tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-<div id="tema" class="tema-pilih" hidden></div><div id="bahasa" class="tema-pilih"></div><div id="akun" class="tema-pilih" hidden></div>
-<div class="tema-pilih info-lembar"><h3 data-i="set.info">Informasi</h3>
+<div class="set-badan">
+<section id="tema" class="set-grup" hidden></section>
+<section id="bahasa" class="set-grup"></section>
+<div id="akun" class="set-bungkus" hidden></div>
+<section class="set-grup set-info"><h3 data-i="set.info">Informasi</h3>
 <ul class="info-daftar">
-<li><a href="kebijakan-privasi.html" data-i="set.privasi">Kebijakan privasi</a></li>
-<li><a href="ketentuan-layanan.html" data-i="set.ketentuan">Ketentuan layanan</a></li>
-<li><a href="aturan.html" data-i="set.aturan">Aturan penggunaan</a></li>
-<li><a href="pusat-bantuan.html" data-i="set.bantuan">Pusat bantuan</a></li>
-<li><a href="tentang.html" data-i="set.tentang">Tentang Jurkon</a></li>
+<li><a href="kebijakan-privasi.html"><svg class="set-ikon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z"/></svg><span data-i="set.privasi">Kebijakan privasi</span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+<li><a href="ketentuan-layanan.html"><svg class="set-ikon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 13h6M9 17h6"/></svg><span data-i="set.ketentuan">Ketentuan layanan</span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+<li><a href="aturan.html"><svg class="set-ikon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg><span data-i="set.aturan">Aturan penggunaan</span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+<li><a href="pusat-bantuan.html"><svg class="set-ikon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.9.6-1.5 1.1-1.5 2M12 17h.01"/></svg><span data-i="set.bantuan">Pusat bantuan</span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
+<li><a href="tentang.html"><svg class="set-ikon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span data-i="set.tentang">Tentang Jurkon</span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
 </ul>
-<p class="hitung" data-i="set.catatanBahasa" style="margin-bottom:6px">Halaman informasi hukum tersedia dalam Bahasa Indonesia.</p><p class="hitung" id="versi">Versi 1.0.0</p></div>
-<div class="tema-pilih"><button class="btn garis" id="logout" data-i="set.keluar">Keluar</button></div></dialog>
+<p class="hitung" data-i="set.catatanBahasa">Halaman informasi hukum tersedia dalam Bahasa Indonesia.</p></section>
+<div class="set-keluar"><button class="btn garis penuh" id="logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/></svg><span data-i="set.keluar">Keluar</span></button></div>
+<p class="hitung set-versi" id="versi">Versi 1.0.0</p>
+</div>
+</dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/supabase.js"></script>
 <script src="js/ui.js"></script>

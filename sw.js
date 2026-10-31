@@ -3,7 +3,7 @@
 // tanpa menunggu jaringan. HTML, JS, dan CSS selalu berasal dari versi yang sama, jadi tidak pernah campur lama-baru.
 // Versi baru terpasang di belakang layar saat sw.js berubah.
 // JANGAN edit angka CACHE secara manual: jalankan  node tools/naikkan-cache.js  sebelum unggah.
-const CACHE = 'jurkon-252deb79';
+const CACHE = 'jurkon-9cfc9434';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 
 // Hanya yang dipakai hampir setiap kunjungan. Bahasa lain, tema Kaca/Awan, admin, dan landing disimpan
