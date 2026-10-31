@@ -327,6 +327,7 @@ const I18N_KAMUS = {
   'pf.pengikut': ['pengikut', 'followers', 'pengikut', 'pengikut', 'nu nuturkeun', '粉丝', 'フォロワー'],
   'pf.lihatMengikuti': ['Lihat {n} yang diikuti', 'View {n} following', 'Lihat {n} yang diikuti', 'Deleng {n} sing diikuti', 'Tingali {n} nu diturutan', '查看 {n} 个关注', 'フォロー中{n}人を見る'],
   'pf.mengikuti': ['mengikuti', 'following', 'mengikuti', 'ngetutake', 'nuturkeun', '关注', 'フォロー中'],
+  'pf.posting': ['posting', 'posts', 'hantaran', 'kiriman', 'kiriman', '帖子', '投稿'],
   'pf.ubah': ['Ubah profil', 'Edit profile', 'Ubah profil', 'Owah profil', 'Robah profil', '编辑资料', 'プロフィールを編集'],
   'pf.ikuti': ['Ikuti', 'Follow', 'Ikuti', 'Tutake', 'Turutan', '关注', 'フォロー'],
   'pf.kirimPesan': ['Kirim Pesan', 'Send message', 'Hantar Mesej', 'Kirim Pesen', 'Kirim Pesen', '发消息', 'メッセージを送る'],

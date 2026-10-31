@@ -41,7 +41,7 @@ async function muat() {
       <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}</div>
         <div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div></div></div>
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : esc(milikSaya ? t('pf.bioKosongSaya') : t('pf.bioKosong'))}</div>
-    <div class="stat"><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="${esc(t('pf.lihatPengikut', { n: pengikut }))}"><b>${pengikut}</b><span>${esc(t('pf.pengikut'))}</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="${esc(t('pf.lihatMengikuti', { n: mengikuti }))}"><b>${mengikuti}</b><span>${esc(t('pf.mengikuti'))}</span></button></div>
+    <div class="stat"><div class="stat-item" id="statPosting"><b id="jmlPosting">–</b><span>${esc(t('pf.posting'))}</span></div><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="${esc(t('pf.lihatPengikut', { n: pengikut }))}"><b>${pengikut}</b><span>${esc(t('pf.pengikut'))}</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="${esc(t('pf.lihatMengikuti', { n: mengikuti }))}"><b>${mengikuti}</b><span>${esc(t('pf.mengikuti'))}</span></button></div>
     <div class="tombol">${milikSaya
       ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button>`
       : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${esc(ikut ? t('feed.ikuti') : t('pf.ikuti'))}</button>
@@ -49,6 +49,14 @@ async function muat() {
          <div class="menu-lain"><button class="ikon-btn" id="menuLain" aria-label="${esc(t('pf.aksiLain'))}" aria-haspopup="menu" aria-expanded="false">${IKP.titik}</button>
            <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${esc(blk ? t('pf.bukaBlokir') : t('pf.blokir', { u: p.username }))}</button></div></div>`}</div>
     ${milikSaya || salingIkuti ? '' : `<p class="hint-pesan" id="hintPesan">${esc(t('pf.hintPesan'))}</p>`}</div>`;
+  // Jumlah posting (sama dengan isi tab Catatan: bukan balasan, bukan repost). Dihitung terpisah, tanpa migrasi SQL.
+  db.from('posts').select('*', { count: 'exact', head: true })
+    .eq('user_id', p.id).is('parent_id', null).neq('jenis', 'ulang')
+    .then(({ count, error }) => {
+      const el = $('#jmlPosting');
+      if (!el || profil !== p) return;
+      el.textContent = (error || count == null) ? '–' : String(count);
+    });
   // Tanggal bergabung: diambil terpisah supaya tidak butuh migrasi SQL
   db.from('profiles').select('created_at').eq('id', p.id).maybeSingle().then(({ data }) => {
     const el = $('#gabung');
