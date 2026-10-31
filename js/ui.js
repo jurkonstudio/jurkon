@@ -151,14 +151,126 @@ function setAngka(el, n, tik) {
   return true;
 }
 
-// Isi posting aman (di-escape): @username menjadi tautan ke profil, #tagar menjadi tautan ke pencarian Jelajah.
+// ---- Tautan di dalam posting ---------------------------------------------------------
+// Alamat http(s) tampil sebagai kartu kecil yang menyebut TUJUANNYA ("Spotify · Album", "YouTube · Video"),
+// bukan alamat panjang. Aturan keamanan: nama situs hanya dikenali dari domain yang PERSIS cocok (spotify.com
+// atau subdomainnya, bukan spotify.com.situs-lain.com); domain asli selalu tampil di baris kedua; alamat dengan
+// user:sandi@ ditolak (trik phishing klasik) dan tampil sebagai teks biasa; tautan pendek (bit.ly dst.) diberi tanda
+// karena tujuannya tersembunyi. Tautan dibuka di tab baru dengan rel="noopener noreferrer nofollow ugc".
+const POLA_URL = /\bhttps?:\/\/[^\s<>"'`]+/gi;
+const TAUTAN_PENDEK = new Set(['bit.ly', 'tinyurl.com', 's.id', 'cutt.ly', 'rb.gy', 'shorturl.at', 'is.gd', 'ow.ly', 't.ly',
+  'tiny.cc', 'rebrand.ly', 't.co', 'goo.gl', 'buff.ly', 'lnkd.in', 'bit.do', 'shp.ee', 'tokopedia.link', 'linktr.ee']);
+const IK_TAUTAN = {
+  musik: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg>',
+  video: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9.5v5l4.200-2.500z"/></svg>',
+  foto: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.500 6.500h.01"/></svg>',
+  pin: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-5.700-7-11a7 7 0 0 1 14 0c0 5.300-7 11-7 11z"/><circle cx="12" cy="10" r="2.500"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  kode: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>',
+  buku: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M9 7h6"/></svg>',
+  tautan: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.700 0l3-3a4 4 0 0 0-5.700-5.700l-1 1"/><path d="M14 10a4 4 0 0 0-5.700 0l-3 3a4 4 0 0 0 5.700 5.700l1-1"/></svg>',
+  awas: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/></svg>',
+  luar: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>'
+};
+const cocok = (h, d) => h === d || h.endsWith('.' + d);
+
+// Kembalikan { nama, jenis (kunci kamus tt.*) atau null, ikon } bila domainnya dikenal, selain itu null.
+function kenalSitus(h, u) {
+  const p = u.pathname, a = p.split('/').filter(Boolean);
+  if (h === 'open.spotify.com' || h === 'spotify.link' || h === 'spotify.com') {
+    const m = /^\/(?:intl-[a-z-]+\/)?(album|track|playlist|artist|episode|show)\//i.exec(p);
+    const peta = { album: 'album', track: 'lagu', playlist: 'playlist', artist: 'artis', episode: 'podcast', show: 'podcast' };
+    return { nama: 'Spotify', jenis: m ? peta[m[1].toLowerCase()] : null, ikon: 'musik' };
+  }
+  if (h === 'youtu.be') return { nama: 'YouTube', jenis: 'video', ikon: 'video' };
+  if (cocok(h, 'youtube.com')) {
+    const j = /^\/(watch|shorts|live)\b/.test(p) ? 'video' : p.startsWith('/playlist') ? 'playlist' : /^\/(@|channel\/|c\/|user\/)/.test(p) ? 'kanal' : null;
+    return { nama: h === 'music.youtube.com' ? 'YouTube Music' : 'YouTube', jenis: j, ikon: 'video' };
+  }
+  if (cocok(h, 'instagram.com') || h === 'instagr.am') {
+    const j = /^\/p\//.test(p) ? 'postingan' : /^\/reels?\//.test(p) ? 'reel' : a.length === 1 ? 'profil' : null;
+    return { nama: 'Instagram', jenis: j, ikon: 'foto' };
+  }
+  if (cocok(h, 'tiktok.com')) {
+    const j = /\/video\//.test(p) || h.startsWith('vm.') || h.startsWith('vt.') ? 'video' : /^\/@[^/]+\/?$/.test(p) ? 'profil' : null;
+    return { nama: 'TikTok', jenis: j, ikon: 'video' };
+  }
+  if (cocok(h, 'x.com') || cocok(h, 'twitter.com')) {
+    return { nama: 'X', jenis: /\/status\//.test(p) ? 'postingan' : a.length === 1 ? 'profil' : null, ikon: 'chat' };
+  }
+  if (cocok(h, 'facebook.com') || h === 'fb.watch' || h === 'fb.com') return { nama: 'Facebook', jenis: h === 'fb.watch' ? 'video' : null, ikon: 'chat' };
+  if (h === 'github.com') return { nama: 'GitHub', jenis: a.length >= 2 ? 'repo' : a.length === 1 ? 'profil' : null, ikon: 'kode' };
+  if (cocok(h, 'wikipedia.org')) return { nama: 'Wikipedia', jenis: /^\/wiki\//.test(p) ? 'artikel' : null, ikon: 'buku' };
+  if (h === 'maps.app.goo.gl' || h === 'maps.google.com' || (cocok(h, 'google.com') && /^\/maps/.test(p))) return { nama: 'Google Maps', jenis: 'lokasi', ikon: 'pin' };
+  if (h === 'wa.me' || h === 'api.whatsapp.com') return { nama: 'WhatsApp', jenis: 'chat', ikon: 'chat' };
+  if (h === 'chat.whatsapp.com') return { nama: 'WhatsApp', jenis: 'grup', ikon: 'chat' };
+  if (h === 't.me') return { nama: 'Telegram', jenis: 'chat', ikon: 'chat' };
+  return null;
+}
+
+// URL mentah (belum di-escape) -> HTML kartu tautan, atau null bila tidak aman / tidak sah (lalu ditampilkan sebagai teks).
+// kompak = true: alamat di tengah kalimat -> pil satu baris yang mengalir bersama teks; false: alamat di baris sendiri -> kartu.
+function htmlTautan(mentah, kompak) {
+  let u;
+  if (mentah.length > 2000) return null;
+  try { u = new URL(mentah); } catch (e) { return null; }
+  if (u.protocol !== 'http:' && u.protocol !== 'https:') return null;
+  if (u.username || u.password) return null;
+  const h = u.hostname.toLowerCase().replace(/^www\./, '');
+  if (!h.includes('.') && !/^\[/.test(h)) return null;
+  const kenal = TAUTAN_PENDEK.has(h) ? null : kenalSitus(h, u);
+  const pendek = TAUTAN_PENDEK.has(h);
+  let judul, baris2, ikon = 'tautan', kelas = 'tautan';
+  if (kenal) {
+    judul = kenal.nama + (kenal.jenis ? ' · ' + t('tt.' + kenal.jenis) : '');
+    baris2 = h; ikon = kenal.ikon;
+  } else if (pendek) {
+    judul = h; baris2 = t('tt.pendek'); ikon = 'awas'; kelas += ' awas';
+  } else {
+    let jalur = u.pathname === '/' ? '' : u.pathname;
+    try { jalur = decodeURIComponent(jalur); } catch (e) {}
+    judul = h; baris2 = (jalur + (u.search ? '?…' : '')) || t('tt.tautan');
+  }
+  if (kompak) kelas += ' kecil';
+  const tampil2 = kompak && !kenal ? '' : baris2;      // pil: domain sudah jadi judul untuk situs tak dikenal; peringatan tautan pendek lewat ikon dan label
+  return '<a class="' + kelas + '" href="' + esc(u.href) + '" target="_blank" rel="noopener noreferrer nofollow ugc"'
+    + ' title="' + esc(h + (pendek ? ' — ' + baris2 : '')) + '"'
+    + ' aria-label="' + esc(t('tt.aria', { judul: judul + (pendek ? ' (' + baris2 + ')' : ''), host: h })) + '">'
+    + '<span class="tt-ikon">' + IK_TAUTAN[ikon] + '</span>'
+    + '<span class="tt-teks"><b>' + esc(judul) + '</b>' + (tampil2 ? '<small>' + esc(tampil2) + '</small>' : '') + '</span>'
+    + '<span class="tt-luar">' + IK_TAUTAN.luar + '</span></a>';
+}
+
+// Teks biasa (di-escape): @username menjadi tautan ke profil, #tagar menjadi tautan ke pencarian Jelajah.
 // Tagar: 2-30 huruf/angka/garis bawah, minimal satu huruf (jadi "#1" atau "#2024" bukan tagar).
 // "&" dan "#" dikecualikan sebagai pendahulu supaya entitas HTML hasil esc() (misalnya &#39;) tidak ikut terbaca.
-function isiHtml(t) {
+function teksHtml(t) {
   return esc(t).replace(/(^|[^a-z0-9_@])@([a-z0-9_]{3,20})(?![a-z0-9_])/gi,
     (m, a, u) => `${a}<a class="sebut" href="profil.html?u=${u.toLowerCase()}">@${u}</a>`)
     .replace(/(^|[^\p{L}\p{N}_&#])#(?=[\p{N}_]*\p{L})([\p{L}\p{N}_]{2,30})(?![\p{L}\p{N}_])/gu,
       (m, a, g) => `${a}<a class="sebut tagar" href="explore.html?q=${encodeURIComponent('#' + g)}">#${g}</a>`);
+}
+
+// Isi posting aman: teks biasa lewat teksHtml, alamat http(s) menjadi kartu tautan (htmlTautan).
+function isiHtml(isi) {
+  isi = String(isi == null ? '' : isi);
+  let hasil = '', akhir = 0, m;
+  POLA_URL.lastIndex = 0;
+  while ((m = POLA_URL.exec(isi))) {
+    let url = m[0], buntut = '';
+    const mb = /[.,;:!?)\]}”’]+$/.exec(url);            // tanda baca penutup kalimat bukan bagian alamat
+    if (mb) { buntut = mb[0]; url = url.slice(0, -buntut.length); }
+    let depan = isi.slice(akhir, m.index);
+    const sisa = isi.slice(m.index + m[0].length - buntut.length);
+    const sendiri = /(^|\n)[ \t]*$/.test(depan) && /^[ \t]*(\n|$)/.test(sisa);   // alamat sendirian di barisnya
+    const kartu = url ? htmlTautan(url, !sendiri) : null;
+    if (kartu && sendiri) depan = depan.replace(/[ \t]*\n?$/, '');            // kartu sudah di baris sendiri: buang satu baris baru di depannya
+    hasil += teksHtml(depan) + (kartu || esc(url));
+    akhir = m.index + m[0].length - buntut.length;
+    POLA_URL.lastIndex = akhir;
+    if (kartu && sendiri && isi.charAt(akhir) === '\n') akhir++;               // dan satu baris baru sesudahnya
+  }
+  return hasil + teksHtml(isi.slice(akhir));
 }
 
 // opsi: { tanpaInduk: true } menyembunyikan baris "Membalas ..." (dipakai di halaman detail)
@@ -196,8 +308,8 @@ function htmlPost(p, saya, opsi) {
       ${p.kedaluwarsa && labelBerumur(p.kedaluwarsa) ? `<div class="berumur">${esc(labelBerumur(p.kedaluwarsa))}</div>` : ''}
       ${p.kapsul_ditulis ? '<div class="berumur">' + esc(t('pc.kapsulDitulis', { tgl: tglPanjang(p.kapsul_ditulis) })) + '</div>' : ''}
       <div class="aksi">
-        <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="${esc(t('pc.suka'))}">${IK.suka}<span data-n="${Number(jml) || 0}">${jml > 0 ? ringkas(jml) : ''}</span></button>
-        <a href="detail.html?id=${p.id}" aria-label="${esc(t('umum.balas'))}">${IK.balas}<span>${esc(t('umum.balas'))}</span></a>
+        <a class="a-balas" href="detail.html?id=${p.id}" aria-label="${esc(t('umum.balas'))}">${IK.balas}<span>${esc(t('umum.balas'))}</span></a>
+        <span class="grup-suka"><button class="btn-suka ${suka}" data-id="${p.id}" aria-label="${esc(t('pc.suka'))}">${IK.suka}<span data-n="${Number(jml) || 0}">${jml > 0 ? ringkas(jml) : ''}</span></button></span>
         ${tayang}
         <span class="sisi">
           <button class="btn-lapor" data-id="${p.id}" aria-label="${esc(t('pc.lapor'))}" title="${esc(t('pc.lapor'))}">${IK.lapor}</button>
@@ -269,6 +381,7 @@ function pasangAksiPost(saya, muat) {
       const awal = Number(n.dataset.n) || 0;
       // Tampilan langsung berubah (terasa instan); dikembalikan bila server menolak
       b.classList.toggle('sudah');
+      if (!sudah) { b.classList.add('pop'); setTimeout(() => b.classList.remove('pop'), 500); }
       setAngka(n, awal + (sudah ? -1 : 1));
       const { error } = sudah
         ? await db.from('likes').delete().match({ post_id: id, user_id: saya.id })
@@ -410,22 +523,34 @@ function htmlUlang(p, saya) {
     if (!aksi || !badan || el.dataset.hias) return;
     el.dataset.hias = '1';
     const id = el.dataset.id;
-    const sebelum = aksi.querySelector('.tayang') || aksi.querySelector('.sisi');
-    const tombol = (kelas, ikon, label) => {
+    // Urutan akhir: Balas · Posting ulang · [Suka | Tidak suka] · Tayang · (sisi: lapor, sematkan, ...)
+    const grup = aksi.querySelector('.grup-suka');
+    const sebelum = grup || aksi.querySelector('.tayang') || aksi.querySelector('.sisi');
+    const buat = (kelas, ikon, label) => {
       const b = document.createElement('button');
       b.type = 'button'; b.className = kelas; b.dataset.id = id;
       b.setAttribute('aria-label', label); b.title = label;
       b.innerHTML = ikon + '<span data-n="0"></span>';
-      aksi.insertBefore(b, sebelum);
+      return b;
     };
-    tombol('btn-tidaksuka', IK2.tidaksuka, t('pc.tidakSuka'));
-    tombol('btn-ulang', IK2.ulang, t('pc.ulangOpsi'));
+    aksi.insertBefore(buat('btn-ulang', IK2.ulang, t('pc.ulangOpsi')), sebelum);
+    const tdk = buat('btn-tidaksuka', IK2.tidaksuka, t('pc.tidakSuka'));
+    if (grup) {
+      const sekat = document.createElement('i');
+      sekat.className = 'sekat'; sekat.setAttribute('aria-hidden', 'true');
+      grup.append(sekat, tdk);
+      grup.classList.add('dua');
+    } else aksi.insertBefore(tdk, aksi.querySelector('.tayang') || aksi.querySelector('.sisi'));
+    // Penanda perangkat: ikon kecil di baris nama dan waktu (bukan baris sendiri di bawah kartu)
     if (NAMA_PERANGKAT[r.perangkat]) {
       const label = t('pc.perangkat', { perangkat: NAMA_PERANGKAT[r.perangkat] });
-      const f = document.createElement('div');
-      f.className = 'perangkat'; f.title = label; f.setAttribute('aria-label', label);
-      f.innerHTML = IK2[r.perangkat] + '<span>' + NAMA_PERANGKAT[r.perangkat] + '</span>';
-      aksi.after(f);
+      const waktuEl = badan.querySelector('.waktu');
+      if (waktuEl) {
+        const f = document.createElement('span');
+        f.className = 'perangkat'; f.title = label; f.setAttribute('role', 'img'); f.setAttribute('aria-label', label);
+        f.innerHTML = IK2[r.perangkat];
+        waktuEl.append(f);          // di dalam elemen waktu, supaya ikon tidak turun sendirian ke baris baru
+      }
     }
     if (r.jenis === 'kutip' && r.kutip_id && !el.querySelector('.kutipan')) {
       const isi = el.querySelector('.isi');

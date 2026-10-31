@@ -784,3 +784,56 @@ body[data-tab=beranda] .logo-tengah img{height:44px;width:auto;max-width:none;di
 .post .aksi span.tik{animation:angka-tik .42s cubic-bezier(.2,.8,.2,1)}
 @keyframes angka-tik{0%{transform:translateY(60%);opacity:0}60%{opacity:1}100%{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.post .aksi span.tik{animation:none}}
+
+/* ===== Bar aksi v2: urutan Balas · Ulang · [Suka | Tidak suka] · Tayang, warna per aksi dari token tema ===== */
+:root{--hijau:#1f8f5f}
+:root[data-theme=gelap],:root[data-theme=awan]{--hijau:#5fd3a0}
+:root[data-theme=kaca]{--hijau:#248a3d}
+.post .aksi .a-balas{--c:var(--link,var(--aksen))}
+.post .aksi .btn-suka{--c:var(--aksen)}
+.post .aksi .btn-tidaksuka{--c:var(--teks)}
+.post .aksi .btn-ulang{--c:var(--hijau)}
+.post .aksi .btn-ulang.sudah{color:var(--hijau)}
+.post .aksi .btn-tidaksuka.sudah{color:var(--teks)}
+.post .aksi .btn-tidaksuka svg{stroke-width:1.6}
+.post .aksi .a-balas:active,.post .aksi .btn-suka:active,.post .aksi .btn-tidaksuka:active,.post .aksi .btn-ulang:active{background:color-mix(in srgb,var(--c) 14%,transparent)}
+@media (hover:hover){
+  .post .aksi .a-balas:hover,.post .aksi .btn-suka:hover,.post .aksi .btn-tidaksuka:hover,.post .aksi .btn-ulang:hover{color:var(--c);background:color-mix(in srgb,var(--c) 11%,transparent)}
+}
+.post .aksi .grup-suka{display:inline-flex;align-items:center;border-radius:999px}
+.post .aksi .grup-suka.dua{border:1px solid var(--garis);margin:0 4px}
+.post .aksi .grup-suka .sekat{width:1px;height:18px;background:var(--garis);flex:none}
+.post .aksi .grup-suka.dua button{min-height:40px}
+.post .aksi .grup-suka.dua .btn-suka{border-radius:999px 0 0 999px}
+.post .aksi .grup-suka.dua .btn-tidaksuka{border-radius:0 999px 999px 0}
+.post .aksi .tayang{font-size:13px;opacity:.85}
+.post .aksi .btn-suka.pop svg{animation:hati-pop .42s cubic-bezier(.2,1.5,.4,1)}
+@keyframes hati-pop{0%{transform:scale(.7)}55%{transform:scale(1.28)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.post .aksi .btn-suka.pop svg{animation:none}}
+/* penanda perangkat: ikon kecil sebaris dengan waktu */
+.post .badan a .perangkat{display:inline-flex;align-items:center;margin:0 0 0 6px;vertical-align:-2px;color:var(--redup);opacity:.75}
+.post .badan a .perangkat svg{width:13px;height:13px}
+
+/* ===== Kartu tautan di dalam posting: menyebut tujuan, domain asli selalu tampil ===== */
+.post .isi a.tautan{display:flex;align-items:center;gap:10px;width:fit-content;max-width:100%;margin:8px 0 2px;padding:9px 12px;border:1px solid var(--garis);border-radius:14px;background:color-mix(in srgb,var(--teks) 4%,transparent);color:var(--teks);font-family:var(--sans);font-size:14px;line-height:1.25;white-space:normal;text-decoration:none;transition:background .15s,border-color .15s}
+.post .isi a.tautan:active{background:color-mix(in srgb,var(--teks) 9%,transparent)}
+@media (hover:hover){.post .isi a.tautan:hover{border-color:color-mix(in srgb,var(--aksen) 45%,var(--garis));background:color-mix(in srgb,var(--aksen) 6%,transparent)}}
+.post .isi a.tautan .tt-ikon{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--aksen) 12%,transparent);color:var(--aksen)}
+.post .isi a.tautan svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.post .isi a.tautan .tt-teks{display:flex;flex-direction:column;min-width:0;gap:1px}
+.post .isi a.tautan b{font-size:14.5px;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post .isi a.tautan small{font-size:12.5px;color:var(--redup);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post .isi a.tautan .tt-luar{flex:none;color:var(--redup);opacity:.7}
+.post .isi a.tautan .tt-luar svg{width:15px;height:15px}
+.post .isi a.tautan.awas .tt-ikon{background:color-mix(in srgb,var(--bahaya) 14%,transparent);color:var(--bahaya)}
+.post .isi a.tautan.awas small{color:var(--bahaya)}
+.post .isi a.tautan:focus-visible{outline:2px solid var(--aksen);outline-offset:2px}
+/* Alamat di tengah kalimat: pil satu baris yang mengalir bersama teks (judul + domain asli) */
+.post .isi a.tautan.kecil{display:inline-flex;width:auto;margin:2px 0;padding:3px 10px 3px 4px;gap:6px;border-radius:999px;vertical-align:middle;font-size:13.5px}
+.post .isi a.tautan.kecil .tt-ikon{width:22px;height:22px;border-radius:50%}
+.post .isi a.tautan.kecil svg{width:13px;height:13px}
+.post .isi a.tautan.kecil .tt-teks{flex-direction:row;align-items:baseline;gap:6px}
+.post .isi a.tautan.kecil b{flex:0 1 auto;min-width:0;font-size:13.5px}
+.post .isi a.tautan.kecil small{flex:0 100 auto;min-width:0;font-size:12px}
+.post .isi a.tautan.kecil .tt-luar{display:none}
+.post .badan a .waktu{white-space:nowrap}

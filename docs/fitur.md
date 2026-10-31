@@ -94,3 +94,11 @@ Jalur masuk organik: penulis boleh menjadikan **satu catatan** bisa dibaca siapa
 - Ini polling ringan, bukan WebSocket. Tidak ada tabel baru dan tidak ada langganan Realtime. Tanpa migrasi 030 kartu tetap berfungsi, hanya tidak menyegarkan diri.
 - Kode: `setAngka()` dan `pasangAngkaLangsung()` di `js/ui.js`, gaya `.tik` di `css/style.css`.
 
+## Bar aksi baru dan kartu tautan
+
+- **Urutan aksi:** Balas · Posting ulang · [Suka | Tidak suka] · Tayang, lalu Lapor/Sematkan/Publik/Hapus di sisi kanan. Suka dan tidak suka berada dalam satu pil dengan sekat tipis. Warna aktif per aksi memakai token tema: suka = `--aksen`, tidak suka = `--teks` (netral, tidak ikut merah), posting ulang = `--hijau` (dibuat per tema di `css/style.css`). Hover memberi lingkaran halus berwarna sesuai aksinya; hati memantul saat disukai (mati bila "kurangi gerakan").
+- **Penanda perangkat** (iOS/Android/Web) sekarang berupa ikon kecil di sebelah waktu, bukan baris sendiri di bawah kartu.
+- **Tautan di dalam posting** tampil sebagai kartu yang menyebut tujuannya ("Spotify · Album", "YouTube · Video", "Wikipedia · Artikel"), bukan alamat panjang. Alamat sendirian di satu baris menjadi kartu dua baris; alamat di tengah kalimat menjadi pil satu baris. Domain asli selalu tampil.
+- **Keamanan tautan** (`htmlTautan` di `js/ui.js`): nama situs hanya dikenali dari domain yang persis cocok (`spotify.com.situs-lain.com` dianggap situs tak dikenal dan tampil dengan domain aslinya); alamat dengan `user:sandi@` dan alamat tanpa titik (mis. `localhost`) tidak dijadikan tautan; tautan pendek (bit.ly, s.id, t.co, dst.) diberi tanda peringatan karena tujuannya tersembunyi; dibuka di tab baru dengan `rel="noopener noreferrer nofollow ugc"`. Tidak ada permintaan ke situs lain (tanpa gambar atau judul yang diambil dari luar), jadi tidak ada kebocoran IP dan tidak ada perubahan CSP.
+- Situs yang dikenali: Spotify, YouTube, Instagram, TikTok, X, Facebook, GitHub, Wikipedia, Google Maps, WhatsApp, Telegram. Tambah di `kenalSitus()`. Teks jenis ada di kamus (`tt.*`).
+

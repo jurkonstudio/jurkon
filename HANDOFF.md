@@ -101,3 +101,8 @@ Tombol Bagikan profil sekarang membagikan `https://jurkon.my.id/@username`. Berk
 
 Jalankan `sql/030_angka_langsung.sql` di Supabase lebih dulu, baru unggah kode. Berkas: `js/ui.js` (`setAngka`, `pasangAngkaLangsung`), `css/style.css`, `sql/030_angka_langsung.sql`, `sql/README.md`, `docs/fitur.md`. Diuji di browser dengan backend tiruan (angka 0 kosong, tayang muncul saat > 0, pembaruan otomatis, animasi tik, klik suka); **belum diuji terhadap Supabase asli**. Uji manual: buka beranda di dua perangkat, suka sebuah catatan di satu perangkat, perangkat lain harus ikut berubah dalam beberapa detik.
 
+## Bar aksi baru + kartu tautan
+
+Tanpa SQL baru. Berkas: `js/ui.js` (`htmlPost`, `hiasKartu`, `isiHtml`, `htmlTautan`, `kenalSitus`), `css/style.css`, kamus (`tt.*`, 18 kunci × 7 bahasa), `docs/fitur.md`. Diuji di browser dengan backend tiruan di lima tema (Kertas, Terang, Gelap, Kaca, Awan) pada lebar 390 px; **belum diuji di Supabase asli dan HP**. Kasus tautan yang diuji: Spotify album, YouTube, tautan pendek, domain tiruan `spotify.com.evil.example`, `user:sandi@`, `localhost`, tanda baca sesudah alamat.
+Catatan: pada postingan milik sendiri di layar sempit, ikon Lapor dan Hapus turun ke baris kedua (aturan wrap yang sudah ada).
+
