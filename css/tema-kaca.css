@@ -20,8 +20,9 @@
   --aksen:#007aff;                      /* system blue */
   --link:#0066cc;                       /* biru tautan iCloud */
   --bahaya:#ff3b30;
-  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;
   --serif:var(--sans);
+  --isi:var(--sans);
 
   /* bahan kaca */
   --kaca-isi:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.46));

@@ -6,7 +6,7 @@
     if (document.querySelector('link[href*="fonts.googleapis.com/css2"]')) return;
     var l = document.createElement('link');
     l.rel = 'stylesheet';
-    l.href = 'https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap';
+    l.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap';
     document.head.appendChild(l);
   } catch (e) {}
 })();

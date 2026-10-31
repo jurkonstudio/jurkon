@@ -19,8 +19,9 @@
   --aksen:#0a84ff;                      /* system blue (gelap) */
   --link:#409cff;
   --bahaya:#ff453a;
-  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;
   --serif:var(--sans);
+  --isi:var(--sans);
 
   --a-bar:rgba(28,28,30,.72);           /* bar atas/bawah */
   --a-isian:rgba(118,118,128,.24);      /* isian & segmented */
