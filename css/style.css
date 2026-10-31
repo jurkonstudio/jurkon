@@ -743,7 +743,8 @@ body[data-tab=beranda] .logo-tengah .potong{display:block;width:45px;height:44px
 body[data-tab=beranda] .logo-tengah img{height:44px;width:auto;max-width:none;display:block}
 
 /* Catatan publik */
-.post .aksi .btn-publik:hover,.post .aksi .btn-publik.aktif{color:var(--aksen)}
+.post .aksi .btn-publik:hover,.post .aksi .btn-publik.aktif,.post .aksi .btn-kartu:hover{color:var(--aksen)}
+.post .aksi .btn-kartu svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .post .aksi .btn-publik svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pub-dlg{border:1px solid var(--garis);border-radius:14px;background:var(--bg);color:var(--teks);padding:18px;width:min(92vw,440px)}
 .pub-dlg::backdrop{background:rgba(0,0,0,.45)}
@@ -876,7 +877,7 @@ main{min-height:calc(100dvh - 56px)}
 .post .aksi .tayang{font-size:var(--k-kecil)}
 .post .aksi .a-balas>span{display:none}
 .post .aksi svg{width:16px;height:16px;stroke-width:1.9}
-.post .aksi .btn-publik svg{width:16px;height:16px}
+.post .aksi .btn-publik svg,.post .aksi .btn-kartu svg{width:16px;height:16px}
 .post .aksi .sisi button{min-width:32px}
 .post .aksi .btn-tidaksuka,.post .aksi .btn-ulang{min-width:32px;padding:0 6px}
 .post .aksi .grup-suka.dua{margin:0 2px}
@@ -1006,3 +1007,16 @@ textarea{min-height:80px}
 .pq-kepala .pq-besar{font-size:20px}
 .pq-geser{display:flex;justify-content:space-between;margin-top:14px;padding-top:10px;border-top:1px solid var(--garis);font-size:14px}
 .pq-geser a{color:var(--aksen);text-decoration:none;font-weight:600}
+
+/* Kartu catatan (js/kartu.js) */
+.kartu-dlg{width:min(94vw,460px);max-height:94vh;overflow:auto}
+.kartu-dlg .kartu-info{font-size:13px;margin-bottom:10px}
+.kartu-pratinjau{display:flex;justify-content:center;align-items:center;min-height:120px;margin-bottom:12px;background:var(--latar);border-radius:12px;padding:10px}
+.kartu-pratinjau img{display:block;width:auto;height:auto;max-width:100%;max-height:46vh;border-radius:8px;box-shadow:0 2px 14px rgba(0,0,0,.18)}
+.kartu-muat{color:var(--redup);font-size:14px}
+.kartu-grup{display:flex;gap:6px;margin-bottom:10px}
+.kartu-grup button{flex:1;padding:8px 6px;border:1px solid var(--garis);border-radius:999px;background:transparent;color:var(--teks);font:inherit;font-size:13px;cursor:pointer}
+.kartu-grup button[aria-checked=true]{border-color:var(--aksen);outline:2px solid color-mix(in srgb,var(--aksen) 35%,transparent);font-weight:600}
+.kartu-grup .kartu-tema.kertas{background:#fbf9f4;color:#231f1c}
+.kartu-grup .kartu-tema.gelap{background:#1c1917;color:#ece6dc}
+.kartu-grup .kartu-tema.merah{background:#ae2a22;color:#fff7f0}

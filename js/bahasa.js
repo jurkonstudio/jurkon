@@ -582,5 +582,21 @@ const I18N_KAMUS = {
   'pq.berikutnya': ["Berikutnya", "Next", "Seterusnya", "Sabanjure", "Salajengna", "后一天", "次の日"],
   'pq.terkirim': ["Jawabanmu terkirim.", "Your answer was posted.", "Jawapan anda dihantar.", "Wangsulanmu wis kekirim.", "Jawaban anjeun geus kakirim.", "回答已发送。", "回答を送信しました。"],
   'pq.sudahGalat': ["Kamu sudah menjawab pertanyaan ini.", "You already answered this question.", "Anda sudah menjawab soalan ini.", "Sampeyan wis mangsuli pitakonan iki.", "Anjeun geus ngajawab patarosan ieu.", "你已经回答过这个问题了。", "この質問にはすでに回答しています。"],
-  'pq.ph': ["Tulis jawabanmu…", "Write your answer…", "Tulis jawapan anda…", "Tulisen wangsulanmu…", "Tulis jawaban anjeun…", "写下你的回答…", "回答を書いてください…"]
+  'pq.ph': ["Tulis jawabanmu…", "Write your answer…", "Tulis jawapan anda…", "Tulisen wangsulanmu…", "Tulis jawaban anjeun…", "写下你的回答…", "回答を書いてください…"],
+  'kartu.tombol': ["Buat kartu gambar", "Make an image card", "Buat kad imej", "Gawe kertu gambar", "Jieun kartu gambar", "生成图片卡片", "画像カードを作る"],
+  'kartu.judul': ["Kartu catatan", "Note card", "Kad nota", "Kertu cathetan", "Kartu catetan", "笔记卡片", "ノートカード"],
+  'kartu.info': ["Gambar dibuat di perangkatmu dan tidak diunggah ke mana pun. Kamu yang memutuskan mau membagikannya atau tidak.", "The image is made on your device and is not uploaded anywhere. You decide whether to share it.", "Imej dibuat pada peranti anda dan tidak dimuat naik ke mana-mana. Anda yang menentukan sama ada mahu berkongsi atau tidak.", "Gambar digawe ing piranti sampeyan lan ora diunggah ing ngendi wae. Sampeyan dhewe sing mutusake arep dibagekake apa ora.", "Gambarna dijieun dina parangkat anjeun sarta teu diunggah ka mana waé. Anjeun nu mutuskeun rék dibagikeun atawa henteu.", "图片在你的设备上生成,不会上传到任何地方。是否分享由你决定。", "画像はお使いの端末で作られ、どこにもアップロードされません。共有するかどうかはあなた次第です。"],
+  'kartu.tema': ["Warna kartu", "Card color", "Warna kad", "Warna kertu", "Warna kartu", "卡片颜色", "カードの色"],
+  'kartu.format': ["Ukuran kartu", "Card size", "Saiz kad", "Ukuran kertu", "Ukuran kartu", "卡片尺寸", "カードのサイズ"],
+  'kartu.t.kertas': ["Kertas", "Paper", "Kertas", "Kertas", "Kertas", "纸张", "紙"],
+  'kartu.t.gelap': ["Gelap", "Dark", "Gelap", "Peteng", "Poék", "深色", "ダーク"],
+  'kartu.t.merah': ["Merah", "Red", "Merah", "Abang", "Beureum", "红色", "赤"],
+  'kartu.f.story': ["Story", "Story", "Story", "Story", "Story", "快拍", "ストーリー"],
+  'kartu.f.persegi': ["Persegi", "Square", "Segi empat sama", "Persegi", "Pasagi", "方形", "正方形"],
+  'kartu.tampilNama': ["Tampilkan nama dan tanggal", "Show name and date", "Tunjukkan nama dan tarikh", "Tampilake jeneng lan tanggal", "Témbongkeun ngaran jeung tanggal", "显示姓名和日期", "名前と日付を表示"],
+  'kartu.unduh': ["Unduh", "Download", "Muat turun", "Undhuh", "Undeur", "下载", "保存"],
+  'kartu.alt': ["Pratinjau kartu catatan", "Note card preview", "Pratonton kad nota", "Pratinjau kertu cathetan", "Pratinjau kartu catetan", "笔记卡片预览", "ノートカードのプレビュー"],
+  'kartu.gagal': ["Gagal membuat gambar. Coba lagi.", "Could not make the image. Try again.", "Gagal membuat imej. Cuba lagi.", "Gagal gawe gambar. Coba maneh.", "Gagal nyieun gambar. Cobian deui.", "生成图片失败,请重试。", "画像を作れませんでした。もう一度お試しください。"],
+  'kartu.diunduh': ["Gambar disimpan ke perangkatmu.", "The image was saved to your device.", "Imej disimpan ke peranti anda.", "Gambar disimpen ing piranti sampeyan.", "Gambarna disimpen dina parangkat anjeun.", "图片已保存到你的设备。", "画像を端末に保存しました。"]
 };
+

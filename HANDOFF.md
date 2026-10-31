@@ -55,6 +55,7 @@ git push
 3. **Opsi sembunyikan tab Menyukai**: harus ditegakkan di RLS tabel `likes`, bukan hanya menyembunyikan tab (`SUKA_PUBLIK` sekarang berlaku untuk semua).
 4. **Tab Tersimpan** (bookmark, tabel privat baru).
 5. **Ringkasan menulis pribadi** tanpa streak, sesuai nuansa tenang.
+6. ~~Kartu catatan untuk dibagikan~~ (selesai, tanpa SQL; lihat `docs/fitur.md`). Lanjutan yang masuk akal: tombol yang sama di halaman catatan publik `n.html`, dan font serif yang dibundel.
 
 Nomor 1 sampai 4 menambah kolom atau tabel, jadi **025 sebaiknya jalan lebih dulu**.
 

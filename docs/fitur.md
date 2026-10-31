@@ -109,3 +109,15 @@ Satu pertanyaan sama untuk semua orang tiap hari (hari menurut WIB), dipilih dar
 - **Database:** jalankan `sql/032_pertanyaan_harian.sql` (setelah 024) SEBELUM mengunggah kode JS. Jawaban adalah catatan biasa dengan `posts.pertanyaan_tgl`; satu jawaban per akun per hari, tanggal harus hari ini atau kemarin (WIB), hanya catatan utama biasa.
 - **Klien:** kartu dan data di `js/pertanyaan.js`, halaman di `js/pertanyaan-halaman.js`, mode `jawab` di lembar tulis (`js/tulis.js`). Tanpa migrasi 032 kartu otomatis tidak tampil.
 - **Teks pertanyaan hanya berbahasa Indonesia**; teks antarmukanya (`pq.*`) tersedia di 7 bahasa.
+
+## Kartu catatan (gambar untuk dibagikan)
+
+Catatan milik sendiri bisa dijadikan gambar PNG untuk Story Instagram, WhatsApp, dan sebagainya. Ikon gambar muncul di bar aksi kartu catatan sendiri (di sebelah ikon globe).
+
+- **Tanpa SQL.** Gambar dibuat di perangkat lewat canvas, tidak diunggah ke server, dan tidak ada tabel atau kolom baru. Catatan privat pun boleh dijadikan kartu; yang memutuskan membagikan tetap penulisnya.
+- **Pilihan:** warna (Kertas, Gelap, Merah), ukuran (Story 1080x1920, Persegi 1080x1080), dan tampilkan/sembunyikan nama, @username, dan tanggal. Pilihan warna dan ukuran diingat di perangkat (`localStorage: kartuPilihan`). Warna kartu sengaja tetap, tidak ikut tema aplikasi, supaya gambarnya konsisten.
+- **Bagikan:** memakai lembar bagikan berkas bawaan ponsel bila ada; kalau tidak (mis. desktop) gambar diunduh.
+- **Tata letak:** ukuran huruf otomatis dari 84px turun sampai 30px sesuai panjang catatan; baris baru asli dipertahankan; kata tanpa spasi (mis. tautan panjang) dipotong per karakter. Teks diambil dari isi asli catatan, bukan dari tampilan, jadi kartu tautan tidak ikut tertulis.
+- **Hanya untuk catatan sendiri yang punya isi.** Posting ulang murni dan catatan orang lain tidak mendapat tombol.
+- **Kode:** `js/kartu.js` (dimuat setelah `js/publik.js` di index, detail, profil, explore, pertanyaan), `tombolKartu()` dipanggil `htmlPost` di `js/ui.js`, gaya di akhir `css/style.css`, kamus `kartu.*` di 7 bahasa. Jalankan `node tools/naikkan-cache.js` sebelum unggah.
+- **Catatan:** font Source Serif 4 tidak dimuat aplikasi, jadi kartu memakai serif bawaan perangkat (Iowan Old Style, Charter, atau Georgia); tampilannya sedikit berbeda antar perangkat. Mau seragam? Sertakan berkas font WOFF2 sendiri dan muat dengan `@font-face`.

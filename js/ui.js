@@ -316,6 +316,7 @@ function htmlPost(p, saya, opsi) {
           <button type="button" class="btn-bagikan" aria-label="${esc(t('pc.bagikan'))}" title="${esc(t('pc.bagikan'))}">${IK.bagikan}</button>
           ${milik ? '' : `<button class="btn-lapor" data-id="${p.id}" aria-label="${esc(t('pc.lapor'))}" title="${esc(t('pc.lapor'))}">${IK.lapor}</button>`}
           ${typeof tombolSemat === 'function' ? tombolSemat(p, milik) : ''}
+          ${typeof tombolKartu === 'function' ? tombolKartu(p, milik) : ''}
           ${typeof tombolPublik === 'function' ? tombolPublik(p, milik) : ''}
           ${milik ? `<button class="btn-hapus" data-id="${p.id}" aria-label="${esc(t('pc.hapus'))}" title="${esc(t('pc.hapus'))}">${IK.hapus}</button>` : ''}
         </span>
