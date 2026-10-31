@@ -25,14 +25,17 @@ function avatar(nama, ukuran, foto) {
 // (kunjungan pertama), kartu diberi penanda kosong yang diisi begitu daftar tiba.
 const AKUN_RESMI = ['jurkon', 'journalconnection', 'jurnalkoneksi'];
 const VF = { set: new Set(), siap: false };
-function svgCentang(kunci) {
-  return '<svg class="centang" viewBox="0 0 24 24" role="img" aria-label="' + esc(t(kunci)) + '"><title>' + esc(t(kunci)) + '</title><circle cx="12" cy="12" r="11"/><path d="M7 12.5l3.2 3.2L17 9"/></svg>';
+const VF_SEGEL = "M23.39 12.00 L23.31 12.59 L23.07 13.16 L22.71 13.70 L22.29 14.19 L21.85 14.64 L21.47 15.08 L21.17 15.52 L20.97 16.00 L20.87 16.52 L20.84 17.10 L20.82 17.73 L20.77 18.37 L20.65 19.01 L20.42 19.58 L20.06 20.06 L19.58 20.42 L19.01 20.65 L18.37 20.77 L17.73 20.82 L17.10 20.84 L16.52 20.87 L16.00 20.97 L15.52 21.17 L15.08 21.47 L14.64 21.85 L14.19 22.29 L13.70 22.71 L13.16 23.07 L12.59 23.31 L12.00 23.39 L11.41 23.31 L10.84 23.07 L10.30 22.71 L9.81 22.29 L9.36 21.85 L8.92 21.47 L8.48 21.17 L8.00 20.97 L7.48 20.87 L6.90 20.84 L6.27 20.82 L5.63 20.77 L4.99 20.65 L4.42 20.42 L3.94 20.06 L3.58 19.58 L3.35 19.01 L3.23 18.37 L3.18 17.73 L3.16 17.10 L3.13 16.52 L3.03 16.00 L2.83 15.52 L2.53 15.08 L2.15 14.64 L1.71 14.19 L1.29 13.70 L0.93 13.16 L0.69 12.59 L0.61 12.00 L0.69 11.41 L0.93 10.84 L1.29 10.30 L1.71 9.81 L2.15 9.36 L2.53 8.92 L2.83 8.48 L3.03 8.00 L3.13 7.48 L3.16 6.90 L3.18 6.27 L3.23 5.63 L3.35 4.99 L3.58 4.42 L3.94 3.94 L4.42 3.58 L4.99 3.35 L5.63 3.23 L6.27 3.18 L6.90 3.16 L7.48 3.13 L8.00 3.03 L8.48 2.83 L8.92 2.53 L9.36 2.15 L9.81 1.71 L10.30 1.29 L10.84 0.93 L11.41 0.69 L12.00 0.61 L12.59 0.69 L13.16 0.93 L13.70 1.29 L14.19 1.71 L14.64 2.15 L15.08 2.53 L15.52 2.83 L16.00 3.03 L16.52 3.13 L17.10 3.16 L17.73 3.18 L18.37 3.23 L19.01 3.35 L19.58 3.58 L20.06 3.94 L20.42 4.42 L20.65 4.99 L20.77 5.63 L20.82 6.27 L20.84 6.90 L20.87 7.48 L20.97 8.00 L21.17 8.48 L21.47 8.92 L21.85 9.36 L22.29 9.81 L22.71 10.30 L23.07 10.84 L23.31 11.41Z";
+const VF_JENIS = { resmi: ['pc.resmi', 'pc.resmiInfo'], verified: ['pc.verified', 'pc.verifiedInfo'] };
+function svgCentang(jenis) {
+  const j = VF_JENIS[jenis];
+  return '<svg class="vf-lencana ' + jenis + '" data-vf-jenis="' + jenis + '" viewBox="0 0 24 24" role="img" aria-label="' + esc(t(j[0])) + '"><path class="segel" d="' + VF_SEGEL + '"/><path class="kilau" d="M12 1.6c-3 0-5.600 1.700-7 4.200 1.800-1.200 4.200-1.800 7-1.800s5.200.6 7 1.800c-1.400-2.500-4-4.200-7-4.200z"/><path class="cek" d="M7.300 12.400l3 3 6.200-6.400"/></svg>';
 }
 function lencanaResmi(u) {
   const n = String(u || '').toLowerCase();
   if (!n) return '';
-  if (AKUN_RESMI.includes(n)) return svgCentang('pc.resmi');
-  if (VF.set.has(n)) return svgCentang('pc.verified');
+  if (AKUN_RESMI.includes(n)) return svgCentang('resmi');
+  if (VF.set.has(n)) return svgCentang('verified');
   return VF.siap ? '' : '<span class="vf" data-vf="' + esc(n) + '"></span>';
 }
 (function () {
@@ -56,6 +59,58 @@ function lencanaResmi(u) {
       selesai();
     }).catch(selesai);
   } catch (e) { selesai(); }
+})();
+
+// Info lencana: tahan lama (HP) atau arahkan kursor (desktop) pada centang untuk melihat artinya.
+// Ketukan singkat tetap membuka profil seperti biasa; setelah tahan lama, ketukan lanjutannya diabaikan.
+(function () {
+  let tip = null, timer = null, tutup = null, titik = null, baruTahan = 0;
+  const hapus = () => { clearTimeout(timer); clearTimeout(tutup); if (tip) { tip.remove(); tip = null; } };
+  function tampil(el) {
+    const j = VF_JENIS[el.getAttribute('data-vf-jenis')];
+    if (!j) return;
+    hapus();
+    tip = document.createElement('div');
+    tip.className = 'vf-tip ' + el.getAttribute('data-vf-jenis');
+    tip.setAttribute('role', 'tooltip');
+    tip.innerHTML = '<b>' + esc(t(j[0])) + '</b><span>' + esc(t(j[1])) + '</span>';
+    document.body.appendChild(tip);
+    const r = el.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight, vw = document.documentElement.clientWidth;
+    let x = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), vw - w - 8);
+    let y = r.bottom + 10; if (y + h > innerHeight - 8) y = Math.max(8, r.top - h - 10);
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+    tip.style.setProperty('--panah', Math.round(Math.min(Math.max(14, r.left + r.width / 2 - x), w - 14)) + 'px');
+    requestAnimationFrame(() => tip && tip.classList.add('tampil'));
+    tutup = setTimeout(hapus, 4000);
+  }
+  const lencana = e => e.target && e.target.closest ? e.target.closest('.vf-lencana') : null;
+
+  document.addEventListener('pointerdown', e => {
+    const el = lencana(e);
+    if (!el) { hapus(); return; }
+    if (e.pointerType === 'mouse') return;
+    titik = { x: e.clientX, y: e.clientY };
+    clearTimeout(timer);
+    timer = setTimeout(() => { baruTahan = Date.now(); tampil(el); }, 450);
+  });
+  document.addEventListener('pointermove', e => {
+    if (titik && (Math.abs(e.clientX - titik.x) > 8 || Math.abs(e.clientY - titik.y) > 8)) { clearTimeout(timer); titik = null; }
+  });
+  ['pointerup', 'pointercancel'].forEach(n => document.addEventListener(n, () => { clearTimeout(timer); titik = null; }));
+  // Mouse: kartu muncul saat kursor diam sebentar di atas lencana
+  document.addEventListener('pointerover', e => {
+    if (e.pointerType !== 'mouse') return;
+    const el = lencana(e); if (!el) return;
+    clearTimeout(timer); timer = setTimeout(() => tampil(el), 250);
+  });
+  document.addEventListener('pointerout', e => { if (e.pointerType === 'mouse' && lencana(e)) hapus(); });
+  // Setelah tahan lama: jangan lanjut membuka profil, dan matikan menu tautan bawaan browser
+  document.addEventListener('click', e => {
+    if (lencana(e) && Date.now() - baruTahan < 800) { e.preventDefault(); e.stopPropagation(); }
+  }, true);
+  document.addEventListener('contextmenu', e => { if (lencana(e)) e.preventDefault(); });
+  window.addEventListener('scroll', hapus, { passive: true });
+  window.addEventListener('resize', hapus);
 })();
 
 // Foto gagal dimuat -> buang gambarnya, huruf inisial muncul lagi

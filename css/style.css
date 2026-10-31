@@ -366,10 +366,19 @@ textarea,input[type=text],input[type=email],input[type=password]{border-radius:1
 #lawan{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0}
 #lawan span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-/* Lencana akun resmi */
-.centang{width:1.05em;height:1.05em;margin-left:3px;vertical-align:-0.17em;flex:none}
-.centang circle{fill:#1d9bf0}
-.centang path{fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+/* Lencana verified / akun resmi: segel bergelombang dengan kilau, info saat ditahan lama */
+.vf-lencana{width:1.15em;height:1.15em;margin-left:4px;vertical-align:-0.2em;flex:none;overflow:visible;cursor:help;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.22))}
+.vf-lencana .segel{fill:#1d9bf0}
+.vf-lencana.resmi .segel{fill:#d9a514}
+.vf-lencana .kilau{fill:#fff;opacity:.22}
+.vf-lencana .cek{fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.vf-tip{position:fixed;z-index:1000;max-width:min(260px,calc(100vw - 16px));padding:10px 13px;border-radius:12px;background:var(--bg);color:var(--teks);border:1px solid var(--garis);box-shadow:0 10px 30px -8px rgba(0,0,0,.35);display:flex;flex-direction:column;gap:2px;font-size:13.5px;line-height:1.4;opacity:0;transform:translateY(-4px);transition:opacity .15s ease,transform .15s ease;pointer-events:none}
+.vf-tip.tampil{opacity:1;transform:none}
+.vf-tip b{font-size:14px;display:flex;align-items:center;gap:6px}
+.vf-tip b::before{content:"";width:9px;height:9px;border-radius:50%;background:#1d9bf0;flex:none}
+.vf-tip.resmi b::before{background:#d9a514}
+.vf-tip span{color:var(--redup)}
+@media (prefers-reduced-motion:reduce){.vf-tip{transition:none}}
 
 /* Profil: tab Catatan / Balasan / Menyukai, views, dan baris "Membalas" */
 .tab-profil{display:flex;border-bottom:1px dashed var(--garis)}
