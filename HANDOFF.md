@@ -91,3 +91,8 @@ Catatan: setelah 019 dijalankan ulang, hak anon untuk `catatan_publik` dan `daft
 ## Aturan tetap
 
 SQL dulu di Supabase, baru unggah kode. Jangan tempel SQL atau connection string ke terminal selain yang diminta. Jalankan `node tools/naikkan-cache.js` sebelum setiap unggahan.
+
+
+## Tautan profil `/@username`
+
+Tombol Bagikan profil sekarang membagikan `https://jurkon.my.id/@username`. Berkas baru: `404.html` dan `js/alih-profil.js` (GitHub Pages memakai 404.html untuk alamat yang tidak ada; skrip itu mengalihkan `/@username` ke `profil.html?u=username`). Berkas ubahan: `js/profil.js`, kamus (`hal.judul`, `hal.hilang`), `sw.js` (versi cache). Tanpa SQL. Uji: buka `jurkon.my.id/@namamu` di jendela privat; harus masuk ke login lalu kembali ke profil itu. Alamat tanpa @ (`/namamu`) ikut bekerja kecuali bentrok dengan halaman asli.

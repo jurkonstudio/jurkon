@@ -269,7 +269,8 @@ function tampilToast(teks) {
 async function bagikanProfil() {
   const p = profil;
   if (!p) return;
-  const url = location.origin + '/profil.html?u=' + encodeURIComponent(p.username);
+  // Alamat bersih jurkon.my.id/@username; 404.html + js/alih-profil.js mengalihkannya ke profil.html?u=...
+  const url = location.origin + '/@' + encodeURIComponent(p.username);
   if (navigator.share) {
     try { await navigator.share({ title: t('pf.bagikanJudul', { nama: p.nama || p.username, u: p.username }), url }); return; }
     catch (e) { if (e && e.name === 'AbortError') return; }

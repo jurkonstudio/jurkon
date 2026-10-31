@@ -60,6 +60,8 @@ const I18N_KAMUS = {
   'num.jt': ['jt', 'M', 'j', 'jt', 'jt', 'M', 'M'],
 
   // ---- Navigasi & panel kanan ----
+  'hal.judul': ['Halaman tidak ditemukan', 'Page not found', 'Halaman tidak ditemui', 'Kaca ora ketemu', 'Kaca teu kapanggih', '找不到页面', 'ページが見つかりません'],
+  'hal.hilang': ['Halaman tidak ditemukan. Alamatnya mungkin salah atau sudah dipindahkan.', 'Page not found. The address may be wrong or the page may have moved.', 'Halaman tidak ditemui. Alamatnya mungkin salah atau sudah dipindahkan.', 'Kaca ora ketemu. Alamate bisa jadi salah utawa wis dipindhah.', 'Kaca teu kapanggih. Alamatna meureun lepat atawa geus dipindahkeun.', '找不到该页面。地址可能有误，或页面已被移动。', 'ページが見つかりません。アドレスが間違っているか、移動された可能性があります。'],
   'nav.beranda': ['Beranda', 'Home', 'Utama', 'Ngarep', 'Tepas', '首页', 'ホーム'],
   'nav.explore': ['Jelajah', 'Explore', 'Teroka', 'Jelajah', 'Jajah', '发现', '探索'],
   'nav.notifikasi': ['Notifikasi', 'Notifications', 'Pemberitahuan', 'Kabar', 'Béwara', '通知', '通知'],
