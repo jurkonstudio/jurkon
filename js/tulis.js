@@ -32,6 +32,13 @@
       '<div class="umur-catatan" id="tulisUmurBox" hidden><label for="tulisUmur">' + esc(t('tulis.umur')) + '</label>' +
       '<select id="tulisUmur"><option value="0">' + esc(t('tulis.umurTetap')) + '</option><option value="24">' + esc(t('tulis.umur24')) +
       '</option><option value="168">' + esc(t('tulis.umur7')) + '</option></select></div>' +
+      '<div class="umur-catatan" id="tulisKapsulBox" hidden><label for="tulisKapsul">' + esc(t('tulis.kapsul')) + '</label>' +
+      '<select id="tulisKapsul"><option value="">' + esc(t('tulis.kapsulTidak')) + '</option>' +
+      '<option value="1">' + esc(t('tulis.kapsul1')) + '</option><option value="7">' + esc(t('tulis.kapsul7')) + '</option>' +
+      '<option value="30">' + esc(t('tulis.kapsul30')) + '</option><option value="365">' + esc(t('tulis.kapsul365')) + '</option>' +
+      '<option value="tgl">' + esc(t('tulis.kapsulTanggal')) + '</option></select>' +
+      '<input type="date" id="tulisKapsulTgl" hidden>' +
+      '<button type="button" class="tautan-kapsul" id="tulisKapsulLihat">' + esc(t('tulis.kapsulLihat')) + '</button></div>' +
       '<div class="baris"><span class="hitung" id="tulisHitung"></span><button type="button" class="btn" id="tulisKirim"></button></div>' +
       '<div class="galat" id="tulisGalat" role="alert"></div></div>';
     document.body.appendChild(dlg);
@@ -42,6 +49,7 @@
     if (typeof pasangMention === 'function') pasangMention(ta, saya);
     ta.addEventListener('input', () => { if (kini) draf[kini.kunci] = ta.value; });
     kirimBtn.addEventListener('click', kirim);
+    pasangKapsul();
     dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('[data-tutup]')) tutup(); });
     dlg.addEventListener('close', () => { if (bersihVV) { bersihVV(); bersihVV = null; } });
     dlg.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') kirim(); });
@@ -57,6 +65,68 @@
     };
     vv.addEventListener('resize', atur); vv.addEventListener('scroll', atur); atur();
     bersihVV = () => { vv.removeEventListener('resize', atur); vv.removeEventListener('scroll', atur); dlg.style.marginBottom = ''; dlg.style.maxHeight = ''; };
+  }
+
+  // ===== Kapsul waktu =====
+  function ymd(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+
+  function pasangKapsul() {
+    const pilih = dlg.querySelector('#tulisKapsul'), tgl = dlg.querySelector('#tulisKapsulTgl'), umur = dlg.querySelector('#tulisUmur');
+    const besok = new Date(); besok.setDate(besok.getDate() + 1);
+    const maks = new Date(); maks.setDate(maks.getDate() + 365);
+    tgl.min = ymd(besok); tgl.max = ymd(maks);
+    // Kapsul waktu dan "hilang setelah" tidak boleh dipakai bersamaan
+    pilih.addEventListener('change', () => { tgl.hidden = pilih.value !== 'tgl'; if (pilih.value) umur.value = '0'; });
+    umur.addEventListener('change', () => { if (umur.value !== '0') { pilih.value = ''; tgl.hidden = true; } });
+    dlg.querySelector('#tulisKapsulLihat').addEventListener('click', daftarKapsul);
+  }
+
+  // Waktu buka (ISO) | null bila langsung tayang | false bila tanggal belum dipilih
+  function waktuKapsul() {
+    const v = dlg.querySelector('#tulisKapsul').value;
+    if (!v) return null;
+    if (v === 'tgl') {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dlg.querySelector('#tulisKapsulTgl').value);
+      if (!m) return false;
+      return new Date(+m[1], +m[2] - 1, +m[3], 0, 0, 0).toISOString();
+    }
+    return new Date(Date.now() + (+v) * 864e5).toISOString();
+  }
+
+  let dlgK = null;
+  async function daftarKapsul() {
+    if (!dlgK) {
+      dlgK = document.createElement('dialog');
+      dlgK.className = 'lembar';
+      dlgK.setAttribute('aria-labelledby', 'kapsulJudul');
+      dlgK.innerHTML = '<div class="lembar-kepala"><h2 id="kapsulJudul"></h2>' +
+        '<button type="button" class="ikon-btn" data-tutup aria-label="' + esc(t('umum.tutup')) + '">' + IKON_TUTUP + '</button></div>' +
+        '<div class="form" id="kapsulIsi"></div>';
+      document.body.appendChild(dlgK);
+      dlgK.querySelector('#kapsulJudul').textContent = t('tulis.kapsulLihat');
+      dlgK.addEventListener('click', async e => {
+        if (e.target === dlgK || e.target.closest('[data-tutup]')) { dlgK.close(); return; }
+        const b = e.target.closest('[data-batal]');
+        if (!b || !confirm(t('kapsul.konfirmBatal'))) return;
+        b.disabled = true;
+        const { error } = await db.rpc('batalkan_kapsul', { p_id: b.dataset.batal });
+        if (error) { toast(pesan(error)); b.disabled = false; return; }
+        isiKapsul();
+      });
+    }
+    dlgK.showModal();
+    isiKapsul();
+  }
+
+  async function isiKapsul() {
+    const kotak = dlgK.querySelector('#kapsulIsi');
+    const { data, error } = await db.rpc('kapsul_saya');
+    if (error) { kotak.textContent = pesan(error); return; }
+    kotak.innerHTML = data && data.length
+      ? data.map(k => '<div class="kapsul-item"><p>' + esc(String(k.content).slice(0, 140)) + '</p><div class="kapsul-baris"><span>' +
+          esc(t('kapsul.buka', { tgl: tglPanjang(k.terbuka_pada) })) + '</span><button type="button" class="btn garis" data-batal="' +
+          esc(k.id) + '">' + esc(t('kapsul.batal')) + '</button></div></div>').join('')
+      : '<p class="kapsul-kosong">' + esc(t('kapsul.kosong')) + '</p>';
   }
 
   function tutup() { if (dlg && dlg.open) dlg.close(); }
@@ -75,7 +145,12 @@
     const baris = { user_id: saya.id, content: isi };
     if (kini.mode === 'balas') baris.parent_id = kini.id;
     else if (kini.mode === 'kutip') { baris.jenis = 'kutip'; baris.kutip_id = kini.id; }
-    else { const jam = +(dlg.querySelector('#tulisUmur') || {}).value || 0; if (jam > 0) baris.kedaluwarsa = new Date(Date.now() + jam * 36e5).toISOString(); }
+    else {
+      const jam = +(dlg.querySelector('#tulisUmur') || {}).value || 0; if (jam > 0) baris.kedaluwarsa = new Date(Date.now() + jam * 36e5).toISOString();
+      const kp = waktuKapsul();
+      if (kp === false) { galat.textContent = t('tulis.kapsulPilih'); sibuk = false; kirimBtn.disabled = false; return; }
+      if (kp) baris.terbuka_pada = kp;
+    }
     const { error } = await kirimPosting(baris);
     sibuk = false; kirimBtn.disabled = false;
     if (error) {
@@ -86,7 +161,7 @@
     delete draf[kini.kunci];
     ta.value = ''; ta.dispatchEvent(new Event('input'));
     tutup();
-    toast(t('tulis.terkirim'));
+    toast(baris.terbuka_pada ? t('tulis.kapsulTerkirim', { tgl: tglPanjang(baris.terbuka_pada) }) : t('tulis.terkirim'));
     document.dispatchEvent(new CustomEvent('jurkon:terkirim', { detail: info, cancelable: true }));
   }
 
@@ -101,6 +176,7 @@
     kini = { mode, id, kunci: mode + ':' + (id || '') };
     galat.textContent = ''; kirimBtn.disabled = false; konteks.innerHTML = '';
     dlg.querySelector('#tulisUmurBox').hidden = mode !== 'tulis'; dlg.querySelector('#tulisUmur').value = '0';
+    dlg.querySelector('#tulisKapsulBox').hidden = mode !== 'tulis'; dlg.querySelector('#tulisKapsul').value = ''; dlg.querySelector('#tulisKapsulTgl').value = ''; dlg.querySelector('#tulisKapsulTgl').hidden = true;
     ta.value = draf[kini.kunci] || ''; ta.dispatchEvent(new Event('input'));
 
     if (mode === 'balas') {

@@ -19,7 +19,8 @@ function dariBaris(r) {
     dilihat: r.dilihat == null ? null : Number(r.dilihat),
     induk_username: r.induk_username || null,
     suka_pada: r.suka_pada || null,
-    kedaluwarsa: r.kedaluwarsa || null
+    kedaluwarsa: r.kedaluwarsa || null,
+    kapsul_ditulis: r.kapsul_ditulis || null
   };
 }
 

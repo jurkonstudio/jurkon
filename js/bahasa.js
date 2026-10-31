@@ -474,5 +474,20 @@ const I18N_KAMUS = {
   'tulis.umur7': ["7 hari", "7 days", "7 hari", "7 dina", "7 poé", "7 天", "7日間"],
   'pc.hilangMenit': ["Hilang dalam {n} menit", "Disappears in {n} min", "Hilang dalam {n} minit", "Ilang ing {n} menit", "Leungit dina {n} menit", "{n} 分钟后消失", "{n}分後に消えます"],
   'pc.hilangJam': ["Hilang dalam {n} jam", "Disappears in {n} hr", "Hilang dalam {n} jam", "Ilang ing {n} jam", "Leungit dina {n} jam", "{n} 小时后消失", "{n}時間後に消えます"],
-  'pc.hilangHari': ["Hilang dalam {n} hari", "Disappears in {n} days", "Hilang dalam {n} hari", "Ilang ing {n} dina", "Leungit dina {n} poé", "{n} 天后消失", "{n}日後に消えます"]
+  'pc.hilangHari': ["Hilang dalam {n} hari", "Disappears in {n} days", "Hilang dalam {n} hari", "Ilang ing {n} dina", "Leungit dina {n} poé", "{n} 天后消失", "{n}日後に消えます"],
+  'tulis.kapsul': ["Kapsul waktu", "Time capsule", "Kapsul masa", "Kapsul wektu", "Kapsul waktos", "时间胶囊", "タイムカプセル"],
+  'tulis.kapsulTidak': ["Langsung tayang", "Post now", "Terbit sekarang", "Langsung tayang", "Langsung tayang", "立即发布", "すぐに公開"],
+  'tulis.kapsul1': ["Buka besok", "Opens tomorrow", "Dibuka esok", "Dibukak sesuk", "Dibuka isukan", "明天开启", "明日開く"],
+  'tulis.kapsul7': ["Buka 1 minggu lagi", "Opens in 1 week", "Dibuka dalam 1 minggu", "Dibukak seminggu maneh", "Dibuka saminggu deui", "1 周后开启", "1週間後に開く"],
+  'tulis.kapsul30': ["Buka 1 bulan lagi", "Opens in 1 month", "Dibuka dalam 1 bulan", "Dibukak sewulan maneh", "Dibuka sabulan deui", "1 个月后开启", "1か月後に開く"],
+  'tulis.kapsul365': ["Buka 1 tahun lagi", "Opens in 1 year", "Dibuka dalam 1 tahun", "Dibukak setaun maneh", "Dibuka sataun deui", "1 年后开启", "1年後に開く"],
+  'tulis.kapsulTanggal': ["Pilih tanggal…", "Pick a date…", "Pilih tarikh…", "Pilih tanggal…", "Pilih tanggal…", "选择日期…", "日付を選ぶ…"],
+  'tulis.kapsulPilih': ["Pilih tanggal buka kapsul dulu.", "Pick the capsule’s opening date first.", "Pilih tarikh buka kapsul dahulu.", "Pilih tanggal bukak kapsul disik.", "Pilih tanggal muka kapsul heula.", "请先选择胶囊开启日期。", "先にカプセルを開く日付を選んでください。"],
+  'tulis.kapsulTerkirim': ["Kapsul tersimpan. Terbuka {tgl}.", "Capsule saved. Opens {tgl}.", "Kapsul disimpan. Dibuka {tgl}.", "Kapsul disimpen. Dibukak {tgl}.", "Kapsul disimpen. Dibuka {tgl}.", "胶囊已保存，将于 {tgl} 开启。", "カプセルを保存しました。{tgl}に開きます。"],
+  'tulis.kapsulLihat': ["Kapsul saya", "My capsules", "Kapsul saya", "Kapsulku", "Kapsul abdi", "我的胶囊", "自分のカプセル"],
+  'kapsul.kosong': ["Belum ada kapsul yang menunggu.", "No capsules waiting yet.", "Belum ada kapsul yang menunggu.", "Durung ana kapsul sing nunggu.", "Acan aya kapsul anu ngantosan.", "还没有等待开启的胶囊。", "待機中のカプセルはありません。"],
+  'kapsul.buka': ["Terbuka {tgl}", "Opens {tgl}", "Dibuka {tgl}", "Dibukak {tgl}", "Dibuka {tgl}", "{tgl} 开启", "{tgl}に開きます"],
+  'kapsul.batal': ["Batalkan", "Cancel", "Batalkan", "Batalna", "Batalkeun", "取消", "取り消す"],
+  'kapsul.konfirmBatal': ["Batalkan kapsul ini? Catatannya akan dihapus.", "Cancel this capsule? The note will be deleted.", "Batalkan kapsul ini? Catatannya akan dipadam.", "Batalna kapsul iki? Cathetane bakal dibusak.", "Batalkeun kapsul ieu? Catetanna bakal dihapus.", "取消此胶囊？笔记将被删除。", "このカプセルを取り消しますか？ノートは削除されます。"],
+  'pc.kapsulDitulis': ["Kapsul waktu, ditulis {tgl}", "Time capsule, written {tgl}", "Kapsul masa, ditulis {tgl}", "Kapsul wektu, ditulis {tgl}", "Kapsul waktos, ditulis {tgl}", "时间胶囊，写于 {tgl}", "タイムカプセル（{tgl}に作成）"]
 };

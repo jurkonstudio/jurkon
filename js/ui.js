@@ -57,6 +57,11 @@ function isiHtml(t) {
 }
 
 // opsi: { tanpaInduk: true } menyembunyikan baris "Membalas ..." (dipakai di halaman detail)
+// Tanggal panjang sesuai bahasa aktif ("31 Oktober 2026")
+function tglPanjang(iso) {
+  return new Date(iso).toLocaleDateString(I18n.locale, { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
 // Label sisa waktu untuk catatan berumur ("Hilang dalam 3 jam")
 function labelBerumur(iso) {
   const s = (new Date(iso) - Date.now()) / 1000;
@@ -83,6 +88,7 @@ function htmlPost(p, saya, opsi) {
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
       ${induk}<div class="isi">${isiHtml(p.content)}</div>
       ${p.kedaluwarsa && labelBerumur(p.kedaluwarsa) ? `<div class="berumur">${esc(labelBerumur(p.kedaluwarsa))}</div>` : ''}
+      ${p.kapsul_ditulis ? '<div class="berumur">' + esc(t('pc.kapsulDitulis', { tgl: tglPanjang(p.kapsul_ditulis) })) + '</div>' : ''}
       <div class="aksi">
         <button class="btn-suka ${suka}" data-id="${p.id}" aria-label="${esc(t('pc.suka'))}">${IK.suka}<span>${jml}</span></button>
         <a href="detail.html?id=${p.id}" aria-label="${esc(t('umum.balas'))}">${IK.balas}<span>${esc(t('umum.balas'))}</span></a>
