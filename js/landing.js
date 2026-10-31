@@ -50,3 +50,47 @@
     requestAnimationFrame(langkah);
   });
 })();
+
+// Interaksi tambahan landing: contoh tulis, tombol bagikan, animasi muncul saat digulir.
+// Dipisah ke blok sendiri supaya galat di sini tidak mengganggu pemuatan data di atas.
+(() => {
+  try {
+    const q = id => document.getElementById(id);
+
+    // 1) Contoh menulis: hitung sisa karakter
+    const t = q('demoTulis'), h = q('demoHitung');
+    if (t && h) t.addEventListener('input', () => {
+      const sisa = 250 - t.value.length;
+      h.textContent = sisa; h.classList.toggle('habis', sisa <= 20);
+    });
+
+    // 2) Bagikan
+    const url = 'https://jurkon.my.id/landing.html';
+    const teks = 'Aku nemu Jurkon, sosmed buatan orang Indonesia. Nulisnya cuma 250 karakter, feed ada ujungnya, dan bisa titip catatan buat diri sendiri setahun lagi.';
+    const e = encodeURIComponent;
+    const set = (id, href) => { const a = q(id); if (a) a.href = href; };
+    set('bagiWa', 'https://wa.me/?text=' + e(teks + ' ' + url));
+    set('bagiTg', 'https://t.me/share/url?url=' + e(url) + '&text=' + e(teks));
+    set('bagiX', 'https://twitter.com/intent/tweet?text=' + e(teks) + '&url=' + e(url));
+    const info = q('bagiInfo'), salin = q('bagiSalin');
+    if (salin) salin.addEventListener('click', async () => {
+      try {
+        if (navigator.share) { await navigator.share({ title: 'Jurkon', text: teks, url }); return; }
+        await navigator.clipboard.writeText(url);
+        info.textContent = 'Tautan disalin. Tinggal tempel ke temanmu.';
+      } catch (err) {
+        if (err && err.name === 'AbortError') return;
+        info.textContent = 'Salin manual: ' + url;
+      }
+    });
+
+    // 3) Muncul pelan saat digulir (dilewati bila gerak dikurangi)
+    const kurangi = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const target = document.querySelectorAll('.lp-sorot-kartu, .lp-grid article, .lp-langkah li, .lp-cincin');
+    if (kurangi || !('IntersectionObserver' in window)) { document.querySelectorAll('.lp-cincin').forEach(x => x.classList.add('tampil')); return; }
+    const io = new IntersectionObserver(es => es.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('tampil'); io.unobserve(en.target); }
+    }), { threshold: .15 });
+    target.forEach(x => { if (!x.classList.contains('lp-cincin')) x.classList.add('lp-sembunyi'); io.observe(x); });
+  } catch (err) { /* hiasan saja; halaman tetap jalan */ }
+})();
