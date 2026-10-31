@@ -1,4 +1,15 @@
 // Tema: kertas (bawaan), terang, gelap. Dimuat di <head> agar tidak berkedip.
+// Font serif dimuat lewat sini (bukan <link> di HTML) supaya tidak memblokir tampilan pertama.
+// Teks langsung tampil dengan font cadangan, lalu berganti halus saat font tiba (display=swap).
+(function () {
+  try {
+    if (document.querySelector('link[href*="fonts.googleapis.com/css2"]')) return;
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,650&display=swap';
+    document.head.appendChild(l);
+  } catch (e) {}
+})();
 (function () {
   var DAFTAR = ['kertas', 'terang', 'gelap', 'kaca', 'awan'];
   var tr = function (k, awal) { return window.t ? window.t(k) : awal; };

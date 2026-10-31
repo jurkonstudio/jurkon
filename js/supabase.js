@@ -7,7 +7,43 @@ const SUPABASE_ANON_KEY = 'sb_publishable_kRhUqqmzTHW7igXOPPrcZA_VRHQ9C94';
 // WAJIB diisi bersamaan dengan mengaktifkan CAPTCHA di Supabase (Authentication > Attack Protection), lihat README.
 const TURNSTILE_SITE_KEY = '';
 
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Pembungkus fetch untuk data (REST/RPC) supaya tidak menggantung di sinyal lemah:
+// - batas waktu 12 detik per percobaan; lewat dari itu dianggap gagal jaringan (aplikasi lalu menampilkan data tersimpan / tombol coba lagi)
+// - pembacaan (GET dan RPC baca-saja) diulang SEKALI bila jaringan putus, habis waktu, atau server membalas 502/503/504
+// Penulisan (kirim catatan, suka, dsb.) TIDAK pernah diulang otomatis agar tidak tercatat dobel.
+// Unggah file, Auth, dan realtime tidak dibatasi.
+const BATAS_MS = 12000;
+const RPC_BACA = /\/rest\/v1\/rpc\/(daftar_posting|profil_info|posting_ramai|posting_sorotan|jumlah_notifikasi_baru)(\?|$)/;
+function satuPercobaan(url, opts) {
+  const ac = new AbortController();
+  const luar = opts && opts.signal;
+  let habis = false;
+  if (luar) { if (luar.aborted) ac.abort(); else luar.addEventListener('abort', () => ac.abort(), { once: true }); }
+  const timer = setTimeout(() => { habis = true; ac.abort(); }, BATAS_MS);
+  return fetch(url, Object.assign({}, opts, { signal: ac.signal }))
+    .catch(err => { if (habis) throw new TypeError('Failed to fetch'); throw err; })
+    .finally(() => clearTimeout(timer));
+}
+async function fetchStabil(url, opts) {
+  const alamat = String((url && url.url) || url);
+  if (alamat.indexOf('/rest/v1/') < 0) return fetch(url, opts);
+  const metode = String((opts && opts.method) || (url && url.method) || 'GET').toUpperCase();
+  const bisaUlang = metode === 'GET' || metode === 'HEAD' || RPC_BACA.test(alamat);
+  try {
+    const r = await satuPercobaan(url, opts);
+    if (bisaUlang && (r.status === 502 || r.status === 503 || r.status === 504)) {
+      await new Promise(ok => setTimeout(ok, 600));
+      return await satuPercobaan(url, opts);
+    }
+    return r;
+  } catch (e) {
+    if (!bisaUlang || (opts && opts.signal && opts.signal.aborted)) throw e;
+    await new Promise(ok => setTimeout(ok, 600));
+    return satuPercobaan(url, opts);
+  }
+}
+
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { global: { fetch: fetchStabil } });
 
 const $ = (s, el = document) => el.querySelector(s);
 const param = k => new URLSearchParams(location.search).get(k);
@@ -90,4 +126,9 @@ async function tandaiSuka(posts, saya) {
 
 const PILIH_POST = '*, profiles(username,nama,foto_url), likes(count)';
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+// Daftarkan service worker SETELAH halaman selesai dimuat dan browser senggang,
+// supaya unduhan cache pertama kali tidak berebut bandwidth dengan tampilan halaman.
+if ('serviceWorker' in navigator) {
+  const daftar = () => (window.requestIdleCallback || (f => setTimeout(f, 200)))(() => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+  if (document.readyState === 'complete') daftar(); else addEventListener('load', daftar, { once: true });
+}
