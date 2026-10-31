@@ -73,3 +73,16 @@ Jalankan `sql/018_hapus_notif_suka.sql` (setelah 005 dan 013; aman diulang). Bil
 - **Bagikan profil**: ikon bagikan di profil sendiri, atau di menu ⋯ pada profil orang lain. Memakai lembar bagikan bawaan perangkat, atau menyalin tautan bila tidak tersedia.
 - **Tautan yang mengingat tujuan**: bila belum login, halaman diarahkan ke `login.html?lanjut=<halaman>` dan setelah masuk kembali ke halaman itu. Hanya nama berkas `.html` Jurkon sendiri yang diterima (`lanjutAman()` di `js/supabase.js`); alamat luar diabaikan.
 - **Sematkan catatan**: di profil sendiri, kartu catatan utama punya ikon pin. Catatan yang disematkan tampil di puncak tab Catatan dengan label "Disematkan" (tidak dobel di daftar). Satu sematan per profil; ketuk pin lagi untuk melepas. Yang boleh disematkan hanya catatan utama milik sendiri yang sudah tayang dan tidak berumur, ditegakkan oleh trigger di `sql/026_sematkan_catatan.sql`. Bila catatannya dihapus, sematan hilang otomatis.
+
+## Catatan publik
+
+Jalur masuk organik: penulis boleh menjadikan **satu catatan** bisa dibaca siapa pun (tanpa login) lewat tautan `https://jurkon.my.id/n?id=<id>`. Bawaan tetap privat.
+
+- **Database:** jalankan `sql/027_catatan_publik.sql` (setelah 026). Tabel `posts` tetap tertutup untuk anon; dunia luar hanya lewat `catatan_publik(id)` dan `daftar_publik()`.
+- **Cara pakai:** ikon globe di kartu catatan milik sendiri. Dialog menjelaskan akibatnya dan mewajibkan centang sebelum tombol "Jadikan publik" aktif. Ikon berwarna aksen = sedang publik. Di dialog yang sama ada Salin tautan, Bagikan, dan "Jadikan privat lagi".
+- **Syarat (ditegakkan server):** email terverifikasi, akun tidak dibekukan, akun berumur 3 hari, maks 5 catatan publik per 24 jam, hanya catatan utama biasa (bukan balasan, kutipan, posting ulang, catatan berumur, kapsul waktu), lolos filter konten, tanpa tautan/email/nomor telepon/@sebutan, tidak sedang dilaporkan, dan tidak dikunci pengelola.
+- **Yang tampil ke publik:** isi, tanggal, nama, @username, jumlah suka. Tanpa foto dan data profil lain.
+- **Hilang otomatis dari publik:** dijadikan privat, dihapus, akun dibekukan, 3 laporan baru, atau dikunci pengelola. Pengelola: `select admin_kunci_publik('<uuid catatan>', 'alasan');` (buka kunci: `admin_buka_kunci_publik`).
+- **Klien:** `n.html` + `js/n.js` (halaman baca, boleh diindeks, tombol Laporkan untuk anggota yang login), `js/publik.js` (tombol dan dialog), kamus `pub.*`.
+- **Pratinjau WhatsApp/X dan sitemap:** butuh Worker Cloudflare, lihat `worker/README.md`. Tanpa Worker, fitur tetap jalan tetapi pratinjau tautan generik.
+- Tab Beranda "Publik" diganti label "Semua" karena artinya hanya "semua catatan untuk anggota", bukan publik di internet.

@@ -35,6 +35,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `024_kapsul_waktu.sql` | kapsul waktu: kolom `terbuka_pada`, kebijakan baca, `kapsul_saya()`, `batalkan_kapsul()`, kolom `kapsul_ditulis` di feed | setelah 023 |
 | `025_kunci_kolom_insert.sql` | trigger yang memaksa `created_at` = sekarang (dan `disorot` = false, `dilihat` = 0 di posts) saat klien insert; menutup pemalsuan jumlah tayang, sorotan, dan pembatas laju | setelah 024; hasil cek: 7 baris |
 | `026_sematkan_catatan.sql` | kolom `profiles.disematkan` + trigger yang memastikan hanya catatan utama milik sendiri (sudah tayang, tidak berumur) yang bisa disematkan | setelah 024 (disarankan setelah 025); hasil cek: 1 baris, 1 baris |
+| `027_catatan_publik.sql` | catatan publik per catatan: kolom `publik`, `jadikan_publik()`/`jadikan_privat()`, `catatan_publik()` dan `daftar_publik()` (boleh anon), kunci pengelola | setelah 026; hasil cek: tepat 3 fungsi yang boleh dipanggil anon |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 

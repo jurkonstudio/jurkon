@@ -77,9 +77,16 @@ select id, user_id, created_at, disorot, dilihat from posts where disorot or cre
 ```
 Baris `disorot` yang dikenal dari panel admin itu wajar. Yang mencurigakan: `created_at` di masa depan atau `dilihat` tidak masuk akal. Baris lama tidak diubah migrasi; bersihkan sendiri setelah diperiksa.
 
-Daftar temuan lain dari penilaian awal yang belum dikerjakan: cadangan data pertama, TOTP admin dan admin kedua, konfirmasi setelan Auth Supabase ("Confirm email"), notifikasi saat kapsul terbuka, jalur publik untuk pertumbuhan.
+Daftar temuan lain dari penilaian awal yang belum dikerjakan: cadangan data pertama, TOTP admin dan admin kedua, konfirmasi setelan Auth Supabase ("Confirm email"), notifikasi saat kapsul terbuka, jalur publik untuk pertumbuhan (dikerjakan di Migrasi 027).
 
 Tidak disarankan sekarang: gambar sampul dan tautan di bio (foto belum dimoderasi; tautan membuka celah spam dan phishing).
+
+## Migrasi 027: catatan publik
+
+Kode selesai, **belum diuji** (sandbox tanpa Postgres dan browser). Urutan: jalankan `sql/027_catatan_publik.sql` dan pemeriksaannya, unggah kode, lalu (opsional) pasang Worker (`worker/README.md`). Ringkasan fitur dan syarat ada di `docs/fitur.md`, bagian "Catatan publik".
+
+Uji: (1) di catatan sendiri ketuk ikon globe, tombol "Jadikan publik" harus mati sampai kotak dicentang; (2) buka `n.html?id=<id>` di jendela privat, catatan tampil tanpa login; (3) catatan berisi tautan, email, nomor telepon, atau @sebutan harus ditolak dengan pesan jelas; (4) "Jadikan privat lagi" lalu muat ulang halaman publik: harus tampil "tidak tersedia"; (5) balasan, kutipan, catatan berumur, kapsul: ditolak server; (6) anon tidak bisa `select` dari `posts`.
+Catatan: setelah 019 dijalankan ulang, hak anon untuk `catatan_publik` dan `daftar_publik` harus dipasang lagi (bagian F di 027).
 
 ## Aturan tetap
 
