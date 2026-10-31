@@ -1,9 +1,10 @@
 let saya = null, profil = null, daf = null, tabAktif = 'catatan', tabTerpasang = false;
 const SUKA_PUBLIK = true;   // false = tab Menyukai hanya terlihat oleh pemilik profil
-const TAB_PROFIL = ['catatan', 'balasan', 'ulang', 'suka'];
+const TAB_PROFIL = ['catatan', 'balasan', 'ulang', 'suka', 'kapsul'];
 const IKP = {
   titik: '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>',
   gigi: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+  bagikan: '<svg viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>',
   kalender: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'
 };
 function tutupMenu() {
@@ -28,26 +29,28 @@ async function muat() {
   const milikSaya = p.id === saya.id;
   const pengikut = p.pengikut, mengikuti = p.mengikuti, ikut = p.saya_ikut, blk = p.saya_blokir;
   const nama = p.nama || p.username;
-  // Saling mengikuti = saya mengikuti dia DAN dia mengikuti saya. Dicek hanya bila saya sudah mengikuti.
-  let salingIkuti = false;
-  if (!milikSaya && ikut) {
+  // Apakah dia mengikuti saya (untuk label "Mengikuti kamu" dan tombol "Ikuti balik").
+  // Saling mengikuti = saya mengikuti dia DAN dia mengikuti saya.
+  let diaMengikuti = false;
+  if (!milikSaya) {
     const { data: balik } = await db.from('follows').select('follower_id')
       .match({ follower_id: p.id, following_id: saya.id }).maybeSingle();
-    salingIkuti = !!balik;
+    diaMengikuti = !!balik;
   }
+  const salingIkuti = ikut && diaMengikuti;
   $('#judul').textContent = '@' + p.username;
   $('#atas').innerHTML = `<div class="profil-atas">
     <div class="kartu-kepala">${avatar(nama, 88, p.foto)}
-      <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}</div>
+      <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}${diaMengikuti ? ` <span class="label-ikut">${esc(t('pf.mengikutiKamu'))}</span>` : ''}</div>
         <div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div></div></div>
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : esc(milikSaya ? t('pf.bioKosongSaya') : t('pf.bioKosong'))}</div>
     <div class="stat"><div class="stat-item" id="statPosting"><b id="jmlPosting">–</b><span>${esc(t('pf.posting'))}</span></div><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="${esc(t('pf.lihatPengikut', { n: pengikut }))}"><b>${pengikut}</b><span>${esc(t('pf.pengikut'))}</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="${esc(t('pf.lihatMengikuti', { n: mengikuti }))}"><b>${mengikuti}</b><span>${esc(t('pf.mengikuti'))}</span></button></div>
     <div class="tombol">${milikSaya
-      ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button>`
-      : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${esc(ikut ? t('feed.ikuti') : t('pf.ikuti'))}</button>
+      ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button><button class="ikon-btn" id="bagikanSaya" aria-label="${esc(t('pf.bagikan'))}">${IKP.bagikan}</button>`
+      : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${esc(ikut ? t('feed.ikuti') : diaMengikuti ? t('pf.ikutiBalik') : t('pf.ikuti'))}</button>
          <button class="btn garis" id="pesan"${salingIkuti ? '' : ' disabled aria-describedby="hintPesan"'}>${esc(t('pf.kirimPesan'))}</button>
          <div class="menu-lain"><button class="ikon-btn" id="menuLain" aria-label="${esc(t('pf.aksiLain'))}" aria-haspopup="menu" aria-expanded="false">${IKP.titik}</button>
-           <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${esc(blk ? t('pf.bukaBlokir') : t('pf.blokir', { u: p.username }))}</button></div></div>`}</div>
+           <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="bagikan">${esc(t('pf.bagikan'))}</button><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${esc(blk ? t('pf.bukaBlokir') : t('pf.blokir', { u: p.username }))}</button></div></div>`}</div>
     ${milikSaya || salingIkuti ? '' : `<p class="hint-pesan" id="hintPesan">${esc(t('pf.hintPesan'))}</p>`}</div>`;
   // Jumlah posting (sama dengan isi tab Catatan: bukan balasan, bukan repost). Dihitung terpisah, tanpa migrasi SQL.
   db.from('posts').select('*', { count: 'exact', head: true })
@@ -74,6 +77,7 @@ async function muat() {
     $('#lembarPengaturan').onclick = e => { if (e.target === e.currentTarget) e.currentTarget.close(); };
     $('#logout').onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.href = 'login.html'; };
     $('#ubah').onclick = ubah;
+    $('#bagikanSaya').onclick = bagikanProfil;
     $('#tema').hidden = false;
     $('#akun').hidden = false;
   } else {
@@ -82,7 +86,7 @@ async function muat() {
       const m = $('#menuIsi'), buka = m.hidden;
       m.hidden = !buka;
       $('#menuLain').setAttribute('aria-expanded', String(buka));
-      if (buka) $('#blokir').focus();
+      if (buka) $('#menuIsi button').focus();
     };
     $('#ikuti').onclick = async () => {
       $('#ikuti').disabled = true;
@@ -92,6 +96,7 @@ async function muat() {
       if (error) alert(pesanGalat(error));
       muat();
     };
+    $('#bagikan').onclick = () => { tutupMenu(); bagikanProfil(); };
     $('#blokir').onclick = async () => {
       tutupMenu();
       if (blk) { await db.from('blocks').delete().match({ blocker_id: saya.id, blocked_id: p.id }); muat(); return; }
@@ -107,7 +112,9 @@ async function muat() {
   if (blk) { $('#tabProfil').hidden = true; $('#daftar').innerHTML = kosong('pena', t('pf.blokirJ'), t('pf.blokirT', { u: esc(p.username) })); return; }
   $('#tabProfil').hidden = false;
   $('#tp-suka').hidden = !(SUKA_PUBLIK || milikSaya);
-  if (tabAktif === 'suka' && $('#tp-suka').hidden) tabAktif = 'catatan';
+  $('#tp-kapsul').hidden = !milikSaya;            // Kapsul hanya terlihat oleh pemilik profil
+  $('#tabProfil').classList.toggle('lima', milikSaya);
+  if ((tabAktif === 'suka' && $('#tp-suka').hidden) || (tabAktif === 'kapsul' && $('#tp-kapsul').hidden)) tabAktif = 'catatan';
   if (!tabTerpasang) {
     tabTerpasang = true;
     const t = $('#tabProfil');
@@ -141,6 +148,7 @@ async function ambilTabProfil(mode, id, sebelum) {
 }
 // Isi daftar sesuai tab: Catatan (posting utama), Balasan (balasan yang ditulisnya), Menyukai (yang ia sukai)
 function tampilTab(fokus) {
+  clearInterval(kapsulTimer);
   const p = profil, milikSaya = p.id === saya.id, u = esc(p.username);
   TAB_PROFIL.forEach(k => {
     const b = $('#tp-' + k), aktif = k === tabAktif;
@@ -160,10 +168,75 @@ function tampilTab(fokus) {
   el.innerHTML = '';                  // buang pendengar lama bersama isinya agar tidak dobel
   const baru = el.cloneNode(false);
   el.replaceWith(baru);
+  if (tabAktif === 'kapsul') { daf = null; tampilKapsul(baru); return; }
   daf = daftarBerhalaman(baru, sebelum => ambilTabProfil(mode, p.id, sebelum), kosongTab[tabAktif], saya,
     tabAktif === 'suka' ? { kursor: x => x.suka_pada || x.created_at } : null);
   daf.muat();
 }
+// ---- Tab Kapsul (khusus pemilik) -------------------------------------------
+let kapsulVersi = 0, kapsulTimer = null, kapsulMuatAkhir = 0;
+function sisaKapsul(iso) {
+  const sisa = (new Date(iso) - Date.now()) / 1000;
+  if (!(sisa > 0)) return t('kapsul.segera');
+  if (sisa < 3600) return t('kapsul.sisaMenit', { n: Math.max(1, Math.ceil(sisa / 60)) });
+  if (sisa < 86400) return t('kapsul.sisaJam', { n: Math.ceil(sisa / 3600) });
+  return t('kapsul.sisaHari', { n: Math.ceil(sisa / 86400) });
+}
+async function tampilKapsul(el) {
+  clearInterval(kapsulTimer);
+  const ini = ++kapsulVersi;
+  kapsulMuatAkhir = Date.now();
+  el.innerHTML = '<p class="hitung" style="padding:16px 20px">' + esc(t('umum.memuat')) + '</p>';
+  const { data, error } = await db.rpc('kapsul_saya');
+  if (ini !== kapsulVersi || tabAktif !== 'kapsul' || !el.isConnected) return;
+  if (error) {
+    el.innerHTML = '<div class="kosong"><p>' + esc(pesanGalat(error)) + '</p><button class="btn" id="kapsulCoba">' + esc(t('umum.cobaLagi')) + '</button></div>';
+    $('#kapsulCoba').onclick = () => tampilKapsul(el);
+    return;
+  }
+  if (!data || !data.length) { el.innerHTML = kosong('pena', t('pf.k.kapsulJ'), t('pf.k.kapsulT'), 'post.html', t('umum.tulisSekarang')); return; }
+  el.innerHTML = '<div class="kapsul-daftar">' + data.map(k =>
+    '<div class="kapsul-item"><p>' + esc(String(k.content).slice(0, 140)) + '</p><div class="kapsul-baris">' +
+    '<span class="kapsul-waktu"><b class="kapsul-sisa" data-buka="' + esc(k.terbuka_pada) + '">' + esc(sisaKapsul(k.terbuka_pada)) + '</b>' +
+    '<small>' + esc(t('kapsul.buka', { tgl: tglPanjang(k.terbuka_pada) })) + '</small></span>' +
+    '<button type="button" class="btn garis" data-batal="' + esc(k.id) + '">' + esc(t('kapsul.batal')) + '</button></div></div>').join('') + '</div>';
+  el.onclick = async e => {
+    const b = e.target.closest('[data-batal]');
+    if (!b || !confirm(t('kapsul.konfirmBatal'))) return;
+    b.disabled = true;
+    const { error: eb } = await db.rpc('batalkan_kapsul', { p_id: b.dataset.batal });
+    if (eb) { tampilToast(pesanGalat(eb)); b.disabled = false; return; }
+    tampilKapsul(el);
+  };
+  // Hitung mundur diperbarui tiap 30 detik; daftar dimuat ulang sekali bila ada yang sudah lewat waktunya
+  kapsulTimer = setInterval(() => {
+    if (!el.isConnected || tabAktif !== 'kapsul') { clearInterval(kapsulTimer); return; }
+    let lewat = false;
+    el.querySelectorAll('[data-buka]').forEach(n => { n.textContent = sisaKapsul(n.dataset.buka); if (new Date(n.dataset.buka) <= Date.now()) lewat = true; });
+    if (lewat && Date.now() - kapsulMuatAkhir > 20000) tampilKapsul(el);
+  }, 30000);
+}
+
+// ---- Bagikan profil ---------------------------------------------------------
+function tampilToast(teks) {
+  const el = document.createElement('div');
+  el.className = 'toast'; el.setAttribute('role', 'status'); el.textContent = teks;
+  document.body.appendChild(el);
+  setTimeout(() => el.classList.add('hilang'), 2200);
+  setTimeout(() => el.remove(), 2600);
+}
+async function bagikanProfil() {
+  const p = profil;
+  if (!p) return;
+  const url = location.origin + '/profil.html?u=' + encodeURIComponent(p.username);
+  if (navigator.share) {
+    try { await navigator.share({ title: t('pf.bagikanJudul', { nama: p.nama || p.username, u: p.username }), url }); return; }
+    catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  try { await navigator.clipboard.writeText(url); tampilToast(t('pf.tertaut')); }
+  catch (e) { prompt(t('pf.salinManual'), url); }
+}
+
 // ---- Foto profil & batas ubah bulanan -------------------------------------
 async function ambilKuota() {
   try {

@@ -489,5 +489,18 @@ const I18N_KAMUS = {
   'kapsul.buka': ["Terbuka {tgl}", "Opens {tgl}", "Dibuka {tgl}", "Dibukak {tgl}", "Dibuka {tgl}", "{tgl} 开启", "{tgl}に開きます"],
   'kapsul.batal': ["Batalkan", "Cancel", "Batalkan", "Batalna", "Batalkeun", "取消", "取り消す"],
   'kapsul.konfirmBatal': ["Batalkan kapsul ini? Catatannya akan dihapus.", "Cancel this capsule? The note will be deleted.", "Batalkan kapsul ini? Catatannya akan dipadam.", "Batalna kapsul iki? Cathetane bakal dibusak.", "Batalkeun kapsul ieu? Catetanna bakal dihapus.", "取消此胶囊？笔记将被删除。", "このカプセルを取り消しますか？ノートは削除されます。"],
+  'pf.tabKapsul': ["Kapsul", "Capsules", "Kapsul", "Kapsul", "Kapsul", "胶囊", "カプセル"],
+  'pf.k.kapsulJ': ["Belum ada kapsul", "No capsules yet", "Belum ada kapsul", "Durung ana kapsul", "Acan aya kapsul", "还没有胶囊", "カプセルはまだありません"],
+  'pf.k.kapsulT': ["Tulis catatan dengan pilihan Kapsul waktu, dan kapsulnya menunggu di sini sampai terbuka.", "Write a note with the Time capsule option and it waits here until it opens.", "Tulis catatan dengan pilihan Kapsul masa, dan kapsulnya menunggu di sini sehingga dibuka.", "Tulisen cathetan nganggo pilihan Kapsul wektu, banjur kapsule nunggu ing kene nganti kebukak.", "Tulis catetan maké pilihan Kapsul waktos, tuluy kapsulna ngantosan di dieu nepi ka kabuka.", "选择“时间胶囊”写一条笔记，它会在这里等待，直到开启。", "「タイムカプセル」を選んでノートを書くと、開く時までここで待っています。"],
+  'kapsul.sisaMenit': ["Terbuka dalam {n} menit", "Opens in {n} min", "Dibuka dalam {n} minit", "Kebukak sajrone {n} menit", "Kabuka dina {n} menit", "{n} 分钟后开启", "あと{n}分で開きます"],
+  'kapsul.sisaJam': ["Terbuka dalam {n} jam", "Opens in {n} hr", "Dibuka dalam {n} jam", "Kebukak sajrone {n} jam", "Kabuka dina {n} jam", "{n} 小时后开启", "あと{n}時間で開きます"],
+  'kapsul.sisaHari': ["Terbuka dalam {n} hari", "Opens in {n} days", "Dibuka dalam {n} hari", "Kebukak sajrone {n} dina", "Kabuka dina {n} poé", "{n} 天后开启", "あと{n}日で開きます"],
+  'kapsul.segera': ["Segera terbuka…", "Opening soon…", "Akan dibuka sebentar lagi…", "Sedhela maneh kebukak…", "Sakedap deui kabuka…", "即将开启…", "まもなく開きます…"],
+  'pf.mengikutiKamu': ["Mengikuti kamu", "Follows you", "Mengikuti anda", "Ngetutake sampeyan", "Nuturkeun anjeun", "关注了你", "あなたをフォロー中"],
+  'pf.ikutiBalik': ["Ikuti balik", "Follow back", "Ikut balik", "Tutake bali", "Turutan deui", "回关", "フォローバック"],
+  'pf.bagikan': ["Bagikan profil", "Share profile", "Kongsi profil", "Bagekna profil", "Bagikeun profil", "分享主页", "プロフィールを共有"],
+  'pf.bagikanJudul': ["{nama} (@{u}) di Jurkon", "{nama} (@{u}) on Jurkon", "{nama} (@{u}) di Jurkon", "{nama} (@{u}) ing Jurkon", "{nama} (@{u}) di Jurkon", "Jurkon 上的 {nama}（@{u}）", "Jurkon の {nama}（@{u}）"],
+  'pf.tertaut': ["Tautan profil disalin", "Profile link copied", "Pautan profil disalin", "Tautan profil disalin", "Tautan profil disalin", "已复制主页链接", "プロフィールのリンクをコピーしました"],
+  'pf.salinManual': ["Salin tautan profil ini:", "Copy this profile link:", "Salin pautan profil ini:", "Salinen tautan profil iki:", "Salin tautan profil ieu:", "请复制此主页链接：", "このプロフィールのリンクをコピーしてください："],
   'pc.kapsulDitulis': ["Kapsul waktu, ditulis {tgl}", "Time capsule, written {tgl}", "Kapsul masa, ditulis {tgl}", "Kapsul wektu, ditulis {tgl}", "Kapsul waktos, ditulis {tgl}", "时间胶囊，写于 {tgl}", "タイムカプセル（{tgl}に作成）"]
 };

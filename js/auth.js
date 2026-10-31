@@ -1,7 +1,7 @@
 const galat = $('#galat');
 const ambil = () => ({ email: $('#email').value.trim(), password: $('#sandi').value });
 const MULAI = Date.now();
-db.auth.getSession().then(({ data }) => { if (data.session) location.href = 'index.html'; });
+db.auth.getSession().then(({ data }) => { if (data.session) location.href = lanjutAman() || 'index.html'; });
 
 // ---- Anti-bot sisi klien -----------------------------------------------------------------------
 // Catatan jujur: lapisan di klien hanya menahan skrip yang memakai halaman ini. Bot yang langsung memanggil
@@ -98,7 +98,7 @@ $('#masuk').onclick = function () {
     const opsi = adaCaptcha() ? { captchaToken: pakaiToken() } : undefined;
     const { error } = await db.auth.signInWithPassword(opsi ? { ...a, options: opsi } : a);
     if (error) { catatGagal(); galat.textContent = t('auth.gagalMasuk', { pesan: terjemah(error.message) }); $('#sandi').value = ''; $('#sandi').focus(); }   // sandi salah: kosongkan, ketik ulang
-    else { catatBerhasil(); location.href = 'index.html'; }
+    else { catatBerhasil(); location.href = lanjutAman() || 'index.html'; }
   });
 };
 $('#daftar').onclick = function () {
@@ -111,7 +111,7 @@ $('#daftar').onclick = function () {
     // Email yang sudah terdaftar tidak memberi galat (perlindungan Supabase): identities kosong
     else if (data.user && data.user.identities && data.user.identities.length === 0) galat.textContent = t('auth.sudahTerdaftarLupa');
     else if (!data.session) galat.textContent = t('auth.cekEmail');
-    else location.href = 'index.html';
+    else location.href = lanjutAman() || 'index.html';
   });
 };
 // Login Google dinonaktifkan sementara (belum dikonfigurasi). Untuk mengaktifkan lagi: pasang tombol #google di login.html dan

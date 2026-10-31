@@ -76,9 +76,25 @@ function waktu(iso) {
   return new Date(iso).toLocaleDateString(I18n.locale, { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
+// Tujuan setelah masuk: hanya halaman Jurkon sendiri (nama berkas .html + query sederhana), tidak pernah alamat luar
+function lanjutAman(mentah) {
+  try {
+    if (mentah == null) mentah = new URLSearchParams(location.search).get('lanjut');
+    if (!mentah) return null;
+    let s = String(mentah).replace(/^\//, '');
+    if (/^[a-z0-9-]+(\?|$)/.test(s)) s = s.replace(/^([a-z0-9-]+)(\?|$)/, '$1.html$2');   // /profil -> profil.html
+    if (!/^[a-z0-9-]+\.html(\?[A-Za-z0-9_=&%.\-]{0,200})?$/.test(s)) return null;
+    return /^(login|reset|selamat)\.html/.test(s) ? null : s;
+  } catch (e) { return null; }
+}
+// Ke halaman masuk sambil mengingat halaman yang sedang dibuka (mis. tautan profil yang dibagikan)
+function keLogin() {
+  const tujuan = lanjutAman(location.pathname + location.search);
+  location.href = '/login.html' + (tujuan && !/^index\.html/.test(tujuan) ? '?lanjut=' + encodeURIComponent(tujuan) : '');
+}
 async function wajibLogin() {
   const { data: { session } } = await db.auth.getSession();
-  if (!session) { location.href = '/login.html'; return null; }
+  if (!session) { keLogin(); return null; }
   return session.user;
 }
 
@@ -114,7 +130,7 @@ function pasangAksiPost(saya, muat) {
     const b = e.target.closest('button[data-id]');
     if (!b) return;
     const id = b.dataset.id;
-    if (!saya) { location.href = '/login.html'; return; }
+    if (!saya) { keLogin(); return; }
     if (b.classList.contains('btn-suka')) {
       const sudah = b.classList.contains('sudah');
       const n = b.querySelector('span');

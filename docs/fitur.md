@@ -65,3 +65,10 @@ Di kotak kirim chat ada tombol kamera (foto) dan mikrofon (pesan suara, maks 60 
 
 ## Notifikasi suka ikut hilang saat suka dibatalkan
 Jalankan `sql/018_hapus_notif_suka.sql` (setelah 005 dan 013; aman diulang). Bila suka dibatalkan, termasuk saat menekan "tidak suka" yang otomatis membatalkan suka, notifikasi "menyukai catatanmu" ikut dihapus (seperti posting ulang yang dibatalkan). Suka lagi sesudahnya memberi notifikasi baru; batas laju suka (007) mencegah penyalahgunaan.
+
+## Profil: tab Kapsul, saling-ikuti, Bagikan
+
+- **Tab Kapsul** (hanya terlihat oleh pemilik profil): daftar kapsul waktu yang belum terbuka, dengan hitung mundur dan tombol Batalkan. Memakai `kapsul_saya()` dan `batalkan_kapsul()` dari `sql/024_kapsul_waktu.sql`. Tidak ada SQL baru.
+- **Mengikuti kamu / Ikuti balik**: profil orang lain menampilkan label "Mengikuti kamu" bila dia mengikuti kita, dan tombol Ikuti berubah menjadi "Ikuti balik". Tombol Kirim Pesan tetap hanya aktif bila saling mengikuti.
+- **Bagikan profil**: ikon bagikan di profil sendiri, atau di menu ⋯ pada profil orang lain. Memakai lembar bagikan bawaan perangkat, atau menyalin tautan bila tidak tersedia.
+- **Tautan yang mengingat tujuan**: bila belum login, halaman diarahkan ke `login.html?lanjut=<halaman>` dan setelah masuk kembali ke halaman itu. Hanya nama berkas `.html` Jurkon sendiri yang diterima (`lanjutAman()` di `js/supabase.js`); alamat luar diabaikan.
