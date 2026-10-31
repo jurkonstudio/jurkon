@@ -103,7 +103,7 @@
   // Ambil 200 pesan TERBARU (tanpa batas, Supabase hanya mengembalikan 1000 pesan TERLAMA)
   const { data: pesan, error: ep } = await db.from('messages').select(KOLOM)
     .eq('conversation_id', cid).order('created_at', { ascending: false }).limit(200);
-  if (ep) { $('#isi').innerHTML = '<div class="kosong">' + esc(t('chat.gagalMuat', { pesan: ep.message })) + '</div>'; return; }
+  if (ep) { $('#isi').innerHTML = '<div class="kosong">' + esc(t('chat.gagalMuat', { pesan: galatRamah(ep) })) + '</div>'; return; }
   (pesan || []).slice().reverse().forEach(tampil);
   // Cadangan pembersihan: pengirim membuang berkas miliknya yang sudah kedaluwarsa (24 jam terakhir).
   // Pembuangan menyeluruh dilakukan Edge Function terjadwal (lihat README).
@@ -154,13 +154,7 @@
     kotak.value = ''; kotak.dispatchEvent(new Event('input'));
     tampil(data);
   };
-  function pesanGalatChat(e) {
-    const m = (e && e.message) || '';
-    const dilarang = pesanKontenDilarang(e);
-    if (dilarang) return dilarang;
-    if (/failed to fetch|networkerror|load failed|network request/i.test(m)) return t('err.offline');
-    return m || t('err.umum');
-  }
+  function pesanGalatChat(e) { return galatRamah(e); }
   $('#kirim').onclick = kirim;
   $('#teks').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); kirim(); } });
   // Galat kirim (teks maupun media). dariUnggah = galat berasal dari unggahan berkas.

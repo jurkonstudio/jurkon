@@ -158,12 +158,12 @@ function pasangAksiPost(saya, muat) {
       const alasan = prompt(t('pc.alasan'));
       if (!alasan || !alasan.trim()) return;
       const { error } = await db.from('reports').insert({ reporter_id: saya.id, post_id: id, alasan: alasan.trim().slice(0, 300) });
-      if (error) alert(error.code === '23505' ? t('pc.sudahLapor') : t('pc.gagalLapor', { pesan: error.message }));
+      if (error) alert(error.code === '23505' ? t('pc.sudahLapor') : t('pc.gagalLapor', { pesan: galatRamah(error) }));
       else alert(t('pc.terkirim'));
     } else if (b.classList.contains('btn-hapus')) {
       if (!confirm(t('pc.konfirmHapus'))) return;
       const { error } = await db.from('posts').delete().eq('id', id);
-      if (error) alert(t('pc.gagalHapus', { pesan: error.message })); else muat();
+      if (error) alert(t('pc.gagalHapus', { pesan: galatRamah(error) })); else muat();
     }
   });
 }

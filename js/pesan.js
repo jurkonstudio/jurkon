@@ -4,7 +4,7 @@
   const el = $('#daftar');
   el.innerHTML = skeleton(3);
   const { data, error } = await db.from('conversations').select('id,user_a,user_b,created_at');
-  if (error) { el.innerHTML = '<div class="kosong"><h3>' + esc(t('umum.gagalMuat')) + '</h3><p>' + esc(error.message) + '</p></div>'; return; }
+  if (error) { el.innerHTML = '<div class="kosong"><h3>' + esc(t('umum.gagalMuat')) + '</h3><p>' + esc(galatRamah(error)) + '</p></div>'; return; }
   if (!data || !data.length) { el.innerHTML = kosong('pesan', t('pesan.kosongJ'), t('pesan.kosongT'), 'explore.html', t('umum.cariOrang')); return; }
 
   // Pesan terakhir tiap percakapan, supaya daftar urut menurut aktivitas terbaru

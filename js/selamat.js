@@ -34,7 +34,7 @@
       $('#simpan').disabled = false;
       galat.textContent = error.code === '23505' ? t('sel.dipakaiCoba')
         : error.code === '23514' ? t('user.harus')
-        : (pesanKontenDilarang(error) || error.message);
+        : galatRamah(error);
       return;
     }
     try { sessionStorage.setItem('siap:' + saya.id, '1'); } catch (e) {}

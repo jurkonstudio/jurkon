@@ -58,7 +58,7 @@
 
   const rpc = async (fn, args) => {
     const { data, error } = await db.rpc(fn, args || {});
-    if (error) throw new Error(error.message);
+    if (error) throw error;
     return data;
   };
 
@@ -86,7 +86,7 @@
   async function jalankan(btn, fn, sukses) {
     btn.disabled = true;
     try { await fn(); if (sukses) toast(sukses); return true; }
-    catch (e) { toast('Gagal: ' + e.message, true); btn.disabled = false; return false; }
+    catch (e) { toast('Gagal: ' + galatRamah(e), true); btn.disabled = false; return false; }
   }
 
   // ================================================================ GERBANG AKSES
@@ -102,7 +102,7 @@
     if (/not confirmed/i.test(m)) return 'Email belum diverifikasi.';
     if (/captcha/i.test(m)) return 'Server meminta CAPTCHA. Masuk dulu lewat halaman login utama, lalu buka halaman ini lagi.';
     if (/rate|too many|terlalu/i.test(m)) return 'Terlalu banyak percobaan. Coba lagi beberapa menit lagi.';
-    return m || 'Gagal masuk.';
+    return 'Gagal masuk.';   // jangan tampilkan pesan mentah dari server
   };
 
   // Batas percobaan di klien (pelengkap; batas sungguhan ada di Supabase Auth)
@@ -267,7 +267,7 @@
     isiEl.innerHTML = rangkaHtml;
     try { await TAB[nama].v(g); }
     catch (e) {
-      if (aktif(g)) isiEl.innerHTML = kosongHtml('Gagal memuat', e.message) +
+      if (aktif(g)) isiEl.innerHTML = kosongHtml('Gagal memuat', galatRamah(e)) +
         '<p class="hitung" style="text-align:center;margin-top:10px">Pastikan <code>sql/020_panel_admin.sql</code> sudah dijalankan di Supabase.</p>';
     }
     segarkanLencana().catch(() => {});
@@ -348,7 +348,7 @@
           await tanya({ judul: 'Tutup pendaftaran?', teks: 'Tidak ada orang baru yang bisa membuat akun sampai dibuka lagi.', ok: 'Tutup pendaftaran', bahaya: true }) === null) { c.checked = true; return; }
       c.disabled = true;
       try { await rpc('admin_simpan_pengaturan', { p_kunci: kunciQ, p_nilai: nilai }); toast('Tersimpan'); }
-      catch (e) { c.checked = !c.checked; toast('Gagal: ' + e.message, true); }
+      catch (e) { c.checked = !c.checked; toast('Gagal: ' + galatRamah(e), true); }
       c.disabled = false;
     }));
   }
@@ -360,7 +360,7 @@
       .select('id,alasan,created_at,status,post_id,profiles(username),posts(id,content,user_id,profiles(username))')
       .eq('status', fLap).order('created_at', { ascending: false }).limit(60);
     if (!aktif(g)) return;
-    if (error) throw new Error(error.message);
+    if (error) throw error;
     const seg = `<div class="bar-alat"><div class="seg"><button type="button" data-act="fLap" data-k="baru" aria-pressed="${fLap === 'baru'}">Baru</button>
       <button type="button" data-act="fLap" data-k="selesai" aria-pressed="${fLap === 'selesai'}">Selesai</button></div></div>`;
     const daftar = !data.length
@@ -413,7 +413,7 @@
         hasil.insertAdjacentHTML('beforeend', rows.map(baris).join(''));
         mulaiN += rows.length;
         lagi.hidden = rows.length < BATAS;
-      } catch (e) { if (aktif(g)) hasil.innerHTML = kosongHtml('Gagal memuat', e.message); }
+      } catch (e) { if (aktif(g)) hasil.innerHTML = kosongHtml('Gagal memuat', galatRamah(e)); }
     }
     cari.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(() => { simpanQ(cari.value.trim()); muat(true); }, 300); });
     el('lagiBtn').addEventListener('click', () => muat(false));
@@ -501,7 +501,7 @@
     const { data, error } = await db.from('posts').select('id,content,created_at,dilihat,profiles(username)')
       .eq('disorot', true).order('created_at', { ascending: false }).limit(50);
     if (!aktif(g)) return;
-    const daftar = error ? kosongHtml('Sorotan belum aktif', 'Jalankan migrasi 012. ' + error.message)
+    const daftar = error ? kosongHtml('Sorotan belum aktif', 'Jalankan migrasi 012. ' + galatRamah(error))
       : !data.length ? kosongHtml('Belum ada posting yang disorot', 'Sorot dari tab Posting atau tempel ID di atas.')
       : '<div class="daftar">' + data.map(p => `<article class="baris">${ava(p.profiles?.username, null, true)}<div class="badan">
           <div class="atas-b"><span class="nama">@${esc(p.profiles?.username || '?')}</span><span class="sub">${wkt(p.created_at)} · ${angka(p.dilihat)} dilihat</span></div>
@@ -555,7 +555,7 @@
       try {
         for (const k of ubah) { await rpc('admin_simpan_pengaturan', { p_kunci: k, p_nilai: baru[k] }); v[k] = baru[k]; }
         toast('Tersimpan. Landing langsung memakai nilai baru.');
-      } catch (er) { toast('Gagal: ' + er.message, true); }
+      } catch (er) { toast('Gagal: ' + galatRamah(er), true); }
       btn.disabled = false;
     });
   }
@@ -591,7 +591,7 @@
   let mfaRahasia = '';
   async function mfaDaftar() {
     const { data, error } = await db.auth.mfa.listFactors();
-    if (error) throw new Error(error.message);
+    if (error) throw error;
     const semua = ((data && data.all) || []).filter(f => f.factor_type === 'totp');
     return { terpasang: semua.filter(f => f.status === 'verified'), tertunda: semua.filter(f => f.status !== 'verified') };
   }
@@ -620,7 +620,7 @@
       const { tertunda } = await mfaDaftar();
       for (const f of tertunda) await db.auth.mfa.unenroll({ factorId: f.id });
       const { data, error } = await db.auth.mfa.enroll({ factorType: 'totp', issuer: 'Jurkon Admin', friendlyName: 'Admin ' + new Date().toISOString().slice(0, 19) });
-      if (error) throw new Error(error.message);
+      if (error) throw error;
       mfaProses = data.id;
       mfaRahasia = (data.totp && data.totp.secret) || '';
       const uri = data.totp && /^otpauth:\/\//.test(data.totp.uri || '') ? data.totp.uri : '';
@@ -637,7 +637,7 @@
         <button type="button" class="btn garis" data-act="mfaBatal">Batal</button></div></div>`;
       const q = el('mfaQr'); if (q && data.totp && data.totp.qr_code) q.src = data.totp.qr_code;   // data: URI SVG (diizinkan CSP img-src)
       el('mfaKode').focus();
-    } catch (e) { toast('Gagal: ' + e.message, true); b.disabled = false; }
+    } catch (e) { toast('Gagal: ' + galatRamah(e), true); b.disabled = false; }
   };
   aksi.mfaSalin = async () => {
     try { await navigator.clipboard.writeText(mfaRahasia); toast('Kunci disalin'); }
@@ -661,7 +661,7 @@
     if (await tanya({ judul: 'Nonaktifkan 2 langkah?', teks: 'Akun admin ini kembali hanya dilindungi kata sandi. Lanjutkan hanya bila kamu mau mendaftarkan ulang.', ok: 'Nonaktifkan', bahaya: true }) === null) return;
     if (await jalankan(b, async () => {
       const { error } = await db.auth.mfa.unenroll({ factorId: b.dataset.id });
-      if (error) throw new Error(error.message);
+      if (error) throw error;
     }, '2 langkah dinonaktifkan')) tampil();
   };
   isiEl.addEventListener('keydown', e => {
@@ -762,6 +762,6 @@
   palet.addEventListener('click', e => { if (e.target === palet) palet.close(); });
 
   mulai().catch(e => {
-    tampilGerbang(`<h2>Tidak bisa terhubung</h2><p class="ket">${esc(e && e.message || 'Terjadi kesalahan.')}</p><button class="btn penuh" onclick="location.reload()">Coba lagi</button>`);
+    tampilGerbang(`<h2>Tidak bisa terhubung</h2><p class="ket">${esc(galatRamah(e))}</p><button class="btn penuh" onclick="location.reload()">Coba lagi</button>`);
   });
 })();

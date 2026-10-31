@@ -42,7 +42,7 @@
       const m = error.message || '';
       infoEmail.textContent = /already|registered/i.test(m) ? t('ak.dipakaiLain')
         : /rate limit|seconds/i.test(m) ? t('ak.terlaluSering')
-        : /valid|invalid/i.test(m) ? t('auth.e.emailInvalid') : t('ak.gagalGanti', { pesan: m });
+        : /valid|invalid/i.test(m) ? t('auth.e.emailInvalid') : t('ak.gagalGanti', { pesan: galatRamah(error) });
       return;
     }
     infoEmail.textContent = t('ak.cek');
@@ -51,7 +51,7 @@
 
   document.getElementById('unduhData').onclick = async () => {
     const { data, error } = await db.rpc('ekspor_data');
-    if (error) { alert(t('ak.gagalUnduh', { pesan: error.message })); return; }
+    if (error) { alert(t('ak.gagalUnduh', { pesan: galatRamah(error) })); return; }
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
@@ -99,7 +99,7 @@
       tombol.textContent = t('ak.hapusProses');
       const { error } = await db.rpc('hapus_akun');
       if (error) {
-        alert(t('ak.gagalHapus', { pesan: error.message }));
+        alert(t('ak.gagalHapus', { pesan: galatRamah(error) }));
         input.disabled = false; tombol.textContent = t('ak.hapusTombol'); tombol.disabled = false;
         return;
       }

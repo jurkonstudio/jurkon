@@ -3,14 +3,7 @@
 // otomatis memakai cara lama (beberapa permintaan) supaya aplikasi tetap berjalan.
 const HALAMAN = 20;
 
-function pesanGalat(e) {
-  const m = (e && e.message) || '';
-  const dilarang = typeof pesanKontenDilarang === 'function' && pesanKontenDilarang(e);
-  if (dilarang) return dilarang;
-  if (/failed to fetch|networkerror|load failed|network request/i.test(m)) return t('err.offline');
-  if (/jwt expired|invalid jwt/i.test(m)) return t('err.sesi');
-  return m || t('err.umum');
-}
+function pesanGalat(e) { return galatRamah(e); }
 const adaJaringan = e => !/failed to fetch|networkerror|load failed|network request/i.test((e && e.message) || '');
 
 // Bila fungsi cepat gagal, jangan dicoba lagi selama 2 menit (hemat satu permintaan sia-sia tiap halaman)

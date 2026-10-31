@@ -52,6 +52,20 @@ function esc(t) {
   return String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
+// Satu pintu untuk pesan galat yang tampil ke pengguna. Pesan mentah server (nama tabel,
+// kolom, kebijakan, detail SQL) tidak boleh tampil. Hanya pesan buatan sendiri (RAISE EXCEPTION
+// di SQL, kode P0001, berbahasa Indonesia) yang diteruskan apa adanya.
+function galatRamah(e) {
+  const tt = (k, f) => (typeof t === 'function' && t(k) !== k) ? t(k) : f;
+  const m = String((e && e.message) || '');
+  if (typeof pesanKontenDilarang === 'function') { const d = pesanKontenDilarang(e); if (d) return d; }
+  if (/failed to fetch|networkerror|load failed|network request/i.test(m)) return tt('err.offline', 'Tidak ada koneksi. Periksa sinyal lalu coba lagi.');
+  if (/jwt expired|invalid jwt/i.test(m)) return tt('err.sesi', 'Sesi habis. Silakan masuk lagi.');
+  if (e && e.code === 'P0001' && m) return m;
+  if (m) console.warn('[galat]', (e && e.code) || '', m);
+  return tt('err.umum', 'Terjadi kesalahan. Coba lagi.');
+}
+
 function waktu(iso) {
   const d = (Date.now() - new Date(iso)) / 1000;
   if (d < 60) return t('waktu.baru');

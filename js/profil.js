@@ -97,11 +97,11 @@ async function muat() {
       if (blk) { await db.from('blocks').delete().match({ blocker_id: saya.id, blocked_id: p.id }); muat(); return; }
       if (!confirm(t('pf.konfirmBlokir', { u: p.username }))) return;
       const { error } = await db.rpc('blokir', { target: p.id });
-      if (error) alert(t('pf.gagalBlokir', { pesan: error.message })); else muat();
+      if (error) alert(t('pf.gagalBlokir', { pesan: galatRamah(error) })); else muat();
     };
     $('#pesan').onclick = async () => {
       const { data, error } = await db.rpc('buka_percakapan', { lawan: p.id });
-      if (error) alert(t('pf.gagalAksi', { pesan: error.message })); else location.href = 'chat.html?id=' + data;
+      if (error) alert(t('pf.gagalAksi', { pesan: galatRamah(error) })); else location.href = 'chat.html?id=' + data;
     };
   }
   if (blk) { $('#tabProfil').hidden = true; $('#daftar').innerHTML = kosong('pena', t('pf.blokirJ'), t('pf.blokirT', { u: esc(p.username) })); return; }
