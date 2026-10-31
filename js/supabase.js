@@ -5,7 +5,7 @@ const SUPABASE_ANON_KEY = 'sb_publishable_kRhUqqmzTHW7igXOPPrcZA_VRHQ9C94';
 
 // Kunci SITUS Cloudflare Turnstile (publik, aman ditaruh di sini). Kosong = CAPTCHA mati.
 // WAJIB diisi bersamaan dengan mengaktifkan CAPTCHA di Supabase (Authentication > Attack Protection), lihat README.
-const TURNSTILE_SITE_KEY = '';
+const TURNSTILE_SITE_KEY = '0x4AAAAAAFtTIL4I3ndIIG4w';
 
 // Pembungkus fetch untuk data (REST/RPC) supaya tidak menggantung di sinyal lemah:
 // - batas waktu 12 detik per percobaan; lewat dari itu dianggap gagal jaringan (aplikasi lalu menampilkan data tersimpan / tombol coba lagi)
