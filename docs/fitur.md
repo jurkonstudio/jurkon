@@ -153,3 +153,14 @@ Hanya perubahan tampilan dan perilaku di klien. Tanpa SQL, tanpa tabel atau kolo
 - Warna tidak ditimpa; tema Kaca dan Awan mengatur isian dan tombol seperti di halaman lain. Logo memakai `assets/logo-header*.webp` (versi gelap untuk tema Gelap dan Awan).
 - Isian 16px di HP (mencegah zoom otomatis iOS), 14,5px di layar lebar.
 - `css/dokumen.css` memberi tipografi padat untuk `kebijakan-privasi.html`, `ketentuan-layanan.html`, dan `aturan.html` (kelas `.dokumen`).
+
+## Jurnal (1 November 2026)
+
+Halaman `jurnal.html`, dibuka dari tombol **Jurnal** di profil sendiri. Terpisah dari Catatan publik (027): tabel `jurnal`, tidak muncul di feed, Jelajah, atau pencarian.
+
+- Isi teks 1-2000 karakter, maksimal 50 catatan per akun (ditegakkan trigger `jaga_jurnal` di database).
+- Bawaan **Pribadi** (hanya pemilik). **Publik** = terbaca anggota yang sudah login (kecuali saling blokir), lewat `jurnal.html?u=username` (hanya baca). Catatan publik disaring `cek_konten()`; yang pribadi tidak.
+- Unduh dibuat di peramban: TXT, Markdown, HTML, JSON, PDF (dialog cetak, area `#areaCetak`). DOCX belum ada.
+- Ikut terunduh di `ekspor_data()` dan terhapus bersama akun. Pengelola bisa menghapus lewat kebijakan `is_admin()`.
+- SQL: `sql/034_jurnal.sql`. Jalankan sebelum mengunggah JS.
+

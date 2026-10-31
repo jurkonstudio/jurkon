@@ -615,7 +615,39 @@ const I18N_KAMUS = {
   'kartu.diunduh': ["Gambar disimpan ke perangkatmu.", "The image was saved to your device.", "Imej disimpan ke peranti anda.", "Gambar disimpen ing piranti sampeyan.", "Gambarna disimpen dina parangkat anjeun.", "图片已保存到你的设备。", "画像を端末に保存しました。"],
   'pesan.cari': ["Cari percakapan", "Search conversations", "Cari perbualan", "Golek obrolan", "Pilari obrolan", "搜索对话", "会話を検索"],
   'pesan.cariKosong': ["Tidak ada percakapan untuk “{kata}”.", "No conversations for “{kata}”.", "Tiada perbualan untuk “{kata}”.", "Ora ana obrolan kanggo “{kata}”.", "Euweuh obrolan keur “{kata}”.", "没有与“{kata}”相关的对话。", "「{kata}」に一致する会話はありません。"],
-  'chat.hariIni': ["Hari ini", "Today", "Hari ini", "Dina iki", "Poé ieu", "今天", "今日"]
+  'chat.hariIni': ["Hari ini", "Today", "Hari ini", "Dina iki", "Poé ieu", "今天", "今日"],
+
+  // ---- Jurnal (jurnal.html) ----
+  'jr.judul': ["Jurnal", "Journal", "Jurnal", "Jurnal", "Jurnal", "日记", "日記"],
+  'jr.kembali': ["← Profil", "← Profile", "← Profil", "← Profil", "← Profil", "← 个人主页", "← プロフィール"],
+  'jr.judulOrang': ["Jurnal {nama}", "{nama}’s journal", "Jurnal {nama}", "Jurnal {nama}", "Jurnal {nama}", "{nama} 的日记", "{nama}の日記"],
+  'jr.hitung': ["{n}/{maks} catatan", "{n}/{maks} entries", "{n}/{maks} catatan", "{n}/{maks} cathetan", "{n}/{maks} catetan", "{n}/{maks} 篇", "{n}/{maks}件"],
+  'jr.tulis': ["Tulis di jurnal", "Write in journal", "Tulis dalam jurnal", "Nulis ing jurnal", "Nulis dina jurnal", "写日记", "日記を書く"],
+  'jr.kosongJ': ["Jurnalmu masih kosong", "Your journal is empty", "Jurnal anda masih kosong", "Jurnalmu isih kosong", "Jurnal anjeun acan aya eusina", "你的日记还是空的", "日記はまだ空です"],
+  'jr.kosongT': ["Tulis apa saja yang ingin kamu ingat. Bawaannya pribadi: hanya kamu yang bisa membacanya.", "Write anything you want to remember. It is private by default: only you can read it.", "Tulis apa sahaja yang anda mahu ingat. Ia peribadi secara lalai: hanya anda yang boleh membacanya.", "Tulisen apa wae sing pengin sampeyan élingi. Standhare pribadi: mung sampeyan sing bisa maca.", "Tulis naon waé anu hayang diinget. Sacara baku pribadi: ngan anjeun anu bisa maca.", "写下你想记住的任何事。默认私密，只有你自己能看到。", "覚えておきたいことを何でも書きましょう。初期設定では非公開で、あなただけが読めます。"],
+  'jr.kosongOrang': ["Belum ada catatan publik.", "No public entries yet.", "Belum ada catatan awam.", "Durung ana cathetan umum.", "Acan aya catetan umum.", "还没有公开的日记。", "公開された日記はまだありません。"],
+  'jr.pribadi': ["Pribadi", "Private", "Persendirian", "Pribadi", "Pribadi", "私密", "非公開"],
+  'jr.publik': ["Publik", "Public", "Awam", "Umum", "Umum", "公开", "公開"],
+  'jr.labelPublik': ["Jadikan publik", "Make public", "Jadikan awam", "Dadekake umum", "Jadikeun umum", "设为公开", "公開にする"],
+  'jr.infoPublik': ["Catatan publik bisa dibaca anggota Jurkon yang sudah masuk. Bawaannya pribadi.", "Public entries can be read by signed-in Jurkon members. Entries are private by default.", "Catatan awam boleh dibaca oleh ahli Jurkon yang sudah log masuk. Lalai: persendirian.", "Cathetan umum bisa diwaca anggota Jurkon sing wis mlebu. Standhare pribadi.", "Catetan umum tiasa dibaca ku anggota Jurkon anu geus lebet. Sacara baku pribadi.", "公开的日记可供已登录的 Jurkon 成员阅读，默认私密。", "公開した日記は、ログイン済みの Jurkon メンバーが読めます。初期設定は非公開です。"],
+  'jr.baru': ["Catatan baru", "New entry", "Catatan baharu", "Cathetan anyar", "Catetan anyar", "新日记", "新しい日記"],
+  'jr.ubah': ["Ubah catatan", "Edit entry", "Ubah catatan", "Owahi cathetan", "Robah catetan", "编辑日记", "日記を編集"],
+  'jr.ubahTombol': ["Ubah", "Edit", "Ubah", "Owahi", "Robah", "编辑", "編集"],
+  'jr.simpan': ["Simpan", "Save", "Simpan", "Simpen", "Simpen", "保存", "保存"],
+  'jr.hapus': ["Hapus", "Delete", "Padam", "Busak", "Hapus", "删除", "削除"],
+  'jr.konfirmHapus': ["Hapus catatan ini? Tindakan ini tidak bisa dibatalkan.", "Delete this entry? This cannot be undone.", "Padam catatan ini? Tindakan ini tidak boleh dibatalkan.", "Busak cathetan iki? Tumindak iki ora bisa dibatalake.", "Hapus catetan ieu? Lampahna teu tiasa dibolaykeun.", "删除这篇日记？此操作无法撤销。", "この日記を削除しますか？元に戻せません。"],
+  'jr.tersimpan': ["Tersimpan", "Saved", "Disimpan", "Wis kasimpen", "Geus disimpen", "已保存", "保存しました"],
+  'jr.terhapus': ["Catatan dihapus", "Entry deleted", "Catatan dipadam", "Cathetan wis dibusak", "Catetan geus dihapus", "日记已删除", "日記を削除しました"],
+  'jr.diubah': ["diubah {tgl}", "edited {tgl}", "diubah {tgl}", "diowahi {tgl}", "dirobah {tgl}", "编辑于 {tgl}", "{tgl}に編集"],
+  'jr.penuh': ["Jurnal penuh ({maks} catatan). Hapus yang lama dulu.", "Journal is full ({maks} entries). Delete an old one first.", "Jurnal penuh ({maks} catatan). Padam yang lama dahulu.", "Jurnal kebak ({maks} cathetan). Busaken sing lawas dhisik.", "Jurnal pinuh ({maks} catetan). Hapus nu heubeul heula.", "日记已满（{maks} 篇）。请先删除旧的。", "日記がいっぱいです（{maks}件）。古いものを先に削除してください。"],
+  'jr.kosongIsi': ["Tulis sesuatu dulu.", "Write something first.", "Tulis sesuatu dahulu.", "Tulisen sawijining dhisik.", "Tulis hiji hal heula.", "先写点什么吧。", "先に何か書いてください。"],
+  'jr.unduh': ["Unduh", "Download", "Muat turun", "Undhuh", "Undeur", "下载", "ダウンロード"],
+  'jr.unduhJudul': ["Unduh jurnal", "Download journal", "Muat turun jurnal", "Undhuh jurnal", "Undeur jurnal", "下载日记", "日記をダウンロード"],
+  'jr.unduhInfo': ["Semua catatanmu ({n}) dibuat langsung di perangkat ini dan tidak diunggah ke mana pun.", "All your entries ({n}) are generated on this device and not uploaded anywhere.", "Semua catatan anda ({n}) dijana terus pada peranti ini dan tidak dimuat naik ke mana-mana.", "Kabeh cathetanmu ({n}) digawe langsung ing piranti iki lan ora diunggah menyang ngendi wae.", "Sakabéh catetan anjeun ({n}) dijieun langsung dina parangkat ieu sarta henteu diunggah ka mana waé.", "你的全部 {n} 篇日记都在本设备上生成，不会上传到任何地方。", "{n}件の日記すべてをこの端末上で作成します。どこにもアップロードされません。"],
+  'jr.unduhKosong': ["Belum ada catatan untuk diunduh.", "No entries to download yet.", "Belum ada catatan untuk dimuat turun.", "Durung ana cathetan kanggo diundhuh.", "Acan aya catetan pikeun diundeur.", "还没有可下载的日记。", "ダウンロードできる日記がありません。"],
+  'jr.pdfInfo': ["Dialog cetak akan terbuka. Pilih “Simpan sebagai PDF”.", "The print dialog will open. Choose “Save as PDF”.", "Dialog cetak akan dibuka. Pilih “Simpan sebagai PDF”.", "Dialog cetak bakal kabuka. Pilih “Simpen minangka PDF”.", "Dialog citak bakal muka. Pilih “Simpen salaku PDF”.", "将打开打印对话框，请选择“另存为 PDF”。", "印刷ダイアログが開きます。「PDFとして保存」を選んでください。"],
+  'jr.diunduhPada': ["Diunduh {tgl}", "Downloaded {tgl}", "Dimuat turun {tgl}", "Diundhuh {tgl}", "Diundeur {tgl}", "下载于 {tgl}", "{tgl}にダウンロード"],
+  'jr.siap': ["File siap.", "File ready.", "Fail sedia.", "Berkas wis siyap.", "Berkas geus siap.", "文件已生成。", "ファイルを作成しました。"]
 };
 
 

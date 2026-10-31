@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://yghgmfvlthzcuhelqesr.supabase.co; media-src 'self' blob: https://yghgmfvlthzcuhelqesr.supabase.co; connect-src 'self' https://yghgmfvlthzcuhelqesr.supabase.co wss://yghgmfvlthzcuhelqesr.supabase.co; frame-src 'none'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="js/keamanan.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fbf9f4">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<script src="js/bahasa-muat.js"></script><script src="js/i18n.js"></script>
+<script src="js/tema.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<meta name="robots" content="noindex">
+<title data-i-doc="jr.judul">Jurnal · Jurkon</title></head><body data-tab="profil">
+<main><div class="header"><a href="profil.html" id="kembali" data-i="jr.kembali">← Profil</a><h1 id="judul" data-i="jr.judul">Jurnal</h1><span id="aksiAtas"></span></div>
+<div id="jr-kepala" class="jr-kepala" hidden></div>
+<div id="daftar" class="jr-daftar" aria-live="polite"><div class="kosong"><p data-i="umum.memuat">Memuat…</p></div></div></main>
+<dialog id="lembarTulis" class="lembar jr-lembar" aria-labelledby="jTulis">
+<div class="lembar-kepala"><h2 id="jTulis" data-i="jr.baru">Catatan baru</h2><button type="button" class="ikon-btn" data-tutup aria-label="Tutup" data-i-aria="umum.tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div class="form"><textarea id="jrIsi" rows="8" data-i-ph="jr.tulis" placeholder="Tulis di jurnal"></textarea>
+<label class="jr-publik"><input type="checkbox" id="jrPublik"><span data-i="jr.labelPublik">Jadikan publik</span></label>
+<p class="hitung" id="jrInfo" data-i="jr.infoPublik">Catatan publik bisa dibaca anggota Jurkon yang sudah masuk. Bawaannya pribadi.</p>
+<div class="baris"><span class="hitung" id="jrHitung"></span><button type="button" class="btn" id="jrSimpan" data-i="jr.simpan">Simpan</button></div>
+<div class="galat" id="jrGalat" role="alert"></div></div></dialog>
+<dialog id="lembarUnduh" class="lembar jr-lembar" aria-labelledby="jUnduh">
+<div class="lembar-kepala"><h2 id="jUnduh" data-i="jr.unduhJudul">Unduh jurnal</h2><button type="button" class="ikon-btn" data-tutup aria-label="Tutup" data-i-aria="umum.tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div class="form"><p class="hitung" id="unduhInfo"></p>
+<div class="jr-format" id="jrFormat"></div>
+<p class="hitung" id="pdfInfo" data-i="jr.pdfInfo">Dialog cetak akan terbuka. Pilih “Simpan sebagai PDF”.</p></div></dialog>
+<div id="areaCetak" aria-hidden="true"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+<script src="js/supabase.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/filter-data.js"></script>
+<script src="js/filter.js"></script>
+<script src="js/data.js"></script>
+<script src="js/jurnal.js"></script>
+<script src="js/notif.js"></script>
+<script src="js/nav.js"></script></body></html>

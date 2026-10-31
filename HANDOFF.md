@@ -1,3 +1,20 @@
+# Handoff Jurnal, 1 November 2026 (kode selesai, belum diuji)
+
+Dikerjakan sesuai rancangan: `sql/034_jurnal.sql`, `jurnal.html`, `js/jurnal.js`, tombol Jurnal di `js/profil.js`, gaya di `css/style.css` (bagian "Jurnal"), 33 kunci `jr.*` di `js/bahasa.js` (turunan `js/bahasa/*.js` sudah dihasilkan ulang), `sw.js` (versi cache).
+`node tools/cek-bahasa.js` lolos (537 kunci x 7 bahasa); `node --check` lolos untuk jurnal.js dan profil.js.
+**Belum diuji:** SQL belum dijalankan di Supabase; halaman belum dibuka di browser; unduhan dan cetak PDF belum dicoba.
+
+Cara pasang: jalankan 034 di SQL Editor dan cek 4 kueri di akhir berkas, baru unggah kode.
+
+Keputusan tambahan yang saya ambil (ubah bila tidak cocok):
+- Catatan publik terbaca lewat `jurnal.html?u=username` (tanpa ini "publik" tidak punya tempat dibaca). Belum ada tautan ke sana dari profil orang lain.
+- Saringan konten hanya untuk catatan publik; yang pribadi tidak disaring.
+- Belum ada tombol Laporkan untuk jurnal publik (tabel `reports` terikat ke `posts`). Sementara pengelola hanya bisa menghapus lewat SQL/kebijakan admin.
+- `ekspor_data()` didefinisikan ulang di 034 (salinan 002 + kunci `jurnal`).
+- Tidak ada syarat umur akun atau batas harian untuk mempublikasikan, tidak seperti 027.
+
+---
+
 # Handoff tambahan, 1 November 2026
 
 Login baru (`login.html` + `css/login.css`), `css/dokumen.css` untuk tiga halaman hukum, dan tiga penyesuaian di `kebijakan-privasi.html` (tanggal, pilihan bahasa dan hitungan gagal masuk di bagian 6, Cloudflare Turnstile di bagian 5; Turnstile memang aktif). Tanpa SQL. Belum diuji: login sungguhan di produksi, tombol lihat sandi (belum dibuat, butuh kunci bahasa baru).

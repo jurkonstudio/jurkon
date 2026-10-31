@@ -47,7 +47,7 @@ async function muat() {
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : esc(milikSaya ? t('pf.bioKosongSaya') : t('pf.bioKosong'))}</div>
     <div class="stat"><div class="stat-item" id="statPosting"><b id="jmlPosting">–</b><span>${esc(t('pf.posting'))}</span></div><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="${esc(t('pf.lihatPengikut', { n: pengikut }))}"><b>${pengikut}</b><span>${esc(t('pf.pengikut'))}</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="${esc(t('pf.lihatMengikuti', { n: mengikuti }))}"><b>${mengikuti}</b><span>${esc(t('pf.mengikuti'))}</span></button></div>
     <div class="tombol">${milikSaya
-      ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button><button class="ikon-btn" id="bagikanSaya" aria-label="${esc(t('pf.bagikan'))}">${IKP.bagikan}</button>`
+      ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button><a class="btn garis" id="keJurnal" href="jurnal.html">${esc(t('jr.judul'))}</a><button class="ikon-btn" id="bagikanSaya" aria-label="${esc(t('pf.bagikan'))}">${IKP.bagikan}</button>`
       : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${esc(ikut ? t('feed.ikuti') : diaMengikuti ? t('pf.ikutiBalik') : t('pf.ikuti'))}</button>
          <button class="btn garis" id="pesan"${salingIkuti ? '' : ' disabled aria-describedby="hintPesan"'}>${esc(t('pf.kirimPesan'))}</button>
          <div class="menu-lain"><button class="ikon-btn" id="menuLain" aria-label="${esc(t('pf.aksiLain'))}" aria-haspopup="menu" aria-expanded="false">${IKP.titik}</button>

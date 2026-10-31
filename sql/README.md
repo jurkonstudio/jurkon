@@ -42,6 +42,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `031_laporan_akun.sql` | laporan akun: kolom `reports.target_user_id` dan `kategori`, aturan anti lapor diri sendiri, satu laporan per akun per pelapor | setelah 020; hasil cek: 2 baris, 3 baris |
 | `032_pertanyaan_harian.sql` | pertanyaan harian: kolom `posts.pertanyaan_tgl`, satu jawaban per akun per hari, trigger penjaga | setelah 024; hasil cek: 1 baris, 2 baris, 1 baris |
 | `033_pesan_edit_hapus.sql` | edit dan hapus pesan: kolom `diedit_at` dan `dihapus_at`, fungsi `edit_pesan()` (24 jam, wajib saling-ikuti) dan `hapus_pesan()` (untuk semua orang) | setelah 004, 014b, 017; hasil cek: 2 baris, 2 baris (anon_bisa = false), 0 baris |
+| `034_jurnal.sql` | Jurnal: tabel `jurnal` (maks 2000 karakter, 50 per akun), RLS pribadi/publik, trigger penjaga, `ekspor_data()` memuat jurnal | setelah 002, 004, 019, 021; hasil cek: 1 baris, 5 baris, 2 baris, 0 baris |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 
