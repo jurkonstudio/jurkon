@@ -837,3 +837,101 @@ body[data-tab=beranda] .logo-tengah img{height:44px;width:auto;max-width:none;di
 .post .isi a.tautan.kecil small{flex:0 100 auto;min-width:0;font-size:12px}
 .post .isi a.tautan.kecil .tt-luar{display:none}
 .post .badan a .waktu{white-space:nowrap}
+
+/* ===== Mode kompak: teks kecil, spasi rapat, padat seperti X/Twitter =====
+   Blok ini sengaja di paling bawah supaya menimpa aturan sebelumnya.
+   Untuk mengembalikan tampilan lama, hapus dari komentar ini sampai akhir berkas. */
+:root{--k-teks:14.5px;--k-kecil:12.5px;--k-pad:14px}
+body{font-size:14px;line-height:1.4;padding-bottom:56px}
+main{min-height:calc(100dvh - 56px)}
+
+/* Header & navigasi bawah */
+.header{min-height:44px;padding:2px var(--k-pad)}
+.header h1{font-size:17px}
+.header a{min-height:36px}
+.nav{padding:4px 0 calc(4px + env(safe-area-inset-bottom))}
+.nav a{min-height:38px;padding:2px 10px;font-size:11px}
+.nav svg{width:21px;height:21px;margin-bottom:1px}
+.nav a.aktif::after{top:-4px;height:2px}
+.fab{width:48px;height:48px;right:14px;bottom:68px;font-size:24px}
+
+/* Kartu catatan */
+.post{padding:10px var(--k-pad);gap:10px;border-bottom-width:1px}
+.post .avatar{width:36px!important;height:36px!important;font-size:15px!important;box-shadow:0 0 0 1px var(--garis)}
+.post .ava{padding:0;margin:2px 0 0}
+.post .badan>a:first-child{display:flex;flex-wrap:nowrap;align-items:baseline;column-gap:5px;padding:0;min-width:0;line-height:1.3}
+.post .nama{font-size:14px;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:0 1000 auto;max-width:100%}
+.post .user{font-size:var(--k-kecil);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:0 1 auto}
+.post .waktu{font-size:var(--k-kecil);flex:none}
+.post .waktu::before{content:"· "}
+.post .badan>a:first-child .vf-lencana{width:1em;height:1em;align-self:center;flex:none}
+.post .isi{font-size:var(--k-teks);line-height:1.4;margin-top:1px;letter-spacing:0}
+.post .induk{font-size:var(--k-kecil);margin:0 0 1px}
+.post .induk svg{width:13px;height:13px}
+.post .berumur{font-size:11.5px}
+
+/* Baris aksi: tetap enak ditekan (±32px), tapi tidak makan tempat */
+.post .aksi{margin:2px 0 -6px -8px;gap:0;font-size:var(--k-kecil)}
+.post .aksi button,.post .aksi a,.post .aksi .tayang{min-height:32px;min-width:34px;padding:0 8px;gap:4px}
+.post .aksi .tayang{font-size:var(--k-kecil)}
+.post .aksi .a-balas>span{display:none}
+.post .aksi svg{width:16px;height:16px;stroke-width:1.9}
+.post .aksi .btn-publik svg{width:16px;height:16px}
+.post .aksi .sisi button{min-width:32px}
+.post .aksi .btn-tidaksuka,.post .aksi .btn-ulang{min-width:32px;padding:0 6px}
+.post .aksi .grup-suka.dua{margin:0 2px}
+.post .aksi .grup-suka.dua button{min-height:30px}
+.post .aksi .grup-suka .sekat{height:14px}
+.post .perangkat{font-size:11px;margin:4px 0 0}
+.post .perangkat svg,.post .badan a .perangkat svg{width:11px;height:11px}
+
+/* Kartu tautan (Spotify, dll.) */
+.post .isi a.tautan{margin:6px 0 2px;padding:6px 10px;gap:8px;border-radius:12px;font-size:13px}
+.post .isi a.tautan .tt-ikon{width:28px;height:28px;border-radius:8px}
+.post .isi a.tautan svg{width:15px;height:15px}
+.post .isi a.tautan b{font-size:13px}
+.post .isi a.tautan small{font-size:11.5px}
+.post .isi a.tautan.kecil{padding:2px 8px 2px 3px;gap:5px;font-size:12.5px}
+.post .isi a.tautan.kecil .tt-ikon{width:18px;height:18px}
+.post .isi a.tautan.kecil svg{width:11px;height:11px}
+.post .isi a.tautan.kecil b{font-size:12.5px}
+.post .isi a.tautan.kecil small{font-size:11px}
+
+/* Daftar (pesan, orang, notifikasi) & profil */
+.item{padding:9px var(--k-pad)}
+.item.dgn-avatar{gap:10px}
+.item .avatar{width:38px!important;height:38px!important;font-size:16px!important}
+.item .sub,.item.dgn-avatar .sub{font-size:var(--k-kecil)}
+.notif-ava .avatar{width:36px!important;height:36px!important;font-size:15px!important}
+.profil-atas{padding:12px var(--k-pad)}
+.profil-atas h2{font-size:18px}
+.profil-atas .bio{margin:4px 0}
+.profil-atas .stat{font-size:var(--k-kecil);margin-bottom:8px}
+.pad,.form{padding:12px var(--k-pad)}
+.form{gap:10px}
+.kosong{padding:24px var(--k-pad)}
+
+/* Form & tombol */
+textarea,input[type=text],input[type=email],input[type=password]{padding:9px 10px;font-size:14.5px}
+textarea{min-height:80px}
+.btn{padding:6px 14px;font-size:13.5px}
+.hitung{font-size:12px}
+.bubble{padding:6px 10px;font-size:14px;margin:3px 10px}
+.kirim{padding:6px 10px calc(6px + env(safe-area-inset-bottom))}
+.kirim textarea{min-height:38px;height:38px}
+
+/* Layar lebar: bilah samping tetap lega, hanya isi yang dirapatkan */
+@media (min-width:768px){
+  body{padding-bottom:0}
+  main{min-height:100dvh}
+  .nav{padding:16px 0}
+  .nav a{min-height:0}
+  .nav a.aktif::after{display:none}
+}
+
+/* ===== Ikon: satu keluarga garis tipis, ujung membulat ===== */
+.post .aksi svg,.nav svg,.post .induk svg{stroke-linecap:round;stroke-linejoin:round}
+.post .aksi .tayang svg{stroke-width:2.2}
+.post .aksi .btn-suka.sudah svg{fill:currentColor;stroke:currentColor}
+.nav svg{stroke-width:1.8}
+.nav a.aktif svg{stroke-width:2.3}
