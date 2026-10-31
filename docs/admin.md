@@ -28,3 +28,7 @@ Admin bisa memberi centang biru ke akun mana pun dari tab **Pengguna** di Pusat 
 - **Database:** jalankan `sql/028_lencana_verified.sql` (setelah 020 dan 021) SEBELUM mengunggah kode JS. Kolom `profiles.verified` dijaga trigger, jadi pengguna tidak bisa memberi lencana ke dirinya sendiri lewat API. Setiap pemberian dan pencabutan tercatat di tab Jejak.
 - **Klien:** `js/ui.js` memanggil `daftar_verified()`, menyimpannya di localStorage, dan memperbaruinya paling cepat tiap 2 menit. Lencana muncul atau hilang di perangkat pengguna dalam beberapa menit. Akun resmi (`jurkon`, dst.) tetap bercentang lewat `AKUN_RESMI`.
 - Lencana mengikuti username saat ini. Bila akun verified mengganti username, lencana tetap melekat di akunnya.
+
+### Masa aktif lencana (migrasi 029)
+
+Saat memberi lencana, admin memilih masa aktif: **permanen** (bawaan, sampai dicabut), 7, 30, 90 hari, atau 1 tahun. Lencana berbatas waktu padam sendiri (tanpa pekerjaan terjadwal) karena `daftar_verified()` hanya menghitung yang belum lewat tanggalnya. Tombol **Ubah masa aktif** muncul di akun yang sudah verified. Jalankan `sql/029_masa_aktif_verified.sql` (setelah 028) sebelum mengunggah kode JS. Jeda "sekitar 2 menit" di dialog hanyalah penyimpanan sementara di perangkat pengguna, bukan masa aktif lencana.

@@ -64,10 +64,11 @@
 
   // Dialog konfirmasi. null bila batal; teks isian ('' boleh) atau true bila setuju.
   // Tombol OK ditaruh pertama di DOM (CSS membaliknya) agar Enter = OK.
-  function tanya({ judul, teks = '', input = null, ok = 'Lanjut', bahaya = false, harus = null }) {
+  function tanya({ judul, teks = '', input = null, ok = 'Lanjut', bahaya = false, harus = null, pilihan = null, pilihanLabel = '', pilihanAwal = '' }) {
     const dlg = el('dlg');
     return new Promise(res => {
       dlg.innerHTML = `<form method="dialog"><h3>${esc(judul)}</h3><p>${esc(teks)}</p>
+        ${pilihan ? `<label class="dlg-label" for="dlgPil">${esc(pilihanLabel)}</label><select id="dlgPil">${pilihan.map(([v, l]) => `<option value="${esc(v)}"${String(v) === String(pilihanAwal) ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>` : ''}
         ${input !== null ? `<input type="text" id="dlgIn" maxlength="300" placeholder="${esc(input)}" autocomplete="off" autocapitalize="none" spellcheck="false">` : ''}
         <div class="tombol"><button class="btn${bahaya ? ' bahaya' : ''}" value="ok" id="dlgOk">${esc(ok)}</button>
         <button class="btn garis" value="batal" formnovalidate>Batal</button></div></form>`;
@@ -76,7 +77,12 @@
         okb.disabled = true;
         inp.addEventListener('input', () => { okb.disabled = inp.value.trim().toLowerCase() !== String(harus).toLowerCase(); });
       }
-      dlg.addEventListener('close', () => res(dlg.returnValue === 'ok' ? (inp ? inp.value.trim() : true) : null), { once: true });
+      dlg.addEventListener('close', () => {
+        if (dlg.returnValue !== 'ok') return res(null);
+        const pil = $('#dlgPil', dlg);
+        if (pil) return res({ catatan: inp ? inp.value.trim() : '', nilai: pil.value });
+        res(inp ? inp.value.trim() : true);
+      }, { once: true });
       dlg.returnValue = '';
       dlg.showModal();
       if (inp) inp.focus();
@@ -427,13 +433,14 @@
     daftarU[u.id] = u;
     const lencana = [
       u.adalah_admin ? '<span class="lencana aksen">Admin</span>' : '',
-      u.lencana ? '<span class="lencana aksen">&#10003; Verified</span>' : '',
+      u.lencana ? `<span class="lencana aksen">&#10003; Verified${u.lencana_sampai ? ' · sampai ' + tgl(u.lencana_sampai) : ' · permanen'}</span>` : '',
       u.dibekukan ? '<span class="lencana merah">Dibekukan</span>' : '',
       !u.terverifikasi ? '<span class="lencana kuning">Belum verifikasi</span>' : '',
       u.laporan_baru > 0 ? `<span class="lencana merah">${u.laporan_baru} laporan baru</span>` : ''
     ].join('');
     const t = [`<a class="btn kecil garis" href="/profil.html?u=${esc(u.username)}" target="_blank" rel="noopener">${ikon('luar')}Profil</a>`];
     if (!u.dibekukan) t.push(`<button type="button" class="btn kecil ${u.lencana ? 'garis' : ''}" data-act="verifU" data-id="${u.id}">${u.lencana ? 'Cabut verified' : 'Beri verified'}</button>`);
+    if (!u.dibekukan && u.lencana) t.push(`<button type="button" class="btn kecil garis" data-act="masaU" data-id="${u.id}">Ubah masa aktif</button>`);
     if (u.dibekukan) t.push(`<button type="button" class="btn kecil garis" data-act="bukaU" data-id="${u.id}">Buka pembekuan</button>`);
     else if (!u.adalah_admin) t.push(`<button type="button" class="btn kecil garis bahaya" data-act="bekukanU" data-id="${u.id}">Bekukan</button>`);
     if (!u.adalah_admin && !u.dibekukan && u.terverifikasi && u.email) t.push(`<button type="button" class="btn kecil garis" data-act="jadiAdmin" data-id="${u.id}">Jadikan admin</button>`);
@@ -445,17 +452,29 @@
       <div class="aksi-b">${t.join('')}</div></div></article>`;
   }
   async function vPengguna(g) { await daftarCari(g, 'admin_cari_pengguna', barisPengguna, 'Cari username, nama, email, atau ID (ketik :verified untuk akun verified)…', () => qPengguna, v => { qPengguna = v; }, 'Tidak ada pengguna yang cocok.'); }
-  aksi.verifU = async b => {
-    const u = daftarU[b.dataset.id];
-    const beri = !u.lencana;
+  const MASA_VERIFIED = [['0', 'Permanen (sampai dicabut)'], ['7', '7 hari'], ['30', '30 hari'], ['90', '90 hari'], ['365', '1 tahun']];
+  async function aturVerified(b, u, ubah) {
     const a = await tanya({
-      judul: beri ? `Beri lencana verified ke @${u.username}?` : `Cabut lencana verified dari @${u.username}?`,
-      teks: beri ? 'Centang biru tampil di samping namanya di profil, feed, Jelajah, dan pesan. Berlaku dalam beberapa menit.' : 'Centang biru dicabut dari akunnya dalam beberapa menit.',
-      input: 'Catatan (opsional, masuk jejak admin)', ok: beri ? 'Beri verified' : 'Cabut'
+      judul: ubah ? `Ubah masa aktif lencana @${u.username}?` : `Beri lencana verified ke @${u.username}?`,
+      teks: 'Centang biru tampil di samping namanya di profil, feed, Jelajah, dan pesan. Pilih permanen atau berbatas waktu; yang berbatas waktu padam sendiri. Perubahan muncul di perangkat pengguna dalam sekitar 2 menit.',
+      pilihan: MASA_VERIFIED, pilihanLabel: 'Masa aktif', pilihanAwal: '0',
+      input: 'Catatan (opsional, masuk jejak admin)', ok: ubah ? 'Simpan' : 'Beri verified'
     });
     if (a === null) return;
-    if (await jalankan(b, () => rpc('admin_set_verified', { target: u.id, p_nilai: beri, p_alasan: a || null }), beri ? `@${u.username} sekarang verified` : 'Lencana dicabut')) tampil();
+    if (await jalankan(b, () => rpc('admin_set_verified', { target: u.id, p_nilai: true, p_alasan: a.catatan || null, p_hari: Number(a.nilai) || null }), ubah ? 'Masa aktif diperbarui' : `@${u.username} sekarang verified`)) tampil();
+  }
+  aksi.verifU = async b => {
+    const u = daftarU[b.dataset.id];
+    if (!u.lencana) return aturVerified(b, u, false);
+    const a = await tanya({
+      judul: `Cabut lencana verified dari @${u.username}?`,
+      teks: 'Centang biru dicabut dari akunnya. Hilang di perangkat pengguna dalam sekitar 2 menit. Kamu bisa memberikannya lagi kapan saja.',
+      input: 'Catatan (opsional, masuk jejak admin)', ok: 'Cabut', bahaya: true
+    });
+    if (a === null) return;
+    if (await jalankan(b, () => rpc('admin_set_verified', { target: u.id, p_nilai: false, p_alasan: a || null }), 'Lencana dicabut')) tampil();
   };
+  aksi.masaU = b => aturVerified(b, daftarU[b.dataset.id], true);
   aksi.bekukanU = async b => {
     const u = daftarU[b.dataset.id];
     const a = await tanya({ judul: `Bekukan @${u.username}?`, teks: 'Ia tidak bisa posting, kirim pesan, suka, atau mengikuti, dan dikeluarkan dari semua perangkat.', input: 'Alasan (masuk jejak admin)', ok: 'Bekukan', bahaya: true });

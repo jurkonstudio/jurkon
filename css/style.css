@@ -771,3 +771,8 @@ body[data-tab=beranda] .logo-tengah img{height:44px;width:auto;max-width:none;di
   .post .aksi button,.post .aksi a,.post .aksi .tayang{min-width:38px;padding-left:6px;padding-right:6px}
   .post .aksi .sisi button{min-width:38px}
 }
+
+/* Lencana di baris nama posting: baris itu flex dengan rata baseline, sehingga ikon SVG ikut naik dan jaraknya
+   (column-gap 8px + margin) terlalu lebar. Di sini ikon dipusatkan ke garis dan celahnya dirapatkan. */
+.vf-lencana{align-self:center}
+.post .badan>a:first-child .vf-lencana{margin-left:-3px;width:1.1em;height:1.1em}
