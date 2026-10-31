@@ -1,0 +1,31 @@
+name: Pasang SRI
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  sri:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Hitung hash dan pasang di semua HTML
+        run: |
+          URL="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"
+          HASH=$(curl -fsSL "$URL" | openssl dgst -sha384 -binary | openssl base64 -A)
+          echo "hash: sha384-$HASH"
+          for f in $(grep -rl "supabase-js@2.45.4" --include=*.html .); do
+            sed -i "s#<script src=\"$URL\"></script>#<script src=\"$URL\" integrity=\"sha384-$HASH\" crossorigin=\"anonymous\"></script>#" "$f"
+          done
+          echo "Halaman yang masih TANPA integrity (harus kosong):"
+          grep -rL "integrity=" $(grep -rl "supabase-js@2.45.4" --include=*.html .) || true
+      - name: Naikkan versi cache
+        run: node tools/naikkan-cache.js
+      - name: Commit
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Pasang SRI pustaka Supabase"
+          git push
