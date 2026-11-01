@@ -741,9 +741,13 @@ a,button,summary,label{touch-action:manipulation}
   body[data-tab=beranda] .header,body[data-tab=beranda] .nav{transition:transform .25s ease}
   body[data-tab=beranda].gulir-turun .header{transform:translateY(calc(-100% - 12px))}
   body[data-tab=beranda].gulir-turun .nav{transform:translateY(calc(100% + 40px))!important}
+  /* Tombol tulis (+) ikut turun ke dekat sudut bawah saat menu bawah menyingkir (pakai `translate` agar tidak bentrok dengan :active scale) */
+  body[data-tab=beranda] .fab{transition:translate .25s ease}
+  body[data-tab=beranda].gulir-turun .fab{translate:0 52px}
+  :root[data-theme=kaca] body[data-tab=beranda].gulir-turun .fab{translate:0 calc(80px + env(safe-area-inset-bottom))}
 }
 @media (max-width:767px) and (prefers-reduced-motion:reduce){
-  body[data-tab=beranda] .header,body[data-tab=beranda] .nav{transition:none}
+  body[data-tab=beranda] .header,body[data-tab=beranda] .nav,body[data-tab=beranda] .fab{transition:none}
 }
 
 /* Feed: hanya ikon logo (tanpa tulisan), di tengah header */
