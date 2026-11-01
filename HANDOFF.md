@@ -1,3 +1,13 @@
+# Handoff tambahan, 1 November 2026 (perbaikan tampilan desktop)
+
+**Diuji di Chromium tanpa Supabase (data tiruan), belum di produksi.** Ukuran yang dilihat: 390, 980, 1280, 1440, 1920 px; tema Kertas, Gelap, Kaca, Awan.
+Berubah: `css/style.css` (lapisan "Desktop v5" di paling bawah, bisa dibatalkan dengan menghapusnya), `js/nav.js` (kotak tulis + pintasan keyboard), `sw.js` (versi cache). Tanpa SQL, tanpa kunci bahasa baru (kotak tulis memakai `pf.k.catatanT` dan `nav.tulis`).
+Penyebab utama: aturan HP `.nav a{font-size:11px}` dan `.nav svg{width:21px}` (di bagian "kompak") jatuh SESUDAH aturan desktop, jadi ikut menimpa menu samping. Di 768-1099 px ikon menu mengecil jadi 0 px (hanya teks kecil tampak); di >= 1100 px label tertahan 11 px, bukan 17 px. Lapisan baru berada paling akhir supaya menang.
+Perbaikan: (1) menu samping ikon (768-1099) dan berlabel (>= 1100) kini terbaca, penanda aktif tanpa titik ganda; (2) dialog tanpa `.lembar` (Kartu catatan, `.pub-dlg`) kini terpusat, sebab `*{margin:0}` menghapus `margin:auto` bawaan dialog dan dialog menempel di kiri atas di semua lebar; (3) Kartu catatan di desktop dua kolom (pratinjau besar di kiri, pilihan di kanan); (4) beranda desktop: kotak "Ceritakan sesuatu hari ini" membuka lembar tulis, logo header disembunyikan di >= 1100 px karena sudah ada di menu samping; (5) padding dan ukuran teks catatan di 768-1099 tidak lagi memakai angka HP; (6) hover pil pada tombol aksi, fokus keyboard terlihat; (7) layar >= 1600 px kolom 700 px; (8) pintasan: N tulis, / cari, J dan K pindah antar catatan (nonaktif saat mengetik atau ada dialog).
+Uji manual yang tetap perlu: kotak tulis dengan sesi sungguhan, Kartu catatan dengan Unduh dan Bagikan, pintasan di profil dan detail, tema Kaca/Awan di 768-1099 px.
+
+---
+
 # Handoff tambahan, 1 November 2026 (login dan daftar dipisah, Ketentuan Layanan 7 bahasa)
 
 **Belum diuji di browser.** Dijalankan: `pecah-bahasa`, `cek-bahasa` (560 kunci x 7 bahasa, OK), `node --check` untuk `auth.js` dan `ketentuan-bahasa.js`, uji tiruan `ketentuan-bahasa.js` untuk 7 bahasa (11 bagian tiap bahasa), JSON-LD dan sitemap di-parse, `naikkan-cache`.

@@ -135,3 +135,45 @@
     });
   });
 })();
+
+// Tambahan desktop (>= 768px; di HP kotak tulis disembunyikan CSS dan pintasan tidak terpakai).
+(function () {
+  // Kotak tulis di puncak beranda. Tautannya ke post.html, jadi penangan klik di atas membukanya sebagai lembar.
+  // Teks memakai kunci yang sudah ada (tujuh bahasa), tanpa kunci baru.
+  if (document.body.dataset.tab === 'beranda') {
+    const kepala = document.querySelector('main > .header');
+    if (kepala && !document.querySelector('.komposer')) {
+      const pena = (typeof IKON !== 'undefined' && IKON.pena) || '';
+      kepala.insertAdjacentHTML('afterend',
+        '<a class="komposer" href="post.html"><span class="komposer-ikon" aria-hidden="true">' + pena + '</span>' +
+        '<span class="komposer-teks">' + esc(t('pf.k.catatanT')) + '</span>' +
+        '<span class="komposer-btn">' + esc(t('nav.tulis')) + '</span></a>');
+    }
+  }
+
+  // Pintasan papan ketik: N tulis, / cari, J dan K pindah antar catatan. Tidak aktif saat mengetik atau ada dialog terbuka.
+  document.addEventListener('keydown', e => {
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || e.isComposing) return;
+    const el = document.activeElement, tag = el && el.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (el && el.isContentEditable)) return;
+    if (document.querySelector('dialog[open]')) return;
+    const k = e.key;
+    if (k === 'n' || k === 'N') { e.preventDefault(); if (window.Tulis) window.Tulis.buka({}); return; }
+    if (k === '/') {
+      e.preventDefault();
+      const q = document.querySelector('.panel-cari input');
+      if (q && q.offsetParent) q.focus(); else location.href = 'explore.html';
+      return;
+    }
+    if (k === 'j' || k === 'k') {
+      const daftar = [...document.querySelectorAll('.post[data-id]')];
+      if (!daftar.length) return;
+      const i = daftar.indexOf(el && el.closest ? el.closest('.post[data-id]') : null);
+      const ke = daftar[k === 'j' ? Math.min(daftar.length - 1, i + 1) : Math.max(0, i < 0 ? 0 : i - 1)];
+      e.preventDefault();
+      ke.tabIndex = -1;
+      ke.focus({ preventScroll: true });
+      ke.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' });
+    }
+  });
+})();
