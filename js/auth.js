@@ -1,6 +1,7 @@
 const galat = $('#galat');
 const ambil = () => ({ email: $('#email').value.trim(), password: $('#sandi').value });
 const MULAI = Date.now();
+if (window.catatCorong) catatCorong('login_buka');   // angka corong tanpa data pribadi (js/corong.js)
 db.auth.getSession().then(({ data }) => { if (data.session) location.href = lanjutAman() || 'index.html'; });
 
 // ---- Anti-bot sisi klien -----------------------------------------------------------------------

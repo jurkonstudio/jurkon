@@ -1159,3 +1159,13 @@ body[data-tab=pesan] .bubble.saya.dihapus,body[data-tab=pesan] .bubble.lawan.dih
 body{letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
 :root[data-theme=terang] .post .isi,:root[data-theme=gelap] .post .isi,:root[data-theme=kaca] .post .isi,:root[data-theme=awan] .post .isi{letter-spacing:-.011em}
 .stat b,.panel .batas b,.lencana,.tab-hitung,.jr-meta{font-variant-numeric:tabular-nums}
+/* Jelajahi publik (jelajahi.html) */
+.jl-kepala{padding:4px 16px 8px}
+.jl-kepala h1{font-size:22px;margin:6px 0 6px}
+.jl-kepala p{color:var(--redup);font-size:15px;line-height:1.55;margin:0 0 8px}
+.jl-kepala .jl-baru{font-size:13px;border-left:3px solid var(--garis);padding-left:10px}
+.jl-isi{display:block;color:inherit;text-decoration:none}
+.jl-isi:hover .isi,.jl-isi:focus-visible .isi{text-decoration:underline;text-underline-offset:3px}
+.jl-kaki{text-align:center;padding:14px 16px}
+.jl-ujung{color:var(--redup);font-size:14px;margin:0}
+.jl-tentang{text-align:center;font-size:14px;padding:6px 16px 28px}

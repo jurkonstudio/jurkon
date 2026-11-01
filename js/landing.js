@@ -17,6 +17,9 @@
     db.rpc('landing_publik').then(r => r.error ? null : r.data).catch(() => null)
   ]);
 
+  // Angka corong tanpa data pribadi (js/corong.js; hanya untuk yang belum masuk)
+  if (!sesi && window.catatCorong) catatCorong('landing', kode);
+
   // Tombol: pengunjung masuk -> ke beranda
   if (sesi) {
     $('#ctaUtama').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaUtama').href = '/index.html';
@@ -93,6 +96,9 @@
         info.textContent = s('salinManual', 'Salin manual: ') + url;
       }
     });
+
+    // Klik ajakan mendaftar/masuk dihitung sebagai satu langkah "mulai" (angka saja)
+    ['ctaUtama', 'ctaAkhir', 'demoKirim'].forEach(id => { const a = q(id); if (a) a.addEventListener('click', () => { if (window.catatCorong) catatCorong('landing_mulai', document.body.dataset.bahasa || 'id'); }); });
 
     // 3) Muncul pelan saat digulir (dilewati bila gerak dikurangi)
     const kurangi = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;

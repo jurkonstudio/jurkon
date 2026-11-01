@@ -174,3 +174,15 @@ Alamat: `landing.html` (Indonesia), `/en/`, `/ms/`, `/jv/`, `/su/`, `/zh/`, `/ja
 - **Menambah bahasa:** satu entri di `BAHASA` dan satu blok di `T` (semua kunci), lalu jalankan generator.
 - **Halaman lain** (tentang, bantuan, hukum) belum diterjemahkan; slug rencananya `about`, `help`, `rules`, `terms`, `privacy` di bawah `/<kode>/`. Daftarkan di `TERBIT` bila sudah ada.
 - Catatan: `jurkon.my.id` dianggap Google sebagai domain berorientasi Indonesia. Terindeks di negara lain tetap mungkin, tetapi peringkat di luar negeri cenderung lebih berat dibanding domain generik.
+
+
+## Pintu depan untuk pengunjung baru (1 November 2026)
+
+Hanya lapisan publik. Menu dan halaman di dalam aplikasi tidak diubah, kecuali satu centang baru di dialog catatan publik.
+
+- **Alamat utama.** `js/akar.js` (dimuat paling awal di `index.html`): pengunjung tanpa sesi diarahkan ke landing sesuai bahasanya (pilihan tersimpan, lalu bahasa perangkat, selain 7 bahasa -> `/en/`). Yang sudah masuk tetap ke beranda. Karena situs statis di GitHub Pages, ini pengalihan di browser, bukan di server. `index.html` memakai canonical ke `landing.html`; `/` dan `login.html` dikeluarkan dari sitemap, `login.html` diberi `noindex`.
+- **Jelajahi publik** (`jelajahi.html`, `js/jelajahi.js`): boleh diindeks, tanpa login, memanggil `jelajahi_publik()`. Terpisah dari `explore.html` di dalam aplikasi (butuh login, noindex). Teks pengantar dan JSON-LD ada di HTML statis; daftar catatan dimuat JavaScript (Google menjalankan JS, crawler pratinjau seperti WhatsApp tidak).
+- **Tiga tingkat visibilitas:** privat (bawaan) -> publik lewat tautan (perilaku 027, tidak berubah) -> publik + tampil di Jelajahi (centang baru di dialog, `atur_jelajahi()`). Catatan lama tetap hanya-tautan. Menjadikan privat otomatis mencabut dari daftar.
+- **"Masih baru"**: bagian jujur di landing (7 bahasa, dari `tools/landing-teks.js`) dan catatan di atas daftar Jelajahi. Tidak ada isi buatan.
+- **Corong** (`js/corong.js`, `catat_corong()`): hitungan harian per langkah dan bahasa; tanpa IP/cookie/id perangkat; mati bila Do Not Track atau GPC aktif. Lihat hasil: `select * from admin_corong(30);` di SQL Editor (juga memuat akun_baru dan catatan_pertama dari database).
+- Kamus: kunci `jl.*` dan `pub.jelajahi*` (7 bahasa).

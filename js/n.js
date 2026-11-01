@@ -11,7 +11,8 @@
   async function sesi() { try { return (await db.auth.getSession()).data.session; } catch (e) { return null; } }
 
   function ajakan(masuk) {
-    ajak.innerHTML = '<p>' + esc(t('pub.ajak')) + '</p><a class="btn" href="' + (masuk ? 'index.html' : 'login.html') + '">' + esc(masuk ? t('pub.buka') : t('pub.gabung')) + '</a>';
+    ajak.innerHTML = '<p>' + esc(t('pub.ajak')) + '</p><a class="btn" href="' + (masuk ? 'index.html' : 'login.html') + '">' + esc(masuk ? t('pub.buka') : t('pub.gabung')) + '</a>' +
+      '<p class="jl-tentang"><a href="jelajahi.html">' + esc(t('jl.judul')) + '</a></p>';
     ajak.hidden = false;
   }
 

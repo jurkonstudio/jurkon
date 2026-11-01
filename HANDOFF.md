@@ -1,3 +1,14 @@
+# Handoff, 1 November 2026 (malam): pintu depan, Jelajahi publik, corong
+
+**Belum diuji** di browser dan Postgres (sandbox tanpa keduanya). Yang sudah dijalankan: `node --check` semua JS yang diubah, uji logika `akar.js` dengan lingkungan tiruan (id, en, ja, fr, pilihan tersimpan, sudah masuk), `node tools/buat-landing.js`, `node tools/pecah-bahasa.js`, `node tools/cek-bahasa.js` (548 kunci x 7 bahasa, OK), `node tools/naikkan-cache.js`.
+Urutan pasang: jalankan `sql/035_jelajahi_publik.sql` di Supabase, cek tiga kueri di akhir berkas, baru unggah kode. Tanpa 035: landing dan `/` tetap jalan; Jelajahi menampilkan galat dengan tombol Coba lagi; centang Jelajahi tidak muncul; hitungan corong diam-diam gagal.
+Berkas baru: `sql/035_jelajahi_publik.sql`, `jelajahi.html`, `js/jelajahi.js`, `js/akar.js`, `js/corong.js`. Berubah: `index.html`, `login.html` (noindex + corong), `js/auth.js` (satu baris), `js/publik.js` (centang Jelajahi), `js/n.js` (tautan ke Jelajahi), `js/landing.js`, `tools/landing-templat.html`, `tools/landing-teks.js` (+ hasil buat-landing: landing.html, en/ ms/ jv/ su/ zh/ ja/), `css/style.css`, `css/landing.css`, `js/bahasa.js` (+ turunannya), `sitemap.xml`, `sw.js`, `kebijakan-privasi.html`, `sql/README.md`, `docs/fitur.md`.
+Uji manual: (1) jendela privat, buka `jurkon.my.id/` -> landing; login lalu buka `/` -> beranda. (2) Jadikan satu catatan publik, centang Jelajahi, buka `jelajahi.html` di jendela privat. (3) Hapus centang -> hilang dari daftar, tautan tetap jalan. (4) Jadikan privat -> hilang dari daftar dan centang kembali kosong bila dipublikasikan lagi. (5) `select * from admin_corong(7);` setelah beberapa kunjungan. (6) Setelah 035 jalankan kueri cek anon (harus 5 fungsi).
+Keterbatasan jujur: pengalihan `/` berjalan di browser (GitHub Pages); Google biasanya mengikutinya tetapi ini bukan SSR. `jelajahi.html` belum punya pratinjau OG dinamis per daftar (bukan per catatan, jadi tidak perlu Worker). Sitemap `jelajahi.html` hanya satu alamat; catatan individu tetap lewat Worker `sitemap-catatan.xml` dan hanya yang publik (termasuk yang hanya-tautan, sesuai peringatan 027).
+Terjemahan Jawa dan Sunda untuk kunci baru sebaiknya dibaca penutur asli.
+
+---
+
 # Handoff Jurnal, 1 November 2026 (kode selesai, belum diuji)
 
 Dikerjakan sesuai rancangan: `sql/034_jurnal.sql`, `jurnal.html`, `js/jurnal.js`, tombol Jurnal di `js/profil.js`, gaya di `css/style.css` (bagian "Jurnal"), 33 kunci `jr.*` di `js/bahasa.js` (turunan `js/bahasa/*.js` sudah dihasilkan ulang), `sw.js` (versi cache).

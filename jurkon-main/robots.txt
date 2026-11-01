@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /reset.html
-Disallow: /selamat.html
-Disallow: /chat.html
-Disallow: /pesan.html
-
-Sitemap: https://jurkon.my.id/sitemap.xml
-Sitemap: https://jurkon.my.id/sitemap-catatan.xml

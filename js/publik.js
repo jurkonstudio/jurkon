@@ -70,11 +70,27 @@
     const url = BASE + id;
     d.innerHTML = '<h3>' + esc(t('pub.judulPublik')) + '</h3><p class="pub-info">' + esc(t('pub.infoPublik')) + '</p>' +
       '<input class="pub-tautan" id="pubUrl" readonly value="' + esc(url) + '" aria-label="' + esc(t('pub.salin')) + '">' +
+      '<div id="pubJelajahi"></div>' +
       '<div class="pub-galat" id="pubGalat" role="status"></div>' +
       '<div class="pub-aksi"><button type="button" class="btn garis" id="pubPrivat">' + esc(t('pub.privat')) + '</button>' +
       (navigator.share ? '<button type="button" class="btn garis" id="pubBagi">' + esc(t('pub.bagikan')) + '</button>' : '') +
       '<button type="button" class="btn" id="pubSalin">' + esc(t('pub.salin')) + '</button></div>';
     const info = d.querySelector('#pubGalat');
+    // Pilihan tingkat ketiga: tampil di halaman Jelajahi publik (sql/035). Tanpa 035 baris ini tidak muncul.
+    const wadahJ = d.querySelector('#pubJelajahi');
+    db.rpc('status_jelajahi', { p_id: id }).then(({ data, error }) => {
+      if (error || !wadahJ) return;
+      wadahJ.innerHTML = '<label class="pub-cek"><input type="checkbox" id="pubJ"><span>' + esc(t('pub.jelajahi')) + '</span></label>';
+      const cj = wadahJ.querySelector('#pubJ');
+      cj.checked = data === true;
+      cj.onchange = async () => {
+        cj.disabled = true;
+        const { error: e } = await db.rpc('atur_jelajahi', { p_id: id, p_tampil: cj.checked });
+        cj.disabled = false;
+        if (e) { cj.checked = !cj.checked; info.style.color = ''; info.textContent = galatRamah(e); return; }
+        info.style.color = 'var(--redup)'; info.textContent = t(cj.checked ? 'pub.jelajahiOn' : 'pub.jelajahiOff');
+      };
+    });
     d.querySelector('#pubSalin').onclick = async () => {
       try { await navigator.clipboard.writeText(url); }
       catch (e) { const k = d.querySelector('#pubUrl'); k.select(); try { document.execCommand('copy'); } catch (e2) {} }
