@@ -170,6 +170,20 @@ begin
   end loop;
 end $$;
 
+-- Fungsi publik yang SENGAJA boleh dipanggil tanpa login (halaman landing, Jelajahi, tautan catatan publik).
+-- Tanpa blok ini, menjalankan ulang 019 membuat jelajahi.html "Gagal memuat". Hanya fungsi yang ada yang disentuh.
+do $$
+declare nama text; r record;
+begin
+  foreach nama in array array['catatan_publik', 'daftar_publik', 'landing_publik', 'jelajahi_publik', 'catat_corong'] loop
+    for r in select p.oid::regprocedure as sig from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+             where n.nspname = 'public' and p.proname = nama and p.prokind = 'f'
+    loop
+      execute format('grant execute on function %s to anon, authenticated, service_role', r.sig);
+    end loop;
+  end loop;
+end $$;
+
 -- Fungsi perawatan: hanya server (cron / edge function), bukan klien
 do $$ begin
   if to_regprocedure('public.media_pesan_kedaluwarsa(integer)') is not null then
@@ -197,6 +211,7 @@ select 'fungsi masih terbuka untuk anon', p.oid::regprocedure::text
 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
 where n.nspname = 'public' and p.prokind = 'f'
   and has_function_privilege('anon', p.oid, 'execute')
+  and p.proname not in ('catatan_publik', 'daftar_publik', 'landing_publik', 'jelajahi_publik', 'catat_corong')
   and not exists (select 1 from pg_depend d where d.objid = p.oid and d.deptype = 'e');
 
 -- Operasional admin (jalankan manual di SQL Editor bila perlu):

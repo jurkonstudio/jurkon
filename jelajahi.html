@@ -27,18 +27,21 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Jelajahi catatan publik","url":"https://jurkon.my.id/jelajahi.html","isPartOf":{"@type":"WebSite","name":"Jurnal Koneksi","url":"https://jurkon.my.id/landing.html"},"description":"Catatan singkat yang penulisnya pilih sendiri untuk dibaca siapa saja."}</script>
 <title data-i-doc="jl.judul">Jelajahi catatan publik · Jurkon</title></head>
 <body class="pub-halaman jl-halaman">
+<div class="jl-bungkus">
 <main>
-<div class="header header-logo"><a class="logo-wrap" href="landing.html" aria-label="Jurkon"><img class="logo-terang" src="assets/logo-header.webp" alt="Journal Connection" width="408" height="138"><img class="logo-gelap" src="assets/logo-header-gelap.webp" alt="" aria-hidden="true" width="408" height="138"></a></div>
+<div class="header header-logo jl-atas"><a class="logo-wrap" href="landing.html" aria-label="Jurkon"><img class="logo-terang" src="assets/logo-header.webp" alt="Journal Connection" width="408" height="138"><img class="logo-gelap" src="assets/logo-header-gelap.webp" alt="" aria-hidden="true" width="408" height="138"></a><div class="jl-atas-aksi" id="aksiAtas"></div></div>
 <section class="jl-kepala">
 <h1 data-i="jl.judul">Jelajahi catatan publik</h1>
 <p data-i="jl.sub">Catatan yang penulisnya pilih sendiri untuk dibaca siapa saja. Tanpa perlu akun.</p>
 <p class="jl-baru" data-i="jl.baru">Jurkon masih baru, jadi daftar ini masih pendek. Tidak ada isi buatan: hanya catatan yang penulisnya pilih sendiri untuk tampil di sini.</p>
 </section>
-<div id="daftar" class="jl-daftar" role="list" aria-label="Daftar catatan publik" data-i-aria="jl.aria"></div>
+<div id="daftar" class="jl-daftar" role="list" aria-label="Daftar catatan publik" data-i-aria="jl.aria" aria-busy="true"></div>
 <div class="jl-kaki" id="kaki" hidden></div>
 <div class="pub-ajak" id="ajak" hidden></div>
 <p class="jl-tentang"><a href="landing.html" data-i="jl.tentang">Apa itu Jurkon?</a></p>
 </main>
+<aside class="jl-samping" id="samping" hidden></aside>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script src="js/supabase.js"></script>
 <script src="js/corong.js"></script>

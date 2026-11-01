@@ -106,7 +106,8 @@ html:root body.login main{
 @media (min-width:600px){
   html:root body.login{justify-content:center;align-items:center;padding:32px 16px}
   html:root body.login main{
-    flex:none;max-width:400px;padding:34px 32px 22px;
+    flex:none;max-width:400px;padding:34px 32px 22px;margin:0;
+    border:0;overflow:visible;   /* style.css (>=768px) menambah border + margin 40px + overflow:clip untuk halaman tanpa menu: bingkai ganda dan fokus terpotong */
     border-radius:16px;box-shadow:0 0 0 1px var(--garis),0 10px 34px -14px rgba(0,0,0,.22);
   }
   .lg-f input{font-size:14.5px;min-height:42px}
@@ -139,7 +140,10 @@ html:root body.login main{
   html:root body.login main{
     grid-column:2;grid-row:1;position:relative;z-index:1;
     flex:none;width:100%;max-width:none;margin:0;justify-content:center;
-    padding:56px clamp(40px,7vw,112px);border-radius:0;box-shadow:none;
+    /* isi 392px selalu di tengah kolom; di kolom sempit (960-1000px, termasuk "situs desktop" HP) sisi tinggal 32px
+       supaya kotak CAPTCHA Turnstile (300px) tidak terjepit atau terpotong */
+    padding:56px max(32px,calc((100% - 392px) / 2));
+    border:0;overflow:visible;border-radius:0;box-shadow:none;
   }
   body.login main > *{width:100%;max-width:392px}
   .lg-merek{justify-content:flex-start;margin:0 0 30px}
@@ -157,3 +161,15 @@ html:root body.login main{
   .lg-bahasa{justify-content:flex-start;margin-top:0;padding-top:28px}
   #captcha{justify-content:flex-start!important}
 }
+
+/* Desktop dengan tinggi layar pendek (jendela kecil, HP landscape mode desktop): rapatkan jarak agar form tidak terlalu panjang */
+@media (min-width:960px) and (max-height:700px){
+  html:root body.login main{padding-top:28px;padding-bottom:28px}
+  .lg-merek{margin-bottom:18px}
+  .lg-form{margin-top:20px;gap:12px}
+  .lg-sub{margin-top:12px}
+  .lg-bahasa{padding-top:16px}
+}
+/* Kotak CAPTCHA tidak boleh melebihi kolom */
+#captcha{max-width:100%}
+#captcha iframe{max-width:100%}

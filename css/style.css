@@ -1160,15 +1160,54 @@ body{letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
 :root[data-theme=terang] .post .isi,:root[data-theme=gelap] .post .isi,:root[data-theme=kaca] .post .isi,:root[data-theme=awan] .post .isi{letter-spacing:-.011em}
 .stat b,.panel .batas b,.lencana,.tab-hitung,.jr-meta{font-variant-numeric:tabular-nums}
 /* Jelajahi publik (jelajahi.html) */
-.jl-kepala{padding:4px 16px 8px}
-.jl-kepala h1{font-size:22px;margin:6px 0 6px}
-.jl-kepala p{color:var(--redup);font-size:15px;line-height:1.55;margin:0 0 8px}
+.jl-atas{justify-content:space-between;gap:12px}
+.jl-atas-aksi{display:flex;align-items:center;gap:8px;flex:none}
+.jl-atas-aksi .btn{min-height:36px;padding:4px 16px;font-size:13.5px;white-space:nowrap}
+.jl-kepala{padding:20px 16px 12px}
+.jl-kepala h1{font-family:var(--serif);font-size:25px;line-height:1.2;font-weight:650;letter-spacing:-.02em;margin:0 0 8px;text-wrap:balance}
+.jl-kepala p{color:var(--redup);font-size:15px;line-height:1.55;margin:0 0 10px}
 .jl-kepala .jl-baru{font-size:13px;border-left:3px solid var(--garis);padding-left:10px}
-.jl-isi{display:block;color:inherit;text-decoration:none}
+.jl-daftar{border-top:1px solid var(--garis)}
+.jl-daftar .jl-kartu{content-visibility:visible}
+.jl-daftar .jl-kartu:last-child{border-bottom:0}
+.jl-nama{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;min-width:0}
+.jl-nama .nama{overflow-wrap:anywhere}
+.jl-nama .user,.jl-nama .waktu{color:var(--redup)}
+.jl-isi{display:block;color:inherit;text-decoration:none;min-width:0}
+.jl-isi .isi{overflow-wrap:anywhere}
 .jl-isi:hover .isi,.jl-isi:focus-visible .isi{text-decoration:underline;text-underline-offset:3px}
-.jl-kaki{text-align:center;padding:14px 16px}
+.jl-isi:focus-visible{outline:2px solid var(--aksen);outline-offset:3px;border-radius:6px}
+.jl-daftar .jl-kartu .aksi{margin-left:0;margin-top:8px}
+.jl-daftar .jl-kartu .btn-suka{display:inline-flex;align-items:center;gap:6px;color:var(--redup);font-size:13.5px;cursor:default}
+.jl-daftar .jl-kartu .btn-suka svg{width:17px;height:17px}
+.jl-galat .jl-kode{font-size:12px;opacity:.7;margin:-8px 0 14px;font-variant-numeric:tabular-nums}
+.jl-kerangka{pointer-events:none}
+.jl-kaki{text-align:center;padding:16px 16px 12px}
+.jl-kaki .jl-ujung{margin-bottom:10px}
+.jl-kaki .jl-ujung:only-child{margin-bottom:0}
 .jl-ujung{color:var(--redup);font-size:14px;margin:0}
 .jl-tentang{text-align:center;font-size:14px;padding:6px 16px 28px}
+.jl-samping{display:none}
+@media (hover:hover){.jl-daftar .jl-kartu:hover{background:color-mix(in srgb,var(--garis) 22%,transparent)}}
+@media (min-width:768px){
+  .jl-kepala{padding:26px 24px 14px}
+  .jl-kepala h1{font-size:28px}
+  .jl-atas{padding-left:20px;padding-right:20px}
+  .jl-atas .logo-wrap{margin-left:-4px}
+}
+/* Desktop (termasuk "situs desktop" di HP, lebar 980px): kolom catatan + kartu ajakan menempel di samping */
+@media (min-width:940px){
+  html body.jl-halaman .jl-bungkus{display:flex;align-items:flex-start;justify-content:center;gap:24px;padding:0 24px}
+  html body.jl-halaman main{flex:0 1 var(--kol);width:var(--kol);min-width:0;margin:28px 0 40px}
+  .jl-samping:not([hidden]){display:block;flex:none;width:292px;position:sticky;top:28px;margin-top:28px}
+  .jl-samping-isi{border:1px solid var(--garis);border-radius:14px;background:var(--bg);padding:20px;box-shadow:0 0 0 1px var(--garis),var(--bayang-2,0 6px 20px -12px rgba(0,0,0,.25))}
+  .jl-samping-isi p{color:var(--redup);font-size:14.5px;line-height:1.55;margin:0 0 14px}
+  .jl-samping-isi .btn{width:100%}
+  .jl-samping-tautan{display:flex;flex-wrap:wrap;gap:2px 14px;padding:12px 6px 0;font-size:13px}
+  .jl-samping-tautan a{color:var(--redup);padding:6px 0;text-decoration:none}
+  .jl-samping-tautan a:hover{color:var(--teks);text-decoration:underline;text-underline-offset:2px}
+  .jl-halaman #ajak,.jl-halaman .jl-tentang{display:none}
+}
 
 /* ===== Desktop profesional (layar >= 1100px) =====
    Lapisan ini sengaja di paling bawah supaya menimpa mode kompak. Tampilan HP tidak berubah.
