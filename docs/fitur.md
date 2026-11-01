@@ -175,6 +175,7 @@ Alamat: `landing.html` (Indonesia), `/en/`, `/ms/`, `/jv/`, `/su/`, `/zh/`, `/ja
 - **Halaman lain** (tentang, bantuan, hukum) belum diterjemahkan; slug rencananya `about`, `help`, `rules`, `terms`, `privacy` di bawah `/<kode>/`. Daftarkan di `TERBIT` bila sudah ada.
 - Catatan: `jurkon.my.id` dianggap Google sebagai domain berorientasi Indonesia. Terindeks di negara lain tetap mungkin, tetapi peringkat di luar negeri cenderung lebih berat dibanding domain generik.
 
+- Landing: kartu fitur kini 8 (ditambah Jurnal pribadi dan Pertanyaan harian) dan kartu pesan/keamanan menyebut dokumen. Teks di `tools/landing-teks.js`, kartu di `tools/landing-templat.html`; jalankan `node tools/buat-landing.js` setelah mengubahnya.
 
 ## Pintu depan untuk pengunjung baru (1 November 2026)
 
