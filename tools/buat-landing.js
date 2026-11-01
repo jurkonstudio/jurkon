@@ -47,7 +47,7 @@ for (const b of BAHASA) {
     ]
   }).replace(/</g, '\\u003c');
   const v = Object.assign({}, t, {
-    kode: k, htmlLang: b.htmlLang, ogLocale: b.ogLocale, r: awalan(k), url: urlLengkap(k), lnkSelf: jalur(k, k),
+    kode: k, dir: b.dir || 'ltr', htmlLang: b.htmlLang, ogLocale: b.ogLocale, r: awalan(k), url: urlLengkap(k), lnkSelf: jalur(k, k),
     lnkTentang: tautanHalaman(k, 'tentang'), lnkBantuan: tautanHalaman(k, 'bantuan'), lnkAturan: tautanHalaman(k, 'aturan'),
     lnkKetentuan: tautanHalaman(k, 'ketentuan'), lnkPrivasi: tautanHalaman(k, 'privasi'),
     hreflang, jsonld,

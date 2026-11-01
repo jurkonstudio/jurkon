@@ -192,3 +192,14 @@ Berkas berubah: `sql/033_pesan_edit_hapus.sql`, `js/chat.js`, `js/pesan.js`, `js
 Uji manual: (1) buka postingan lalu ketuk Kembali, harus ke halaman sebelumnya; buka `detail.html?id=...` langsung di tab baru, Kembali harus ke beranda. (2) Chat dengan akun saling-ikuti: ketuk pesan sendiri, Edit, ubah, centang; kedua layar menampilkan "diedit" tanpa muat ulang. (3) Hapus pesan teks dan foto; kedua layar berubah jadi "Pesan ini dihapus", daftar Pesan menampilkan "Pesan dihapus". (4) Berhenti saling mengikuti: Edit hilang dari menu, Hapus tetap ada. (5) Ketik draf, keluar chat, buka lagi: draf kembali.
 
 Ide berikutnya: balas pesan tertentu (kolom `balas_id`), tanda sudah dibaca, reaksi emoji, dan tombol salin tautan postingan di menu Detail.
+
+---
+
+# Handoff tambahan, 2 November 2026 (pertanyaan harian ganti bahasa + landing es/fr/hi/ar)
+
+**Belum diuji di browser.** Dijalankan: `pecah-bahasa` dan `cek-bahasa` (647 kunci x 7 bahasa, OK), `node --check` semua JS yang diubah, uji tiruan `akar.js` (es-MX, fr-CA, hi-IN, ar-EG -> landing masing-masing; bahasa lain -> `/en/`), JSON-LD tiap landing baru di-parse, `buat-landing`, `buat-sitemap` (19 alamat), `naikkan-cache`. `pasang-sri` gagal di sandbox (tanpa jaringan): jalankan ulang di komputer sendiri atau biarkan workflow `sri.yml`.
+- **Pertanyaan harian ganti bahasa:** 60 kunci `pq.q0..q59` di `js/bahasa.js` (7 bahasa). `pqTampil()` (`js/pertanyaan.js`) hanya mengubah tampilan; teks yang disimpan dan dicek server tetap Indonesia, jadi TANPA SQL. Dipakai di kartu Beranda, `pertanyaan.html`, lembar tulis, dan kiriman jawaban di umpan. `js/pertanyaan.js` kini juga dimuat di `profil`, `detail`, `post`, `explore`. Detail: `docs/fitur.md`.
+- **Landing baru:** Spanyol `/es/`, Prancis `/fr/`, Hindi `/hi/`, Arab `/ar/` (RTL). Hanya landing; antarmuka aplikasi tetap 7 bahasa. Berubah: `tools/landing-teks.js` (+BAHASA, +4 blok T), `tools/landing-templat.html` (`dir`), `tools/buat-landing.js`, `tools/buat-sitemap.js`, `js/akar.js`, `css/landing.css` (lapisan RTL), `docs/*`. Halaman landing lama ikut dibuat ulang (tautan bahasa kini 11).
+- Uji manual: `/ar/` di 320 dan 390 px (arah kanan-ke-kiri, benang langkah, FAQ, tema gelap), ganti bahasa lewat tautan di kaki landing, kartu pertanyaan di Beranda untuk tiap bahasa, jawab pertanyaan lalu lihat kiriman di umpan dengan bahasa lain.
+- Setelah unggah: Search Console > kirim ulang `sitemap.xml`; Pemeriksaan URL untuk `/es/`, `/fr/`, `/hi/`, `/ar/`; opsional `node tools/indexnow.js`. Terjemahan baru (dan Jawa/Sunda) sebaiknya dibaca penutur asli.
+

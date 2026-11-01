@@ -12,7 +12,8 @@ const baca = p => fs.readFileSync(path.join(dasar, p), 'utf8');
 
 const BAHASA = [  // [hreflang, alamat, berkas]; grup ini saling menunjuk
   ['id', '/landing.html', 'landing.html'], ['en', '/en/', 'en/index.html'], ['ms', '/ms/', 'ms/index.html'],
-  ['jv', '/jv/', 'jv/index.html'], ['su', '/su/', 'su/index.html'], ['zh-Hans', '/zh/', 'zh/index.html'], ['ja', '/ja/', 'ja/index.html']];
+  ['jv', '/jv/', 'jv/index.html'], ['su', '/su/', 'su/index.html'], ['zh-Hans', '/zh/', 'zh/index.html'], ['ja', '/ja/', 'ja/index.html'],
+  ['es', '/es/', 'es/index.html'], ['fr', '/fr/', 'fr/index.html'], ['hi', '/hi/', 'hi/index.html'], ['ar', '/ar/', 'ar/index.html']];
 const X_DEFAULT = 'en';
 const TUNGGAL = [  // [alamat, berkas]
   ['/jelajahi.html', 'jelajahi.html'], ['/tentang.html', 'tentang.html'], ['/pusat-bantuan.html', 'pusat-bantuan.html'],

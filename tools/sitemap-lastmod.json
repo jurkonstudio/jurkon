@@ -1,34 +1,34 @@
 {
  "landing.html": {
-  "sidik": "9939dca27093b462",
+  "sidik": "61a76cf2bcc7677a",
   "lastmod": "2026-11-01"
  },
  "en/index.html": {
-  "sidik": "abef37abe5bd4db9",
+  "sidik": "3ac9e6eed2b85686",
   "lastmod": "2026-11-01"
  },
  "ms/index.html": {
-  "sidik": "17eeed75fe55c61b",
+  "sidik": "d1420c22a0ca4c8c",
   "lastmod": "2026-11-01"
  },
  "jv/index.html": {
-  "sidik": "57a484cb1d4ada50",
+  "sidik": "ce00966fed126aa7",
   "lastmod": "2026-11-01"
  },
  "su/index.html": {
-  "sidik": "fef72a1c188e9b49",
+  "sidik": "dea2ca1bdc1f074e",
   "lastmod": "2026-11-01"
  },
  "zh/index.html": {
-  "sidik": "7bd78aee8e45ed1e",
+  "sidik": "3bb73fffe8c6bd47",
   "lastmod": "2026-11-01"
  },
  "ja/index.html": {
-  "sidik": "e5b7bf30c6b83ed8",
+  "sidik": "aeef6d1ba02efb5e",
   "lastmod": "2026-11-01"
  },
  "jelajahi.html": {
-  "sidik": "7c122b3e036c3162",
+  "sidik": "adc8d6893b3d48d9",
   "lastmod": "2026-11-01"
  },
  "tentang.html": {
@@ -58,5 +58,21 @@
  "ketentuan-layanan.html": {
   "sidik": "dfcc54b0a33dda16",
   "lastmod": "2026-11-01"
+ },
+ "es/index.html": {
+  "sidik": "2fe328b3c6aef7e1",
+  "lastmod": "2026-11-02"
+ },
+ "fr/index.html": {
+  "sidik": "ebd1ffec889cc1d9",
+  "lastmod": "2026-11-02"
+ },
+ "hi/index.html": {
+  "sidik": "514fa1e71e39d35a",
+  "lastmod": "2026-11-02"
+ },
+ "ar/index.html": {
+  "sidik": "4697cd98e7cb3bcf",
+  "lastmod": "2026-11-02"
  }
 }

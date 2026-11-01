@@ -250,3 +250,11 @@ a.btn:active,.btn:active{transform:translateY(0)}
   .lp-cta .btn.besar{flex:1 1 100%}
 }
 @media print{.lp-atas,.lp-bagi,.lp-kertas-wrap{display:none}}
+
+/* RTL (halaman /ar/): balik sisi fisik yang ditulis dengan left/right. Aturan lain memakai flex/grid dan ikut berbalik otomatis. */
+[dir="rtl"] .lp-hero{text-align:right}
+[dir="rtl"] .lp-janji li::before{margin-right:0;margin-left:8px}
+[dir="rtl"] .lp-faq summary{padding:16px 0 16px 28px}
+[dir="rtl"] .lp-faq summary::after{right:auto;left:0}
+[dir="rtl"] .lp-langkah::before{left:auto;right:18px}
+[dir="rtl"] .lp-nav a:not(.btn)::after{transform-origin:right}

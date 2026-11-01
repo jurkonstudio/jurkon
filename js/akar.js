@@ -9,8 +9,9 @@
       var k = localStorage.key(i);
       if (/^sb-.+-auth-token$/.test(k) && localStorage.getItem(k)) return;      // ada sesi: tetap di beranda
     }
-    // Bahasa landing: pilihan manual lebih dulu, lalu bahasa perangkat; di luar 7 bahasa -> Inggris
-    var ADA = ['id', 'en', 'ms', 'jv', 'su', 'zh', 'ja'], kode = '';
+    // Bahasa landing: pilihan manual lebih dulu, lalu bahasa perangkat; di luar 11 bahasa landing -> Inggris.
+    // (es, fr, hi, ar hanya punya landing; antarmuka aplikasinya masih 7 bahasa, jadi pilihan tersimpan tidak pernah berisi bahasa itu.)
+    var ADA = ['id', 'en', 'ms', 'jv', 'su', 'zh', 'ja', 'es', 'fr', 'hi', 'ar'], kode = '';
     var pil = localStorage.getItem('bahasa') || '';
     if (ADA.indexOf(pil) >= 0) kode = pil;
     if (!kode) {

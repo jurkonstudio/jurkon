@@ -36,6 +36,6 @@ const dipakai = new Set();
 for (const x of pakai) { const [k, f] = x.split('|'); dipakai.add(k); if (!K[k]) lapor(`kunci "${k}" dipakai di ${f} tapi tidak ada di kamus`); }
 // Kunci yang dipilih lewat variabel (mis. t(menang ? 'a.b' : 'a.c')) tetap terdeteksi sebagai teks berkutip
 const gabung = semuaTeks.join('\n');
-for (const k of Object.keys(K)) if (!gabung.includes("'" + k + "'") && !gabung.includes('"' + k + '"') && !/^filter\./.test(k)) console.log('  · tidak terpakai: ' + k);
+for (const k of Object.keys(K)) if (!gabung.includes("'" + k + "'") && !gabung.includes('"' + k + '"') && !/^(filter\.|pq\.q\d+$)/.test(k)) console.log('  · tidak terpakai: ' + k);
 console.log(salah ? `\n${salah} masalah.` : `\nOK: ${Object.keys(K).length} kunci × ${B.length} bahasa.`);
 process.exit(salah ? 1 : 0);

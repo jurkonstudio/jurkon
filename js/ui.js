@@ -300,7 +300,7 @@ function htmlPost(p, saya, opsi) {
   // Jawaban pertanyaan harian: tampilkan pertanyaannya di atas isi (salinan tersimpan di kiriman; cadangan: daftar klien)
   const pqT = p.pertanyaan_tgl ? (p.pertanyaan_teks || (typeof pqTeks === 'function' ? pqTeks(p.pertanyaan_tgl) : '')) : '';
   const asal = p.pertanyaan_tgl
-    ? `<a class="pq-asal" href="pertanyaan.html?tgl=${esc(p.pertanyaan_tgl)}"><span>${esc(t('pq.asal'))}</span>${pqT ? `<b>${esc(pqT)}</b>` : ''}</a>` : '';
+    ? `<a class="pq-asal" href="pertanyaan.html?tgl=${esc(p.pertanyaan_tgl)}"><span>${esc(t('pq.asal'))}</span>${pqT ? `<b>${esc(typeof pqTampil === 'function' ? pqTampil(pqT) : pqT)}</b>` : ''}</a>` : '';
   // Tayang: tersembunyi sampai ada yang melihat; elemennya tetap ada supaya bisa muncul saat angkanya naik
   const tayang = p.dilihat == null ? ''
     : `<span class="tayang"${p.dilihat > 0 ? '' : ' hidden'} title="${esc(t('pc.dilihat', { n: p.dilihat }))}" aria-label="${esc(t('pc.dilihat', { n: p.dilihat }))}">${IK.mata}<span data-n="${Number(p.dilihat) || 0}">${p.dilihat > 0 ? ringkas(p.dilihat) : ''}</span></span>`;

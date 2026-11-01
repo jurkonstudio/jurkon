@@ -201,7 +201,7 @@
       judul.textContent = t('pq.judul');
       kirimBtn.textContent = t('umum.kirim');
       ta.placeholder = t('pq.ph');
-      konteks.innerHTML = '<div class="tulis-konteks"><p>' + esc(o.pertanyaan.teks) + '</p></div>';
+      konteks.innerHTML = '<div class="tulis-konteks"><p>' + esc(typeof pqTampil === 'function' ? pqTampil(o.pertanyaan.teks) : o.pertanyaan.teks) + '</p></div>';
     } else if (mode === 'kutip') {
       judul.textContent = t('post.kutipJudul');
       kirimBtn.textContent = t('umum.kirim');

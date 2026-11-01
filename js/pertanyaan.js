@@ -3,7 +3,8 @@
 // Berkas ini memuat daftar pertanyaan, pembantu tanggal, dan kartu di Beranda (#pertanyaan).
 // Halaman penuh ada di pertanyaan.html + js/pertanyaan-halaman.js.
 //
-// Menambah pertanyaan: tambahkan di AKHIR daftar, lalu jalankan  node tools/buat-bank-pertanyaan-sql.js  dan tempel
+// Menambah pertanyaan: tambahkan di AKHIR daftar, tambahkan juga barisnya ('pq.q<urutan>', 7 bahasa) di js/bahasa.js lalu
+// jalankan  node tools/pecah-bahasa.js  dan  node tools/cek-bahasa.js (memeriksa kelengkapan). Lalu jalankan  node tools/buat-bank-pertanyaan-sql.js  dan tempel
 // hasilnya di Supabase SEBELUM mengunggah berkas ini (server memeriksa teks pertanyaan di tiap jawaban).
 //  Urutan memakai sisa bagi (hari ke-N mod jumlah),
 // jadi menambah jumlah pertanyaan mengubah pertanyaan untuk hari-hari berikutnya.
@@ -79,6 +80,14 @@ function pqTeks(tgl) {
   const hari = Math.round((Date.UTC(y, m - 1, d) - PQ_AWAL) / 864e5), n = PQ_BANK.length;
   return PQ_BANK[((hari % n) + n) % n];
 }
+// Teks untuk DITAMPILKAN sesuai bahasa pengguna (kunci pq.q<urutan> di js/bahasa.js). Teks yang DISIMPAN di jawaban dan
+// diperiksa server tetap bahasa Indonesia (pqTeks); teks yang tidak ada di daftar (pertanyaan lama) tampil apa adanya.
+function pqTampil(teksId) {
+  const i = PQ_BANK.indexOf(teksId);
+  if (i < 0 || typeof t !== 'function') return teksId;
+  const kunci = 'pq.q' + i, s = t(kunci);
+  return s === kunci ? teksId : s;
+}
 
 // { jumlah, sudah } untuk satu tanggal; null bila migrasi 032 belum dijalankan (fitur diam-diam tidak tampil)
 async function pqStatus(tgl, saya) {
@@ -101,7 +110,7 @@ async function pqStatus(tgl, saya) {
     const s = await pqStatus(tgl, saya);
     if (!s) { el.hidden = true; return; }
     el.innerHTML = '<div class="ringkasan-kepala"><b>' + esc(t('pq.judul')) + '</b></div>' +
-      '<p class="pq-teks">' + esc(teks) + '</p><div class="pq-baris">' +
+      '<p class="pq-teks">' + esc(pqTampil(teks)) + '</p><div class="pq-baris">' +
       (s.sudah ? '<span class="pq-hitung pq-ok">\u2713 ' + esc(t('pq.sudah')) + '</span>'
         : '<button type="button" class="btn kecil pq-jawab">' + esc(t('pq.jawab')) + '</button>') +
       '<a class="pq-lihat" href="pertanyaan.html">' + esc(s.jumlah ? t('pq.hitung', { n: s.jumlah }) : t('pq.lihat')) + ' \u2192</a></div>';

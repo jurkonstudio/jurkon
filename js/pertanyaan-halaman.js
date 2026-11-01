@@ -40,7 +40,7 @@
     const sebelum = tgl > awal ? pqGeser(tgl, -1) : null;
     const sesudah = tgl < hari ? pqGeser(tgl, 1) : null;
     $('#pq-kepala').innerHTML = '<div class="pq-label">' + esc(label) + '</div>' +
-      '<p class="pq-teks pq-besar">' + esc(teks) + '</p><div class="pq-baris">' +
+      '<p class="pq-teks pq-besar">' + esc(pqTampil(teks)) + '</p><div class="pq-baris">' +
       (s.sudah ? '<span class="pq-hitung pq-ok">\u2713 ' + esc(t('pq.sudah')) + '</span>'
         : bisaJawab ? '<button type="button" class="btn pq-jawab">' + esc(t('pq.jawab')) + '</button>' : '<span></span>') +
       '<span class="pq-hitung">' + esc(t('pq.hitung', { n: s.jumlah })) + '</span></div>' +

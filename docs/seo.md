@@ -2,7 +2,8 @@
 
 Situs statis (GitHub Pages) + Supabase. Catatan yang ada di kode:
 
-- Landing 7 bahasa (`landing.html`, `en/ ms/ jv/ su/ zh/ ja/`), dibuat dari `tools/landing-templat.html` + `tools/landing-teks.js` lewat `node tools/buat-landing.js`. Jangan edit hasilnya langsung.
+- Landing 11 bahasa (`landing.html`, `en/ ms/ jv/ su/ zh/ ja/ es/ fr/ hi/ ar/`). Empat yang terakhir (Spanyol, Prancis, Hindi, Arab; bahasa dengan penutur terbanyak di luar Inggris dan Mandarin) **hanya landing**: antarmuka aplikasi tetap 7 bahasa, jadi tombol Mulai/Masuk membawa pengunjung ke aplikasi berbahasa Inggris. `/ar/` memakai `dir="rtl"` (lapisan RTL di akhir `css/landing.css`). Menjadikan salah satunya bahasa aplikasi penuh: tambah entri di `I18N_BAHASA` dan satu kolom di tiap baris `js/bahasa.js` (587+60 kunci), lalu `pecah-bahasa` dan `cek-bahasa`. Terjemahan baru belum dibaca penutur asli.
+- Semua landing dibuat dari `tools/landing-templat.html` + `tools/landing-teks.js` lewat `node tools/buat-landing.js`. Jangan edit hasilnya langsung.
 - Tiap landing punya: canonical, hreflang timbal balik + x-default (`/en/`), Open Graph + Twitter, `robots` index/follow, dan JSON-LD (`WebSite`, `Organization`, `WebApplication`, `FAQPage`). Teks FAQ di JSON-LD sama persis dengan yang tampil di halaman.
 - `jelajahi.html` (publik, boleh diindeks) dan `n.html?id=` (catatan publik). Worker Cloudflare (opsional, `worker/README.md`) memberi pratinjau OG per catatan dan `sitemap-catatan.xml`.
 - `login.html` boleh diindeks (judul "Masuk atau daftar akun", deskripsi, JSON-LD `WebPage` + `BreadcrumbList`, H1 dan subjudul statis, tautan ke landing, Jelajahi, dan Pusat bantuan; ada di `sitemap.xml`). Tujuannya pencarian merek seperti "jurkon masuk"; halaman utama untuk peringkat tetap `landing.html`. Varian `login.html?lanjut=...` memakai canonical ke `login.html`.
