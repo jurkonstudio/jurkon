@@ -136,6 +136,13 @@
     ta.placeholder = daftar[Math.floor(Math.random() * daftar.length)];
   }
 
+  // Teks pertanyaan ikut disimpan di jawaban (migrasi 037). Tanpa migrasi, jawaban tetap terkirim seperti biasa.
+  let adaTeksPq = null;
+  async function cekTeksPq() {
+    if (adaTeksPq === null) { try { adaTeksPq = !(await db.from('posts').select('pertanyaan_teks').limit(1)).error; } catch (e) { adaTeksPq = false; } }
+    return adaTeksPq;
+  }
+
   async function kirim() {
     const isi = ta.value.trim();
     if (!isi || sibuk || !kini) return;
@@ -144,7 +151,7 @@
     sibuk = true; kirimBtn.disabled = true;
     const baris = { user_id: saya.id, content: isi };
     if (kini.mode === 'balas') baris.parent_id = kini.id;
-    else if (kini.mode === 'jawab') { baris.pertanyaan_tgl = kini.tgl; }
+    else if (kini.mode === 'jawab') { baris.pertanyaan_tgl = kini.tgl; if (kini.teks && await cekTeksPq()) baris.pertanyaan_teks = kini.teks; }
     else if (kini.mode === 'kutip') { baris.jenis = 'kutip'; baris.kutip_id = kini.id; }
     else {
       const jam = +(dlg.querySelector('#tulisUmur') || {}).value || 0; if (jam > 0) baris.kedaluwarsa = new Date(Date.now() + jam * 36e5).toISOString();
@@ -175,7 +182,7 @@
     if (!dlg) bangun();
     const mode = o.balas ? 'balas' : o.kutip ? 'kutip' : o.pertanyaan ? 'jawab' : 'tulis';
     const id = o.balas || o.kutip || null;
-    kini = { mode, id, tgl: o.pertanyaan ? o.pertanyaan.tgl : null, kunci: mode + ':' + (id || (o.pertanyaan ? o.pertanyaan.tgl : '')) };
+    kini = { mode, id, tgl: o.pertanyaan ? o.pertanyaan.tgl : null, teks: o.pertanyaan ? o.pertanyaan.teks : null, kunci: mode + ':' + (id || (o.pertanyaan ? o.pertanyaan.tgl : '')) };
     galat.textContent = ''; kirimBtn.disabled = false; konteks.innerHTML = '';
     dlg.querySelector('#tulisUmurBox').hidden = mode !== 'tulis'; dlg.querySelector('#tulisUmur').value = '0';
     dlg.querySelector('#tulisKapsulBox').hidden = mode !== 'tulis'; dlg.querySelector('#tulisKapsul').value = ''; dlg.querySelector('#tulisKapsulTgl').value = ''; dlg.querySelector('#tulisKapsulTgl').hidden = true;

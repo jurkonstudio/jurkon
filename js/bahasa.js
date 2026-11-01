@@ -627,6 +627,7 @@ const I18N_KAMUS = {
   'pq.berikutnya': ["Berikutnya", "Next", "Seterusnya", "Sabanjure", "Salajengna", "后一天", "次の日"],
   'pq.terkirim': ["Jawabanmu terkirim.", "Your answer was posted.", "Jawapan anda dihantar.", "Wangsulanmu wis kekirim.", "Jawaban anjeun geus kakirim.", "回答已发送。", "回答を送信しました。"],
   'pq.sudahGalat': ["Kamu sudah menjawab pertanyaan ini.", "You already answered this question.", "Anda sudah menjawab soalan ini.", "Sampeyan wis mangsuli pitakonan iki.", "Anjeun geus ngajawab patarosan ieu.", "你已经回答过这个问题了。", "この質問にはすでに回答しています。"],
+  'pq.asal': ['Menjawab pertanyaan harian','Answering the daily question','Menjawab soalan harian','Mangsuli pitakon saben dina','Ngawaler patarosan poéan','回答每日一问','毎日の質問への回答'],
   'pq.ph': ["Tulis jawabanmu…", "Write your answer…", "Tulis jawapan anda…", "Tulisen wangsulanmu…", "Tulis jawaban anjeun…", "写下你的回答…", "回答を書いてください…"],
   'kartu.tombol': ["Buat kartu gambar", "Make an image card", "Buat kad imej", "Gawe kertu gambar", "Jieun kartu gambar", "生成图片卡片", "画像カードを作る"],
   'kartu.judul': ["Kartu catatan", "Note card", "Kad nota", "Kertu cathetan", "Kartu catetan", "笔记卡片", "ノートカード"],

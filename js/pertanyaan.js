@@ -3,7 +3,9 @@
 // Berkas ini memuat daftar pertanyaan, pembantu tanggal, dan kartu di Beranda (#pertanyaan).
 // Halaman penuh ada di pertanyaan.html + js/pertanyaan-halaman.js.
 //
-// Menambah pertanyaan: tambahkan di AKHIR daftar. Urutan memakai sisa bagi (hari ke-N mod jumlah),
+// Menambah pertanyaan: tambahkan di AKHIR daftar, lalu jalankan  node tools/buat-bank-pertanyaan-sql.js  dan tempel
+// hasilnya di Supabase SEBELUM mengunggah berkas ini (server memeriksa teks pertanyaan di tiap jawaban).
+//  Urutan memakai sisa bagi (hari ke-N mod jumlah),
 // jadi menambah jumlah pertanyaan mengubah pertanyaan untuk hari-hari berikutnya.
 const PQ_BANK = [
   'Apa satu hal kecil yang bikin harimu lebih baik hari ini?',

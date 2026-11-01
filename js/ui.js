@@ -297,6 +297,10 @@ function htmlPost(p, saya, opsi) {
   const milik = saya && saya.id === p.user_id;
   const induk = p.parent_id && !(opsi && opsi.tanpaInduk)
     ? `<div class="induk">${IK.balas}<a href="detail.html?id=${p.parent_id}">${esc(p.induk_username ? t('pc.membalasUser', { u: p.induk_username }) : t('pc.membalasCatatan'))}</a></div>` : '';
+  // Jawaban pertanyaan harian: tampilkan pertanyaannya di atas isi (salinan tersimpan di kiriman; cadangan: daftar klien)
+  const pqT = p.pertanyaan_tgl ? (p.pertanyaan_teks || (typeof pqTeks === 'function' ? pqTeks(p.pertanyaan_tgl) : '')) : '';
+  const asal = p.pertanyaan_tgl
+    ? `<a class="pq-asal" href="pertanyaan.html?tgl=${esc(p.pertanyaan_tgl)}"><span>${esc(t('pq.asal'))}</span>${pqT ? `<b>${esc(pqT)}</b>` : ''}</a>` : '';
   // Tayang: tersembunyi sampai ada yang melihat; elemennya tetap ada supaya bisa muncul saat angkanya naik
   const tayang = p.dilihat == null ? ''
     : `<span class="tayang"${p.dilihat > 0 ? '' : ' hidden'} title="${esc(t('pc.dilihat', { n: p.dilihat }))}" aria-label="${esc(t('pc.dilihat', { n: p.dilihat }))}">${IK.mata}<span data-n="${Number(p.dilihat) || 0}">${p.dilihat > 0 ? ringkas(p.dilihat) : ''}</span></span>`;
@@ -305,7 +309,7 @@ function htmlPost(p, saya, opsi) {
     <div class="badan">
       <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>${lencanaResmi(p.profiles.username)}
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
-      ${induk}<div class="isi">${isiHtml(p.content)}</div>
+      ${asal}${induk}<div class="isi">${isiHtml(p.content)}</div>
       ${p.kedaluwarsa && labelBerumur(p.kedaluwarsa) ? `<div class="berumur">${esc(labelBerumur(p.kedaluwarsa))}</div>` : ''}
       ${p.kapsul_ditulis ? '<div class="berumur">' + esc(t('pc.kapsulDitulis', { tgl: tglPanjang(p.kapsul_ditulis) })) + '</div>' : ''}
       <div class="aksi">
@@ -384,7 +388,15 @@ document.addEventListener('click', async e => {
   if (!b) return;
   const post = b.closest('.post'), id = post && post.dataset.id;
   if (!id) return;
-  const url = location.origin + '/detail.html?id=' + encodeURIComponent(id);
+  let url = location.origin + '/detail.html?id=' + encodeURIComponent(id);
+  // Catatan yang dijadikan publik dibagikan lewat /n supaya muncul pratinjau (judul + cuplikan) di WhatsApp, X, dll.
+  // Catatan privat tetap memakai tautan anggota (tanpa pratinjau isi, demi privasi).
+  if (/^[0-9a-f-]{36}$/i.test(id) && typeof db !== 'undefined') {
+    try {
+      const { data } = await db.rpc('catatan_publik', { p_id: id.toLowerCase() });
+      if (data && data[0]) url = 'https://jurkon.my.id/n?id=' + id.toLowerCase();
+    } catch (err) {}
+  }
   const el = post.querySelector('.nama');
   const nama = (el && el.textContent.trim()) || 'Jurkon';
   if (navigator.share) {

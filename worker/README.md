@@ -11,9 +11,10 @@ Tanpa Worker, fitur catatan publik **tetap jalan**: halaman `n.html` bisa dibuka
 2. Worker > Settings > Variables and Secrets > tambah (jenis Text):
    - `SUPABASE_URL` = alamat project Supabase (sama dengan di `js/supabase.js`)
    - `SUPABASE_ANON_KEY` = kunci publishable/anon (sama dengan di `js/supabase.js`). **Jangan** pakai `service_role`.
-3. Worker > Settings > Domains & Routes > **Add > Route** (bukan Custom Domain, supaya tidak berputar ke dirinya sendiri). Zone `jurkon.my.id`, tiga route:
+3. Worker > Settings > Domains & Routes > **Add > Route** (bukan Custom Domain, supaya tidak berputar ke dirinya sendiri). Zone `jurkon.my.id`, empat route:
    - `jurkon.my.id/n`
    - `jurkon.my.id/n.html`
+   - `jurkon.my.id/detail.html`  (pratinjau semua catatan yang dibagikan; perlu `sql/036_pratinjau_tautan.sql`)
    - `jurkon.my.id/sitemap-catatan.xml`
 4. Pastikan DNS `jurkon.my.id` berstatus **Proxied** (awan oranye). Bila tidak, route Worker tidak berjalan.
 5. Uji: jadikan satu catatan publik, buka `https://jurkon.my.id/n?id=<id>` di jendela privat. Lihat sumber halaman (view-source): `<title>` berisi nama dan cuplikan catatan. Lalu buka `https://jurkon.my.id/sitemap-catatan.xml`.
