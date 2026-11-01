@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://yghgmfvlthzcuhelqesr.supabase.co; media-src 'self' blob: https://yghgmfvlthzcuhelqesr.supabase.co; connect-src 'self' https://yghgmfvlthzcuhelqesr.supabase.co wss://yghgmfvlthzcuhelqesr.supabase.co; frame-src 'none'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <script src="js/keamanan.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
 <meta name="theme-color" content="#fbf9f4">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
@@ -14,18 +14,32 @@
 <script src="js/bahasa-muat.js"></script><script src="js/i18n.js"></script>
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/jurnal.css">
 <meta name="robots" content="noindex">
 <title data-i-doc="jr.judul">Jurnal · Jurkon</title></head><body data-tab="profil">
 <main><div class="header"><a href="profil.html" id="kembali" data-i="jr.kembali">← Profil</a><h1 id="judul" data-i="jr.judul">Jurnal</h1><span id="aksiAtas"></span></div>
-<div id="jr-kepala" class="jr-kepala" hidden></div>
-<div id="daftar" class="jr-daftar" aria-live="polite"><div class="kosong"><p data-i="umum.memuat">Memuat…</p></div></div></main>
-<dialog id="lembarTulis" class="lembar jr-lembar" aria-labelledby="jTulis">
-<div class="lembar-kepala"><h2 id="jTulis" data-i="jr.baru">Catatan baru</h2><button type="button" class="ikon-btn" data-tutup aria-label="Tutup" data-i-aria="umum.tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-<div class="form"><textarea id="jrIsi" rows="8" data-i-ph="jr.tulis" placeholder="Tulis di jurnal"></textarea>
-<label class="jr-publik"><input type="checkbox" id="jrPublik"><span data-i="jr.labelPublik">Jadikan publik</span></label>
-<p class="hitung" id="jrInfo" data-i="jr.infoPublik">Catatan publik bisa dibaca anggota Jurkon yang sudah masuk. Bawaannya pribadi.</p>
-<div class="baris"><span class="hitung" id="jrHitung"></span><button type="button" class="btn" id="jrSimpan" data-i="jr.simpan">Simpan</button></div>
-<div class="galat" id="jrGalat" role="alert"></div></div></dialog>
+<div id="jr-kepala" class="jx-kepala" hidden></div>
+<div id="daftar" class="jx-daftar" aria-live="polite"><div class="kosong"><p data-i="umum.memuat">Memuat…</p></div></div></main>
+<dialog id="lembarTulis" class="jx-editor" aria-labelledby="jTulis">
+<header class="jx-bar">
+<button type="button" class="ikon-btn" data-tutup aria-label="Tutup" data-i-aria="umum.tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+<div class="jx-judul"><h2 id="jTulis" data-i="jr.baru">Catatan baru</h2><span class="jx-status" id="jxStatus" aria-live="polite"></span></div>
+<button type="button" class="btn" id="jrSimpan" data-i="jr.simpan">Simpan</button>
+</header>
+<div class="jx-tubuh"><p class="jx-tgl" id="jxTgl"></p>
+<textarea id="jrIsi" rows="10" data-i-ph="jr.phBaru" placeholder="Apa yang ingin kamu catat hari ini?" spellcheck="true"></textarea></div>
+<div class="jx-meter" aria-hidden="true"><i id="jxMeter"></i></div>
+<div class="jx-buang" id="jxBuang" role="alertdialog" hidden>
+<p id="jxBuangTeks"></p>
+<div class="jx-buang-aksi"><button type="button" class="btn garis kecil" id="jxBuangYa" data-i="jr.buang">Buang</button><button type="button" class="btn garis kecil" id="jxBuangDraf" data-i="jr.simpanDraf">Simpan draf</button><button type="button" class="btn kecil" id="jxLanjut" data-i="jr.lanjut">Lanjut menulis</button></div></div>
+<footer class="jx-kaki">
+<div class="jx-baris-kaki"><div class="jx-seg" role="radiogroup" aria-label="Siapa yang bisa membaca" data-i-aria="jr.privasi">
+<button type="button" role="radio" aria-checked="true" data-vis="pribadi" data-i="jr.pribadi">Pribadi</button><button type="button" role="radio" aria-checked="false" data-vis="publik" data-i="jr.publik">Publik</button></div>
+<button type="button" class="btn garis" id="jrDraf" data-i="jr.simpanDraf">Simpan draf</button></div>
+<p class="hitung" id="jrInfo"></p>
+<div class="jx-angka"><span class="hitung" id="jrKata"></span><span class="hitung" id="jrHitung"></span></div>
+<div class="galat" id="jrGalat" role="alert"></div>
+</footer></dialog>
 <dialog id="lembarUnduh" class="lembar jr-lembar" aria-labelledby="jUnduh">
 <div class="lembar-kepala"><h2 id="jUnduh" data-i="jr.unduhJudul">Unduh jurnal</h2><button type="button" class="ikon-btn" data-tutup aria-label="Tutup" data-i-aria="umum.tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
 <div class="form"><p class="hitung" id="unduhInfo"></p>

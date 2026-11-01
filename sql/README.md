@@ -45,6 +45,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `034_jurnal.sql` | Jurnal: tabel `jurnal` (maks 2000 karakter, 50 per akun), RLS pribadi/publik, trigger penjaga, `ekspor_data()` memuat jurnal | setelah 002, 004, 019, 021; hasil cek: 1 baris, 5 baris, 2 baris, 0 baris |
 | `035_jelajahi_publik.sql` | Jelajahi publik: kolom `posts.jelajahi` (pilihan penulis, bawaan false), `jelajahi_publik()` untuk anon, `atur_jelajahi()`, `status_jelajahi()`, tabel `corong_harian` + `catat_corong()` (angka harian tanpa data pribadi) + `admin_corong()` | setelah 027 dan 020; hasil cek: 5 baris (fungsi anon), galat permission denied x2, 0 baris |
 | `036_perbaiki_hak_anon.sql` | Pasang ulang hak anon hanya untuk 5 fungsi publik (catatan_publik, daftar_publik, landing_publik, jelajahi_publik, catat_corong) + muat ulang cache API. Jalankan bila Jelajahi "Gagal memuat" atau setelah menjalankan ulang 019 (019 kini sudah memasang ulang daftar putih itu sendiri) | kapan saja, aman diulang; hasil cek: 5 baris (fungsi anon) |
+| `039_jurnal_draf_4000.sql` | Jurnal: kolom `draf` (draf selalu pribadi) dan batas isi 4000 karakter, kebijakan baca menolak draf | setelah 034; hasil cek: 1 baris, 2 baris, 5 baris |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 

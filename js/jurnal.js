@@ -1,19 +1,20 @@
-// Halaman jurnal.html: jurnal pribadi (sql/034_jurnal.sql).
-//  * jurnal.html          -> jurnal sendiri: tulis, ubah, hapus, atur pribadi/publik, unduh
+// Halaman jurnal.html: jurnal pribadi (sql/034_jurnal.sql, draf dan batas 4000 di sql/039_jurnal_draf_4000.sql).
+//  * jurnal.html          -> jurnal sendiri: tulis, simpan draf, ubah, hapus, atur pribadi/publik, unduh
 //  * jurnal.html?u=nama   -> jurnal orang lain: hanya catatan yang dijadikan publik, hanya baca
 // Batas isi dan jumlah ditegakkan di database; angka di bawah hanya untuk tampilan dan pesan lebih awal.
 (async () => {
   const saya = await wajibLogin();
   if (!saya) return;
 
-  const MAKS_ISI = 2000, MAKS_CATATAN = 50;
-  const KOLOM = 'id,isi,publik,dibuat_at,diubah_at';
+  const MAKS_ISI = 4000, MAKS_CATATAN = 50;
+  const KOLOM = 'id,isi,publik,draf,dibuat_at,diubah_at';
   let pemilik = { id: saya.id, username: null, nama: null };
   let milikSaya = true;
   let daftar = [];
   let sedangUbah = null;      // catatan yang sedang diubah, null = catatan baru
   let versiMuat = 0;
   let menyimpan = false;
+  let saring = 'semua';       // semua | draf | pribadi | publik (hanya jurnal sendiri)
 
   // ---------- Pemilik jurnal ----------
   const u = param('u');
@@ -33,6 +34,16 @@
   if (!milikSaya) $('#judul').textContent = t('jr.judulOrang', { nama: pemilik.nama });
 
   // ---------- Muat dan tampilkan ----------
+  const statusCatatan = c => c.draf ? 'draf' : (c.publik ? 'publik' : 'pribadi');
+  let segmen = null;
+  try { if (window.Intl && Intl.Segmenter) segmen = new Intl.Segmenter(I18n.locale, { granularity: 'word' }); } catch (e) { segmen = null; }
+  function hitungKata(s) {
+    s = String(s || '').trim();
+    if (!s) return 0;
+    if (segmen) { let n = 0; for (const x of segmen.segment(s)) if (x.isWordLike) n++; return n; }
+    return s.split(/\s+/).length;
+  }
+
   function tampilGalat(e) {
     $('#daftar').innerHTML = '<div class="kosong"><h3>' + esc(t('umum.gagalMuat')) + '</h3><p>' + esc(pesanGalat(e)) + '</p>' +
       '<button type="button" class="btn" id="jrCoba">' + esc(t('umum.cobaLagi')) + '</button></div>';
@@ -54,26 +65,37 @@
     const el = $('#jr-kepala');
     if (!milikSaya) { el.hidden = true; return; }
     el.hidden = false;
-    el.innerHTML = '<span class="hitung" id="jrJumlah">' + esc(t('jr.hitung', { n: daftar.length, maks: MAKS_CATATAN })) + '</span>' +
-      '<div class="jr-aksi-kepala"><button type="button" class="btn garis kecil" id="jrUnduh">' + esc(t('jr.unduh')) + '</button>' +
-      '<button type="button" class="btn kecil" id="jrBaru">' + esc(t('jr.tulis')) + '</button></div>';
+    const n = { semua: daftar.length, draf: 0, pribadi: 0, publik: 0 };
+    daftar.forEach(c => { n[statusCatatan(c)]++; });
+    const chip = (k, label) => '<button type="button" class="jx-chip" data-saring="' + k + '" aria-pressed="' + (saring === k) + '">' +
+      esc(label) + ' <b>' + n[k] + '</b></button>';
+    el.innerHTML = '<div class="jx-baris"><span class="jx-jumlah" id="jrJumlah">' + esc(t('jr.hitung', { n: daftar.length, maks: MAKS_CATATAN })) + '</span>' +
+      '<div class="jx-aksi-kepala"><button type="button" class="btn garis kecil" id="jrUnduh">' + esc(t('jr.unduh')) + '</button>' +
+      '<button type="button" class="btn kecil" id="jrBaru">' + esc(t('jr.tulis')) + '</button></div></div>' +
+      '<div class="jx-chip-baris" role="group">' + chip('semua', t('jr.semua')) + chip('draf', t('jr.draf')) + chip('pribadi', t('jr.pribadi')) + chip('publik', t('jr.publik')) + '</div>';
     $('#jrBaru').onclick = () => bukaEditor(null);
     $('#jrUnduh').onclick = bukaUnduh;
   }
-
-  function tglWaktu(iso) {
-    return new Date(iso).toLocaleString(I18n.locale, { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-  }
+  $('#jr-kepala').addEventListener('click', e => {
+    const b = e.target.closest('[data-saring]');
+    if (!b) return;
+    saring = b.dataset.saring;
+    gambar();
+  });
 
   function kartu(c) {
+    const st = statusCatatan(c);
     const diubah = new Date(c.diubah_at) - new Date(c.dibuat_at) > 60000;
-    return '<article class="jr-item" data-id="' + esc(c.id) + '">' +
-      '<div class="jr-meta"><span>' + esc(tglPanjang(c.dibuat_at)) + (diubah ? ' · ' + esc(t('jr.diubah', { tgl: tglPanjang(c.diubah_at) })) : '') + '</span>' +
-      (milikSaya ? '<span class="jr-lencana ' + (c.publik ? 'publik' : 'pribadi') + '">' + esc(t(c.publik ? 'jr.publik' : 'jr.pribadi')) + '</span>' : '') + '</div>' +
-      '<div class="jr-isi">' + esc(c.isi) + '</div>' +
-      (milikSaya ? '<div class="jr-aksi"><button type="button" class="btn garis kecil" data-ubah="' + esc(c.id) + '">' + esc(t('jr.ubahTombol')) + '</button>' +
-        '<button type="button" class="btn garis kecil jr-hapus" data-hapus="' + esc(c.id) + '">' + esc(t('jr.hapus')) + '</button></div>' : '') +
-      '</article>';
+    const panjang = c.isi.length > 320 || (c.isi.match(/\n/g) || []).length >= 6;
+    return '<article class="jx-item' + (c.draf ? ' draf' : '') + '" data-id="' + esc(c.id) + '">' +
+      '<div class="jx-meta"><span>' + esc(tglPanjang(c.dibuat_at)) + '</span>' +
+      (milikSaya ? '<span class="jx-lencana ' + st + '">' + esc(t('jr.' + st)) + '</span>' : '') + '</div>' +
+      '<div class="jx-isi' + (panjang ? ' klem' : '') + '">' + esc(c.isi) + '</div>' +
+      (panjang ? '<button type="button" class="jx-lagi" data-lagi hidden>' + esc(t('jr.selengkapnya')) + '</button>' : '') +
+      '<div class="jx-kaki-kartu"><span>' + esc(t('jr.kata', { n: hitungKata(c.isi) })) + (diubah ? ' · ' + esc(t('jr.diubah', { tgl: tglPanjang(c.diubah_at) })) : '') + '</span>' +
+      (milikSaya ? '<div class="jx-aksi"><button type="button" class="btn garis kecil" data-ubah="' + esc(c.id) + '">' + esc(t('jr.ubahTombol')) + '</button>' +
+        '<button type="button" class="btn garis kecil jx-hapus" data-hapus="' + esc(c.id) + '">' + esc(t('jr.hapus')) + '</button></div>' : '') +
+      '</div></article>';
   }
 
   function gambar() {
@@ -87,10 +109,26 @@
       const m = $('#jrMulai'); if (m) m.onclick = () => bukaEditor(null);
       return;
     }
-    el.innerHTML = daftar.map(kartu).join('');
+    const tampil = milikSaya && saring !== 'semua' ? daftar.filter(c => statusCatatan(c) === saring) : daftar;
+    if (!tampil.length) { el.innerHTML = '<div class="kosong"><p>' + esc(t('jr.kosongSaring')) + '</p></div>'; return; }
+    el.innerHTML = tampil.map(kartu).join('');
+    // Tombol "Selengkapnya" hanya muncul bila isinya benar-benar terpotong
+    requestAnimationFrame(() => {
+      el.querySelectorAll('.jx-isi.klem').forEach(x => {
+        const b = x.parentNode.querySelector('[data-lagi]');
+        if (b && x.scrollHeight > x.clientHeight + 2) b.hidden = false;
+        else x.classList.remove('klem');
+      });
+    });
   }
 
   $('#daftar').addEventListener('click', async e => {
+    const bl = e.target.closest('[data-lagi]');
+    if (bl) {
+      const isi = bl.parentNode.querySelector('.jx-isi'), buka = isi.classList.toggle('klem') === false;
+      bl.textContent = t(buka ? 'jr.ringkas' : 'jr.selengkapnya');
+      return;
+    }
     const bu = e.target.closest('[data-ubah]'), bh = e.target.closest('[data-hapus]');
     if (bu) { bukaEditor(daftar.find(c => c.id === bu.dataset.ubah) || null); return; }
     if (!bh) return;
@@ -104,43 +142,96 @@
   });
 
   // ---------- Editor ----------
-  const dlgTulis = $('#lembarTulis'), ta = $('#jrIsi'), cek = $('#jrPublik'), galat = $('#jrGalat'), btnSimpan = $('#jrSimpan');
-  pasangHitung(ta, $('#jrHitung'), MAKS_ISI);
+  const dlgTulis = $('#lembarTulis'), ta = $('#jrIsi'), galat = $('#jrGalat'), btnSimpan = $('#jrSimpan'), btnDraf = $('#jrDraf'),
+    barBuang = $('#jxBuang'), meter = $('#jxMeter'), segBtn = Array.from(dlgTulis.querySelectorAll('[data-vis]'));
+  let vis = 'pribadi';                       // pilihan pembaca: pribadi | publik
+  let awal = { isi: '', vis: 'pribadi' };    // isi saat editor dibuka, untuk mendeteksi perubahan belum tersimpan
+
+  const kotor = () => ta.value !== awal.isi || vis !== awal.vis;
+  const bolehDraf = () => !sedangUbah || sedangUbah.draf;     // catatan yang sudah terbit tidak diubah kembali menjadi draf
+
+  function ukuran() { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }
+  function perbarui() {
+    const n = ta.value.length;
+    $('#jrHitung').textContent = n + '/' + MAKS_ISI;
+    $('#jrHitung').classList.toggle('habis', n >= MAKS_ISI);
+    $('#jrKata').textContent = t('jr.kata', { n: hitungKata(ta.value) });
+    meter.style.width = Math.min(100, n / MAKS_ISI * 100) + '%';
+    meter.parentNode.classList.toggle('hampir', n >= MAKS_ISI * 0.9 && n < MAKS_ISI);
+    meter.parentNode.classList.toggle('penuh', n >= MAKS_ISI);
+    $('#jxStatus').textContent = kotor() ? t('jr.belumSimpan') : (sedangUbah && sedangUbah.draf ? t('jr.draf') : '');
+  }
+  function aturVis(v) {
+    vis = v;
+    segBtn.forEach(b => b.setAttribute('aria-checked', String(b.dataset.vis === v)));
+    $('#jrInfo').textContent = t(v === 'publik' ? 'jr.infoPublik' : 'jr.infoPribadi');
+    perbarui();
+  }
+  segBtn.forEach(b => { b.onclick = () => aturVis(b.dataset.vis); });
+  ta.maxLength = MAKS_ISI;
+  ta.addEventListener('input', () => { ukuran(); perbarui(); barBuang.hidden = true; });
 
   function bukaEditor(c) {
     if (!c && daftar.length >= MAKS_CATATAN) { alert(t('jr.penuh', { maks: MAKS_CATATAN })); return; }
     sedangUbah = c;
-    $('#jTulis').textContent = t(c ? 'jr.ubah' : 'jr.baru');
+    $('#jTulis').textContent = c ? t(c.draf ? 'jr.draf' : 'jr.ubah') : t('jr.baru');
+    $('#jxTgl').textContent = new Date(c ? c.dibuat_at : Date.now())
+      .toLocaleDateString(I18n.locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     ta.value = c ? c.isi : '';
-    ta.dispatchEvent(new Event('input'));
-    cek.checked = !!(c && c.publik);
+    awal = { isi: ta.value, vis: c && c.publik && !c.draf ? 'publik' : 'pribadi' };
+    aturVis(awal.vis);
+    btnDraf.hidden = !bolehDraf();
+    barBuang.hidden = true;
     galat.textContent = '';
-    btnSimpan.disabled = false;
+    btnSimpan.disabled = btnDraf.disabled = false;
     dlgTulis.showModal();
+    ukuran(); perbarui();
     ta.focus();
+    ta.setSelectionRange(ta.value.length, ta.value.length);
   }
 
-  async function simpan() {
+  async function simpan(jadiDraf) {
     if (menyimpan) return;
     const isi = ta.value.trim();
     if (!isi) { galat.textContent = t('jr.kosongIsi'); ta.focus(); return; }
-    menyimpan = true; btnSimpan.disabled = true; galat.textContent = '';
+    menyimpan = true; btnSimpan.disabled = btnDraf.disabled = true; galat.textContent = '';
+    const baris = { isi, draf: !!jadiDraf, publik: jadiDraf ? false : vis === 'publik' };
     try {
       const res = sedangUbah
-        ? await db.from('jurnal').update({ isi, publik: cek.checked }).eq('id', sedangUbah.id).select(KOLOM).single()
-        : await db.from('jurnal').insert({ user_id: saya.id, isi, publik: cek.checked }).select(KOLOM).single();
-      if (res.error) { galat.textContent = pesanGalat(res.error); return; }
+        ? await db.from('jurnal').update(baris).eq('id', sedangUbah.id).select(KOLOM).single()
+        : await db.from('jurnal').insert(Object.assign({ user_id: saya.id }, baris)).select(KOLOM).single();
+      if (res.error) { galat.textContent = pesanGalat(res.error); barBuang.hidden = true; return; }
       if (sedangUbah) daftar = daftar.map(c => c.id === res.data.id ? res.data : c);
       else daftar.unshift(res.data);
-      gambar();
+      awal = { isi: ta.value, vis };           // supaya penutupan tidak lagi bertanya
+      barBuang.hidden = true;
       dlgTulis.close();
-      toastUmum(t('jr.tersimpan'));
-    } finally { menyimpan = false; btnSimpan.disabled = false; }
+      gambar();
+      toastUmum(t(jadiDraf ? 'jr.drafTersimpan' : 'jr.tersimpan'));
+    } finally { menyimpan = false; btnSimpan.disabled = btnDraf.disabled = false; }
   }
-  btnSimpan.onclick = simpan;
-  dlgTulis.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') simpan(); });
+  btnSimpan.onclick = () => simpan(false);
+  btnDraf.onclick = () => simpan(true);
+  dlgTulis.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); simpan(false); } });
 
-  // Tutup lembar lewat tombol silang atau ketukan di luar
+  // Menutup editor: bila ada tulisan yang belum tersimpan, tanya dulu (simpan sebagai draf / buang / lanjut)
+  function cobaTutup() {
+    if (menyimpan) return;
+    if (kotor() && ta.value.trim()) {
+      $('#jxBuangTeks').textContent = t(bolehDraf() ? 'jr.tutupTanya' : 'jr.tutupTanyaUbah');
+      $('#jxBuangDraf').hidden = !bolehDraf();
+      barBuang.hidden = false;
+      return;
+    }
+    dlgTulis.close();
+  }
+  $('#jxBuangYa').onclick = () => { barBuang.hidden = true; dlgTulis.close(); };
+  $('#jxBuangDraf').onclick = () => simpan(true);
+  $('#jxLanjut').onclick = () => { barBuang.hidden = true; ta.focus(); };
+  dlgTulis.addEventListener('cancel', e => { e.preventDefault(); cobaTutup(); });
+  dlgTulis.addEventListener('click', e => { if (e.target === dlgTulis || e.target.closest('[data-tutup]')) cobaTutup(); });
+
+  // Lembar unduh: tutup lewat tombol silang atau ketukan di luar
   document.querySelectorAll('dialog.jr-lembar').forEach(d => {
     d.addEventListener('click', e => { if (e.target === d || e.target.closest('[data-tutup]')) d.close(); });
   });
@@ -156,8 +247,12 @@
     dlgUnduh.showModal();
   }
 
+  function tglWaktu(iso) {
+    return new Date(iso).toLocaleString(I18n.locale, { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  }
+
   function urut() { return daftar.slice().sort((a, b) => new Date(a.dibuat_at) - new Date(b.dibuat_at)); }
-  const label = c => tglWaktu(c.dibuat_at) + ' · ' + t(c.publik ? 'jr.publik' : 'jr.pribadi');
+  const label = c => tglWaktu(c.dibuat_at) + ' · ' + t(c.draf ? 'jr.draf' : (c.publik ? 'jr.publik' : 'jr.pribadi'));
   const judulBerkas = () => t('jr.judulOrang', { nama: '@' + pemilik.username });
   const sekarang = () => tglPanjang(new Date().toISOString());
 
@@ -186,7 +281,7 @@
   function buatJson() {
     return JSON.stringify({
       jurnal: pemilik.username, diunduh_pada: new Date().toISOString(),
-      catatan: urut().map(c => ({ id: c.id, dibuat: c.dibuat_at, diubah: c.diubah_at, publik: c.publik, isi: c.isi }))
+      catatan: urut().map(c => ({ id: c.id, dibuat: c.dibuat_at, diubah: c.diubah_at, publik: c.publik, draf: !!c.draf, isi: c.isi }))
     }, null, 2) + '\n';
   }
 

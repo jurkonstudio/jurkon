@@ -1,0 +1,55 @@
+/* Jurnal: tampilan daftar dan editor tulis (jurnal.html). Memakai warna tema yang sama dengan style.css. */
+.jx-kepala{padding:16px 16px 0}
+.jx-baris{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.jx-jumlah{font-size:13px;color:var(--redup);font-variant-numeric:tabular-nums}
+.jx-aksi-kepala{display:flex;gap:8px}
+.jx-chip-baris{display:flex;gap:8px;overflow-x:auto;padding:14px 0 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.jx-chip-baris::-webkit-scrollbar{display:none}
+.jx-chip{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--garis);background:transparent;color:var(--redup);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.jx-chip b{font-size:12px;font-weight:600;opacity:.75;font-variant-numeric:tabular-nums}
+.jx-chip[aria-pressed=true]{background:var(--teks);border-color:var(--teks);color:var(--bg)}
+
+.jx-daftar{display:grid;gap:12px;padding:12px 16px 32px}
+.jx-item{padding:16px 16px 12px;border:1px solid var(--garis);border-radius:16px;background:color-mix(in srgb,var(--teks) 2.5%,var(--bg))}
+.jx-item.draf{border-style:dashed}
+.jx-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;font-size:13px;color:var(--redup)}
+.jx-lencana{flex:none;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid var(--garis)}
+.jx-lencana.publik{color:var(--aksen);border-color:color-mix(in srgb,var(--aksen) 45%,transparent)}
+.jx-lencana.draf{border-style:dashed}
+.jx-isi{font-family:var(--isi);font-size:16.5px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.jx-isi.klem{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;overflow:hidden}
+.jx-lagi{margin-top:6px;padding:4px 0;border:0;background:none;color:var(--link,var(--aksen));font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.jx-kaki-kartu{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--garis);font-size:13px;color:var(--redup)}
+.jx-aksi{display:flex;gap:8px}
+.jx-hapus{color:var(--bahaya)}
+
+/* Editor: layar penuh di HP, kartu di tengah di layar lebar */
+dialog.jx-editor{border:0;padding:0;margin:0;width:100%;max-width:none;height:100dvh;max-height:none;background:var(--bg);color:var(--teks)}
+dialog.jx-editor[open]{display:flex;flex-direction:column;animation:naik .22s ease-out}
+dialog.jx-editor::backdrop{background:rgb(0 0 0/.45);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+@media (min-width:768px){dialog.jx-editor{width:min(720px,92vw);height:min(88dvh,840px);margin:auto;border-radius:20px;box-shadow:0 24px 70px rgb(0 0 0/.3)}}
+.jx-bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--garis)}
+.jx-bar .ikon-btn{border:0;box-shadow:none;background:transparent}
+.jx-judul{min-width:0;text-align:center}
+.jx-judul h2{font-family:var(--sans);font-size:16px;font-weight:650;line-height:1.2}
+.jx-status{display:block;min-height:16px;font-size:12px;color:var(--redup)}
+.jx-tubuh{flex:1;min-height:0;overflow:auto;padding:22px 22px 16px}
+.jx-tgl{margin-bottom:14px;font-size:13px;color:var(--redup);letter-spacing:.01em}
+dialog.jx-editor textarea{display:block;width:100%;flex:none;min-height:45dvh;padding:0;border:0;border-radius:0;outline:0;background:transparent;color:var(--teks);font-family:var(--isi);font-size:18px;line-height:1.75;resize:none;overflow:hidden}
+dialog.jx-editor textarea::placeholder{color:var(--redup);opacity:.7}
+.jx-meter{flex:none;height:3px;background:var(--garis)}
+.jx-meter i{display:block;width:0;height:100%;background:var(--aksen);transition:width .12s linear}
+.jx-meter.hampir i{background:#c98a00}
+.jx-meter.penuh i{background:var(--bahaya)}
+.jx-kaki{flex:none;display:grid;gap:8px;padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.jx-baris-kaki{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.jx-seg{display:inline-flex;padding:3px;border:1px solid var(--garis);border-radius:999px}
+.jx-seg button{min-height:36px;padding:0 16px;border:0;border-radius:999px;background:transparent;color:var(--redup);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.jx-seg button[aria-checked=true]{background:var(--teks);color:var(--bg)}
+.jx-kaki .hitung{margin:0;line-height:1.4}
+.jx-angka{display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.jx-buang{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-top:1px solid var(--garis);background:color-mix(in srgb,var(--bahaya) 9%,var(--bg))}
+.jx-buang[hidden]{display:none}
+.jx-buang p{font-size:14px;font-weight:600}
+.jx-buang-aksi{display:flex;flex-wrap:wrap;gap:8px}
+@media (prefers-reduced-motion:reduce){dialog.jx-editor[open]{animation:none}.jx-meter i{transition:none}}

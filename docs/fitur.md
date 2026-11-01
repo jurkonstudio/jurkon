@@ -158,7 +158,7 @@ Hanya perubahan tampilan dan perilaku di klien. Tanpa SQL, tanpa tabel atau kolo
 
 Halaman `jurnal.html`, dibuka dari tombol **Jurnal** di profil sendiri. Terpisah dari Catatan publik (027): tabel `jurnal`, tidak muncul di feed, Jelajah, atau pencarian.
 
-- Isi teks 1-2000 karakter, maksimal 50 catatan per akun (ditegakkan trigger `jaga_jurnal` di database).
+- Isi teks 1-4000 karakter (sejak 039), maksimal 50 catatan per akun (draf ikut dihitung). Draf selalu pribadi: simpan dulu, lanjutkan nanti dari filter Draf (ditegakkan trigger `jaga_jurnal` di database).
 - Bawaan **Pribadi** (hanya pemilik). **Publik** = terbaca anggota yang sudah login (kecuali saling blokir), lewat `jurnal.html?u=username` (hanya baca). Catatan publik disaring `cek_konten()`; yang pribadi tidak.
 - Unduh dibuat di peramban: TXT, Markdown, HTML, JSON, PDF (dialog cetak, area `#areaCetak`). DOCX belum ada.
 - Ikut terunduh di `ekspor_data()` dan terhapus bersama akun. Pengelola bisa menghapus lewat kebijakan `is_admin()`.
