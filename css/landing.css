@@ -159,3 +159,94 @@ a.btn{display:inline-block;text-align:center}
 .lp-baru{text-align:center}
 .lp-baru h2{margin-bottom:10px}
 .lp-baru .lp-ajak-sub{margin-bottom:20px}
+
+/* FAQ */
+.lp-sempit{max-width:760px}
+.lp-faq{display:grid;gap:10px}
+.lp-faq details{background:var(--bg);border:1px solid var(--garis);border-radius:14px;padding:0 18px}
+.lp-faq summary{cursor:pointer;list-style:none;padding:16px 28px 16px 0;font-weight:600;position:relative}
+.lp-faq summary::-webkit-details-marker{display:none}
+.lp-faq summary::after{content:"+";position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:22px;color:var(--aksen);transition:transform .2s}
+.lp-faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.lp-faq details p{color:var(--redup);line-height:1.65;margin:0 0 16px}
+@media (prefers-reduced-motion:reduce){.lp-faq summary::after{transition:none}}
+
+/* ===== Lapisan modern (1 Nov 2026): tetap nuansa kertas dan benang, hanya lebih rapi dan lebih ringan ===== */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.lp section[id]{scroll-margin-top:72px}
+.lp h1,.lp h2,.lp h3{text-wrap:balance}
+.lp p{text-wrap:pretty}
+
+/* kinerja: bagian di bawah layar dirender saat mendekat (membantu Core Web Vitals di HP) */
+.lp-bagian:not(.lp-hero){content-visibility:auto;contain-intrinsic-size:auto 560px}
+
+/* header */
+.lp-atas{box-shadow:0 1px 0 color-mix(in srgb,var(--teks) 4%,transparent)}
+.lp-nav a:not(.btn){position:relative;padding:6px 0}
+.lp-nav a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:var(--aksen);transform:scaleX(0);transform-origin:left;transition:transform .2s ease}
+.lp-nav a:not(.btn):hover::after,.lp-nav a:not(.btn):focus-visible::after{transform:scaleX(1)}
+
+/* hero */
+.lp-hero{position:relative;overflow:hidden;padding:72px 0 80px;background:
+  radial-gradient(55% 70% at 85% 0%,color-mix(in srgb,var(--aksen) 11%,transparent),transparent 70%),
+  radial-gradient(45% 60% at 0% 100%,color-mix(in srgb,var(--aksen) 6%,transparent),transparent 70%)}
+.lp h1{font-size:clamp(38px,6.4vw,68px);line-height:1.04;letter-spacing:-.02em}
+.lp-kicker{display:inline-flex;align-items:center;gap:10px}
+.lp-kicker:not(.tengah)::before{content:"";width:28px;height:2px;border-radius:2px;background:var(--aksen)}
+.lp-kicker.tengah{display:block}
+.lp-sub{font-size:clamp(17px,2.3vw,20px);line-height:1.6}
+.lp-janji{gap:10px}
+.lp-janji li{border:1px solid var(--garis);background:color-mix(in srgb,var(--bg) 70%,transparent);border-radius:999px;padding:6px 14px;font-size:13.5px}
+.lp-janji li::before{margin-right:7px}
+
+/* tombol */
+a.btn,.btn{transition:transform .15s ease,box-shadow .15s ease,background-color .15s ease,border-color .15s ease}
+a.btn:not(.garis):hover{transform:translateY(-1px);box-shadow:0 8px 20px -10px var(--aksen)}
+a.btn:active,.btn:active{transform:translateY(0)}
+.lp a:focus-visible,.lp button:focus-visible,.lp summary:focus-visible,.lp textarea:focus-visible{outline:2px solid var(--aksen);outline-offset:3px;border-radius:8px}
+
+/* angka */
+.lp-angka{border-top:1px solid var(--garis);border-bottom:1px solid var(--garis);padding:22px 0;margin-top:0}
+
+/* bagian */
+.lp-bagian{padding:88px 0}
+.lp h2{margin-bottom:44px;letter-spacing:-.01em}
+.lp-bagian>.lp-lebar>.lp-kicker.tengah{margin-bottom:10px}
+
+/* kartu fitur: ikon dalam lencana kecil, bayangan lembut */
+.lp-grid article{border-radius:18px;padding:26px;box-shadow:0 1px 0 color-mix(in srgb,var(--teks) 4%,transparent),0 14px 30px -26px color-mix(in srgb,var(--teks) 55%,transparent)}
+.lp-grid svg{box-sizing:content-box;width:24px;height:24px;padding:10px;border-radius:12px;background:color-mix(in srgb,var(--aksen) 10%,transparent);margin-bottom:14px}
+.lp-grid h3{font-size:20px}
+
+/* tiga langkah: benang vertikal yang menyambung angka */
+.lp-langkah{position:relative;gap:30px}
+.lp-langkah::before{content:"";position:absolute;left:18px;top:20px;bottom:20px;width:2px;background:repeating-linear-gradient(to bottom,var(--aksen) 0 6px,transparent 6px 12px);opacity:.35}
+.lp-langkah li{position:relative}
+.lp-langkah b{box-shadow:0 0 0 6px var(--bg)}
+.lp-alt .lp-langkah b{box-shadow:0 0 0 6px var(--latar)}
+
+/* sorotan: kartu lebih lega */
+.lp-sorot-kartu{border-radius:20px}
+
+/* FAQ lebih rapi */
+.lp-faq details{border-radius:16px;transition:border-color .2s ease,background-color .2s ease}
+.lp-faq details[open]{border-color:color-mix(in srgb,var(--aksen) 45%,var(--garis))}
+.lp-faq summary{font-size:17px}
+
+/* penutup dan footer */
+.lp-penutup{background:radial-gradient(60% 100% at 50% 100%,color-mix(in srgb,var(--aksen) 9%,transparent),transparent 70%)}
+.lp-kaki nav a{padding:4px 0}
+
+@media (max-width:860px){
+  .lp-hero-isi{grid-template-columns:1fr;gap:40px}
+  .lp-hero{text-align:left;padding:44px 0 56px}
+  .lp-kertas-wrap{justify-self:stretch;max-width:none}
+}
+@media (max-width:640px){
+  .lp-bagian{padding:60px 0}
+  .lp h2{margin-bottom:30px}
+  .lp-lebar{padding:0 18px}
+  .lp-cta .btn.besar{flex:1 1 100%}
+}
+@media print{.lp-atas,.lp-bagi,.lp-kertas-wrap{display:none}}

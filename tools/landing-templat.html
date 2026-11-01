@@ -26,7 +26,13 @@
 <meta property="og:description" content="{{desc}}">
 <meta property="og:url" content="{{url}}">
 <meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ogTitle}}">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ogTitle}}">
+<meta name="twitter:description" content="{{desc}}">
+<meta name="robots" content="index,follow,max-image-preview:large">
 <script type="application/ld+json">{{jsonld}}</script>
 <title>{{title}}</title></head>
 <body class="lp" data-bahasa="{{kode}}">
@@ -142,6 +148,17 @@
     <article><h3>{{a2h}}</h3><p>{{a2p}}</p></article>
     <article><h3>{{a3h}}</h3><p>{{a3p}}</p></article>
     <article><h3>{{a4h}}</h3><p>{{a4p}}</p></article>
+  </div>
+</div></section>
+
+<section class="lp-bagian" id="faq"><div class="lp-lebar lp-sempit">
+  <h2>{{faqH2}}</h2>
+  <div class="lp-faq">
+    <details><summary>{{q1}}</summary><p>{{a1}}</p></details>
+    <details><summary>{{q2}}</summary><p>{{a2}}</p></details>
+    <details><summary>{{q3}}</summary><p>{{a3}}</p></details>
+    <details><summary>{{q4}}</summary><p>{{a4}}</p></details>
+    <details><summary>{{q5}}</summary><p>{{a5}}</p></details>
   </div>
 </div></section>
 

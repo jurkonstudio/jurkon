@@ -1,3 +1,9 @@
+# Handoff tambahan, 1 November 2026: SEO landing + tampilan modern
+
+Belum diuji di browser. Perubahan: bagian FAQ (5 pertanyaan x 7 bahasa) dengan `<details>`, JSON-LD jadi `@graph` (WebSite, Organization, WebApplication, FAQPage), meta robots + twitter + ukuran og:image, lapisan CSS modern di akhir `css/landing.css` (hero, kartu, langkah dengan benang, FAQ, `content-visibility`), `docs/seo.md` (langkah Search Console yang harus kamu lakukan sendiri). Sumber teks: `tools/landing-teks.js`; hasil: `node tools/buat-landing.js`. Cek visual wajib di HP (320 dan 390 px) dan tema gelap. Terjemahan Jawa/Sunda FAQ sebaiknya dibaca penutur asli.
+
+---
+
 # Handoff, 1 November 2026 (malam): pintu depan, Jelajahi publik, corong
 
 **Belum diuji** di browser dan Postgres (sandbox tanpa keduanya). Yang sudah dijalankan: `node --check` semua JS yang diubah, uji logika `akar.js` dengan lingkungan tiruan (id, en, ja, fr, pilihan tersimpan, sudah masuk), `node tools/buat-landing.js`, `node tools/pecah-bahasa.js`, `node tools/cek-bahasa.js` (548 kunci x 7 bahasa, OK), `node tools/naikkan-cache.js`.
