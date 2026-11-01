@@ -1,3 +1,15 @@
+# Handoff tambahan, 1 November 2026 (login dan daftar dipisah, Ketentuan Layanan 7 bahasa)
+
+**Belum diuji di browser.** Dijalankan: `pecah-bahasa`, `cek-bahasa` (560 kunci x 7 bahasa, OK), `node --check` untuk `auth.js` dan `ketentuan-bahasa.js`, uji tiruan `ketentuan-bahasa.js` untuk 7 bahasa (11 bagian tiap bahasa), JSON-LD dan sitemap di-parse, `naikkan-cache`.
+- Form dipisah: `login.html` hanya masuk (+ tautan "Buat akun"), `daftar.html` baru (email, kata sandi, ulangi kata sandi, petunjuk, Turnstile, persetujuan dengan tautan tab baru, tautan "Masuk"). `js/auth.js` dipakai bersama; handler dipasang hanya bila tombolnya ada. `?lanjut=` ikut terbawa antar dua halaman; `lanjutAman()` menolak `daftar.html` sebagai tujuan.
+- Pesan sukses (cek email, tautan reset terkirim) memakai kotak netral (`.galat.ok`), bukan merah.
+- `ketentuan-layanan.html`: HTML Indonesia tetap statis; `js/ketentuan-bahasa.js` mengganti isi ke en, ms, jv, su, zh, ja sesuai bahasa tampilan; ada pemilih bahasa di bawah halaman. Ditambahkan catatan bahwa Kebijakan Privasi dan Aturan masih Indonesia saja, dan bahwa versi Indonesia yang berlaku bila ada beda (keputusan hukum: tinjau).
+- Belum diterjemahkan: `kebijakan-privasi.html` dan `aturan.html`. Terjemahan Jawa dan Sunda sebaiknya dibaca penutur asli; seluruh terjemahan hukum sebaiknya ditinjau orang yang paham.
+- Corong: `login_buka` kini hanya dicatat di login.html, bukan di daftar.html.
+Uji manual: daftar (sandi tidak sama, sandi lemah, email baru, email sudah terdaftar), masuk, lupa sandi, buka halaman tanpa login lalu `?lanjut=` ke daftar dan balik; ketentuan-layanan di tiap bahasa (ganti lewat pemilih bawah), tema gelap, 320 px.
+
+---
+
 # Handoff tambahan, 1 November 2026 (login: bahasa + SEO)
 
 **Belum diuji di browser.** Yang dijalankan: `node tools/pecah-bahasa.js`, `node tools/cek-bahasa.js` (550 kunci x 7 bahasa, OK), `node --check js/bahasa-muat.js`, `node tools/naikkan-cache.js`, JSON-LD dan `sitemap.xml` di-parse.

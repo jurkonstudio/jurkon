@@ -6,6 +6,8 @@ Situs statis (GitHub Pages) + Supabase. Catatan yang ada di kode:
 - Tiap landing punya: canonical, hreflang timbal balik + x-default (`/en/`), Open Graph + Twitter, `robots` index/follow, dan JSON-LD (`WebSite`, `Organization`, `WebApplication`, `FAQPage`). Teks FAQ di JSON-LD sama persis dengan yang tampil di halaman.
 - `jelajahi.html` (publik, boleh diindeks) dan `n.html?id=` (catatan publik). Worker Cloudflare (opsional, `worker/README.md`) memberi pratinjau OG per catatan dan `sitemap-catatan.xml`.
 - `login.html` boleh diindeks (judul "Masuk atau daftar akun", deskripsi, JSON-LD `WebPage` + `BreadcrumbList`, H1 dan subjudul statis, tautan ke landing, Jelajahi, dan Pusat bantuan; ada di `sitemap.xml`). Tujuannya pencarian merek seperti "jurkon masuk"; halaman utama untuk peringkat tetap `landing.html`. Varian `login.html?lanjut=...` memakai canonical ke `login.html`.
+- `daftar.html` (buat akun) halaman terpisah dari `login.html`, juga boleh diindeks dan ada di `sitemap.xml`. Keduanya memakai `js/auth.js` yang sama.
+- `ketentuan-layanan.html` berisi versi Indonesia di HTML statis (yang dibaca mesin pencari); `js/ketentuan-bahasa.js` mengganti isinya ke en/ms/jv/su/zh/ja sesuai bahasa pengguna. Bila teks Indonesia berubah, ubah keenam terjemahan itu juga.
 - Halaman di dalam aplikasi dan `explore.html` bernoindex.
 - Crawler (Googlebot, Bingbot, dll.) selalu dilayani bahasa Indonesia oleh `js/bahasa-muat.js` (dihasilkan `tools/pecah-bahasa.js`), supaya hasil render sama dengan HTML statis dan meta description. Pengguna tetap mengikuti bahasa perangkatnya.
 

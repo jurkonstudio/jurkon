@@ -1,7 +1,7 @@
 const galat = $('#galat');
 const ambil = () => ({ email: $('#email').value.trim(), password: $('#sandi').value });
 const MULAI = Date.now();
-if (window.catatCorong) catatCorong('login_buka');   // angka corong tanpa data pribadi (js/corong.js)
+if (window.catatCorong && !$('#daftar')) catatCorong('login_buka');   // angka corong tanpa data pribadi (js/corong.js)
 db.auth.getSession().then(({ data }) => { if (data.session) location.href = lanjutAman() || 'index.html'; });
 
 // ---- Anti-bot sisi klien -----------------------------------------------------------------------
@@ -74,6 +74,7 @@ function periksa(perluSandi, daftar) {
   if (perluSandi && a.password.length < 6) { galat.textContent = t('auth.e.sandiPendek'); return null; }
   // Kekuatan sandi hanya dituntut saat membuat akun; akun lama dengan sandi 6 karakter tetap bisa masuk
   if (daftar && !Keamanan.sandiKuat(a.password, a.email)) { galat.textContent = a.password.length < 8 ? t('auth.e.sandiPendek') : t('auth.e.sandiLemah'); return null; }
+  if (daftar && $('#sandi2') && $('#sandi2').value !== a.password) { galat.textContent = t('reset.harusSama'); return null; }
   return a;
 }
 // Gerbang bersama: honeypot, waktu isi, kunci setelah gagal berulang, dan CAPTCHA.
@@ -86,13 +87,13 @@ function gerbang(lewatiKunci) {
   return { ok: true };
 }
 async function jalankan(tombol, fn) {
-  galat.textContent = '';
+  galat.textContent = ''; galat.classList.remove('ok');
   const teks = tombol.textContent;
   tombol.disabled = true; tombol.textContent = t('auth.memproses');
   try { await fn(); } finally { tombol.disabled = false; tombol.textContent = teks; }
 }
 
-$('#masuk').onclick = function () {
+if ($('#masuk')) $('#masuk').onclick = function () {
   const a = periksa(true); if (!a) return;
   if (!gerbang(false).ok) return;
   jalankan(this, async () => {
@@ -102,7 +103,7 @@ $('#masuk').onclick = function () {
     else { catatBerhasil(); location.href = lanjutAman() || 'index.html'; }
   });
 };
-$('#daftar').onclick = function () {
+if ($('#daftar')) $('#daftar').onclick = function () {
   const a = periksa(true, true); if (!a) return;
   if (!gerbang(false).ok) return;
   jalankan(this, async () => {
@@ -111,13 +112,13 @@ $('#daftar').onclick = function () {
     if (error) { catatGagal(); galat.textContent = t('auth.gagalDaftar', { pesan: terjemah(error.message) }); }
     // Email yang sudah terdaftar tidak memberi galat (perlindungan Supabase): identities kosong
     else if (data.user && data.user.identities && data.user.identities.length === 0) galat.textContent = t('auth.sudahTerdaftarLupa');
-    else if (!data.session) galat.textContent = t('auth.cekEmail');
+    else if (!data.session) { galat.classList.add('ok'); galat.textContent = t('auth.cekEmail'); }
     else location.href = lanjutAman() || 'index.html';
   });
 };
 // Login Google dinonaktifkan sementara (belum dikonfigurasi). Untuk mengaktifkan lagi: pasang tombol #google di login.html dan
 // handler db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/index.html' } }).
-$('#lupa').onclick = function (e) {
+if ($('#lupa')) $('#lupa').onclick = function (e) {
   e.preventDefault();
   const a = periksa(false); if (!a) { galat.textContent = t('auth.isiEmailDulu'); return; }
   if (!gerbang(false).ok) return;
@@ -129,6 +130,14 @@ $('#lupa').onclick = function (e) {
     // hanya pembatasan laju / CAPTCHA yang ditampilkan apa adanya karena tidak terkait data akun.
     if (error) catatGagal();
     const dibatasi = error && /rate limit|too many|captcha/i.test(error.message);
+    if (!dibatasi) galat.classList.add('ok');
     galat.textContent = dibatasi ? t('auth.gagalKirim', { pesan: terjemah(error.message) }) : t('auth.resetTerkirim');
   });
 };
+
+// Tautan antar halaman masuk dan daftar tetap membawa tujuan (?lanjut=), yang divalidasi ulang oleh lanjutAman() di halaman tujuan
+(function () {
+  const l = new URLSearchParams(location.search).get('lanjut');
+  const a = $('#ke-daftar') || $('#ke-masuk');
+  if (l && a) a.href = a.getAttribute('href') + '?lanjut=' + encodeURIComponent(l);
+})();

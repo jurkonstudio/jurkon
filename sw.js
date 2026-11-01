@@ -3,7 +3,7 @@
 // tanpa menunggu jaringan. HTML, JS, dan CSS selalu berasal dari versi yang sama, jadi tidak pernah campur lama-baru.
 // Versi baru terpasang di belakang layar saat sw.js berubah.
 // JANGAN edit angka CACHE secara manual: jalankan  node tools/naikkan-cache.js  sebelum unggah.
-const CACHE = 'jurkon-d57608fc';
+const CACHE = 'jurkon-9d950899';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 
 // Hanya yang dipakai hampir setiap kunjungan. Bahasa lain, tema Kaca/Awan, admin, dan landing disimpan
@@ -13,7 +13,7 @@ const STATIS = ['/css/style.css', '/css/login.css', '/css/dokumen.css', '/manife
   '/js/filter-data.js', '/js/filter.js', '/js/notif.js', '/js/notifikasi.js', '/js/nav.js', '/js/feed.js', '/js/post.js', '/js/mention.js', '/js/tulis.js',
   '/js/detail.js', '/js/explore.js', '/js/profil.js', '/js/akun.js', '/js/pesan.js', '/js/chat.js', '/js/keamanan.js', '/js/kontak.js', '/js/auth.js', '/js/akar.js', '/js/corong.js',
   '/js/reset.js', '/js/selamat.js', '/js/publik.js', '/js/kartu.js', '/js/pertanyaan.js', '/js/pertanyaan-halaman.js',
-  '/index.html', '/login.html', '/explore.html', '/notifikasi.html', '/pesan.html', '/profil.html', '/post.html', '/detail.html', '/chat.html', '/pertanyaan.html'];
+  '/index.html', '/login.html', '/daftar.html', '/explore.html', '/notifikasi.html', '/pesan.html', '/profil.html', '/post.html', '/detail.html', '/chat.html', '/pertanyaan.html'];
 
 const WAKTU_JARINGAN = 10000;     // berkas yang belum ada di cache: tunggu jaringan paling lama segini
 const BISA_DISIMPAN = /\.(js|css|html|json|png|jpe?g|webp|svg|woff2?)$/;

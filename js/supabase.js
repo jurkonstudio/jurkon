@@ -84,7 +84,7 @@ function lanjutAman(mentah) {
     let s = String(mentah).replace(/^\//, '');
     if (/^[a-z0-9-]+(\?|$)/.test(s)) s = s.replace(/^([a-z0-9-]+)(\?|$)/, '$1.html$2');   // /profil -> profil.html
     if (!/^[a-z0-9-]+\.html(\?[A-Za-z0-9_=&%.\-]{0,200})?$/.test(s)) return null;
-    return /^(login|reset|selamat)\.html/.test(s) ? null : s;
+    return /^(login|daftar|reset|selamat)\.html/.test(s) ? null : s;
   } catch (e) { return null; }
 }
 // Ke halaman masuk sambil mengingat halaman yang sedang dibuka (mis. tautan profil yang dibagikan)
