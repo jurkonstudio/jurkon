@@ -1,0 +1,12 @@
+/* Halaman dokumen (kebijakan privasi, ketentuan layanan, aturan): tipografi padat dan terbaca.
+   Hanya memakai variabel tema, jadi ikut Kertas, Terang, Gelap, Kaca, dan Awan. Dimuat setelah css/style.css. */
+.dokumen{font-size:14.5px;line-height:1.6;letter-spacing:-.005em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;text-wrap:pretty}
+.dokumen h3{font-size:16px;line-height:1.3;font-weight:650;letter-spacing:-.012em;margin-top:26px;padding-top:14px;border-top:1px solid var(--garis)}
+.dokumen h3:first-of-type{border-top:0;padding-top:0;margin-top:20px}
+.dokumen p,.dokumen li{margin-top:7px}
+.dokumen li::marker{color:var(--redup)}
+.dokumen b{font-weight:650}
+.dokumen a{color:var(--link,var(--aksen));text-underline-offset:2px}
+.dokumen .tgl{display:inline-block;font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px;border:1px solid var(--garis);margin:0 0 6px}
+.pad.dokumen,.dokumen.pad{padding-bottom:32px}
+.dokumen ul{margin-left:0;padding-left:20px}

@@ -1,0 +1,15 @@
+*.zip
+# Rahasia: jangan pernah di-commit (hanya kunci anon/publishable yang boleh ada di repo)
+.env
+.env.*
+*.pem
+*.key
+*.p12
+service-account*.json
+supabase/.temp/
+supabase/.env
+node_modules/
+.DS_Store
+
+# Dibuat oleh tools/gabung-sql.js (tidak perlu di-commit)
+sql/schema-terbaru.sql

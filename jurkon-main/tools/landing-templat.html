@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="{{htmlLang}}"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://yghgmfvlthzcuhelqesr.supabase.co; media-src 'self' blob: https://yghgmfvlthzcuhelqesr.supabase.co; connect-src 'self' https://yghgmfvlthzcuhelqesr.supabase.co wss://yghgmfvlthzcuhelqesr.supabase.co; frame-src 'none'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="{{r}}js/keamanan.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fbf9f4">
+<link rel="manifest" href="{{r}}manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="{{r}}assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="{{r}}assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="{{r}}assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<script src="{{r}}js/tema.js"></script>
+<link rel="stylesheet" href="{{r}}css/style.css">
+<link rel="stylesheet" href="{{r}}css/landing.css">
+<meta name="description" content="{{desc}}">
+<link rel="canonical" href="{{url}}">
+{{hreflang}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="{{siteName}}">
+<meta property="og:locale" content="{{ogLocale}}">
+{{ogAlt}}
+<meta property="og:title" content="{{ogTitle}}">
+<meta property="og:description" content="{{desc}}">
+<meta property="og:url" content="{{url}}">
+<meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{{jsonld}}</script>
+<title>{{title}}</title></head>
+<body class="lp" data-bahasa="{{kode}}">
+<div id="pengumuman" class="lp-info" role="status" hidden></div>
+<header class="lp-atas"><div class="lp-lebar">
+  <a class="lp-logo" href="{{lnkSelf}}" aria-label="Jurkon"><span class="logo-wrap"><img class="logo-terang" src="{{r}}assets/logo-header.webp" alt="Journal Connection" width="408" height="138"><img class="logo-gelap" src="{{r}}assets/logo-header-gelap.webp" alt="" aria-hidden="true" width="408" height="138"></span></a>
+  <nav class="lp-nav" aria-label="{{navAria}}"><a href="#beda">{{navBeda}}</a><a href="#fitur">{{navFitur}}</a><a href="#aman">{{navAman}}</a><a href="{{r}}jelajahi.html">{{navJelajahi}}</a><a href="{{lnkTentang}}">{{navTentang}}</a>
+    <a class="btn garis kecil" id="navMasuk" href="{{r}}login.html">{{navMasuk}}</a></nav>
+</div></header>
+
+<main class="lp-main">
+<section class="lp-hero"><div class="lp-lebar lp-hero-isi">
+  <div class="lp-hero-teks">
+    <p class="lp-kicker"{{isiBrand}}>{{brand}}</p>
+    <h1{{isiJudul}}>{{heroJudul}}</h1>
+    <p class="lp-sub"{{isiSub}}>{{heroSub}}</p>
+    <div class="lp-cta"><a class="btn besar" id="ctaUtama" href="{{r}}login.html">{{ctaMulai}}</a><a class="btn garis besar" href="#beda">{{ctaBeda}}</a></div>
+    <p class="lp-catatan" id="catatanDaftar" hidden>{{catDaftar}}</p>
+    <ul class="lp-janji" aria-label="{{janjiAria}}"><li>{{janji1}}</li><li>{{janji2}}</li><li>{{janji3}}</li></ul>
+  </div>
+
+  <div class="lp-kertas-wrap" aria-label="{{kertasAria}}">
+    <svg class="lp-benang" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M8 20 L392 6 L384 292 L16 280 Z M8 20 L384 292" vector-effect="non-scaling-stroke"/><circle cx="8" cy="20" r="5"/><circle cx="392" cy="6" r="5"/><circle cx="384" cy="292" r="5"/><circle cx="16" cy="280" r="5"/></svg>
+    <div class="lp-kertas">
+      <div class="lp-kertas-kepala"><span class="lp-titik"></span>{{kertasKepala}}</div>
+      <label class="lp-sr" for="demoTulis">{{kertasLabel}}</label>
+      <textarea id="demoTulis" maxlength="250" rows="4" placeholder="{{kertasPh}}"></textarea>
+      <div class="lp-kertas-kaki">
+        <span class="lp-hitung" id="demoHitung" aria-live="polite">250</span>
+        <a class="btn kecil" id="demoKirim" href="{{r}}login.html">{{kertasSimpan}}</a>
+      </div>
+      <p class="lp-kertas-info">{{kertasInfo}}</p>
+    </div>
+  </div>
+</div></section>
+
+<ul class="lp-angka" id="angka" hidden>
+  <li><b data-hitung="pengguna">0</b><span>{{angka1}}</span></li>
+  <li><b data-hitung="catatan">0</b><span>{{angka2}}</span></li>
+  <li><b>250</b><span>{{angka3}}</span></li>
+</ul>
+
+<section class="lp-bagian" id="beda"><div class="lp-lebar">
+  <p class="lp-kicker tengah">{{bedaKicker}}</p>
+  <h2>{{bedaH2}}</h2>
+
+  <div class="lp-sorot">
+    <article class="lp-sorot-kartu">
+      <div class="lp-sorot-teks">
+        <h3>{{s1h}}</h3>
+        <p>{{s1p}}</p>
+        <span class="lp-label">{{s1l}}</span>
+      </div>
+      <div class="lp-kapsul" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        <b>{{s1v1}}</b>
+        <span>{{s1v2}}</span>
+        <i></i><i></i><i></i>
+      </div>
+    </article>
+
+    <article class="lp-sorot-kartu balik">
+      <div class="lp-sorot-teks">
+        <h3>{{s2h}}</h3>
+        <p>{{s2p}}</p>
+        <span class="lp-label">{{s2l}}</span>
+      </div>
+      <div class="lp-ujung" aria-hidden="true">
+        <i></i><i></i><i></i><i class="pudar"></i>
+        <b>{{s2v}}</b>
+      </div>
+    </article>
+
+    <article class="lp-sorot-kartu">
+      <div class="lp-sorot-teks">
+        <h3>{{s3h}}</h3>
+        <p>{{s3p}}</p>
+        <span class="lp-label">{{s3l}}</span>
+      </div>
+      <div class="lp-cincin" aria-hidden="true">
+        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42"/><circle class="isi" cx="50" cy="50" r="42"/></svg>
+        <b>250</b>
+      </div>
+    </article>
+  </div>
+</div></section>
+
+<section class="lp-bagian lp-alt" id="fitur"><div class="lp-lebar">
+  <h2>{{fiturH2}}</h2>
+  <div class="lp-grid">
+    <article><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><h3>{{f1h}}</h3><p>{{f1p}}</p></article>
+    <article><svg viewBox="0 0 24 24"><path d="M12 3l2.700 5.600 6.100.8-4.500 4.200 1.100 6.100L12 16.800 6.600 19.700l1.100-6.100L3.200 9.400l6.100-.8z"/></svg><h3>{{f2h}}</h3><p>{{f2p}}</p></article>
+    <article><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><h3>{{f3h}}</h3><p>{{f3p}}</p></article>
+    <article><svg viewBox="0 0 24 24"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.600 5.600l1.400 1.400M17 17l1.400 1.400M5.600 18.400L7 17M17 7l1.400-1.400"/><circle cx="12" cy="12" r="4"/></svg><h3>{{f4h}}</h3><p>{{f4p}}</p></article>
+    <article><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><h3>{{f5h}}</h3><p>{{f5p}}</p></article>
+    <article><svg viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg><h3>{{f6h}}</h3><p>{{f6p}}</p></article>
+  </div>
+</div></section>
+
+<section class="lp-bagian"><div class="lp-lebar">
+  <h2>{{langkahH2}}</h2>
+  <ol class="lp-langkah">
+    <li><b>1</b><div><h3>{{l1h}}</h3><p>{{l1p}}</p></div></li>
+    <li><b>2</b><div><h3>{{l2h}}</h3><p>{{l2p}}</p></div></li>
+    <li><b>3</b><div><h3>{{l3h}}</h3><p>{{l3p}}</p></div></li>
+  </ol>
+</div></section>
+
+<section class="lp-bagian lp-alt" id="aman"><div class="lp-lebar">
+  <h2>{{amanH2}}</h2>
+  <div class="lp-grid dua">
+    <article><h3>{{a1h}}</h3><p>{{a1p}}</p></article>
+    <article><h3>{{a2h}}</h3><p>{{a2p}}</p></article>
+    <article><h3>{{a3h}}</h3><p>{{a3p}}</p></article>
+    <article><h3>{{a4h}}</h3><p>{{a4p}}</p></article>
+  </div>
+</div></section>
+
+<section class="lp-bagian lp-alt lp-baru" id="baru"><div class="lp-lebar">
+  <p class="lp-kicker tengah">{{baruKicker}}</p>
+  <h2>{{baruH2}}</h2>
+  <p class="lp-ajak-sub">{{baruP}}</p>
+  <div class="lp-cta tengah"><a class="btn garis besar" id="ctaJelajahi" href="{{r}}jelajahi.html">{{baruCta}}</a></div>
+</div></section>
+
+<section class="lp-bagian lp-ajak" id="ajak"><div class="lp-lebar">
+  <h2>{{ajakH2}}</h2>
+  <p class="lp-ajak-sub">{{ajakSub}}</p>
+  <div class="lp-bagi" role="group" aria-label="{{ajakAria}}">
+    <a class="btn besar" id="bagiWa" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    <a class="btn garis besar" id="bagiTg" href="#" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <a class="btn garis besar" id="bagiX" href="#" target="_blank" rel="noopener noreferrer">X</a>
+    <button class="btn garis besar" id="bagiSalin" type="button">{{ajakSalin}}</button>
+  </div>
+  <p class="lp-redup lp-bagi-info" id="bagiInfo" role="status" aria-live="polite"></p>
+</div></section>
+
+<section class="lp-bagian lp-penutup"><div class="lp-lebar">
+  <h2 id="penutupJudul">{{penutupH2}}</h2>
+  <div class="lp-cta tengah"><a class="btn besar" id="ctaAkhir" href="{{r}}login.html">{{ctaMulai}}</a></div>
+</div></section>
+</main>
+
+<footer class="lp-kaki"><div class="lp-lebar">
+  <div><b{{isiBrand}}>{{brand}}</b><p class="lp-redup">jurkon.my.id</p></div>
+  <nav aria-label="{{kakiAria}}"><a href="{{lnkTentang}}">{{kTentang}}</a><a href="{{lnkBantuan}}">{{kBantuan}}</a><a href="{{lnkAturan}}">{{kAturan}}</a><a href="{{lnkKetentuan}}">{{kKetentuan}}</a><a href="{{lnkPrivasi}}">{{kPrivasi}}</a><a id="kontak" href="#" hidden>{{kKontak}}</a></nav>
+</div>
+<div class="lp-lebar lp-bahasa-baris"><nav class="lp-bahasa" aria-label="{{bahasaAria}}">{{bahasaNav}}</nav></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+<script src="{{r}}js/supabase.js"></script>
+<script src="{{r}}js/corong.js"></script>
+<script src="{{r}}js/landing-teks.js"></script>
+<script src="{{r}}js/landing.js"></script>
+</body></html>

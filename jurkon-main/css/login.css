@@ -1,0 +1,108 @@
+/* =====================================================================
+   Halaman masuk (login.html)
+   Hanya memakai variabel tema yang sudah ada (--bg, --latar, --teks, --redup,
+   --garis, --aksen, --link, --bahaya, --serif) sehingga otomatis menyatu dengan
+   tema Kertas, Terang, Gelap, Kaca, dan Awan. Warna isian dan tombol tidak
+   ditimpa di sini: biarkan style.css, tema-kaca.css, dan tema-awan.css yang mengatur.
+   Berkas ini hanya mengatur ukuran, jarak, dan tata letak.
+   Dimuat SETELAH css/style.css.
+   ===================================================================== */
+
+html:root body.login{
+  padding-bottom:0;
+  min-height:100vh;min-height:100dvh;
+  display:flex;flex-direction:column;
+  font-size:14px;line-height:1.45;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+html:root body.login main{
+  flex:1;display:flex;flex-direction:column;
+  width:100%;max-width:420px;min-height:0;
+  padding:max(28px,env(safe-area-inset-top)) 22px max(20px,env(safe-area-inset-bottom));
+}
+
+/* ---------- Merek ---------- */
+.lg-merek{display:flex;justify-content:center;margin:clamp(0px,5vh,40px) 0 18px}
+.lg-merek img{display:block;height:40px;width:auto;border-radius:0;box-shadow:none}
+.lg-merek .logo-gelap{display:none}
+:root[data-theme=gelap] .lg-merek .logo-terang,
+:root[data-theme=awan] .lg-merek .logo-terang{display:none}
+:root[data-theme=gelap] .lg-merek .logo-gelap,
+:root[data-theme=awan] .lg-merek .logo-gelap{display:block}
+
+/* ---------- Judul + jahitan benang merah (sama seperti header aplikasi) ---------- */
+.lg-judul{
+  font-family:var(--serif);font-size:26px;line-height:1.15;font-weight:650;letter-spacing:-.02em;
+  color:var(--teks);text-align:center;margin:0;
+}
+.lg-judul::after{
+  content:"";display:block;height:1px;width:72px;margin:12px auto 0;
+  background-image:linear-gradient(90deg,var(--aksen) 0 5px,transparent 5px 10px);
+  background-size:10px 1px;background-repeat:repeat-x;opacity:.9;
+}
+
+/* ---------- Formulir ---------- */
+.lg-form{display:grid;gap:14px;margin-top:22px}
+.lg-f{display:grid;gap:6px}
+.lg-baris{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.lg-f label{font-size:13px;font-weight:600;color:var(--teks);letter-spacing:-.005em;line-height:1.2}
+.lg-f input{
+  min-height:44px;padding:0 13px;font-size:16px;line-height:1.2;letter-spacing:-.01em;
+  border-radius:10px;
+}
+.lg-f input::placeholder{font-size:15px}
+#lupa{
+  font-size:12.5px;font-weight:500;color:var(--link,var(--aksen));
+  text-decoration:none;padding:2px 0;
+}
+#lupa:hover{text-decoration:underline}
+
+.lg-form .galat{
+  font-size:13px;line-height:1.4;padding:9px 12px;border-radius:8px;
+  background:color-mix(in srgb,var(--bahaya) 9%,transparent);
+  border:1px solid color-mix(in srgb,var(--bahaya) 30%,transparent);
+}
+.lg-form .galat:empty{display:none}
+
+.lg-aksi{display:grid;gap:8px;margin-top:2px}
+.lg-aksi .btn{width:100%;min-height:44px;font-size:15px;letter-spacing:-.01em}
+
+.lg-pisah{border:0;height:1px;background:var(--garis);margin:4px 0 0}
+
+.lg-form .lg-setuju{
+  font-size:12px;line-height:1.5;color:var(--redup);text-align:center;margin:0;
+  text-wrap:balance;
+}
+.lg-form .lg-setuju a{color:var(--teks);font-weight:500;text-underline-offset:2px}
+
+/* ---------- Pemilih bahasa: satu baris ringkas di bawah ---------- */
+.lg-bahasa{
+  margin-top:auto;padding:22px 0 0;border:0;
+  display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;
+}
+.lg-bahasa h3{margin:0;font-size:12px;font-weight:500;color:var(--redup)}
+.lg-bahasa select{
+  min-height:32px;padding:0 26px 0 10px;font:inherit;font-size:13px;
+  color:var(--teks);background-color:transparent;border:1px solid var(--garis);border-radius:8px;cursor:pointer;
+}
+.lg-bahasa .hitung{display:none}
+.lg-bahasa select:focus-visible{outline:2px solid var(--aksen);outline-offset:1px}
+
+/* ---------- Layar lebar: kartu di tengah ---------- */
+@media (min-width:600px){
+  html:root body.login{justify-content:center;align-items:center;padding:32px 16px}
+  html:root body.login main{
+    flex:none;max-width:400px;padding:34px 32px 22px;
+    border-radius:16px;box-shadow:0 0 0 1px var(--garis),0 10px 34px -14px rgba(0,0,0,.22);
+  }
+  .lg-f input{font-size:14.5px;min-height:42px}
+  .lg-f input::placeholder{font-size:14px}
+  .lg-aksi .btn{min-height:42px;font-size:14.5px}
+  .lg-merek{margin-top:0}
+  .lg-bahasa{margin-top:0}
+}
+
+@media (prefers-reduced-motion:no-preference){
+  .lg-f input,.lg-aksi .btn{transition:border-color .15s,background-color .15s,box-shadow .15s,filter .15s}
+}

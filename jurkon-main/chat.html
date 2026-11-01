@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://yghgmfvlthzcuhelqesr.supabase.co; media-src 'self' blob: https://yghgmfvlthzcuhelqesr.supabase.co; connect-src 'self' https://yghgmfvlthzcuhelqesr.supabase.co wss://yghgmfvlthzcuhelqesr.supabase.co; frame-src 'none'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="js/keamanan.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fbf9f4">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<script src="js/bahasa-muat.js"></script><script src="js/i18n.js"></script>
+<script src="js/tema.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<meta name="robots" content="noindex">
+<title data-i-doc="chat.title">Chat · Jurkon</title></head><body data-tab="pesan">
+<main><div class="header psn-kepala"><a class="psn-kembali" href="pesan.html" aria-label="← Pesan" data-i-aria="chat.kembali"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></a><h1 id="lawan" class="psn-lawan"></h1></div>
+<div class="chat" id="isi"></div></main>
+<div class="kirim"><div>
+  <p class="syarat-ikuti" id="syarat" role="status" hidden></p>
+  <div class="psn-edit" id="editBar" hidden>
+    <span class="psn-edit-isi"><b data-i="chat.mengedit">Mengedit pesan</b><small id="editCuplikan"></small></span>
+    <button class="ikon-btn" id="editBatal" type="button" aria-label="Batal" data-i-aria="chat.batal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="rekam" id="rekam" hidden>
+    <span class="titik"></span><span id="rekamWaktu">0:00</span><span class="info" data-i="chat.hilang10">Hilang otomatis setelah 10 menit</span>
+    <button class="btn garis kecil" id="rekamBatal" type="button" data-i="chat.rekamBatal">Batal</button>
+    <button class="btn kecil" id="rekamKirim" type="button" data-i="umum.kirim">Kirim</button>
+  </div>
+  <div class="psn-komposer" id="barisKirim">
+    <div class="psn-pil">
+      <span class="hitung" id="hitung"></span>
+      <textarea id="teks" rows="1" aria-label="Tulis pesan" data-i-aria="chat.aria" placeholder="Tulis pesan..." data-i-ph="chat.ph"></textarea>
+      <button class="ikon" id="btnFoto" type="button" hidden aria-label="Kirim foto" data-i-aria="chat.foto" title="Kirim foto" data-i-title="chat.foto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
+      <input type="file" id="foto" accept="image/*" hidden>
+      <button class="ikon" id="btnMik" type="button" hidden aria-label="Rekam pesan suara" data-i-aria="chat.suara" title="Rekam pesan suara" data-i-title="chat.suara"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+    </div>
+    <button class="psn-kirim" id="kirim" type="button" aria-label="Kirim" data-i-aria="umum.kirim"><svg class="naik" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg><svg class="cek" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button>
+  </div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+<script src="js/supabase.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/filter-data.js"></script>
+<script src="js/filter.js"></script>
+<script src="js/notif.js"></script>
+<script src="js/chat.js"></script></body></html>
