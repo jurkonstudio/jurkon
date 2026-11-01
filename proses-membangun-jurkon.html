@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id" dir="ltr"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://yghgmfvlthzcuhelqesr.supabase.co; media-src 'self' blob: https://yghgmfvlthzcuhelqesr.supabase.co; connect-src 'self' https://yghgmfvlthzcuhelqesr.supabase.co wss://yghgmfvlthzcuhelqesr.supabase.co; frame-src 'none'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="js/keamanan.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fbf9f4">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<script src="js/tema.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/landing.css">
+<style>.art{max-width:720px;margin:0 auto;padding:36px 20px 8px}.art h1{font-size:clamp(28px,6vw,40px);line-height:1.2;margin:0 0 14px}.art h2{font-size:22px;margin:36px 0 10px;line-height:1.3}.art p,.art li{line-height:1.75;font-size:17px}.art ul{padding-left:20px}.art .meta{color:var(--redup);font-size:14px}.art .jawab{border-left:3px solid var(--aksen);padding:2px 0 2px 16px;margin:14px 0}.art .jawab b{display:block}.art table{width:100%;border-collapse:collapse;font-size:15px;margin:14px 0}.art th,.art td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--garis);vertical-align:top}.art .gulir{overflow-x:auto}.art-cta{text-align:center;padding:36px 20px 48px}</style>
+<title>Membangun Jurkon secara terbuka: tantangan dan pelajaran</title>
+<meta name="description" content="Catatan pengembangan Jurkon: kenapa dibuat, bug yang sempat bikin pusing, dan apa yang dipelajari saat membangun sosmed catatan singkat.">
+<link rel="canonical" href="https://jurkon.my.id/proses-membangun-jurkon.html">
+<link rel="alternate" hreflang="id" href="https://jurkon.my.id/proses-membangun-jurkon.html">
+<link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/proses-membangun-jurkon.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jurnal Koneksi">
+<meta property="og:locale" content="id_ID">
+<meta property="og:title" content="Membangun Jurkon secara terbuka: tantangan dan pelajaran">
+<meta property="og:description" content="Catatan pengembangan Jurkon: kenapa dibuat, bug yang sempat bikin pusing, dan apa yang dipelajari saat membangun sosmed catatan singkat.">
+<meta property="og:url" content="https://jurkon.my.id/proses-membangun-jurkon.html">
+<meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Membangun Jurkon secara terbuka: tantangan dan pelajaran">
+<meta name="twitter:description" content="Catatan pengembangan Jurkon: kenapa dibuat, bug yang sempat bikin pusing, dan apa yang dipelajari saat membangun sosmed catatan singkat.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://jurkon.my.id/proses-membangun-jurkon.html#artikel","headline":"Membangun Jurkon secara terbuka: tantangan dan pelajaran","description":"Catatan pengembangan Jurkon: kenapa dibuat, bug yang sempat bikin pusing, dan apa yang dipelajari saat membangun sosmed catatan singkat.","url":"https://jurkon.my.id/proses-membangun-jurkon.html","inLanguage":"id","datePublished":"2026-11-02","dateModified":"2026-11-02","image":"https://jurkon.my.id/assets/og.jpg","author":{"@id":"https://jurkon.my.id/#org"},"publisher":{"@id":"https://jurkon.my.id/#org"},"mainEntityOfPage":"https://jurkon.my.id/proses-membangun-jurkon.html","about":{"@id":"https://jurkon.my.id/#aplikasi"}},{"@type":"Organization","@id":"https://jurkon.my.id/#org","name":"Jurnal Koneksi","alternateName":"Jurkon","url":"https://jurkon.my.id/","logo":"https://jurkon.my.id/assets/icons/icon-512.png"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Jurkon","item":"https://jurkon.my.id/landing.html"},{"@type":"ListItem","position":2,"name":"Cerita pengembangan","item":"https://jurkon.my.id/proses-membangun-jurkon.html"}]},{"@type":"WebApplication","@id":"https://jurkon.my.id/#aplikasi","name":"Jurnal Koneksi (Jurkon)","alternateName":"Jurkon","url":"https://jurkon.my.id/landing.html","applicationCategory":"SocialNetworkingApplication","applicationSubCategory":"Jurnal dan catatan harian sosial","operatingSystem":"Any (web browser)","inLanguage":"id","featureList":["Catatan singkat maksimal 250 karakter","Jurnal pribadi hingga 4.000 karakter dengan draf","Catatan privat secara bawaan, publik hanya jika dipilih","Feed Mengikuti diurutkan menurut waktu dan berujung","Kapsul waktu: catatan untuk dirimu di masa depan","Pertanyaan harian yang sama untuk semua orang","Tanpa iklan, data tidak dijual","Dipasang dari browser seperti aplikasi (PWA)","11 bahasa halaman depan, 7 bahasa di dalam aplikasi"],"screenshot":"https://jurkon.my.id/assets/og.jpg","offers":{"@type":"Offer","price":"0","priceCurrency":"IDR"}}]}</script>
+</head>
+<body class="lp" data-bahasa="id">
+<header class="lp-atas"><div class="lp-lebar">
+  <a class="lp-logo" href="landing.html" aria-label="Jurkon"><span class="logo-wrap"><img class="logo-terang" src="assets/logo-header.webp" alt="Journal Connection" width="408" height="138"><img class="logo-gelap" src="assets/logo-header-gelap.webp" alt="" aria-hidden="true" width="408" height="138"></span></a>
+  <nav class="lp-nav" aria-label="Navigasi"><a href="landing.html#fitur">Fitur</a><a href="jelajahi.html">Jelajahi</a><a href="tentang.html">Tentang</a><a class="btn garis kecil" href="login.html">Masuk</a></nav>
+</div></header>
+<main class="lp-main">
+<article class="art">
+<p class="meta">2 November 2026 · diperbarui seiring perkembangan</p>
+<h1>Membangun Jurkon secara terbuka</h1>
+<p>Jurkon (Jurnal Koneksi) adalah sosmed catatan singkat buatan orang Indonesia. Halaman ini mencatat proses pembuatannya: apa yang sudah jadi, apa yang sempat salah, dan apa yang belum beres. Tidak semuanya mulus, dan memang itu yang ingin dibagikan.</p>
+
+<h2>Kenapa dibuat</h2>
+<p>Kami ingin satu tempat yang tenang: menulis cukup 250 karakter, feed yang ada ujungnya, dan bisa menitipkan catatan untuk diri sendiri setahun lagi. Aplikasinya situs statis di GitHub Pages dengan Supabase di belakangnya, dipasang dari browser tanpa toko aplikasi.</p>
+
+<h2>Yang sudah jadi</h2>
+<ul><li>Catatan 250 karakter, jurnal pribadi 4.000 karakter dengan draf, dan catatan yang bisa dijadikan publik dengan syarat yang ditegakkan server.</li>
+<li>Kapsul waktu, pertanyaan harian, dan tab Jelajahi yang terpisah dari feed.</li>
+<li>Halaman depan dalam 11 bahasa, dan antarmuka aplikasi dalam 7 bahasa.</li>
+<li>Pesan pribadi dengan berkas yang hilang setelah 10 menit.</li></ul>
+
+<h2>Tantangan dan pelajaran</h2>
+<p><b>1. Urutan CSS yang diam-diam menimpa.</b> Menu samping di desktop tampil rusak: pada lebar 768 sampai 1099 piksel, ikon menu mengecil jadi 0 piksel. Penyebabnya aturan untuk HP yang ditulis setelah aturan desktop, sehingga menimpanya. Pelajarannya: urutan penulisan CSS sama pentingnya dengan isinya. Perbaikannya berupa satu lapisan desktop di bagian paling bawah yang bisa dihapus bila bermasalah.</p>
+<p><b>2. Dialog yang menempel di pojok.</b> Sebuah reset <code>*{margin:0}</code> menghapus <code>margin:auto</code> bawaan elemen dialog, jadi dialog tertentu menempel di kiri atas di semua ukuran layar. Reset yang rajin ternyata bisa menghapus perilaku bawaan browser yang kita butuhkan.</p>
+<p><b>3. Tombol Kembali yang mati.</b> Tombol memakai <code>javascript:history.back()</code>, padahal kebijakan keamanan konten (CSP) situs melarang skrip inline. Hasilnya tombol tidak berfungsi di beberapa halaman. Pelajarannya: CSP yang ketat memang melindungi, tetapi menuntut kita mengganti kebiasaan lama dengan penanganan klik di berkas skrip.</p>
+<p><b>4. Terjemahan butuh pembaca asli.</b> Kami sudah memuat beberapa bahasa, termasuk Jawa dan Sunda, tetapi terjemahannya belum dibaca penutur asli. Untuk teks hukum seperti Kebijakan Privasi, versi Indonesia yang berlaku bila ada perbedaan. Kami lebih suka mengatakan ini terang-terangan daripada berpura-pura sudah sempurna.</p>
+
+<h2>Yang belum beres</h2>
+<ul><li>Peninjauan terjemahan oleh penutur asli, terutama Jawa, Sunda, dan teks hukum.</li>
+<li>Empat bahasa baru (Spanyol, Prancis, Hindi, Arab) baru tersedia di halaman depan, belum di dalam aplikasi.</li></ul>
+
+<h2>Ikuti perjalanannya</h2>
+<p>Halaman ini akan kami perbarui tiap ada pembelajaran baru. Kalau kamu ingin tahu seperti apa hasilnya, baca <a href="tempat-curhat-tanpa-algoritma.html">kenapa Jurkon dibuat sebagai tempat curhat tanpa algoritma</a>, atau langsung coba.</p>
+</article>
+<section class="art-cta"><a class="btn besar" href="daftar.html">Mulai gratis</a><p class="lp-redup">Gratis, tanpa iklan, dan catatanmu privat sejak awal.</p></section>
+</main>
+<footer class="lp-kaki"><div class="lp-lebar">
+  <div><b data-isi="brand_nama">Jurnal Koneksi</b><p class="lp-redup">jurkon.my.id</p></div>
+  <nav aria-label="Tautan"><a href="tentang.html">Tentang</a><a href="tempat-curhat-tanpa-algoritma.html">Tempat curhat</a><a href="proses-membangun-jurkon.html">Cerita pengembangan</a><a href="pusat-bantuan.html">Pusat bantuan</a><a href="aturan.html">Aturan komunitas</a><a href="ketentuan-layanan.html">Ketentuan layanan</a><a href="kebijakan-privasi.html">Kebijakan privasi</a><a id="kontak" href="#" hidden>Kontak</a></nav>
+</div>
+<div class="lp-lebar lp-bahasa-baris"><nav class="lp-bahasa" aria-label="Bahasa"><a href="landing.html" lang="id" hreflang="id" aria-current="page">Bahasa Indonesia</a><a href="/en/" lang="en" hreflang="en">English</a><a href="/ms/" lang="ms" hreflang="ms">Bahasa Melayu</a><a href="/jv/" lang="jv" hreflang="jv">Basa Jawa</a><a href="/su/" lang="su" hreflang="su">Basa Sunda</a><a href="/zh/" lang="zh-Hans" hreflang="zh-Hans">中文（简体）</a><a href="/ja/" lang="ja" hreflang="ja">日本語</a><a href="/es/" lang="es" hreflang="es">Español</a><a href="/fr/" lang="fr" hreflang="fr">Français</a><a href="/hi/" lang="hi" hreflang="hi">हिन्दी</a><a href="/ar/" lang="ar" hreflang="ar">العربية</a></nav></div></footer>
+</body></html>

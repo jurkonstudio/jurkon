@@ -32,12 +32,12 @@
   "lastmod": "2026-11-01"
  },
  "tentang.html": {
-  "sidik": "174418c9a1f9d206",
-  "lastmod": "2026-10-31"
+  "sidik": "8f54da5ede075c50",
+  "lastmod": "2026-11-01"
  },
  "pusat-bantuan.html": {
-  "sidik": "efc0f8ac4e49c3a2",
-  "lastmod": "2026-10-31"
+  "sidik": "cbd7c4154af51276",
+  "lastmod": "2026-11-01"
  },
  "login.html": {
   "sidik": "a96c2b6ff356391f",
@@ -48,12 +48,12 @@
   "lastmod": "2026-11-01"
  },
  "aturan.html": {
-  "sidik": "c2147da27593ee79",
-  "lastmod": "2026-10-30"
+  "sidik": "baa91d5b741f4661",
+  "lastmod": "2026-11-01"
  },
  "kebijakan-privasi.html": {
-  "sidik": "da890586d26f44d4",
-  "lastmod": "2026-10-31"
+  "sidik": "1395894ecfe7d939",
+  "lastmod": "2026-11-01"
  },
  "ketentuan-layanan.html": {
   "sidik": "dfcc54b0a33dda16",
@@ -74,5 +74,13 @@
  "ar/index.html": {
   "sidik": "4697cd98e7cb3bcf",
   "lastmod": "2026-11-02"
+ },
+ "tempat-curhat-tanpa-algoritma.html": {
+  "sidik": "68bc5e98381d6f4c",
+  "lastmod": "2026-11-01"
+ },
+ "proses-membangun-jurkon.html": {
+  "sidik": "c9dac126084bf624",
+  "lastmod": "2026-11-01"
  }
 }

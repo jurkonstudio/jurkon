@@ -17,7 +17,7 @@ const BAHASA = [  // [hreflang, alamat, berkas]; grup ini saling menunjuk
 const X_DEFAULT = 'en';
 const TUNGGAL = [  // [alamat, berkas]
   ['/jelajahi.html', 'jelajahi.html'], ['/tentang.html', 'tentang.html'], ['/pusat-bantuan.html', 'pusat-bantuan.html'],
-  ['/login.html', 'login.html'], ['/daftar.html', 'daftar.html'], ['/aturan.html', 'aturan.html'],
+  ['/login.html', 'login.html'], ['/daftar.html', 'daftar.html'], ['/aturan.html', 'aturan.html'], ['/tempat-curhat-tanpa-algoritma.html', 'tempat-curhat-tanpa-algoritma.html'], ['/proses-membangun-jurkon.html', 'proses-membangun-jurkon.html'],
   ['/kebijakan-privasi.html', 'kebijakan-privasi.html'], ['/ketentuan-layanan.html', 'ketentuan-layanan.html']];
 
 const hari = new Date().toISOString().slice(0, 10);
