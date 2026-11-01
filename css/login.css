@@ -119,3 +119,41 @@ html:root body.login main{
 @media (prefers-reduced-motion:no-preference){
   .lg-f input,.lg-aksi .btn{transition:border-color .15s,background-color .15s,box-shadow .15s,filter .15s}
 }
+
+/* ---------- Desktop lebar (>=960px): dua kolom ----------
+   Kiri: bidang kertas dengan jaring benang merah (motif logo: titik-titik yang dijahit jadi satu).
+   Kanan: formulir rata kiri. Warna hanya memakai variabel tema, jadi ikut Kertas/Terang/Gelap/Kaca/Awan.
+   Gambar jaring dibuat dengan mask SVG, warnanya dari --aksen. */
+@media (min-width:960px){
+  html:root body.login{
+    display:grid;grid-template-columns:5fr 4fr;grid-template-rows:minmax(100vh,auto);grid-template-rows:minmax(100dvh,auto);
+    align-items:stretch;justify-content:stretch;padding:0;position:relative;
+  }
+  html:root body.login::before{content:"";grid-column:1;grid-row:1;border-right:1px solid var(--garis)}
+  html:root body.login::after{
+    content:"";position:fixed;top:0;bottom:0;left:0;width:55.5556%;pointer-events:none;
+    background:var(--aksen);opacity:.82;
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 840'%3E%3Cg stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-dasharray='8 7' fill='none'%3E%3Cline x1='120' y1='170' x2='440' y2='110'/%3E%3Cline x1='120' y1='170' x2='300' y2='235'/%3E%3Cline x1='120' y1='170' x2='270' y2='390'/%3E%3Cline x1='440' y1='110' x2='520' y2='340'/%3E%3Cline x1='440' y1='110' x2='300' y2='235'/%3E%3Cline x1='520' y1='340' x2='270' y2='390'/%3E%3Cline x1='520' y1='340' x2='390' y2='600'/%3E%3Cline x1='270' y1='390' x2='80' y2='540'/%3E%3Cline x1='270' y1='390' x2='390' y2='600'/%3E%3Cline x1='270' y1='390' x2='300' y2='235'/%3E%3Cline x1='80' y1='540' x2='190' y2='735'/%3E%3Cline x1='390' y1='600' x2='525' y2='715'/%3E%3Cline x1='390' y1='600' x2='190' y2='735'/%3E%3C/g%3E%3Cg fill='black'%3E%3Ccircle cx='120' cy='170' r='5.5'/%3E%3Ccircle cx='440' cy='110' r='5.5'/%3E%3Ccircle cx='520' cy='340' r='5.5'/%3E%3Ccircle cx='270' cy='390' r='9'/%3E%3Ccircle cx='80' cy='540' r='5.5'/%3E%3Ccircle cx='390' cy='600' r='5.5'/%3E%3Ccircle cx='525' cy='715' r='5.5'/%3E%3Ccircle cx='190' cy='735' r='5.5'/%3E%3Ccircle cx='300' cy='235' r='5.5'/%3E%3C/g%3E%3Ccircle cx='270' cy='390' r='20' fill='none' stroke='black' stroke-width='1.6'/%3E%3C/svg%3E") center/min(86%,620px) no-repeat;
+            mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 840'%3E%3Cg stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-dasharray='8 7' fill='none'%3E%3Cline x1='120' y1='170' x2='440' y2='110'/%3E%3Cline x1='120' y1='170' x2='300' y2='235'/%3E%3Cline x1='120' y1='170' x2='270' y2='390'/%3E%3Cline x1='440' y1='110' x2='520' y2='340'/%3E%3Cline x1='440' y1='110' x2='300' y2='235'/%3E%3Cline x1='520' y1='340' x2='270' y2='390'/%3E%3Cline x1='520' y1='340' x2='390' y2='600'/%3E%3Cline x1='270' y1='390' x2='80' y2='540'/%3E%3Cline x1='270' y1='390' x2='390' y2='600'/%3E%3Cline x1='270' y1='390' x2='300' y2='235'/%3E%3Cline x1='80' y1='540' x2='190' y2='735'/%3E%3Cline x1='390' y1='600' x2='525' y2='715'/%3E%3Cline x1='390' y1='600' x2='190' y2='735'/%3E%3C/g%3E%3Cg fill='black'%3E%3Ccircle cx='120' cy='170' r='5.5'/%3E%3Ccircle cx='440' cy='110' r='5.5'/%3E%3Ccircle cx='520' cy='340' r='5.5'/%3E%3Ccircle cx='270' cy='390' r='9'/%3E%3Ccircle cx='80' cy='540' r='5.5'/%3E%3Ccircle cx='390' cy='600' r='5.5'/%3E%3Ccircle cx='525' cy='715' r='5.5'/%3E%3Ccircle cx='190' cy='735' r='5.5'/%3E%3Ccircle cx='300' cy='235' r='5.5'/%3E%3C/g%3E%3Ccircle cx='270' cy='390' r='20' fill='none' stroke='black' stroke-width='1.6'/%3E%3C/svg%3E") center/min(86%,620px) no-repeat;
+  }
+  html:root body.login main{
+    grid-column:2;grid-row:1;position:relative;z-index:1;
+    flex:none;width:100%;max-width:none;margin:0;justify-content:center;
+    padding:56px clamp(40px,7vw,112px);border-radius:0;box-shadow:none;
+  }
+  body.login main > *{width:100%;max-width:392px}
+  .lg-merek{justify-content:flex-start;margin:0 0 30px}
+  .lg-merek img{height:44px}
+  .lg-judul{text-align:left;font-size:30px}
+  .lg-judul::after{margin:14px 0 0}
+  .lg-sub{margin:16px 0 0;max-width:38ch;text-align:left;font-size:15px}
+  .lg-form{margin-top:30px}
+  .lg-f input{min-height:46px;font-size:15px}
+  .lg-f input::placeholder{font-size:15px}
+  .lg-aksi .btn{min-height:46px;font-size:15px}
+  .lg-form .lg-setuju,.lg-alih{text-align:left}
+  .lg-alih a{padding-left:2px}
+  .lg-tautan{justify-content:flex-start;margin-top:24px}
+  .lg-bahasa{justify-content:flex-start;margin-top:0;padding-top:28px}
+  #captcha{justify-content:flex-start!important}
+}
