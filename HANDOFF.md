@@ -1,3 +1,12 @@
+# Handoff tambahan, 1 November 2026 (login: bahasa + SEO)
+
+**Belum diuji di browser.** Yang dijalankan: `node tools/pecah-bahasa.js`, `node tools/cek-bahasa.js` (550 kunci x 7 bahasa, OK), `node --check js/bahasa-muat.js`, `node tools/naikkan-cache.js`, JSON-LD dan `sitemap.xml` di-parse.
+Berubah: `login.html` (H1 terlihat + subjudul, tombol "Buat akun baru", tautan Apa itu Jurkon / Jelajahi / Pusat bantuan, `robots` jadi index, title/description/OG/Twitter baru, JSON-LD), `css/login.css`, `js/bahasa.js` (+ turunan `js/bahasa/*.js`, `js/bahasa-muat.js`), `tools/pecah-bahasa.js` (crawler memakai bahasa Indonesia), `sitemap.xml` (+ `login.html`), `docs/seo.md`, `sw.js`.
+Kunci baru: `auth.judulDoc`, `auth.sub`. Teks id dan en dipoles untuk semua pesan galat login; ms/jv/su/zh/ja hanya berubah di tempat maknanya ikut berubah (`auth.daftar`, `auth.sandiPh`, `auth.setujuHtml`, kunci baru). Terjemahan Jawa dan Sunda sebaiknya dibaca penutur asli.
+Uji manual: login (masuk, daftar, lupa sandi, pesan galat), tema Kertas/Gelap/Kaca/Awan di 320 dan 390 px, ganti bahasa lalu muat ulang. Setelah unggah: Search Console > Pemeriksaan URL > `https://jurkon.my.id/login.html` > Minta pengindeksan, lalu kirim ulang `sitemap.xml`.
+
+---
+
 # Handoff tambahan, 1 November 2026: SEO landing + tampilan modern
 
 Belum diuji di browser. Perubahan: bagian FAQ (5 pertanyaan x 7 bahasa) dengan `<details>`, JSON-LD jadi `@graph` (WebSite, Organization, WebApplication, FAQPage), meta robots + twitter + ukuran og:image, lapisan CSS modern di akhir `css/landing.css` (hero, kartu, langkah dengan benang, FAQ, `content-visibility`), `docs/seo.md` (langkah Search Console yang harus kamu lakukan sendiri). Sumber teks: `tools/landing-teks.js`; hasil: `node tools/buat-landing.js`. Cek visual wajib di HP (320 dan 390 px) dan tema gelap. Terjemahan Jawa/Sunda FAQ sebaiknya dibaca penutur asli.

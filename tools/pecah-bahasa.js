@@ -31,6 +31,7 @@ const muat = kepala + 'var I18N_BAHASA=' + JSON.stringify(B) + ';\n' +
   var pil = 'auto';
   try { pil = localStorage.getItem('bahasa') || 'auto'; } catch (e) {}
   var kode = KODE.indexOf(pil) >= 0 ? pil : '';
+  if (!kode && /googlebot|bingbot|duckduckbot|yandexbot|baiduspider|applebot|crawler|spider/i.test(navigator.userAgent || '')) kode = 'id';   // mesin pencari melihat bahasa bawaan (sama dengan HTML statis)
   if (!kode) {
     var l = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ''];
     for (var i = 0; i < l.length && !kode; i++) {
