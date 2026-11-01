@@ -21,6 +21,8 @@
   nav.innerHTML = menu.map(([h, n, k]) =>
     `<a href="${h}" data-k="${k}" class="${aktif === k ? 'aktif' : ''}" aria-label="${esc(n)}" title="${esc(n)}"${aktif === k ? ' aria-current="page"' : ''}>${ikon[k]}${esc(n)}${k === 'notifikasi' || k === 'pesan' ? '<span class="lencana" hidden></span>' : ''}</a>`).join('') +
     `<a href="post.html" class="nav-tulis" aria-label="${esc(t('nav.tulis'))}" title="${esc(t('nav.tulis'))}">${ikon.tulis}${esc(t('nav.tulis'))}</a>`;
+  // Merek di menu samping (hanya tampil di layar lebar, lewat CSS)
+  nav.insertAdjacentHTML('afterbegin', '<a href="index.html" class="nav-merek" aria-label="Jurkon" title="Jurkon"><img class="logo-terang" src="assets/logo-header.webp" alt="" width="136" height="46" decoding="async"><img class="logo-gelap" src="assets/logo-header-gelap.webp" alt="" width="136" height="46" decoding="async"></a>');
   document.body.appendChild(nav);
 
   // Panel kanan (tampil hanya di layar lebar)
@@ -28,7 +30,9 @@
     const p = document.createElement('aside');
     p.className = 'panel';
     p.setAttribute('aria-label', t('panel.aria'));
-    p.innerHTML = `<section id="panel-notif"><h2>${esc(t('nav.notifikasi'))}</h2>
+    const phCari = String(t('explore.ph')).split('|')[0];
+    p.innerHTML = `<form class="panel-cari" action="explore.html" method="get" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input type="search" name="q" maxlength="50" autocomplete="off" placeholder="${esc(phCari)}" aria-label="${esc(t('explore.aria'))}"></form>
+      <section id="panel-notif"><h2>${esc(t('nav.notifikasi'))}</h2>
       <ul class="panel-notif"></ul>
       <a class="lihat-semua" href="notifikasi.html">${esc(t('panel.lihatSemua'))}</a></section>
       <section><h2>${esc(t('panel.catatan'))}</h2>
@@ -37,7 +41,8 @@
       <section><h2>${esc(t('panel.pintasan'))}</h2><ul>
         <li><a href="post.html">${esc(t('panel.tulisBaru'))}</a></li>
         <li><a href="explore.html">${esc(t('panel.cari'))}</a></li>
-        <li><a href="aturan.html">${esc(t('panel.aturan'))}</a></li></ul></section>`;
+        <li><a href="aturan.html">${esc(t('panel.aturan'))}</a></li></ul></section>
+      <footer class="panel-kaki"><a href="tentang.html">${esc(t('set.tentang'))}</a><a href="pusat-bantuan.html">${esc(t('set.bantuan'))}</a><a href="kebijakan-privasi.html">${esc(t('set.privasi'))}</a><a href="ketentuan-layanan.html">${esc(t('set.ketentuan'))}</a><span>© 2026 Jurkon</span></footer>`;
     document.body.appendChild(p);
   }
 

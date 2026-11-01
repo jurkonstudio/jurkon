@@ -1169,3 +1169,85 @@ body{letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
 .jl-kaki{text-align:center;padding:14px 16px}
 .jl-ujung{color:var(--redup);font-size:14px;margin:0}
 .jl-tentang{text-align:center;font-size:14px;padding:6px 16px 28px}
+
+/* ===== Desktop profesional (layar >= 1100px) =====
+   Lapisan ini sengaja di paling bawah supaya menimpa mode kompak. Tampilan HP tidak berubah.
+   Untuk mengembalikan tampilan desktop lama, hapus dari komentar ini sampai akhir berkas. */
+:root{--kol:600px}
+@media (min-width:768px){
+  main{max-width:var(--kol)}
+  .kirim{width:min(var(--kol),100%)}
+  .kirim>div{max-width:var(--kol)}
+}
+.nav a.nav-merek{display:none}
+
+@media (min-width:1100px){
+  body{font-size:15px;line-height:1.5}
+  .header{min-height:56px;padding:4px 24px}
+  .header h1{font-size:20px;font-weight:750;letter-spacing:-.015em}
+
+  /* menu samping: merek di atas, tombol Tulis lebih lega */
+  .nav a.nav-merek{display:flex;justify-content:flex-start;width:auto;height:auto;min-height:0;padding:6px 14px 18px;border-radius:0;background:none!important;box-shadow:none!important;transform:none!important}
+  .nav a.nav-merek:hover{background:none}
+  .nav-merek img{height:38px;width:auto;display:block}
+  .nav-merek .logo-gelap{display:none}
+  :root[data-theme=gelap] .nav-merek .logo-terang{display:none}
+  :root[data-theme=gelap] .nav-merek .logo-gelap{display:block}
+  .nav a.nav-tulis{margin-top:14px;min-height:54px;font-size:17px}
+
+  /* kartu catatan: lebih lega dan nyaman dibaca */
+  .post{padding:18px 24px;gap:14px}
+  .post .avatar{width:46px!important;height:46px!important;font-size:18px!important}
+  .post .nama{font-size:15.5px}
+  .post .user,.post .waktu{font-size:14px}
+  .post .isi{font-size:16px;line-height:1.6;margin-top:3px}
+  .post .aksi{margin-top:8px;font-size:13.5px}
+  .post .aksi button,.post .aksi a,.post .aksi .tayang{min-height:36px;min-width:38px}
+  .post .aksi svg,.post .aksi .btn-publik svg,.post .aksi .btn-kartu svg{width:18px;height:18px}
+  #balasan .post::before{left:47px}
+
+  /* profil: banner tinggi dengan pola titik, avatar besar */
+  #atas .profil-atas{--pp:28px;padding:0 var(--pp) 20px}
+  #atas .profil-atas::before{height:176px;
+    background:radial-gradient(rgba(255,255,255,.2) 1px,transparent 1.6px) 0 0/20px 20px,
+      radial-gradient(120% 140% at 12% 0%,color-mix(in srgb,var(--aksen) 55%,transparent),transparent 60%),
+      linear-gradient(135deg,color-mix(in srgb,var(--aksen) 62%,#101010),color-mix(in srgb,var(--aksen) 22%,var(--bg)))}
+  #atas .profil-atas .avatar{width:120px!important;height:120px!important;font-size:46px!important;margin-top:-60px;box-shadow:0 0 0 5px var(--bg),var(--bayang-2)}
+  #atas .profil-atas .tombol:has(#ubah){margin-top:14px}
+  #atas .profil-atas .tombol .btn{min-height:40px;font-size:14.5px}
+  #atas .profil-atas .tombol .ikon-btn{width:40px;height:40px}
+  #atas .profil-atas h2{font-size:24px}
+  .profil-user{font-size:15px}
+  #atas .profil-atas .bio{font-size:15.5px;line-height:1.55;max-width:54ch;margin-top:12px}
+  #atas .profil-atas .stat{gap:24px;font-size:15px;margin-top:14px}
+  .stat b{font-size:16px}
+
+  /* tab profil: menempel di bawah header saat menggulir */
+  .tab-profil{position:sticky;top:56px;z-index:4;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+  .tab-profil button{min-height:50px;font-size:15px;transition:background .15s,color .15s}
+  .tab-profil button:not([aria-selected=true]){color:var(--redup)}
+  .tab-profil button[aria-selected=true]::after{width:44px;height:4px;margin-left:-22px}
+}
+@media (min-width:1100px) and (hover:hover){
+  .tab-profil button:hover{background:color-mix(in srgb,var(--garis) 35%,transparent)!important}
+}
+
+/* panel kanan: kolom cari, daftar bisa digulir, tautan info di bawah */
+@media (min-width:1280px){
+  .panel{max-height:100dvh;overflow-y:auto;scrollbar-width:none;padding:16px 0 24px}
+  .panel::-webkit-scrollbar{display:none}
+  .panel-cari{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;height:46px;padding:0 16px;margin:0 0 14px;border-radius:999px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--garis),var(--bayang-1);color:var(--redup);transition:box-shadow .15s,color .15s}
+  .panel-cari svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .panel-cari input{flex:1;min-width:0;border:0;padding:0;background:transparent;color:var(--teks);font:inherit;font-size:15px;border-radius:0}
+  .panel-cari input:focus{outline:0}
+  .panel-cari:focus-within{box-shadow:inset 0 0 0 2px var(--aksen);color:var(--aksen)}
+  .panel-kaki{display:flex;flex-wrap:wrap;gap:4px 12px;padding:4px 8px 0;font-size:12.5px;color:var(--redup)}
+  .panel-kaki a:hover{text-decoration:underline}
+}
+
+/* layar sangat lebar: kolom tengah dan panel sedikit melebar */
+@media (min-width:1360px){
+  :root{--kol:660px}
+  .nav{left:calc(50% - 590px);width:244px}
+  .panel{left:calc(50% + 350px);width:320px}
+}
