@@ -90,7 +90,7 @@ window.INFO_T = {
     desc: 'Data yang dikumpulkan Jurnal Koneksi, kegunaannya, siapa yang boleh melihatnya, dan hak anda terhadap data anda.',
     hukum: true,
     html: `
-<p class="tgl">Tarikh kuat kuasa: 1 November 2026 · Kali terakhir dikemas kini: 1 November 2026</p>
+<p class="tgl">Kali terakhir dikemas kini: 1 November 2026</p>
 
 <p>Dasar ini menerangkan data apa yang dikumpulkan Jurnal Koneksi (“Jurkon”, “kami”), untuk apa ia digunakan, siapa yang boleh melihatnya, dan apa yang boleh anda lakukan terhadap data anda. Kami menulisnya seringkas dan sejelas mungkin.</p>
 
@@ -167,14 +167,9 @@ window.INFO_T = {
 <p>Jurkon ditujukan kepada pengguna berumur sekurang-kurangnya 17 tahun. Kami tidak dengan sengaja mengumpulkan data daripada kanak-kanak di bawah umur tersebut. Jika anda ibu bapa atau penjaga dan mengetahui anak anda mendaftar, hubungi kami supaya akaunnya dapat dipadam.</p>
 
 <h3>11. Perubahan dasar</h3>
-<p>Dasar ini boleh dikemas kini. Tarikh kemas kini terakhir tercantum di bahagian atas halaman. Untuk perubahan yang penting, kami akan memaklumkan melalui aplikasi. Sejarah semakan terdapat di bahagian paling bawah halaman.</p>
+<p>Dasar ini boleh dikemas kini. Tarikh kemas kini terakhir tercantum di bahagian atas halaman. Untuk perubahan yang penting, kami akan memaklumkan melalui aplikasi.</p>
 
 <h3>12. Hubungan</h3>
-<p>Soalan tentang privasi atau permintaan berkaitan data anda: <span class="kontak-mail"></span></p>
-
-<h3>13. Sejarah semakan</h3>
-<ul>
-<li><b>Versi 1.0</b> (1 November 2026): Kemas kini awal berkaitan Turnstile dan Supabase.</li>
-</ul>`
+<p>Soalan tentang privasi atau permintaan berkaitan data anda: <span class="kontak-mail"></span></p>`
   }
 };

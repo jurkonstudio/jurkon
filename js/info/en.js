@@ -90,7 +90,7 @@ window.INFO_T = {
     desc: 'What data Jurnal Koneksi collects, how it is used, who can see it, and your rights over your data.',
     hukum: true,
     html: `
-<p class="tgl">Effective date: 1 November 2026 · Last updated: 1 November 2026</p>
+<p class="tgl">Last updated: 1 November 2026</p>
 
 <p>This policy explains what data Jurnal Koneksi (“Jurkon”, “we”) collects, what it is used for, who can see it, and what you can do with your data. We have written it as briefly and clearly as we can.</p>
 
@@ -167,14 +167,9 @@ window.INFO_T = {
 <p>Jurkon is intended for users aged 17 or older. We do not knowingly collect data from children under that age. If you are a parent or guardian and know that your child has signed up, contact us so the account can be deleted.</p>
 
 <h3>11. Changes to this policy</h3>
-<p>This policy may be updated. The date of the latest update is shown at the top of the page. For important changes, we will notify you through the app. A version history is at the bottom of this page.</p>
+<p>This policy may be updated. The date of the latest update is shown at the top of the page. For important changes, we will notify you through the app.</p>
 
 <h3>12. Contact</h3>
-<p>Questions about privacy or requests about your data: <span class="kontak-mail"></span></p>
-
-<h3>13. Version history</h3>
-<ul>
-<li><b>Version 1.0</b> (1 November 2026): Initial update covering Turnstile and Supabase.</li>
-</ul>`
+<p>Questions about privacy or requests about your data: <span class="kontak-mail"></span></p>`
   }
 };

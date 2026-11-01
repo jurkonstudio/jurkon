@@ -14,7 +14,9 @@ const BAHASA = [
   { kode: 'jv', hl: 'jv',      htmlLang: 'jv',      ogLocale: 'jv_ID', nama: 'Basa Jawa' },
   { kode: 'su', hl: 'su',      htmlLang: 'su',      ogLocale: 'su_ID', nama: 'Basa Sunda' },
   { kode: 'zh', hl: 'zh-Hans', htmlLang: 'zh-Hans', ogLocale: 'zh_CN', nama: '中文（简体）' },
-  { kode: 'ja', hl: 'ja',      htmlLang: 'ja',      ogLocale: 'ja_JP', nama: '日本語' }
+  { kode: 'ja', hl: 'ja',      htmlLang: 'ja',      ogLocale: 'ja_JP', nama: '日本語' },
+  { kode: 'ko', hl: 'ko',      htmlLang: 'ko',      ogLocale: 'ko_KR', nama: '한국어' },
+  { kode: 'hi', hl: 'hi',      htmlLang: 'hi',      ogLocale: 'hi_IN', nama: 'हिन्दी' }
 ];
 
 // kunci -> berkas Indonesia, nama berkas di /<kode>/<slug>.html, kunci di INFO_T (null = Ketentuan, dari ketentuan-bahasa.js)

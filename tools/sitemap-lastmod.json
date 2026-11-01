@@ -1,30 +1,30 @@
 {
  "landing.html": {
-  "sidik": "61a76cf2bcc7677a",
+  "sidik": "4355019b67795595",
   "lastmod": "2026-11-01"
  },
  "en/index.html": {
-  "sidik": "6c144a221621a6e3",
+  "sidik": "5af22ef86bf231ff",
   "lastmod": "2026-11-01"
  },
  "ms/index.html": {
-  "sidik": "d48a94a2a5cbcee6",
+  "sidik": "a0ccc45c4c20a33f",
   "lastmod": "2026-11-01"
  },
  "jv/index.html": {
-  "sidik": "3d8fbac1b9baf5a2",
+  "sidik": "e4ceb3445f547a97",
   "lastmod": "2026-11-01"
  },
  "su/index.html": {
-  "sidik": "a3396c8bae61338d",
+  "sidik": "4e1121cb46886507",
   "lastmod": "2026-11-01"
  },
  "zh/index.html": {
-  "sidik": "24beff7c82d95c40",
+  "sidik": "9a30e996caae7442",
   "lastmod": "2026-11-01"
  },
  "ja/index.html": {
-  "sidik": "1ab7f1bfebf575e2",
+  "sidik": "8d00d6cd9641d000",
   "lastmod": "2026-11-01"
  },
  "jelajahi.html": {
@@ -32,11 +32,11 @@
   "lastmod": "2026-11-01"
  },
  "tentang.html": {
-  "sidik": "e111e4706ffb11e3",
+  "sidik": "13b1276946ecee3d",
   "lastmod": "2026-11-01"
  },
  "pusat-bantuan.html": {
-  "sidik": "6f8256f5cdcd04ec",
+  "sidik": "1878471e2c41bee9",
   "lastmod": "2026-11-01"
  },
  "login.html": {
@@ -48,159 +48,203 @@
   "lastmod": "2026-11-01"
  },
  "aturan.html": {
-  "sidik": "749a8a8587dad7dd",
+  "sidik": "2af6358d738910a0",
   "lastmod": "2026-11-01"
  },
  "kebijakan-privasi.html": {
-  "sidik": "5ac3a72cb5414eaa",
+  "sidik": "3e601d229e97a59d",
   "lastmod": "2026-11-01"
  },
  "ketentuan-layanan.html": {
-  "sidik": "c812652604287d24",
+  "sidik": "fd03d6d5b967fedf",
   "lastmod": "2026-11-01"
  },
  "es/index.html": {
-  "sidik": "2fe328b3c6aef7e1",
-  "lastmod": "2026-11-02"
+  "sidik": "5146b044017fb481",
+  "lastmod": "2026-11-01"
  },
  "fr/index.html": {
-  "sidik": "ebd1ffec889cc1d9",
-  "lastmod": "2026-11-02"
+  "sidik": "1853f2632db43b59",
+  "lastmod": "2026-11-01"
  },
  "hi/index.html": {
-  "sidik": "514fa1e71e39d35a",
-  "lastmod": "2026-11-02"
+  "sidik": "31dbf8f62034cc01",
+  "lastmod": "2026-11-01"
  },
  "ar/index.html": {
-  "sidik": "4697cd98e7cb3bcf",
-  "lastmod": "2026-11-02"
+  "sidik": "42b2fa987f449c24",
+  "lastmod": "2026-11-01"
  },
  "tempat-curhat-tanpa-algoritma.html": {
-  "sidik": "68bc5e98381d6f4c",
+  "sidik": "81bd9a08ffbe5014",
   "lastmod": "2026-11-01"
  },
  "proses-membangun-jurkon.html": {
-  "sidik": "c9dac126084bf624",
+  "sidik": "a3fdc294a1bab1f7",
   "lastmod": "2026-11-01"
  },
  "en/about.html": {
-  "sidik": "f79caf82557048a9",
+  "sidik": "d0293e73fb5e9262",
   "lastmod": "2026-11-01"
  },
  "ms/about.html": {
-  "sidik": "0313c2bed75c53da",
+  "sidik": "28592142875c0e7d",
   "lastmod": "2026-11-01"
  },
  "jv/about.html": {
-  "sidik": "282187ae5d326900",
+  "sidik": "aaac4246bc97cd91",
   "lastmod": "2026-11-01"
  },
  "su/about.html": {
-  "sidik": "56aaf60653024f14",
+  "sidik": "615ab455652600bd",
   "lastmod": "2026-11-01"
  },
  "zh/about.html": {
-  "sidik": "cf86be4e0605590d",
+  "sidik": "0fc0112604a46d8b",
   "lastmod": "2026-11-01"
  },
  "ja/about.html": {
-  "sidik": "b6ca035a631086d8",
+  "sidik": "3e9b9700963327c5",
   "lastmod": "2026-11-01"
  },
  "en/privacy.html": {
-  "sidik": "567c8ab52a7a5ab4",
+  "sidik": "3ee9950134bcdab1",
   "lastmod": "2026-11-01"
  },
  "ms/privacy.html": {
-  "sidik": "54c9424828e4ec2d",
+  "sidik": "378a584a571616bf",
   "lastmod": "2026-11-01"
  },
  "jv/privacy.html": {
-  "sidik": "d0474e81c5580de6",
+  "sidik": "3a8244dc5b76f6d0",
   "lastmod": "2026-11-01"
  },
  "su/privacy.html": {
-  "sidik": "619cf463b811b7ad",
+  "sidik": "86bf4f382093f330",
   "lastmod": "2026-11-01"
  },
  "zh/privacy.html": {
-  "sidik": "d0cc0dbfe3a4b71d",
+  "sidik": "75ecf043a58ca387",
   "lastmod": "2026-11-01"
  },
  "ja/privacy.html": {
-  "sidik": "dbd23f0c0dc42225",
+  "sidik": "4c506e14b6a2f669",
   "lastmod": "2026-11-01"
  },
  "en/rules.html": {
-  "sidik": "cfde633287df03ac",
+  "sidik": "e32fbd61e0efcadd",
   "lastmod": "2026-11-01"
  },
  "ms/rules.html": {
-  "sidik": "19bd5e0f0de40cfd",
+  "sidik": "142da86d401f573a",
   "lastmod": "2026-11-01"
  },
  "jv/rules.html": {
-  "sidik": "f5e0304066b4a03e",
+  "sidik": "3a2fd5492c19ad48",
   "lastmod": "2026-11-01"
  },
  "su/rules.html": {
-  "sidik": "d45eb472ae0a342b",
+  "sidik": "32a60351df7b2a80",
   "lastmod": "2026-11-01"
  },
  "zh/rules.html": {
-  "sidik": "b53ef44aa40a46e4",
+  "sidik": "50b6756db7c4a004",
   "lastmod": "2026-11-01"
  },
  "ja/rules.html": {
-  "sidik": "a935172bb750a572",
+  "sidik": "4c7766aaefda4b6a",
   "lastmod": "2026-11-01"
  },
  "en/help.html": {
-  "sidik": "1a844182d0189ed6",
+  "sidik": "b45dfa2112f823fd",
   "lastmod": "2026-11-01"
  },
  "ms/help.html": {
-  "sidik": "9b6274fb7e7935ca",
+  "sidik": "985a25bb924eca09",
   "lastmod": "2026-11-01"
  },
  "jv/help.html": {
-  "sidik": "d9236350537e08d9",
+  "sidik": "9bf8850962f76f18",
   "lastmod": "2026-11-01"
  },
  "su/help.html": {
-  "sidik": "73df24649a75562f",
+  "sidik": "d25e58cc4061444c",
   "lastmod": "2026-11-01"
  },
  "zh/help.html": {
-  "sidik": "7b78a64bcd031a07",
+  "sidik": "865ef1abf4d2fa44",
   "lastmod": "2026-11-01"
  },
  "ja/help.html": {
-  "sidik": "585e2b987a95c358",
+  "sidik": "0004f52f1163be05",
   "lastmod": "2026-11-01"
  },
  "en/terms.html": {
-  "sidik": "c9e199ef88b0190b",
+  "sidik": "c60f120ced1e03f5",
   "lastmod": "2026-11-01"
  },
  "ms/terms.html": {
-  "sidik": "4a4b6db3838cbd48",
+  "sidik": "737de8d64932e7f0",
   "lastmod": "2026-11-01"
  },
  "jv/terms.html": {
-  "sidik": "67870c3930bd65d2",
+  "sidik": "ffe546f90717ee23",
   "lastmod": "2026-11-01"
  },
  "su/terms.html": {
-  "sidik": "51b693e9d73f71f2",
+  "sidik": "9cd81518bee5800a",
   "lastmod": "2026-11-01"
  },
  "zh/terms.html": {
-  "sidik": "727db223e661f8d7",
+  "sidik": "4d94ab6e1a8904a8",
   "lastmod": "2026-11-01"
  },
  "ja/terms.html": {
-  "sidik": "2ec73aeff199facc",
+  "sidik": "9b74386eb7e52bc6",
+  "lastmod": "2026-11-01"
+ },
+ "ko/index.html": {
+  "sidik": "945e8e44a6bd2d90",
+  "lastmod": "2026-11-02"
+ },
+ "ko/about.html": {
+  "sidik": "a2f9384a4b53c8f1",
+  "lastmod": "2026-11-01"
+ },
+ "hi/about.html": {
+  "sidik": "be606c9aeaa69ee0",
+  "lastmod": "2026-11-01"
+ },
+ "ko/privacy.html": {
+  "sidik": "c13e7d94caded3a1",
+  "lastmod": "2026-11-01"
+ },
+ "hi/privacy.html": {
+  "sidik": "fa3cb10d634803b2",
+  "lastmod": "2026-11-01"
+ },
+ "ko/rules.html": {
+  "sidik": "43c5544eb3ccdf6b",
+  "lastmod": "2026-11-01"
+ },
+ "hi/rules.html": {
+  "sidik": "8a1dbe29eb27038c",
+  "lastmod": "2026-11-01"
+ },
+ "ko/help.html": {
+  "sidik": "e792615308b43206",
+  "lastmod": "2026-11-01"
+ },
+ "hi/help.html": {
+  "sidik": "c45596538bcdfa42",
+  "lastmod": "2026-11-01"
+ },
+ "ko/terms.html": {
+  "sidik": "a803e97348dec39c",
+  "lastmod": "2026-11-01"
+ },
+ "hi/terms.html": {
+  "sidik": "0979f4499ae6cacc",
   "lastmod": "2026-11-01"
  }
 }

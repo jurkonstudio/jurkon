@@ -1,3 +1,25 @@
+# Update Jurkon, 2 November 2026 (bahasa Korea dan Hindi)
+
+Bahasa **한국어 (ko)** dan **हिन्दी (hi)** ditambahkan ke seluruh bagian: antarmuka aplikasi (647 kunci), landing page, halaman Tentang/Privasi/Aturan/Bantuan/Ketentuan, navigasi bahasa, hreflang, sitemap, dan versi cache.
+
+| Bagian | Berkas |
+|---|---|
+| Kamus antarmuka | `js/bahasa.js` (kolom ko, hi), `js/bahasa/ko.js`, `js/bahasa/hi.js`, `js/bahasa-muat.js` |
+| Landing page | `tools/landing-teks.js` (blok `T.ko`, daftar `BAHASA`), `ko/index.html`, `hi/index.html`, `landing.html` |
+| Halaman info | `js/info/ko.js`, `js/info/hi.js`, `tools/info-config.js`, `ko/*.html`, `hi/*.html`, `js/info-arah.js` |
+| Ketentuan | `js/ketentuan-bahasa.js` (blok ko, hi) |
+| Sitemap dan pengalihan | `tools/buat-sitemap.js`, `sitemap.xml`, `js/akar.js` |
+| Navigasi manual | `proses-membangun-jurkon.html`, `tempat-curhat-tanpa-algoritma.html` |
+
+Urutan menjalankan ulang (setelah mengubah kamus atau teks):
+`node tools/cek-bahasa.js` → `node tools/pecah-bahasa.js` → `node tools/buat-info.js` → `node tools/buat-landing.js` → `node tools/buat-sitemap.js` (wajib terakhir, karena `buat-landing` juga menulis sitemap dengan format lebih sederhana) → `node tools/naikkan-cache.js`.
+
+Catatan:
+- Terjemahan ko dan hi dibuat dengan bantuan mesin dan **perlu ditinjau penutur asli** sebelum rilis, terutama halaman hukum.
+- Istilah "India" diartikan sebagai bahasa Hindi. Bahasa India lain (Tamil, Bengali, dsb.) belum termasuk.
+- Teks yang di-hardcode dalam bahasa Indonesia di beberapa halaman aplikasi (login, daftar, panel admin, dan lainnya) belum masuk kamus. Ini berlaku untuk semua bahasa, bukan hanya ko dan hi.
+- `es`, `fr`, dan `ar` sudah punya landing page, tetapi belum punya antarmuka aplikasi maupun halaman info.
+
 # Update Jurkon, 1 November 2026 (landing global)
 
 Landing page kini punya alamat sendiri untuk 7 bahasa supaya bisa terindeks mesin pencari di luar Indonesia. Tanpa SQL.

@@ -91,7 +91,7 @@ window.INFO_T = {
     desc: 'Data naon nu dikumpulkeun Jurnal Koneksi, dipaké pikeun naon, saha nu bisa nempo, sareng hak anjeun kana data anjeun.',
     hukum: true,
     html: `
-<p class="tgl">Tanggal berlaku: 1 Nopémber 2026 · Pamungkas dimutahirkeun: 1 Nopémber 2026</p>
+<p class="tgl">Pamungkas dimutahirkeun: 1 Nopémber 2026</p>
 
 <p>Kawijakan ieu ngajelaskeun data naon nu dikumpulkeun Jurnal Koneksi (“Jurkon”, “kami”), dipaké pikeun naon, saha nu bisa nempo, jeung naon nu bisa anjeun lakukeun kana data anjeun. Kami nulisna sakeudeung jeung sacaang-caangna.</p>
 
@@ -168,14 +168,9 @@ window.INFO_T = {
 <p>Jurkon dituju pikeun pamaké nu umurna sahenteuna 17 taun. Kami henteu ngahaja ngumpulkeun data ti barudak nu umurna kurang ti éta. Upami anjeun kolot atawa wali sarta nyaho anak anjeun ngadaptar, hubungi kami supaya akunna bisa dihapus.</p>
 
 <h3>11. Parobahan kawijakan</h3>
-<p>Kawijakan ieu bisa dimutahirkeun. Tanggal pamutahiran pamungkas kacatet di luhureun kaca. Pikeun parobahan nu penting, kami bakal ngabéjaan ngaliwatan aplikasi. Riwayat révisi aya di bagian panghandapna kaca.</p>
+<p>Kawijakan ieu bisa dimutahirkeun. Tanggal pamutahiran pamungkas kacatet di luhureun kaca. Pikeun parobahan nu penting, kami bakal ngabéjaan ngaliwatan aplikasi.</p>
 
 <h3>12. Kontak</h3>
-<p>Patarosan ngeunaan privasi atawa pamundut nu patali jeung data anjeun: <span class="kontak-mail"></span></p>
-
-<h3>13. Riwayat révisi</h3>
-<ul>
-<li><b>Vérsi 1.0</b> (1 Nopémber 2026): Pamutahiran awal ngeunaan Turnstile jeung Supabase.</li>
-</ul>`
+<p>Patarosan ngeunaan privasi atawa pamundut nu patali jeung data anjeun: <span class="kontak-mail"></span></p>`
   }
 };

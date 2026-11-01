@@ -1,5 +1,5 @@
 // DIHASILKAN oleh tools/pecah-bahasa.js dari js/bahasa.js. Jangan diedit langsung.
-var I18N_BAHASA=[{"kode":"id","nama":"Bahasa Indonesia","locale":"id-ID"},{"kode":"en","nama":"English","locale":"en-US"},{"kode":"ms","nama":"Bahasa Melayu","locale":"ms-MY"},{"kode":"jv","nama":"Basa Jawa","locale":"jv-ID"},{"kode":"su","nama":"Basa Sunda","locale":"su-ID"},{"kode":"zh","nama":"中文（简体）","locale":"zh-CN"},{"kode":"ja","nama":"日本語","locale":"ja-JP"}];
+var I18N_BAHASA=[{"kode":"id","nama":"Bahasa Indonesia","locale":"id-ID"},{"kode":"en","nama":"English","locale":"en-US"},{"kode":"ms","nama":"Bahasa Melayu","locale":"ms-MY"},{"kode":"jv","nama":"Basa Jawa","locale":"jv-ID"},{"kode":"su","nama":"Basa Sunda","locale":"su-ID"},{"kode":"zh","nama":"中文（简体）","locale":"zh-CN"},{"kode":"ja","nama":"日本語","locale":"ja-JP"},{"kode":"ko","nama":"한국어","locale":"ko-KR"},{"kode":"hi","nama":"हिन्दी","locale":"hi-IN"}];
 (function () {
   var KODE = I18N_BAHASA.map(function (b) { return b.kode; });
   var pil = 'auto';

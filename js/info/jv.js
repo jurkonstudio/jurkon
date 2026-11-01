@@ -91,7 +91,7 @@ window.INFO_T = {
     desc: 'Dhata apa sing diklumpukaké Jurnal Koneksi, kanggo apa dienggo, sapa sing bisa ndeleng, lan hak sampeyan marang dhata sampeyan.',
     hukum: true,
     html: `
-<p class="tgl">Tanggal mlaku: 1 November 2026 · Pungkasan dianyarake: 1 November 2026</p>
+<p class="tgl">Pungkasan dianyarake: 1 November 2026</p>
 
 <p>Kabijakan iki njlèntrèhaké dhata apa sing diklumpukaké Jurnal Koneksi (“Jurkon”, “kita”), kanggo apa dienggo, sapa sing bisa ndeleng, lan apa sing bisa sampeyan lakoni marang dhata sampeyan. Kita nulis sing cekak lan cetha sabisa-bisa.</p>
 
@@ -168,14 +168,9 @@ window.INFO_T = {
 <p>Jurkon ditujokaké kanggo pangguna sing umuré paling sethithik 17 taun. Kita ora kanthi sengaja ngumpulaké dhata saka bocah sing umuré kurang saka iku. Yen sampeyan wong tuwa utawa wali lan ngerti anak sampeyan ndaftar, hubungi kita supaya akuné bisa dibusak.</p>
 
 <h3>11. Owah-owahan kabijakan</h3>
-<p>Kabijakan iki bisa dianyarake. Tanggal anyaran pungkasan kacathet ing ndhuwur kaca. Kanggo owah-owahan sing penting, kita bakal ngabari liwat aplikasi. Riwayat revisi ana ing sisih paling ngisor kaca.</p>
+<p>Kabijakan iki bisa dianyarake. Tanggal anyaran pungkasan kacathet ing ndhuwur kaca. Kanggo owah-owahan sing penting, kita bakal ngabari liwat aplikasi.</p>
 
 <h3>12. Kontak</h3>
-<p>Pitakonan bab privasi utawa panyuwunan sing gegayutan karo dhata sampeyan: <span class="kontak-mail"></span></p>
-
-<h3>13. Riwayat revisi</h3>
-<ul>
-<li><b>Versi 1.0</b> (1 November 2026): Pembaruan kawitan bab Turnstile lan Supabase.</li>
-</ul>`
+<p>Pitakonan bab privasi utawa panyuwunan sing gegayutan karo dhata sampeyan: <span class="kontak-mail"></span></p>`
   }
 };
