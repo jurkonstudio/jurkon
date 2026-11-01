@@ -36,7 +36,7 @@
   function aturKirim(ok) {
     boleh = ok;
     const syarat = $('#syarat');
-    $('#teks').disabled = !ok; $('#kirim').disabled = !ok; $('#btnFoto').disabled = !ok; $('#btnMik').disabled = !ok;
+    $('#teks').disabled = !ok; $('#kirim').disabled = !ok; $('#btnFoto').disabled = !ok; $('#btnMik').disabled = !ok; $('#btnDok').disabled = !ok;
     $('#teks').placeholder = ok ? placeholderAsli : t('chat.phKunci');
     syarat.hidden = ok;
     if (!ok) {
@@ -59,9 +59,11 @@
   const adaMedia = !(await db.from('messages').select('media_path').limit(1)).error;
   // Edit & hapus pesan (migrasi 033). Tanpa migrasi, menu pesan hanya menawarkan Salin dan chat tetap jalan.
   const adaEdit = !(await db.from('messages').select('dihapus_at').limit(1)).error;
-  const KOLOM = 'id,conversation_id,sender_id,content,created_at' + (adaMedia ? ',media_jenis,media_path' : '') + (adaEdit ? ',diedit_at,dihapus_at' : '');
+  // Dokumen (migrasi 035). Tanpa migrasi, tombol dokumen disembunyikan dan foto/suara tetap jalan.
+  const adaDok = adaMedia && !(await db.from('messages').select('media_nama,media_ukuran').limit(1)).error;
+  const KOLOM = 'id,conversation_id,sender_id,content,created_at' + (adaMedia ? ',media_jenis,media_path' : '') + (adaDok ? ',media_nama,media_ukuran' : '') + (adaEdit ? ',diedit_at,dihapus_at' : '');
   const bisaSuara = adaMedia && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
-  $('#btnFoto').hidden = !adaMedia; $('#btnMik').hidden = !bisaSuara;
+  $('#btnFoto').hidden = !adaMedia; $('#btnMik').hidden = !bisaSuara; $('#btnDok').hidden = !adaDok;
 
   // Berkas media hanya bisa dibuka 10 menit sejak dikirim. Ditegakkan di database (kebijakan baca storage);
   // di sini layar menghitung mundur lalu menggantinya dengan penanda "sudah hilang".
@@ -74,7 +76,7 @@
     aktif.delete(m.id);
     d.querySelectorAll('audio').forEach(a => { a.pause(); a.removeAttribute('src'); a.load(); });
     d.classList.add('hilang');
-    d.textContent = '🕒 ' + t(m.media_jenis === 'foto' ? 'chat.fotoKedaluwarsa' : 'chat.suaraKedaluwarsa');
+    d.textContent = '🕒 ' + t({ foto: 'chat.fotoKedaluwarsa', dokumen: 'chat.dokKedaluwarsa' }[m.media_jenis] || 'chat.suaraKedaluwarsa');
   }
   function detakJam() {
     aktif.forEach(({ d, m }) => {
@@ -85,6 +87,45 @@
     if (!aktif.size && jam) { clearInterval(jam); jam = null; }
   }
   document.addEventListener('visibilitychange', () => { if (!document.hidden) detakJam(); });
+  // ---- Dokumen & tombol Simpan ----
+  const ukuranTeks = n => n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+  const ekstDari = path => ((String(path).match(/\.([a-z0-9]{1,5})$/i) || [])[1] || '').toLowerCase();
+  // Nama tampil/simpan: ekstensi SELALU diambil dari path di storage (ditegakkan database), bukan dari nama kiriman.
+  function namaBerkas(m) {
+    const ext = ekstDari(m.media_path);
+    let dasar = String(m.media_nama || '').replace(/\.[A-Za-z0-9]{1,5}$/, '')
+      .replace(/[\u0000-\u001f\u007f\\\/:*?"<>|\u200b-\u200f\u202a-\u202e\u2066-\u2069\ufeff]/g, '').replace(/\s+/g, ' ').trim().slice(0, 90);
+    if (!dasar) dasar = m.media_jenis === 'dokumen' ? 'dokumen' : 'jurkon-' + (m.media_jenis === 'foto' ? 'foto' : 'suara');
+    return dasar + (ext ? '.' + ext : '');
+  }
+  function kartuDok(m) {
+    const k = document.createElement('div'); k.className = 'dok';
+    const ik = document.createElement('span'); ik.className = 'dok-ikon'; ik.textContent = '📄'; ik.setAttribute('aria-hidden', 'true');
+    const tx = document.createElement('div'); tx.className = 'dok-teks';
+    const n = document.createElement('div'); n.className = 'dok-nama'; n.textContent = namaBerkas(m);
+    const u = document.createElement('div'); u.className = 'dok-info';
+    u.textContent = ekstDari(m.media_path).toUpperCase() + (m.media_ukuran ? ' · ' + ukuranTeks(m.media_ukuran) : '');
+    tx.append(n, u); k.append(ik, tx);
+    k.setAttribute('role', 'group'); k.setAttribute('aria-label', t('chat.dokAria', { nama: namaBerkas(m) }));
+    return k;
+  }
+  // Simpan = unduh ke perangkat selama masih dalam 10 menit. Tautan unduhan bertanda tangan, berlaku 60 detik.
+  async function simpanMedia(m, tombol) {
+    const s = sisaMs(m);
+    if (s <= 2000) { alert(t('chat.simpanGagal')); return; }
+    tombol.disabled = true;
+    try {
+      const nama = namaBerkas(m).replace(/[^\x20-\x7E]/g, '_');
+      const { data, error } = await db.storage.from(BUCKET).createSignedUrl(m.media_path, Math.min(60, Math.floor(s / 1000)), { download: nama });
+      if (error || !data) { alert(t('chat.simpanGagal')); return; }
+      const a = document.createElement('a');
+      a.href = data.signedUrl; a.rel = 'noopener'; a.style.display = 'none';
+      document.body.append(a); a.click(); a.remove();
+      tombol.textContent = '✓ ' + t('chat.simpanBerkas');
+      setTimeout(() => { tombol.textContent = t('chat.simpanBerkas'); }, 2500);
+    } catch (e) { alert(t('chat.simpanGagal')); }
+    finally { setTimeout(() => { tombol.disabled = false; }, 1500); }
+  }
   async function isiMedia(d, m) {
     const s = sisaMs(m);
     if (s <= 0) return kedaluwarsa(d, m);
@@ -95,13 +136,19 @@
     if (m.media_jenis === 'foto') {
       el = new Image(); el.alt = t('chat.fotoAlt'); el.decoding = 'async';
       el.onload = () => window.scrollTo(0, document.body.scrollHeight);
+      el.src = data.signedUrl;
+    } else if (m.media_jenis === 'dokumen') {
+      el = kartuDok(m);   // dokumen tidak pernah dibuka di dalam halaman, hanya bisa disimpan
     } else {
       el = document.createElement('audio'); el.controls = true; el.preload = 'metadata';
       el.setAttribute('aria-label', t('chat.suaraAria'));
+      el.src = data.signedUrl;
     }
-    el.src = data.signedUrl;
     const l = document.createElement('div'); l.className = 'sisa'; l.textContent = labelSisa(s);
-    d.textContent = ''; d.append(el, l);
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'simpan-media'; b.textContent = t('chat.simpanBerkas');
+    b.onclick = ev => { ev.stopPropagation(); simpanMedia(m, b); };
+    const bar = document.createElement('div'); bar.className = 'media-bar'; bar.append(l, b);
+    d.textContent = ''; d.append(el, bar);
     aktif.set(m.id, { d, m });
     if (!jam) jam = setInterval(detakJam, 5000);
   }
@@ -241,7 +288,7 @@
   // Ketuk gelembung (atau Enter/Spasi saat terfokus) membuka menu. Memilih teks atau memutar suara tidak membukanya.
   $('#isi').addEventListener('click', e => {
     const d = e.target.closest('.bubble[data-id]');
-    if (!d || e.target.closest('audio, a')) return;
+    if (!d || e.target.closest('audio, a, button.simpan-media')) return;
     const sel = window.getSelection && window.getSelection().toString();
     if (sel) return;
     const x = peta.get(d.dataset.id);
@@ -266,7 +313,7 @@
     $('#editCuplikan').textContent = m.content;
     $('#editBar').hidden = false;
     $('#kirim').classList.add('simpan'); $('#kirim').setAttribute('aria-label', t('chat.simpan'));
-    $('#btnFoto').hidden = true; $('#btnMik').hidden = true;
+    $('#btnFoto').hidden = true; $('#btnMik').hidden = true; $('#btnDok').hidden = true;
     kotak.focus(); kotak.setSelectionRange(kotak.value.length, kotak.value.length);
   }
   function keluarEdit() {
@@ -274,7 +321,7 @@
     editId = null;
     $('#editBar').hidden = true;
     $('#kirim').classList.remove('simpan'); $('#kirim').setAttribute('aria-label', t('umum.kirim'));
-    $('#btnFoto').hidden = !adaMedia; $('#btnMik').hidden = !bisaSuara;
+    $('#btnFoto').hidden = !adaMedia; $('#btnMik').hidden = !bisaSuara; $('#btnDok').hidden = !adaDok;
     $('#teks').value = drafAsli; $('#teks').dispatchEvent(new Event('input'));
   }
   async function simpanEdit(isi) {
@@ -392,8 +439,8 @@
   // ---- Kirim foto & pesan suara ----
   let sibuk = false;
   const idAcak = () => (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2);
-  function kunciMedia(ya) { sibuk = ya; $('#btnFoto').disabled = ya || !boleh; $('#btnMik').disabled = ya || !boleh; }
-  async function kirimMedia(blob, jenis, mime, ekstensi) {
+  function kunciMedia(ya) { sibuk = ya; $('#btnFoto').disabled = ya || !boleh; $('#btnMik').disabled = ya || !boleh; $('#btnDok').disabled = ya || !boleh; }
+  async function kirimMedia(blob, jenis, mime, ekstensi, info) {
     if (!boleh || sibuk) return;
     kunciMedia(true);
     const path = cid + '/' + saya.id + '/' + idAcak() + '.' + ekstensi;
@@ -401,7 +448,8 @@
       const { error: eu } = await db.storage.from(BUCKET).upload(path, blob, { contentType: mime, cacheControl: '60', upsert: false });
       if (eu) { await galatKirim(eu, true); return; }
       const { data, error } = await db.from('messages')
-        .insert({ conversation_id: cid, sender_id: saya.id, content: '', media_jenis: jenis, media_path: path }).select().single();
+        .insert(Object.assign({ conversation_id: cid, sender_id: saya.id, content: '', media_jenis: jenis, media_path: path },
+          info ? { media_nama: info.nama, media_ukuran: info.ukuran } : {})).select().single();
       if (error) { db.storage.from(BUCKET).remove([path]).catch(() => {}); await galatKirim(error); return; }
       tampil(data);
     } catch (e) {
@@ -441,6 +489,36 @@
     try { blob = await kecilkanFoto(f); } catch (err) { alert(err.message); return; }
     if (!confirm(t('chat.konfirmFoto'))) return;
     await kirimMedia(blob, 'foto', 'image/jpeg', 'jpg');
+  };
+
+  // Dokumen: maks 5 MB, hanya jenis aman (tanpa berkas yang bisa dijalankan). Isi berkas dicocokkan dengan jenisnya.
+  const DOK = { pdf: 'application/pdf', txt: 'text/plain', csv: 'text/csv',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' };
+  const MAKS_DOK = 5 * 1024 * 1024;
+  async function isiCocok(f, ext) {
+    const b = new Uint8Array(await f.slice(0, 4096).arrayBuffer());
+    if (!b.length) return false;
+    if (ext === 'pdf') return new TextDecoder('latin1').decode(b.subarray(0, 1024)).indexOf('%PDF-') >= 0;
+    if (ext === 'docx' || ext === 'xlsx' || ext === 'pptx') return b[0] === 0x50 && b[1] === 0x4b && b[2] === 3 && b[3] === 4;
+    return b.indexOf(0) < 0;   // txt/csv: teks biasa, tanpa byte nol
+  }
+  $('#btnDok').onclick = () => { if (boleh && !sibuk) $('#dok').click(); };
+  $('#dok').onchange = async e => {
+    const f = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!f || !boleh || sibuk) return;
+    const ext = (f.name.split('.').pop() || '').toLowerCase();
+    if (!Object.prototype.hasOwnProperty.call(DOK, ext)) { alert(t('chat.dokFormat')); return; }
+    if (f.size > MAKS_DOK) { alert(t('chat.dokBesar')); return; }
+    let cocok = false;
+    try { cocok = await isiCocok(f, ext); } catch (err) {}
+    if (!cocok) { alert(t('chat.dokRusak')); return; }
+    const nama = namaBerkas({ media_nama: f.name, media_path: 'x.' + ext, media_jenis: 'dokumen' });
+    if (!confirm(t('chat.konfirmDok', { nama, ukuran: ukuranTeks(f.size) }))) return;
+    // Blob baru memaksa jenis berkas sesuai daftar (jenis bawaan peramban sering salah/kosong)
+    await kirimMedia(new Blob([f], { type: DOK[ext] }), 'dokumen', DOK[ext], ext, { nama, ukuran: f.size });
   };
 
   // Pesan suara: rekam maks 60 detik. mp4/AAC didahulukan karena paling luas bisa diputar (termasuk iPhone).

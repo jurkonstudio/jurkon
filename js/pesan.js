@@ -47,7 +47,7 @@
     const m = terakhir[c.id];
     const nama = o.nama || o.username || t('pesan.pengguna');
     const awal = m && m.sender_id === saya.id ? t('pesan.kamu') : '';
-    const cuplikan = m ? awal + (m.dihapus_at ? t('pesan.dihapus') : m.media_path ? t(m.media_jenis === 'foto' ? 'pesan.foto' : 'pesan.suara') : m.content) : t('pesan.belum');
+    const cuplikan = m ? awal + (m.dihapus_at ? t('pesan.dihapus') : m.media_path ? t({ foto: 'pesan.foto', dokumen: 'pesan.dokumen' }[m.media_jenis] || 'pesan.suara') : m.content) : t('pesan.belum');
     const baru = belum.has(c.id);
     const cari = (nama + ' ' + (o.username || '')).toLowerCase();
     return `<a class="psn-item${baru ? ' baru' : ''}" href="chat.html?id=${c.id}" data-cari="${esc(cari)}"${baru ? ' aria-label="' + esc(nama + ', ' + t('panel.belumDibaca')) + '"' : ''}>
