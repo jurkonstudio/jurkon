@@ -118,9 +118,9 @@ function htmlPost(p, saya) {
     <a href="detail.html?id=${p.id}"><div class="isi">${esc(p.content)}</div></a>
     <div class="aksi">
       <button class="btn-suka ${suka}" data-id="${p.id}">♥ <span>${jml}</span></button>
-      <a href="detail.html?id=${p.id}">Balas</a>
-      <button class="btn-lapor" data-id="${p.id}">Laporkan</button>
-      ${saya && saya.id === p.user_id ? `<button class="btn-hapus" data-id="${p.id}">Hapus</button>` : ''}
+      <a href="detail.html?id=${p.id}">${esc(t('umum.balas'))}</a>
+      <button class="btn-lapor" data-id="${p.id}">${esc(t('pc.lapor'))}</button>
+      ${saya && saya.id === p.user_id ? `<button class="btn-hapus" data-id="${p.id}">${esc(t('pc.hapus'))}</button>` : ''}
     </div></article>`;
 }
 
@@ -138,10 +138,10 @@ function pasangAksiPost(saya, muat) {
       else { await db.from('likes').insert({ post_id: id, user_id: saya.id }); n.textContent = +n.textContent + 1; }
       b.classList.toggle('sudah');
     } else if (b.classList.contains('btn-lapor')) {
-      const alasan = prompt('Alasan melaporkan (maks 300 karakter):');
-      if (alasan) { await db.from('reports').insert({ reporter_id: saya.id, post_id: id, alasan: alasan.slice(0, 300) }); alert('Laporan terkirim. Terima kasih.'); }
+      const alasan = prompt(t('pc.alasan'));
+      if (alasan) { await db.from('reports').insert({ reporter_id: saya.id, post_id: id, alasan: alasan.slice(0, 300) }); alert(t('pc.terkirim')); }
     } else if (b.classList.contains('btn-hapus')) {
-      if (confirm('Hapus posting ini?')) { await db.from('posts').delete().eq('id', id); muat(); }
+      if (confirm(t('pc.konfirmHapus'))) { await db.from('posts').delete().eq('id', id); muat(); }
     }
   });
 }

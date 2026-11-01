@@ -40,7 +40,7 @@
   const tgl = new Date(c.created_at).toLocaleDateString(I18n.locale, { day: 'numeric', month: 'long', year: 'numeric' });
 
   // Judul dan deskripsi untuk Google/WhatsApp (crawler tanpa JS dilayani Worker; lihat worker/README.md)
-  const judul = t('pf.bagikanJudul', { nama: nama, u: c.username }) + ': “' + potong(c.content, 70) + '”';
+  const judul = t('ui5.judulBagikan', { judul: t('pf.bagikanJudul', { nama: nama, u: c.username }), isi: potong(c.content, 70) });
   const desk = potong(c.content, 155);
   const kanon = 'https://jurkon.my.id/n?id=' + c.id;
   document.title = judul;
