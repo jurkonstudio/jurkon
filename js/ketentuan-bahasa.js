@@ -24,7 +24,7 @@
         ['11. Contact', '<p>Questions about these terms: <span class="kontak-mail"></span></p>']
       ],
       nav: ['Privacy Policy', 'Terms of Service', 'Rules', 'Help Center', 'About'], navAria: 'Information pages',
-      catatan: 'The Privacy Policy and Rules are currently available in Indonesian only. If this translation differs from the Indonesian version, the Indonesian version prevails.'
+      catatan: 'If this translation differs from the Indonesian version, the Indonesian version prevails.'
     },
 
     ms: {
@@ -44,7 +44,7 @@
         ['11. Hubungi kami', '<p>Pertanyaan tentang terma ini: <span class="kontak-mail"></span></p>']
       ],
       nav: ['Dasar Privasi', 'Terma Perkhidmatan', 'Peraturan', 'Pusat Bantuan', 'Tentang'], navAria: 'Halaman maklumat',
-      catatan: 'Dasar Privasi dan Peraturan buat masa ini hanya tersedia dalam Bahasa Indonesia. Jika terjemahan ini berbeza daripada versi Bahasa Indonesia, versi Bahasa Indonesia yang terpakai.'
+      catatan: 'Jika terjemahan ini berbeza daripada versi Bahasa Indonesia, versi Bahasa Indonesia yang terpakai.'
     },
 
     jv: {
@@ -64,7 +64,7 @@
         ['11. Kontak', '<p>Pitakon bab katentuan iki: <span class="kontak-mail"></span></p>']
       ],
       nav: ['Kabijakan privasi', 'Katentuan layanan', 'Aturan', 'Pusat bantuan', 'Bab Jurkon'], navAria: 'Kaca informasi',
-      catatan: 'Kabijakan privasi lan Aturan saiki mung kasedhiya ing Basa Indonesia. Yen terjemahan iki beda karo versi Basa Indonesia, sing lumaku yaiku versi Basa Indonesia.'
+      catatan: 'Yen terjemahan iki beda karo versi Basa Indonesia, sing lumaku yaiku versi Basa Indonesia.'
     },
 
     su: {
@@ -84,7 +84,7 @@
         ['11. Kontak', '<p>Pertanyaan ngeunaan katangtuan ieu: <span class="kontak-mail"></span></p>']
       ],
       nav: ['Kawijakan privasi', 'Katangtuan layanan', 'Aturan', 'Pusat bantuan', 'Ngeunaan'], navAria: 'Kaca émbaran',
-      catatan: 'Kawijakan privasi jeung Aturan ayeuna ngan sayaga dina Basa Indonésia. Lamun tarjamahan ieu béda jeung vérsi Basa Indonésia, nu lumaku nyaéta vérsi Basa Indonésia.'
+      catatan: 'Lamun tarjamahan ieu béda jeung vérsi Basa Indonésia, nu lumaku nyaéta vérsi Basa Indonésia.'
     },
 
     zh: {
@@ -104,7 +104,7 @@
         ['11. 联系方式', '<p>关于本条款的问题：<span class="kontak-mail"></span></p>']
       ],
       nav: ['隐私政策', '服务条款', '使用规则', '帮助中心', '关于'], navAria: '信息页面',
-      catatan: '隐私政策和使用规则目前仅提供印度尼西亚语版本。如本译文与印度尼西亚语版本有出入，以印度尼西亚语版本为准。'
+      catatan: '如本译文与印度尼西亚语版本有出入，以印度尼西亚语版本为准。'
     },
 
     ja: {
@@ -124,7 +124,7 @@
         ['11. お問い合わせ', '<p>本規約に関するご質問：<span class="kontak-mail"></span></p>']
       ],
       nav: ['プライバシーポリシー', '利用規約', 'ルール', 'ヘルプセンター', 'Jurkon について'], navAria: '情報ページ',
-      catatan: 'プライバシーポリシーと利用ルールは現在インドネシア語のみです。この翻訳とインドネシア語版に相違がある場合は、インドネシア語版が優先されます。'
+      catatan: 'この翻訳とインドネシア語版に相違がある場合は、インドネシア語版が優先されます。'
     }
   };
 

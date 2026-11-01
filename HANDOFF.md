@@ -1,3 +1,15 @@
+# Handoff tambahan, 2 November 2026 (halaman Informasi mengikuti bahasa pengguna)
+
+**Belum diuji di browser.** Dijalankan: `node --check` semua JS baru, uji paritas struktur (tiap terjemahan punya jumlah bagian, FAQ, butir, tautan, dan tag yang sama dengan versi Indonesia, 24 kombinasi), uji render dengan DOM tiruan (7 bahasa x 4 halaman), `pecah-bahasa`, `cek-bahasa` (647 kunci x 7 bahasa, OK), `naikkan-cache`.
+Isi panel Informasi di Profil kini mengikuti bahasa tampilan: Kebijakan privasi, Aturan, Pusat bantuan, dan Tentang (Ketentuan layanan sudah sejak sebelumnya).
+Cara kerja: HTML Indonesia tetap statis (sumber utama, terbaca tanpa JavaScript dan oleh mesin pencari). `js/info-muat.js` memuat `js/info/<kode>.js` (en, ms, jv, su, zh, ja) bila bahasa bukan Indonesia, lalu `js/info-bahasa.js` mengganti isi `.dokumen[data-info]`, judul H1, `<title>`, dan meta description. Pemilih bahasa ditambahkan di bawah tiap halaman (`#bahasa`), sama seperti Ketentuan layanan.
+Berubah: `tentang.html`, `aturan.html`, `pusat-bantuan.html`, `kebijakan-privasi.html` (muat `bahasa-muat.js` + `i18n.js`, `data-info`, pemilih bahasa; tentang dan pusat-bantuan kini juga memuat `css/dokumen.css`), `js/ketentuan-bahasa.js` (catatan lama "hanya Indonesia" dihapus), `js/bahasa.js` kunci `set.catatanBahasa` (+ turunan `js/bahasa/*.js`), `profil.html`, `sw.js`.
+Baru: `js/info-muat.js`, `js/info-bahasa.js`, `js/info/{en,ms,jv,su,zh,ja}.js`.
+Catatan keputusan: terjemahan Kebijakan privasi dan Aturan diberi catatan "bila berbeda, versi Indonesia yang berlaku" (sama dengan Ketentuan layanan; keputusan hukum: tinjau). Terjemahan Jawa dan Sunda sebaiknya dibaca penutur asli; seluruh terjemahan hukum sebaiknya ditinjau orang yang paham. Bila isi versi Indonesia berubah, perbarui keenam berkas di `js/info/`.
+Uji manual: buka tiap halaman Informasi dari Profil > Pengaturan di tiap bahasa (ganti lewat pemilih bawah), tema gelap, 320 px, FAQ Pusat bantuan bisa dibuka, alamat kontak muncul, tombol Kembali.
+
+---
+
 # Handoff tambahan, 1 November 2026 (perbaikan tampilan desktop)
 
 **Diuji di Chromium tanpa Supabase (data tiruan), belum di produksi.** Ukuran yang dilihat: 390, 980, 1280, 1440, 1920 px; tema Kertas, Gelap, Kaca, Awan.

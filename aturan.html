@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+<script src="js/bahasa-muat.js"></script><script src="js/i18n.js"></script>
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/dokumen.css">
@@ -25,8 +26,8 @@
 <meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <title>Aturan · Jurkon</title></head><body>
-<main><div class="header"><a href="index.html" data-kembali>← Kembali</a><h1>Aturan</h1><span></span></div>
-<div class="pad dokumen">
+<main><div class="header"><a href="index.html" data-kembali data-i="detail.kembali">← Kembali</a><h1>Aturan</h1><span></span></div>
+<div class="pad dokumen" data-info="aturan">
 <h3>Aturan penggunaan</h3>
 <p>Dilarang: spam, penipuan, ujaran kebencian, pelecehan, konten dewasa, ancaman, dan membagikan data pribadi orang lain. Posting dan akun yang melanggar dapat dihapus. Kamu bisa melaporkan posting dan memblokir pengguna lain kapan saja.</p>
 <p style="margin-top:8px">Jurkon memeriksa tulisan sebelum dikirim agar tetap nyaman dan sesuai hukum yang berlaku di Indonesia:</p>
@@ -42,7 +43,10 @@
 <p>Di halaman Profil kamu bisa mengunduh data kamu dan menghapus akun. Menghapus akun menghapus profil, posting, suka, dan pesan yang kamu kirim secara permanen.</p>
 <p style="margin-top:16px">Selengkapnya: <a href="kebijakan-privasi.html" style="text-decoration:underline">Kebijakan privasi</a> · <a href="ketentuan-layanan.html" style="text-decoration:underline">Ketentuan layanan</a> · <a href="pusat-bantuan.html" style="text-decoration:underline">Pusat bantuan</a> · <a href="tentang.html" style="text-decoration:underline">Tentang</a></p>
 <p style="margin-top:16px">Kontak: <span id="kontak"></span></p>
-</div></main>
+</div>
+<div id="bahasa" class="tema-pilih dok-bahasa"></div></main>
 <script src="js/config.js"></script>
+<script src="js/info-muat.js"></script>
+<script src="js/info-bahasa.js"></script>
 <script src="js/kontak.js"></script>
 </body></html>

@@ -11,8 +11,10 @@
 <link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+<script src="js/bahasa-muat.js"></script><script src="js/i18n.js"></script>
 <script src="js/tema.js"></script>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dokumen.css">
 <meta name="description" content="Jawaban pertanyaan umum tentang akun, menulis, keamanan, privasi, dan tampilan di Jurnal Koneksi.">
 <link rel="canonical" href="https://jurkon.my.id/pusat-bantuan.html">
 <meta property="og:type" content="website">
@@ -24,8 +26,8 @@
 <meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <title>Pusat bantuan · Jurkon</title></head><body>
-<main><div class="header"><a href="index.html" data-kembali>← Kembali</a><h1>Pusat bantuan</h1><span></span></div>
-<div class="pad dokumen">
+<main><div class="header"><a href="index.html" data-kembali data-i="detail.kembali">← Kembali</a><h1>Pusat bantuan</h1><span></span></div>
+<div class="pad dokumen" data-info="bantuan">
 <p>Jawaban untuk pertanyaan yang paling sering muncul. Kalau belum ketemu, tulis ke kami di bagian paling bawah.</p>
 <h3>Akun</h3>
 <details class="faq"><summary>Bagaimana cara mendaftar dan masuk?</summary><div><p>Buka halaman Masuk, lalu daftar dengan email dan kata sandi, atau pilih masuk dengan Google. Pilih username 3–20 karakter (huruf kecil, angka, atau garis bawah).</p></div></details>
@@ -53,7 +55,10 @@
 <nav class="dok-nav" aria-label="Halaman informasi">
 <a href="kebijakan-privasi.html">Kebijakan privasi</a> · <a href="ketentuan-layanan.html">Ketentuan layanan</a> · <a href="aturan.html">Aturan</a> · <a href="pusat-bantuan.html">Pusat bantuan</a> · <a href="tentang.html">Tentang</a>
 </nav>
-</div></main>
+</div>
+<div id="bahasa" class="tema-pilih dok-bahasa"></div></main>
 <script src="js/config.js"></script>
+<script src="js/info-muat.js"></script>
+<script src="js/info-bahasa.js"></script>
 <script src="js/kontak.js"></script>
 </body></html>

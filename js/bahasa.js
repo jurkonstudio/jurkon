@@ -503,7 +503,7 @@ const I18N_KAMUS = {
   'set.tentang': ['Tentang Jurkon', 'About Jurkon', 'Tentang Jurkon', 'Bab Jurkon', 'Ngeunaan Jurkon', '关于 Jurkon', 'Jurkon について'],
   'set.versi': ['Versi {v}', 'Version {v}', 'Versi {v}', 'Versi {v}', 'Versi {v}', '版本 {v}', 'バージョン {v}'],
   'set.keluar': ['Keluar', 'Sign out', 'Log keluar', 'Metu', 'Kaluar', '退出登录', 'ログアウト'],
-  'set.catatanBahasa': ['Halaman informasi hukum (kebijakan, ketentuan, aturan) tersedia dalam Bahasa Indonesia.', 'Legal information pages (policy, terms, rules) are available in Indonesian.', 'Halaman maklumat undang-undang (dasar, terma, peraturan) tersedia dalam Bahasa Indonesia.', 'Kaca informasi hukum (kabijakan, katentuan, aturan) kasedhiya ing Basa Indonesia.', 'Kaca émbaran hukum (kawijakan, katangtuan, aturan) sayogi dina Basa Indonésia.', '法律信息页面（政策、条款、规则）仅提供印尼语版本。', '法的情報のページ（ポリシー・規約・ルール）はインドネシア語のみです。'],
+  'set.catatanBahasa': ['Halaman informasi mengikuti bahasa tampilan. Bila terjemahan berbeda, versi Bahasa Indonesia yang berlaku.', 'Information pages follow your display language. If a translation differs, the Indonesian version prevails.', 'Halaman maklumat mengikut bahasa paparan. Jika terjemahan berbeza, versi Bahasa Indonesia yang terpakai.', 'Kaca informasi manut basa tampilan. Yen terjemahan beda, sing lumaku versi Basa Indonesia.', 'Kaca émbaran nuturkeun basa tampilan. Lamun tarjamahan béda, nu lumaku vérsi Basa Indonésia.', '信息页面会跟随显示语言。如译文有出入，以印尼语版本为准。', '情報ページは表示言語に合わせて表示されます。翻訳に相違がある場合は、インドネシア語版が優先されます。'],
 
   // ---- Email, data & akun ----
   'ak.email': ['Email', 'Email', 'E-mel', 'Email', 'Surélék', '邮箱', 'メールアドレス'],
