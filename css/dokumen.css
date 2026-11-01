@@ -15,3 +15,9 @@
 .dok-bahasa{margin:0 16px 28px;padding:0;border:0}
 .dok-bahasa select{min-height:36px;font:inherit;font-size:13px}
 .dok-bahasa .hitung{display:none}
+
+/* Halaman info statis per bahasa (/en/about.html dst.): pilihan bahasa berupa tautan biasa, bukan <select> */
+.dok-bahasa-tautan{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 16px 28px;padding:16px 0 0;border-top:1px solid var(--garis);font-size:13px}
+.dok-bahasa-tautan a{color:var(--redup);text-underline-offset:2px;padding:6px 0}
+.dok-bahasa-tautan a[aria-current="page"]{color:var(--teks,inherit);font-weight:600;text-decoration:none}
+.dok-nav a[aria-current="page"]{color:var(--teks,inherit);font-weight:600;text-decoration:none}

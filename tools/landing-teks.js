@@ -18,16 +18,10 @@ const BAHASA = [
   { kode: 'ar', htmlLang: 'ar',      hreflang: 'ar',      ogLocale: 'ar_AR', locale: 'ar-u-nu-latn', nama: 'العربية', dir: 'rtl' }
 ];
 
-// Halaman lain yang nanti punya versi per bahasa: alamatnya /<kode>/<slug>/.
-// Selama bahasa belum ada di TERBIT, tautannya mengarah ke halaman Indonesia.
-const HALAMAN = {
-  tentang:   { id: 'tentang.html',           slug: 'about' },
-  bantuan:   { id: 'pusat-bantuan.html',     slug: 'help' },
-  aturan:    { id: 'aturan.html',            slug: 'rules' },
-  ketentuan: { id: 'ketentuan-layanan.html', slug: 'terms' },
-  privasi:   { id: 'kebijakan-privasi.html', slug: 'privacy' }
-};
-const TERBIT = { tentang: [], bantuan: [], aturan: [], ketentuan: [], privasi: [] };
+// Halaman info per bahasa: alamatnya /<kode>/<slug>.html, dibuat oleh tools/buat-info.js.
+// Daftar halaman dan bahasa yang terbit ada di tools/info-config.js (TUNDA untuk menunda bahasa).
+// Bahasa yang belum terbit (es, fr, hi, ar, atau yang ditunda) tautannya mengarah ke halaman Indonesia.
+const { HALAMAN, TERBIT } = require('./info-config.js');
 
 // Kunci yang juga dipakai js/landing.js (disalin ke js/landing-teks.js)
 const DINAMIS = ['bukaBeranda', 'beranda', 'selamatDatang', 'masuk', 'sampaiJumpa', 'shareTeks', 'shareJudul', 'disalin', 'salinManual'];

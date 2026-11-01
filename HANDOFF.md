@@ -1,3 +1,16 @@
+# Handoff tambahan, 2 November 2026 (halaman info statis enam bahasa)
+
+**Belum diuji di browser dan Search Console.** Dijalankan: `node --check` semua skrip baru/diubah, `buat-info`, `buat-landing`, `buat-sitemap` (51 alamat; pemeriksa hreflang timbal balik lolos), `cek-bahasa` (OK), `naikkan-cache`, uji tiruan `js/info-arah.js`, hitung hreflang (8 per halaman, 30 halaman).
+Hasil: `/<kode>/about.html`, `privacy.html`, `rules.html`, `help.html`, `terms.html` untuk en, ms, jv, su, zh, ja. Isi sudah ada di HTML (tanpa JS), `canonical` ke diri sendiri, hreflang 7 bahasa + x-default ke `/en/...`, JSON-LD WebPage + BreadcrumbList, OG/Twitter, catatan "versi Indonesia berlaku" untuk halaman hukum, tautan antar-halaman sebahasa, tautan balik ke `/<kode>/`, pilihan bahasa berupa tautan biasa.
+Baru: `tools/info-config.js` (daftar halaman + `TUNDA`), `tools/buat-info.js` (generator; jangan edit hasilnya), `js/info-arah.js` (dihasilkan), `js/info-pilih.js`, 30 halaman di `en/ ms/ jv/ su/ zh/ ja/`.
+Berubah: kelima halaman Indonesia (blok hreflang di antara penanda `hreflang-info` + `js/info-arah.js`), `tools/buat-sitemap.js` (grup info per halaman), `tools/landing-teks.js` + `tools/buat-landing.js` (footer landing ke `/<kode>/about.html` dst.), 6 landing hasil, `css/dokumen.css`, `sitemap.xml`, `sw.js` (versi cache).
+Cara kerja: halaman statis baru TIDAK memuat `bahasa-muat.js`, `i18n.js`, `info-bahasa.js`, jadi bahasa ditentukan URL, bukan perangkat (crawler aman). Pengguna non-Indonesia yang membuka `tentang.html` dst. (termasuk dari Profil > Pengaturan > Informasi) dialihkan `location.replace` ke versi statisnya; crawler tetap melihat Indonesia. Memilih bahasa lewat tautan di bawah halaman juga menyimpan pilihan itu (`js/info-pilih.js`), supaya memilih Indonesia tidak dialihkan balik.
+Keputusan yang saya ambil: nama berkas Inggris yang sama untuk semua bahasa (about/privacy/rules/help/terms); semua enam bahasa terbit. Untuk menunda jv/su: isi `TUNDA = ['jv','su']` di `tools/info-config.js`, jalankan `buat-info`, `buat-landing`, `buat-sitemap`, lalu hapus folder `jv/` `su/` info bila sudah terlanjur dibuat (landing jv/su tetap).
+Belum dikerjakan: `info-bahasa.js`, `info-muat.js`, `js/info/*.js` dan `ketentuan-bahasa.js` TETAP dipakai (sumber generator dan cadangan); pensiunkan jalur JS lama setelah pengalihan terbukti jalan. Es/fr/hi/ar di luar cakupan. Isi tipis, nama pemilik, tinjauan hukum, dan penutur asli jv/su tetap keputusan Anda (lihat handoff awal).
+Setelah unggah: `node tools/indexnow.js`; Search Console > Pemeriksaan URL satu halaman per bahasa; kirim ulang `sitemap.xml`. Uji manual: buka tiap URL dengan JS mati, `curl -s https://jurkon.my.id/en/about.html | grep -c 'rel="alternate" hreflang'` (harus 8), tema Kertas/Gelap/Kaca/Awan di 320 dan 390 px, alur Profil > Pengaturan > Informasi di tiap bahasa (harus mendarat di `/<kode>/...`), tombol Kembali.
+
+---
+
 # Handoff tambahan, 2 November 2026 (halaman Informasi mengikuti bahasa pengguna)
 
 **Belum diuji di browser.** Dijalankan: `node --check` semua JS baru, uji paritas struktur (tiap terjemahan punya jumlah bagian, FAQ, butir, tautan, dan tag yang sama dengan versi Indonesia, 24 kombinasi), uji render dengan DOM tiruan (7 bahasa x 4 halaman), `pecah-bahasa`, `cek-bahasa` (647 kunci x 7 bahasa, OK), `naikkan-cache`.

@@ -9,16 +9,15 @@ const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const dasar = path.join(__dirname, '..');
 const SITUS = 'https://jurkon.my.id';
 const baca = p => fs.readFileSync(path.join(dasar, p), 'utf8');
+const INFO = require('./info-config.js');   // halaman info per bahasa (Tentang, Privasi, Aturan, Bantuan, Ketentuan)
 
 const BAHASA = [  // [hreflang, alamat, berkas]; grup ini saling menunjuk
   ['id', '/landing.html', 'landing.html'], ['en', '/en/', 'en/index.html'], ['ms', '/ms/', 'ms/index.html'],
   ['jv', '/jv/', 'jv/index.html'], ['su', '/su/', 'su/index.html'], ['zh-Hans', '/zh/', 'zh/index.html'], ['ja', '/ja/', 'ja/index.html'],
   ['es', '/es/', 'es/index.html'], ['fr', '/fr/', 'fr/index.html'], ['hi', '/hi/', 'hi/index.html'], ['ar', '/ar/', 'ar/index.html']];
 const X_DEFAULT = 'en';
-const TUNGGAL = [  // [alamat, berkas]
-  ['/jelajahi.html', 'jelajahi.html'], ['/tentang.html', 'tentang.html'], ['/pusat-bantuan.html', 'pusat-bantuan.html'],
-  ['/login.html', 'login.html'], ['/daftar.html', 'daftar.html'], ['/aturan.html', 'aturan.html'], ['/tempat-curhat-tanpa-algoritma.html', 'tempat-curhat-tanpa-algoritma.html'], ['/proses-membangun-jurkon.html', 'proses-membangun-jurkon.html'],
-  ['/kebijakan-privasi.html', 'kebijakan-privasi.html'], ['/ketentuan-layanan.html', 'ketentuan-layanan.html']];
+const TUNGGAL = [  // [alamat, berkas]; halaman info (tentang dst.) ada di GRUP_INFO di bawah
+  ['/jelajahi.html', 'jelajahi.html'], ['/login.html', 'login.html'], ['/daftar.html', 'daftar.html'], ['/tempat-curhat-tanpa-algoritma.html', 'tempat-curhat-tanpa-algoritma.html'], ['/proses-membangun-jurkon.html', 'proses-membangun-jurkon.html'],];
 
 const hari = new Date().toISOString().slice(0, 10);
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -37,7 +36,8 @@ const lama = {};   // lastmod dari sitemap lama, dipakai hanya untuk mengisi awa
 if (fs.existsSync(path.join(dasar, 'sitemap.xml')))
   for (const m of baca('sitemap.xml').matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)) lama[m[1]] = m[2];
 
-function entri(loc, berkas, grup) {
+function entri(loc, berkas, grup, xdef) {
+  xdef = xdef || BAHASA.find(b => b[0] === X_DEFAULT)[1];
   const url = SITUS + loc;
   if (!fs.existsSync(path.join(dasar, berkas))) { galat.push(`${berkas}: berkas tidak ada`); return null; }
   const html = baca(berkas);
@@ -46,7 +46,7 @@ function entri(loc, berkas, grup) {
   const kan = html.match(/<link[^>]+rel=["']canonical["'][^>]*href=["']([^"']+)["']/i);
   if (!kan) galat.push(`${berkas}: tanpa canonical`);
   else if (kan[1] !== url) galat.push(`${berkas}: canonical ${kan[1]} berbeda dari ${url}`);
-  if (grup) for (const [hl, l2] of [...grup, ['x-default', BAHASA.find(b => b[0] === X_DEFAULT)[1]]]) {
+  if (grup) for (const [hl, l2] of [...grup, ['x-default', xdef]]) {
     const re = new RegExp(`<link[^>]+hreflang=["']${rx(hl)}["'][^>]*href=["']${rx(SITUS + l2)}["']`, 'i');
     if (!re.test(html)) galat.push(`${berkas}: hreflang ${hl} -> ${SITUS + l2} tidak ada di <head>`);
   }
@@ -56,13 +56,16 @@ function entri(loc, berkas, grup) {
   else lastmod = st.sidik === s ? st.lastmod : hari;
   state[berkas] = { sidik: s, lastmod };
   const og = html.match(/<meta[^>]+property=["']og:image["'][^>]*content=["']([^"']+)["']/i);
-  return { url, lastmod, grup, gambar: og ? og[1] : null, berubah: !!st && s !== s0 };
+  return { url, lastmod, grup, xdef, gambar: og ? og[1] : null, berubah: !!st && s !== s0 };
 }
 
 const grupH = BAHASA.map(([hl, l]) => [hl, l]);
+// Halaman info: satu grup per halaman (id + bahasa yang terbit), saling menunjuk; x-default ke versi Inggris
+const GRUP_INFO = Object.keys(INFO.HALAMAN).map(h => INFO.AKTIF.map(b => [b.hl, INFO.alamat(b.kode, h)]));
 const daftar = [
   ...BAHASA.map(([, l, b]) => entri(l, b, grupH)),
-  ...TUNGGAL.map(([l, b]) => entri(l, b, null))
+  ...TUNGGAL.map(([l, b]) => entri(l, b, null)),
+  ...GRUP_INFO.flatMap(g => g.map(([, l]) => entri(l, l.slice(1), g, INFO.alamat(INFO.X_DEFAULT, Object.keys(INFO.HALAMAN)[GRUP_INFO.indexOf(g)]))))
 ].filter(Boolean);
 
 if (galat.length) { console.error('GAGAL, sitemap tidak ditulis:\n- ' + galat.join('\n- ')); process.exit(1); }
@@ -73,7 +76,7 @@ for (const e of daftar) {
   baris.push('  <url>', `    <loc>${esc(e.url)}</loc>`, `    <lastmod>${e.lastmod}</lastmod>`);
   if (e.grup) {
     for (const [hl, l] of e.grup) baris.push(`    <xhtml:link rel="alternate" hreflang="${hl}" href="${esc(SITUS + l)}"/>`);
-    baris.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(SITUS + BAHASA.find(b => b[0] === X_DEFAULT)[1])}"/>`);
+    baris.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${esc(SITUS + e.xdef)}"/>`);
   }
   if (e.gambar) baris.push(`    <image:image><image:loc>${esc(e.gambar)}</image:loc></image:image>`);
   baris.push('  </url>');
@@ -81,6 +84,6 @@ for (const e of daftar) {
 baris.push('</urlset>', '');
 fs.writeFileSync(path.join(dasar, 'sitemap.xml'), baris.join('\n'));
 fs.writeFileSync(fileState, JSON.stringify(state, null, 1) + '\n');
-console.log(`sitemap.xml ditulis: ${daftar.length} alamat (${BAHASA.length} bahasa landing + ${TUNGGAL.length} halaman).`);
+console.log(`sitemap.xml ditulis: ${daftar.length} alamat (${BAHASA.length} bahasa landing + ${TUNGGAL.length} halaman tunggal + ${GRUP_INFO.length * INFO.AKTIF.length} halaman info).`);
 const ubah = daftar.filter(e => e.berubah).map(e => e.url);
 console.log(ubah.length ? 'Isi berubah, lastmod diperbarui ke ' + hari + ' untuk:\n  ' + ubah.join('\n  ') : 'Tidak ada isi halaman yang berubah; lastmod tetap.');
