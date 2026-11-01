@@ -27,3 +27,9 @@ Situs statis (GitHub Pages) + Supabase. Catatan yang ada di kode:
 - `/` mengalihkan tamu ke landing lewat JavaScript (bukan SSR). Google biasanya mengikutinya; landing sendiri sudah statis penuh.
 - FAQ hanya dihitung rich result bila isinya benar-benar tampil di halaman (sudah).
 - Jangan menambah isi hanya demi kata kunci; tulis yang benar-benar menjawab pertanyaan pengunjung.
+
+## GEO (mesin jawab: Google AI Overviews, ChatGPT Search, Perplexity, Claude)
+
+- Jawaban dulu (BLUF): halaman info dibuka dengan inti jawabannya (Tentang: definisi satu kalimat; Privasi: bagian "Singkatnya"; Bantuan: tanya-jawab dengan jawaban langsung). Pertahankan pola ini bila menulis atau menerjemahkan ulang.
+- Halaman Bantuan tiap bahasa (`/<kode>/help.html`) membawa JSON-LD `FAQPage` yang dihasilkan `tools/buat-info.js` dari `<details class="faq">`, jadi teksnya selalu sama dengan yang tampil.
+- `robots.txt`: bot pencari/asisten (Googlebot, Bingbot, OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot, dll.) diizinkan; pelatih model dan pengikis (GPTBot, ClaudeBot, CCBot, Google-Extended, Bytespider, AhrefsBot, dll.) diblokir. Robots.txt hanya himbauan. Grup khusus menggantikan grup `*`, jadi Disallow diulang di tiap grup; ubah daftar Disallow di semua grup sekaligus.

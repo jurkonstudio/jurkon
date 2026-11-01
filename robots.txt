@@ -1,3 +1,45 @@
+# robots.txt Jurkon. Bersifat himbauan: bot nakal bisa mengabaikannya (pemblokiran sungguhan butuh aturan di server/CDN).
+# Catatan: grup User-agent khusus MENGGANTIKAN grup '*', jadi Disallow diulang di tiap grup.
+
+# 1) Mesin pencari dan asisten AI yang mencari lalu menautkan sumber: DIIZINKAN (tampil di Google, Bing, ChatGPT Search, Perplexity, Claude, dll.)
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: DuckDuckBot
+User-agent: Applebot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+Allow: /
+Disallow: /reset.html
+Disallow: /selamat.html
+Disallow: /chat.html
+Disallow: /pesan.html
+
+# 2) Pengumpul data latih model AI dan pengikis data/SEO pihak ketiga: DIBLOKIR.
+#    Google-Extended dan Applebot-Extended hanya mengatur pemakaian untuk melatih AI; tidak memengaruhi Google Search, AI Overviews, atau Siri/Spotlight.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Meta-ExternalAgent
+User-agent: cohere-ai
+User-agent: Bytespider
+User-agent: PetalBot
+User-agent: Diffbot
+User-agent: ImagesiftBot
+User-agent: Omgilibot
+User-agent: AhrefsBot
+User-agent: SemrushBot
+User-agent: MJ12bot
+User-agent: DataForSeoBot
+Disallow: /
+
+# 3) Lainnya
 User-agent: *
 Allow: /
 Disallow: /reset.html

@@ -81,17 +81,22 @@ function buat(k, h) {
   const nav = URUT_NAV.map((x, i) => `<a href="${HALAMAN[x].slug}.html"${x === h ? ' aria-current="page"' : ''}>${p.nav[i]}</a>`).join(' · ')
     + ' · <a href="/' + k + '/">Jurnal Koneksi</a>';
   const bahasaNav = AKTIF.map(x => `<a href="${alamat(x.kode, h)}" lang="${x.htmlLang}" hreflang="${x.hl}" data-bhs="${x.kode}"${x.kode === k ? ' aria-current="page"' : ''}>${esc(x.nama)}</a>`).join(' ');
-  const jsonld = JSON.stringify({
-    '@context': 'https://schema.org',
-    '@graph': [
+  const graf = [
       { '@type': 'WebSite', '@id': HOST + '/#situs', name: 'Jurnal Koneksi', alternateName: ['Jurkon'], url: landing, inLanguage: b.hl },
       { '@type': 'WebPage', '@id': url + '#halaman', url, name: ogJudul, description: p.desc, inLanguage: b.hl,
         isPartOf: { '@id': HOST + '/#situs' }, breadcrumb: { '@id': url + '#remah' } },
       { '@type': 'BreadcrumbList', '@id': url + '#remah', itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Jurnal Koneksi', item: landing },
         { '@type': 'ListItem', position: 2, name: p.h1, item: url } ] }
-    ]
-  }).replace(/</g, '\\u003c');
+  ];
+  // Halaman Bantuan: tanya-jawab (<details class="faq">) juga diberikan sebagai FAQPage supaya mudah dikutip mesin jawab (teks sama persis dengan yang tampil)
+  if (h === 'bantuan') {
+    const faq = [...p.isi.matchAll(/<details class="faq"><summary>([\s\S]*?)<\/summary><div>([\s\S]*?)<\/div><\/details>/g)]
+      .map(m => ({ '@type': 'Question', name: teksBersih(m[1]), acceptedAnswer: { '@type': 'Answer', text: teksBersih(m[2]) } }));
+    if (!faq.length) galat.push(`${k}/${slug}: tanya-jawab tidak terbaca untuk FAQPage`);
+    else graf.push({ '@type': 'FAQPage', '@id': url + '#faq', inLanguage: b.hl, mainEntity: faq });
+  }
+  const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@graph': graf }).replace(/</g, '\\u003c');
   const ogAlt = AKTIF.filter(x => x.kode !== k).map(x => `<meta property="og:locale:alternate" content="${x.ogLocale}">`).join('\n');
   const catatan = p.hukum && p.catatan ? `<p class="dok-catatan">${p.catatan}</p>\n` : '';
 
