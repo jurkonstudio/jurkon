@@ -1,3 +1,25 @@
+# Update Jurkon, 1 November 2026 (landing global)
+
+Landing page kini punya alamat sendiri untuk 7 bahasa supaya bisa terindeks mesin pencari di luar Indonesia. Tanpa SQL.
+
+| Pekerjaan | Berkas | Perlu SQL? | Status |
+|---|---|---|---|
+| Landing per bahasa: `/en/`, `/ms/`, `/jv/`, `/su/`, `/zh/`, `/ja/` (Indonesia tetap `landing.html`) | `en/ ms/ jv/ su/ zh/ ja/ landing.html` | Tidak | Diuji di Chromium (7 bahasa, HP dan desktop) dengan Supabase tiruan; belum diuji di produksi |
+| `hreflang`, canonical per bahasa, JSON-LD, pilihan bahasa di kaki halaman | sama | Tidak | Sama |
+| Sitemap memuat 7 versi + `x-default` (Inggris) | `sitemap.xml` | Tidak | Sama |
+| `landing.js` sadar bahasa (tombol, angka, bagikan) | `js/landing.js`, `js/landing-teks.js` | Tidak | Sama |
+| Generator: satu template + satu kamus | `tools/buat-landing.js`, `tools/landing-teks.js`, `tools/landing-templat.html` | Tidak | Idempoten |
+
+Catatan:
+- **Jangan edit `landing.html`, `*/index.html`, dan `js/landing-teks.js` langsung.** Ubah `tools/landing-teks.js` (teks) atau `tools/landing-templat.html` (struktur), lalu `node tools/buat-landing.js`.
+- Teks hero dan pengumuman dari panel admin berbahasa Indonesia, jadi hanya menimpa `landing.html`. Versi bahasa lain memakai teks terjemahan tetap; pengumuman tetap tampil tetapi ditandai `lang="id"`.
+- Terjemahan Jawa dan Sunda perlu dibaca penutur asli. Terjemahan lain sebaiknya ditinjau sekali.
+- Tautan Tentang, Pusat bantuan, dan dokumen hukum di halaman non-Indonesia masih menuju halaman Indonesia. Setelah versi terjemahannya ada, daftarkan bahasanya di `TERBIT` (`tools/landing-teks.js`) dan tautannya otomatis pindah ke `/<kode>/<slug>/`.
+- Pasang: `git pull --rebase`, `unzip -o jurkon-landing-global.zip`, `node tools/buat-landing.js` (harus "Tidak ada perubahan"), `node tools/cek-bahasa.js`, `node tools/naikkan-cache.js`, `git add -A`, `git commit -m "Landing 7 bahasa untuk pencarian global"`, `git push`.
+- Setelah tayang: Search Console > Sitemaps > kirim ulang `sitemap.xml`, lalu Inspeksi URL untuk `/en/` dan minta pengindeksan.
+
+---
+
 # Update Jurkon, 1 November 2026
 
 Halaman masuk dirombak, dokumen hukum dirapikan, dan kebijakan privasi disesuaikan dengan kode. Tanpa SQL.

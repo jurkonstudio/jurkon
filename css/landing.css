@@ -149,3 +149,8 @@ a.btn{display:inline-block;text-align:center}
 @media (max-width:480px){
   .lp-kertas-wrap{max-width:calc(100% - 28px)}
 }
+
+/* Pilihan bahasa di kaki landing (tautan biasa, supaya mesin pencari menemukan tiap versi) */
+.lp-bahasa-baris{margin-top:18px;padding-top:16px;border-top:1px solid var(--garis)}
+.lp-bahasa{gap:8px 20px}
+.lp-bahasa a[aria-current="page"]{color:var(--teks);font-weight:600}

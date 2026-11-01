@@ -2,6 +2,14 @@
 // lewat landing_publik() (sql/020_panel_admin.sql), yang dibuka untuk pengunjung tanpa login.
 // Bila migrasi belum dijalankan atau jaringan gagal, halaman tetap tampil dengan teks bawaan.
 (async () => {
+  // Bahasa halaman (data-bahasa pada <body>) menentukan teks tombol dan format angka.
+  // Teks dari panel admin berbahasa Indonesia, jadi hanya menimpa halaman Indonesia.
+  const kode = document.body.dataset.bahasa || 'id';
+  const TS = window.LP_TEKS || {};
+  const tk = TS[kode] || TS.id || {};
+  const s = (k, d) => tk[k] || d;
+  const lokal = tk.locale || 'id-ID';
+  const asli = kode === 'id';
   const set = (k, v) => { if (v) document.querySelectorAll('[data-isi="' + k + '"]').forEach(el => { el.textContent = v; }); };
 
   const [sesi, hasil] = await Promise.all([
@@ -11,24 +19,24 @@
 
   // Tombol: pengunjung masuk -> ke beranda
   if (sesi) {
-    $('#ctaUtama').textContent = 'Buka beranda'; $('#ctaUtama').href = '/index.html';
-    $('#ctaAkhir').textContent = 'Buka beranda'; $('#ctaAkhir').href = '/index.html';
-    $('#navMasuk').textContent = 'Beranda'; $('#navMasuk').href = '/index.html';
-    $('#penutupJudul').textContent = 'Selamat datang kembali.';
+    $('#ctaUtama').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaUtama').href = '/index.html';
+    $('#ctaAkhir').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaAkhir').href = '/index.html';
+    $('#navMasuk').textContent = s('beranda', 'Beranda'); $('#navMasuk').href = '/index.html';
+    $('#penutupJudul').textContent = s('selamatDatang', 'Selamat datang kembali.');
   }
   if (!hasil) return;
 
   set('brand_nama', hasil.brand_nama);
   set('hero_judul', hasil.hero_judul);
   set('hero_sub', hasil.hero_sub);
-  if (hasil.hero_judul) document.title = (hasil.brand_nama || 'Jurkon') + ' · ' + hasil.hero_judul;
+  if (asli && hasil.hero_judul) document.title = (hasil.brand_nama || 'Jurkon') + ' · ' + hasil.hero_judul;
 
-  if (hasil.pengumuman) { const el = $('#pengumuman'); el.textContent = hasil.pengumuman; el.hidden = false; }
+  if (hasil.pengumuman) { const el = $('#pengumuman'); el.textContent = hasil.pengumuman; if (!asli) el.lang = 'id'; el.hidden = false; }
 
   if (!hasil.pendaftaran_buka && !sesi) {
     $('#catatanDaftar').hidden = false;
-    $('#ctaUtama').textContent = 'Masuk'; $('#ctaAkhir').textContent = 'Masuk';
-    $('#penutupJudul').textContent = 'Sampai jumpa lagi.';
+    $('#ctaUtama').textContent = s('masuk', 'Masuk'); $('#ctaAkhir').textContent = s('masuk', 'Masuk');
+    $('#penutupJudul').textContent = s('sampaiJumpa', 'Sampai jumpa lagi.');
   }
 
   if (hasil.kontak_email && /^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']+$/.test(hasil.kontak_email)) {
@@ -40,11 +48,11 @@
   $('#angka').hidden = false;
   document.querySelectorAll('[data-hitung]').forEach(el => {
     const target = Number(hasil[el.dataset.hitung]) || 0;
-    if (kurangiGerak || target < 2) { el.textContent = target.toLocaleString('id-ID'); return; }
+    if (kurangiGerak || target < 2) { el.textContent = target.toLocaleString(lokal); return; }
     const mulai = performance.now(), durasi = 900;
     const langkah = now => {
       const p = Math.min(1, (now - mulai) / durasi);
-      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))).toLocaleString('id-ID');
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))).toLocaleString(lokal);
       if (p < 1) requestAnimationFrame(langkah);
     };
     requestAnimationFrame(langkah);
@@ -65,8 +73,10 @@
     });
 
     // 2) Bagikan
-    const url = 'https://jurkon.my.id/landing.html';
-    const teks = 'Aku nemu Jurkon, sosmed buatan orang Indonesia. Nulisnya cuma 250 karakter, feed ada ujungnya, dan bisa titip catatan buat diri sendiri setahun lagi.';
+    const tk = (window.LP_TEKS || {})[document.body.dataset.bahasa || 'id'] || (window.LP_TEKS || {}).id || {};
+    const s = (k, d) => tk[k] || d;
+    const url = tk.url || 'https://jurkon.my.id/landing.html';
+    const teks = s('shareTeks', 'Aku nemu Jurkon, sosmed buatan orang Indonesia. Nulisnya cuma 250 karakter, feed ada ujungnya, dan bisa titip catatan buat diri sendiri setahun lagi.');
     const e = encodeURIComponent;
     const set = (id, href) => { const a = q(id); if (a) a.href = href; };
     set('bagiWa', 'https://wa.me/?text=' + e(teks + ' ' + url));
@@ -75,12 +85,12 @@
     const info = q('bagiInfo'), salin = q('bagiSalin');
     if (salin) salin.addEventListener('click', async () => {
       try {
-        if (navigator.share) { await navigator.share({ title: 'Jurkon', text: teks, url }); return; }
+        if (navigator.share) { await navigator.share({ title: s('shareJudul', 'Jurkon'), text: teks, url }); return; }
         await navigator.clipboard.writeText(url);
-        info.textContent = 'Tautan disalin. Tinggal tempel ke temanmu.';
+        info.textContent = s('disalin', 'Tautan disalin. Tinggal tempel ke temanmu.');
       } catch (err) {
         if (err && err.name === 'AbortError') return;
-        info.textContent = 'Salin manual: ' + url;
+        info.textContent = s('salinManual', 'Salin manual: ') + url;
       }
     });
 

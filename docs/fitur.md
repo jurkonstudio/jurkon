@@ -164,3 +164,13 @@ Halaman `jurnal.html`, dibuka dari tombol **Jurnal** di profil sendiri. Terpisah
 - Ikut terunduh di `ekspor_data()` dan terhapus bersama akun. Pengelola bisa menghapus lewat kebijakan `is_admin()`.
 - SQL: `sql/034_jurnal.sql`. Jalankan sebelum mengunggah JS.
 
+## Landing page 7 bahasa (1 November 2026)
+
+Alamat: `landing.html` (Indonesia), `/en/`, `/ms/`, `/jv/`, `/su/`, `/zh/`, `/ja/`. Teks sudah ada di HTML (bukan diganti JavaScript), jadi mesin pencari membaca tiap bahasa sebagai halaman sendiri.
+
+- **Sumber:** `tools/landing-teks.js` (kamus 94 kunci per bahasa) + `tools/landing-templat.html`. `node tools/buat-landing.js` menulis semua halaman, `js/landing-teks.js`, dan `sitemap.xml`. Berhenti dengan galat bila ada kunci yang hilang di salah satu bahasa.
+- **SEO:** `<html lang>`, canonical ke diri sendiri, `hreflang` untuk 7 bahasa + `x-default` (Inggris), `og:locale` dan alternatifnya, JSON-LD `WebSite`. Sitemap memuat tiap versi dengan alternatifnya. Tidak ada pengalihan otomatis berdasarkan bahasa browser (pengunjung dan crawler selalu mendapat halaman yang diminta); pilihan bahasa ada di kaki halaman sebagai tautan biasa.
+- **Perilaku `js/landing.js`:** bahasa dibaca dari `<body data-bahasa>`. Teks tombol, format angka, dan teks bagikan mengikuti bahasa. Teks `hero_judul`, `hero_sub`, dan `brand_nama` dari panel admin hanya menimpa halaman Indonesia (atribut `data-isi` hanya dipasang di sana).
+- **Menambah bahasa:** satu entri di `BAHASA` dan satu blok di `T` (semua kunci), lalu jalankan generator.
+- **Halaman lain** (tentang, bantuan, hukum) belum diterjemahkan; slug rencananya `about`, `help`, `rules`, `terms`, `privacy` di bawah `/<kode>/`. Daftarkan di `TERBIT` bila sudah ada.
+- Catatan: `jurkon.my.id` dianggap Google sebagai domain berorientasi Indonesia. Terindeks di negara lain tetap mungkin, tetapi peringkat di luar negeri cenderung lebih berat dibanding domain generik.
