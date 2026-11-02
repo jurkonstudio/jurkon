@@ -68,9 +68,13 @@ function terjemah(m) {
   if (/failed to fetch|networkerror|load failed|network request/i.test(m)) return t('err.offline');
   return t('err.umum');   // jangan menampilkan pesan mentah dari server
 }
-function periksa(perluSandi, daftar) {
+function periksa(perluSandi, daftar, bolehUsername) {
   const a = ambil();
-  if (!/^\S+@\S+\.\S+$/.test(a.email) || a.email.length > 254) { galat.textContent = t('auth.isiEmail'); return null; }
+  // Halaman masuk menerima username ATAU email. Tanpa "@" dianggap username (huruf kecil, angka, garis bawah; 3-20 karakter).
+  if (bolehUsername && a.email.indexOf('@') === -1) {
+    a.email = a.email.replace(/^@/, '').toLowerCase();
+    if (!/^[a-z0-9_]{3,20}$/.test(a.email)) { galat.textContent = t('auth.isiMasuk'); return null; }
+  } else if (!/^\S+@\S+\.\S+$/.test(a.email) || a.email.length > 254) { galat.textContent = bolehUsername ? t('auth.isiMasuk') : t('auth.isiEmail'); return null; }
   if (perluSandi && a.password.length < 6) { galat.textContent = t('auth.e.sandiPendek'); return null; }
   // Kekuatan sandi hanya dituntut saat membuat akun; akun lama dengan sandi 6 karakter tetap bisa masuk
   if (daftar && !Keamanan.sandiKuat(a.password, a.email)) { galat.textContent = a.password.length < 8 ? t('auth.e.sandiPendek') : t('auth.e.sandiLemah'); return null; }
@@ -98,12 +102,30 @@ async function catatSesiCepat() {
   try { if (window.Sesi) await Promise.race([Sesi.catat(true), new Promise(r => setTimeout(r, 2500))]); } catch (e) {}
 }
 
+// Masuk dengan username: Edge Function masuk-username mencari emailnya DI SERVER (email tidak pernah dikirim ke browser),
+// masuk atas nama pengguna, lalu mengembalikan sesinya untuk dipasang di sini. Pesan galatnya sama dengan masuk lewat
+// email, jadi terjemah() dan penghitung gagal (catatGagal) tetap bekerja.
+async function masukUsername(username, password, captchaToken) {
+  try {
+    const { data, error } = await db.functions.invoke('masuk-username', { body: { username, password, captchaToken } });
+    if (error) {
+      let pesan = 'Failed to fetch';
+      try { const j = await error.context.json(); if (j && j.error) pesan = String(j.error); } catch (e) {}
+      return { error: { message: pesan } };
+    }
+    if (!data || !data.session) return { error: { message: 'Invalid login credentials' } };
+    return await db.auth.setSession({ access_token: data.session.access_token, refresh_token: data.session.refresh_token });
+  } catch (e) { return { error: { message: 'Failed to fetch' } }; }
+}
 if ($('#masuk')) $('#masuk').onclick = function () {
-  const a = periksa(true); if (!a) return;
+  const a = periksa(true, false, true); if (!a) return;
+  const pakaiUsername = a.email.indexOf('@') === -1;
   if (!gerbang(false).ok) return;
   jalankan(this, async () => {
     const opsi = adaCaptcha() ? { captchaToken: pakaiToken() } : undefined;
-    const { error } = await db.auth.signInWithPassword(opsi ? { ...a, options: opsi } : a);
+    const { error } = pakaiUsername
+      ? await masukUsername(a.email, a.password, opsi && opsi.captchaToken)
+      : await db.auth.signInWithPassword(opsi ? { ...a, options: opsi } : a);
     if (error) { catatGagal(); galat.textContent = t('auth.gagalMasuk', { pesan: terjemah(error.message) }); $('#sandi').value = ''; $('#sandi').focus(); }   // sandi salah: kosongkan, ketik ulang
     else { catatBerhasil(); await catatSesiCepat(); location.href = lanjutAman() || 'index.html'; }
   });
