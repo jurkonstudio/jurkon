@@ -57,24 +57,33 @@
   -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid var(--garis);box-shadow:none;font-weight:600;
 }
-/* tab feed jadi kontrol segmented iOS */
-:root[data-theme=awan] .tab-feed{margin:6px 0 8px;padding:2px;gap:0;background:var(--a-isian);border-radius:9px}
-:root[data-theme=awan] .tab-feed button{min-height:32px;border:0;border-radius:7px;font-size:13px;font-weight:500;color:var(--teks)}
-:root[data-theme=awan] .tab-feed button[aria-selected=true]{background:var(--a-aktif);color:var(--teks);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.35),0 1px 1px rgba(0,0,0,.25)}
+/* tab feed jadi kontrol segmented iOS (desktop); di HP memakai kapsul bersama dari css/style.css */
+@media (min-width:768px){
+  :root[data-theme=awan] .tab-feed{margin:6px 0 8px;padding:2px;gap:0;background:var(--a-isian);border-radius:9px}
+  :root[data-theme=awan] .tab-feed button{min-height:32px;border:0;border-radius:7px;font-size:13px;font-weight:500;color:var(--teks)}
+  :root[data-theme=awan] .tab-feed button[aria-selected=true]{background:var(--a-aktif);color:var(--teks);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.35),0 1px 1px rgba(0,0,0,.25)}
+}
+@media (max-width:767.98px){
+  :root[data-theme=awan] .tab-feed{background:var(--a-isian)}
+  :root[data-theme=awan] .tab-feed button{color:var(--redup)}
+  :root[data-theme=awan] .tab-feed button[aria-selected=true]{color:var(--teks)}
+  :root[data-theme=awan] .tab-feed::after{background:var(--a-aktif);border:0;box-shadow:0 3px 8px rgba(0,0,0,.35),0 1px 1px rgba(0,0,0,.25)}
+  :root[data-theme=awan] .header-lonceng{background:var(--a-isian)}
+}
 
-/* ---------- 5. Bar bawah (tab bar iOS) ---------- */
+/* ---------- 5. Dock bawah (HP): kapsul mengambang gelap; tata letak dari css/style.css ---------- */
 @media (max-width:767.98px){
   :root[data-theme=awan] .nav{
     background:var(--a-bar);
     -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
-    border-top:1px solid var(--garis);box-shadow:none;
+    border:1px solid var(--garis);box-shadow:var(--a-bayang);
   }
+  :root[data-theme=awan] .nav::before{display:none}
   :root[data-theme=awan] main{min-height:100vh;min-height:100dvh}
-  :root[data-theme=awan] .nav a{font-size:10.5px;letter-spacing:0;padding:2px 4px}
-  :root[data-theme=awan] .nav a.aktif::after{display:none}
   :root[data-theme=awan] .nav a.aktif{color:var(--aksen)}
-  :root[data-theme=awan] .nav svg{padding:2px 12px;background:none;box-shadow:none}
-  :root[data-theme=awan] .nav a.aktif svg{background:none;box-shadow:none}
+  :root[data-theme=awan] .nav a.aktif svg{background:var(--ubin);fill:color-mix(in srgb,var(--aksen) 30%,transparent)}
+  :root[data-theme=awan] .nav a.nav-tulis{background:var(--aksen);box-shadow:0 0 0 5px var(--a-kartu),0 6px 16px rgba(10,132,255,.45)}
+  :root[data-theme=awan] .nav a.nav-tulis svg{background:none;fill:none}
 }
 @media (min-width:768px){
   :root[data-theme=awan] .nav a.aktif{background:var(--ubin);color:var(--aksen)}

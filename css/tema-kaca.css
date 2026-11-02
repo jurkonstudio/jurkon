@@ -74,30 +74,42 @@
   box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 8px 24px -14px rgba(31,48,110,.28);
   font-weight:600;
 }
-:root[data-theme=kaca] .tab-feed button{font-weight:600;border-bottom-width:2px}
-:root[data-theme=kaca] .tab-feed button[aria-selected=true]{color:var(--aksen);border-bottom-color:var(--aksen)}
-
-/* ---------- 4. Menu bawah: kapsul kaca melayang (HP) ---------- */
+@media (min-width:768px){
+  :root[data-theme=kaca] .tab-feed button{font-weight:600;border-bottom-width:2px}
+  :root[data-theme=kaca] .tab-feed button[aria-selected=true]{color:var(--aksen);border-bottom-color:var(--aksen)}
+}
+/* HP: tata letak kapsul bersama (css/style.css, blok tampilan-baru); di sini hanya bahan kaca */
 @media (max-width:767.98px){
-  :root[data-theme=kaca] body{padding-bottom:96px}
-  :root[data-theme=kaca] body[data-tab=beranda] main{padding-bottom:104px}
+  :root[data-theme=kaca] .tab-feed{background:rgba(118,118,128,.12);box-shadow:inset 0 0 0 .5px rgba(60,60,67,.08)}
+  :root[data-theme=kaca] .tab-feed button{font-weight:600}
+  :root[data-theme=kaca] .tab-feed::after{
+    background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(255,255,255,.82));border:0;
+    box-shadow:inset 0 1px 0 #fff,0 2px 8px rgba(31,48,110,.16),0 0 0 .5px rgba(60,60,67,.08)}
+  :root[data-theme=kaca] .tab-feed button[aria-selected=true]{color:var(--aksen)}
+  :root[data-theme=kaca] .header-lonceng{background:rgba(118,118,128,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+}
+
+/* ---------- 4. Menu bawah: kapsul kaca melayang (HP) ----------
+   Tata letak (urutan menu, tombol Tulis di tengah, sembunyi saat gulir) dari css/style.css; di sini bahan kacanya. */
+@media (max-width:767.98px){
   :root[data-theme=kaca] .nav{
-    left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));
-    padding:6px 4px;border:1px solid var(--kaca-tepi);border-radius:30px;
+    border:1px solid var(--kaca-tepi);
     background:var(--kaca-isi);
     -webkit-backdrop-filter:var(--kaca-blur);backdrop-filter:var(--kaca-blur);
     box-shadow:var(--kaca-kilau),var(--kaca-bayang);
   }
+  :root[data-theme=kaca] .nav::before{display:none}
   :root[data-theme=kaca] main{min-height:100vh;min-height:100dvh}
-  :root[data-theme=kaca] .nav a{min-height:48px;padding:2px 4px;font-size:11px;letter-spacing:0}
-  :root[data-theme=kaca] .nav svg{padding:4px 12px}
-  :root[data-theme=kaca] .nav a.aktif::after{display:none}
   :root[data-theme=kaca] .nav a.aktif{color:var(--aksen)}
   :root[data-theme=kaca] .nav a.aktif svg{
-    background:rgba(0,122,255,.13);
+    background:rgba(0,122,255,.13);fill:rgba(0,122,255,.18);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 1px 3px rgba(0,122,255,.18);
   }
-  :root[data-theme=kaca] .fab{bottom:calc(96px + env(safe-area-inset-bottom))}
+  :root[data-theme=kaca] .nav a.nav-tulis{
+    background:linear-gradient(180deg,#4aa3ff 0%,#007aff 100%);
+    box-shadow:0 0 0 5px rgba(255,255,255,.7),inset 0 1px 0 rgba(255,255,255,.45),0 8px 22px -6px rgba(0,122,255,.55),0 2px 4px rgba(0,60,160,.25);
+  }
+  :root[data-theme=kaca] .nav a.nav-tulis svg{background:none;fill:none;box-shadow:none}
 }
 @media (min-width:768px){
   /* menu samping tablet/desktop tetap seperti aslinya; hanya warna ikon aktif yang disesuaikan */
