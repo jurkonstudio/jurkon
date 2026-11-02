@@ -24,6 +24,25 @@
   // Merek di menu samping (hanya tampil di layar lebar, lewat CSS)
   nav.insertAdjacentHTML('afterbegin', '<a href="index.html" class="nav-merek" aria-label="Jurkon" title="Jurkon"><img class="logo-terang" src="assets/logo-header.webp" alt="" width="136" height="46" decoding="async"><img class="logo-gelap" src="assets/logo-header-gelap.webp" alt="" width="136" height="46" decoding="async"></a>');
   document.body.appendChild(nav);
+  // >>> lonceng-header >>>
+  // Lonceng Notifikasi di header (HP). Di layar lebar disembunyikan CSS (menu samping dan panel kanan sudah memuatnya).
+  (function () {
+    const h = document.querySelector('main > .header');
+    if (!h || aktif === 'notifikasi' || h.querySelector(':scope > a')) return;
+    const b = document.createElement('a');
+    b.className = 'header-lonceng'; b.href = 'notifikasi.html';
+    b.setAttribute('aria-label', t('nav.notifikasi')); b.title = t('nav.notifikasi');
+    b.innerHTML = ikon.notifikasi + '<span class="lencana" hidden></span>';
+    const logo = h.querySelector('.logo-wrap');
+    if (logo) logo.after(b); else h.insertBefore(b, h.querySelector('#keluar'));
+    const l = b.querySelector('.lencana');
+    if (window.Notif) Notif.pada(s => {
+      const n = s.total + s.mengikuti;
+      l.hidden = n < 1; l.textContent = n > 99 ? '99+' : n > 0 ? String(n) : '';
+      b.setAttribute('aria-label', n > 0 ? t('nav.unreadNotif', { n }) : t('nav.notifikasi'));
+    });
+  })();
+  // <<< lonceng-header <<<
 
   // Panel kanan (tampil hanya di layar lebar)
   if (aktif) {

@@ -216,6 +216,14 @@ const I18N_KAMUS = {
     '搜索用户或话题...|试试搜索 @用户名|搜索关键词，例如：感恩',
     '人やトピックを検索...|@ユーザー名 で検索してみましょう|言葉を検索（例：感謝）', '사람이나 주제를 검색하세요…|@사용자이름으로 검색해 보세요|단어를 검색해 보세요. 예: 감사', 'लोग या विषय खोजें...|@username खोजकर देखें|कोई शब्द खोजें, जैसे: कृतज्ञता'
   ],
+  // >>> auto-cakupan >>>
+  "explore.ruangAria": ["Cakupan pencarian", "Search scope", "Skop carian", "Jangkauan panelusuran", "Jangkauan pamilarian", "搜索范围", "検索の範囲", "검색 범위", "खोज का दायरा"],
+  "explore.ruangSemua": ["Semua", "All", "Semua", "Kabèh", "Sadaya", "全部", "すべて", "전체", "सभी"],
+  "explore.ruangOrang": ["Orang", "People", "Orang", "Wong", "Jalma", "用户", "ユーザー", "사람", "लोग"],
+  "explore.ruangCatatan": ["Catatan", "Notes", "Catatan", "Cathetan", "Catetan", "笔记", "ノート", "노트", "नोट"],
+  "explore.otomatis": ["Otomatis", "Auto", "Automatik", "Otomatis", "Otomatis", "自动", "自動", "자동", "स्वतः"],
+  "explore.tips": ["Ketik @ untuk mencari orang, # untuk tagar", "Type @ to find people, # for hashtags", "Taip @ untuk cari orang, # untuk hashtag", "Ketik @ kanggo golek wong, # kanggo tagar", "Ketik @ pikeun néang jalma, # pikeun tagar", "输入 @ 搜索用户，输入 # 搜索话题标签", "@ で人、# でタグを検索", "@로 사람, #으로 해시태그를 검색하세요", "@ से लोग, # से हैशटैग खोजें"],
+  // <<< auto-cakupan <<<
   'explore.sorotan': ['Sorotan', 'Highlights', 'Sorotan', 'Sorotan', 'Sorotan', '精选', 'ハイライト', '하이라이트', 'चुनिंदा'],
   'explore.sorotanSub': ['Posting yang banyak dibaca atau dipilih tim Jurkon', 'Posts that are widely read or picked by the Jurkon team', 'Hantaran yang banyak dibaca atau dipilih pasukan Jurkon', 'Kiriman sing akeh diwaca utawa dipilih tim Jurkon', 'Kiriman nu loba dibaca atawa dipilih tim Jurkon', '阅读量高或由 Jurkon 团队挑选的帖子', 'よく読まれている、またはJurkonチームが選んだ投稿', '많이 읽힌 게시물이나 Jurkon 팀이 고른 게시물', 'वे पोस्ट जो बहुत पढ़ी जा रही हैं या Jurkon टीम ने चुनी हैं'],
   'explore.gagalOrang': ['Pencarian orang gagal: {pesan}', 'People search failed: {pesan}', 'Carian orang gagal: {pesan}', 'Panelusuran wong gagal: {pesan}', 'Pamilarian jalma gagal: {pesan}', '用户搜索失败：{pesan}', '人の検索に失敗しました：{pesan}', '사람 검색에 실패했어요: {pesan}', 'लोगों की खोज विफल रही: {pesan}'],

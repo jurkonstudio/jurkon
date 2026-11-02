@@ -1631,3 +1631,107 @@ dialog:not(.lembar){margin:auto;max-height:calc(100dvh - 32px)}
 .lembar-set .set-grup>.ss-catatan{margin-top:12px}
 @media (min-width:480px){.ss-keluarkan{width:auto}}
 @media (prefers-reduced-motion:reduce){.set-baris{transition:none}}
+
+/* >>> MULAI tampilan-baru-v6 >>> */
+/* ===== TAMPILAN BARU v7: header bermerek + lonceng notifikasi + dock mengambang =====
+   CSS (plus lonceng kecil di js/nav.js). Tema Kaca dan Awan tidak disentuh.
+   Untuk membatalkan: node tools/pasang-header-dock.js --hapus */
+.header-lonceng{display:none}
+@media (max-width:767px){
+  /* --- Header beranda: logo lengkap (stempel + nama) di kiri, lonceng di kanan, tab kapsul di bawah --- */
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .header-tab{flex-wrap:wrap;align-items:center;gap:0;padding:8px 14px 10px;min-height:0}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .header-tab .logo-tengah{flex:1 1 auto;min-width:0;padding:0;justify-content:flex-start}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .logo-tengah .potong{width:auto;height:36px;overflow:visible}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .logo-tengah img{height:36px;width:auto;max-width:100%}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .logo-tengah .logo-gelap{display:none}
+  :root[data-theme=gelap] body[data-tab=beranda] .logo-tengah .logo-terang{display:none}
+  :root[data-theme=gelap] body[data-tab=beranda] .logo-tengah .logo-gelap{display:block}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .header-tab{padding-bottom:10px}
+  /* --- Lonceng notifikasi --- */
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .header-lonceng{position:relative;flex:none;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;min-height:0;margin:0 -2px 0 auto;padding:0;border-radius:50%;
+    color:var(--teks);background:color-mix(in srgb,var(--teks) 6%,transparent);transition:transform .15s,background .2s}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .header-lonceng:active{transform:scale(.9)}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .header-lonceng svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .header-lonceng .lencana{top:1px;left:auto;right:0;margin:0}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) #keluar{margin-left:8px}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .header-lonceng + #keluar{margin-left:4px}
+  /* --- Tab kapsul: penanda berupa tambalan berjahit yang bergeser --- */
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed{position:relative;isolation:isolate;margin:10px 0 0;padding:3px;border-radius:999px;background:color-mix(in srgb,var(--teks) 6%,transparent)}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed button{position:relative;z-index:1;min-height:38px;border:0;border-radius:999px;background:none;font-size:14.5px;font-weight:650;letter-spacing:-.005em;transition:color .2s}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed button[aria-selected=true]{color:var(--teks);background:none;border:0}
+  /* --- Judul halaman lain: huruf serif + simpul benang merah --- */
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .header:not(.header-logo) h1{font-family:var(--serif);font-size:21px;font-weight:650;letter-spacing:-.01em}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .header:not(.header-logo):not(:has(> a:not(.header-lonceng))) h1::before{content:"";display:inline-block;width:8px;height:8px;margin-right:10px;vertical-align:3px;border-radius:50%;background:var(--aksen);box-shadow:0 0 0 3px color-mix(in srgb,var(--aksen) 18%,transparent)}
+}
+@media (max-width:767px) and (hover:hover){ :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed button:hover{color:var(--teks)} }
+@supports selector(:has(*)){
+  @media (max-width:767px){
+    :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed::after{content:"";position:absolute;z-index:0;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);pointer-events:none;border-radius:999px;
+      background:var(--bg);border:1.5px dashed color-mix(in srgb,var(--aksen) 55%,transparent);box-shadow:0 1px 3px rgba(35,31,28,.14);
+      transition:transform .42s cubic-bezier(.3,1.35,.5,1)}
+    :root[data-theme=gelap] .tab-feed::after{box-shadow:0 1px 3px rgba(0,0,0,.5)}
+    :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed:has(> button:nth-of-type(2)[aria-selected=true])::after{transform:translateX(100%)}
+  }
+}
+@supports not selector(:has(*)){
+  @media (max-width:767px){
+    :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed button[aria-selected=true]{background:var(--bg);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--aksen) 55%,transparent)}
+  }
+}
+
+@media (max-width:767px){
+  /* --- Dock: menu bawah mengambang (Notifikasi pindah ke header), tombol Tulis menonjol di tengah --- */
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body{padding-bottom:calc(94px + env(safe-area-inset-bottom))}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] main{padding-bottom:24px}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .fab{display:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));width:auto;gap:0;align-items:center;justify-content:space-between;
+    padding:6px;border:1px solid var(--garis);border-radius:30px;
+    background:color-mix(in srgb,var(--bg) 86%,transparent);
+    -webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+    box-shadow:0 12px 28px -10px rgba(35,31,28,.38),0 2px 6px rgba(35,31,28,.08)}
+  :root[data-theme=gelap]:not([data-theme=kaca]) .nav{box-shadow:0 12px 28px -8px rgba(0,0,0,.7),0 2px 6px rgba(0,0,0,.4)}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav::before{content:"";position:absolute;inset:3px;border-radius:27px;border:1.5px dashed color-mix(in srgb,var(--aksen) 24%,transparent);pointer-events:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-merek,:root:not([data-theme=kaca]):not([data-theme=awan]) .nav a[data-k=notifikasi]{display:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a{position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    min-height:48px;padding:3px 0 2px;border-radius:22px;font-size:10.5px;font-weight:600;line-height:1.15;letter-spacing:.005em;white-space:nowrap;color:var(--redup)}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a[data-k=beranda]{order:1}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a[data-k=explore]{order:2}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis{order:3}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a[data-k=pesan]{order:5}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a[data-k=profil]{order:6}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav svg{width:22px;height:22px;margin:0;padding:4px 13px;box-sizing:content-box;border-radius:999px;stroke-width:1.8;fill:none;background:none;box-shadow:none;transition:background .25s,fill .25s,transform .15s}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.aktif{color:var(--link,var(--aksen));font-weight:700;background:none;box-shadow:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.aktif::after{display:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.aktif svg{background:color-mix(in srgb,var(--aksen) 14%,transparent);fill:color-mix(in srgb,var(--aksen) 24%,transparent);box-shadow:none;animation:dock-muncul .45s cubic-bezier(.3,1.5,.5,1)}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a:active svg{transform:scale(.88)}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav .lencana{top:1px;left:50%;margin-left:8px}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis{display:flex;flex:0 0 56px;width:56px;height:56px;min-height:0;align-self:flex-start;margin:-22px 4px 0;padding:0;border-radius:50%;font-size:0;
+    color:#fff;background:linear-gradient(160deg,color-mix(in srgb,var(--aksen) 82%,#fff),var(--aksen) 55%,color-mix(in srgb,var(--aksen) 80%,#000));
+    box-shadow:0 0 0 5px var(--bg),inset 0 1px 0 rgba(255,255,255,.35),0 10px 22px -4px color-mix(in srgb,var(--aksen) 60%,transparent);
+    transition:transform .2s cubic-bezier(.3,1.5,.5,1)}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis svg{width:26px;height:26px;padding:0;stroke-width:2.4;background:none;box-shadow:none;animation:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis:active{transform:scale(.92) rotate(90deg)}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .toast{bottom:calc(112px + env(safe-area-inset-bottom))}
+}
+@media (max-width:359px){
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav svg{padding:4px 9px}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis{flex-basis:52px;width:52px;height:52px;margin-left:2px;margin-right:2px}
+}
+@keyframes dock-muncul{0%{transform:scale(.78)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed::after,:root:not([data-theme=kaca]):not([data-theme=awan]) .nav svg,:root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis,:root:not([data-theme=kaca]):not([data-theme=awan]) .header-lonceng{transition:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.aktif svg{animation:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis:active,:root:not([data-theme=kaca]):not([data-theme=awan]) .header-lonceng:active{transform:none}
+}
+
+/* --- Jelajah: kapsul cakupan pencarian otomatis (Semua | Orang | Catatan) --- */
+.cari-ruang{display:flex;align-items:center;gap:8px;padding:0 16px 10px;overflow-x:auto;scrollbar-width:none}
+.cari-ruang::-webkit-scrollbar{display:none}
+.cari-ruang[hidden],.cari-tips[hidden]{display:none}
+.cari-ruang button{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:0 14px;border:1px solid var(--garis);border-radius:999px;background:transparent;color:var(--redup);font:inherit;font-size:13.5px;font-weight:620;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.cari-ruang button[aria-selected=true]{color:var(--aksen);border:1.5px dashed color-mix(in srgb,var(--aksen) 60%,transparent);background:color-mix(in srgb,var(--aksen) 9%,transparent)}
+.cari-ruang button:focus-visible{outline:2px solid var(--aksen);outline-offset:2px}
+.cari-ruang .oto{padding:1px 7px;border-radius:999px;background:var(--aksen);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.02em}
+.cari-tips{padding:0 16px 10px;font-size:13px;color:var(--redup)}
+
+/* <<< SELESAI tampilan-baru-v6 <<< */
