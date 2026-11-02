@@ -209,3 +209,20 @@
     } catch (e) { /* migrasi belum dijalankan atau jaringan putus: abaikan, coba lagi di kunjungan berikutnya */ }
   })();
 })();
+
+// Gulir turun: header dan menu bawah menyingkir (HP). Gulir naik, atau di puncak: muncul lagi.
+// Berlaku di Beranda, Jelajah, Pesan, dan Profil (ruang obrolan chat.html tidak memuat berkas ini).
+(function () {
+  if (!/^(beranda|explore|pesan|profil)$/.test(document.body.dataset.tab || '')) return;
+  const HP = window.matchMedia('(max-width:767px)');
+  let terakhir = window.scrollY, menunggu = false;
+  function periksa() {
+    menunggu = false;
+    const y = Math.max(0, window.scrollY), selisih = y - terakhir;
+    if (!HP.matches || y < 80) document.body.classList.remove('gulir-turun');
+    else if (selisih > 12) document.body.classList.add('gulir-turun');
+    else if (selisih < -8) document.body.classList.remove('gulir-turun');
+    if (Math.abs(selisih) > 8) terakhir = y;
+  }
+  window.addEventListener('scroll', () => { if (!menunggu) { menunggu = true; requestAnimationFrame(periksa); } }, { passive: true });
+})();

@@ -736,18 +736,18 @@ a,button,summary,label{touch-action:manipulation}
 .sematan-label svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .post .aksi .btn-semat:hover,.post .aksi .btn-semat.aktif{color:var(--aksen)}
 
-/* Feed (HP): header dan menu bawah menyingkir saat gulir turun, muncul lagi saat gulir naik */
+/* Beranda, Jelajah, Pesan, Profil (HP): header dan menu bawah menyingkir saat gulir turun, muncul lagi saat gulir naik */
 @media (max-width:767px){
-  body[data-tab=beranda] .header,body[data-tab=beranda] .nav{transition:transform .25s ease}
-  body[data-tab=beranda].gulir-turun .header{transform:translateY(calc(-100% - 12px))}
-  body[data-tab=beranda].gulir-turun .nav{transform:translateY(calc(100% + 40px))!important}
+  body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .header,body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav{transition:transform .25s ease}
+  body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]).gulir-turun .header{transform:translateY(calc(-100% - 12px))}
+  body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]).gulir-turun .nav{transform:translateY(calc(100% + 40px))!important}
   /* Tombol tulis (+) ikut turun ke dekat sudut bawah saat menu bawah menyingkir (pakai `translate` agar tidak bentrok dengan :active scale) */
-  body[data-tab=beranda] .fab{transition:translate .25s ease}
-  body[data-tab=beranda].gulir-turun .fab{translate:0 52px}
-  :root[data-theme=kaca] body[data-tab=beranda].gulir-turun .fab{translate:0 calc(80px + env(safe-area-inset-bottom))}
+  body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .fab{transition:translate .25s ease}
+  body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]).gulir-turun .fab{translate:0 52px}
+  :root[data-theme=kaca] body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]).gulir-turun .fab{translate:0 calc(80px + env(safe-area-inset-bottom))}
 }
 @media (max-width:767px) and (prefers-reduced-motion:reduce){
-  body[data-tab=beranda] .header,body[data-tab=beranda] .nav,body[data-tab=beranda] .fab{transition:none}
+  body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .header,body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav,body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .fab{transition:none}
 }
 
 /* Feed: hanya ikon logo (tanpa tulisan), di tengah header */
@@ -1722,17 +1722,17 @@ dialog:not(.lembar){margin:auto;max-height:calc(100dvh - 32px)}
 /* Feed (HP, tema dock): saat gulir turun, kapsul menu & header menyingkir, tetapi tombol Tulis (+) tetap tampil
    dan turun ke dekat sudut bawah. Gulir naik: kapsul muncul lagi dan tombol kembali ke tengah. */
 @media (max-width:767px){
-  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav{transition:background-color .25s ease,border-color .25s ease,box-shadow .25s ease,-webkit-backdrop-filter .25s ease,backdrop-filter .25s ease}
-  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav::before{transition:opacity .2s ease}
-  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav a:not(.nav-tulis){transition:opacity .2s ease,transform .25s ease}
-  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav a.nav-tulis{transition:transform .2s cubic-bezier(.3,1.5,.5,1),translate .25s ease}
-  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda].gulir-turun .nav{transform:none!important;pointer-events:none;background:transparent;border-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
-  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda].gulir-turun .nav::before{opacity:0}
-  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda].gulir-turun .nav a:not(.nav-tulis){opacity:0;transform:translateY(40px);pointer-events:none}
-  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda].gulir-turun .nav a.nav-tulis{pointer-events:auto;translate:0 16px}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav{transition:background-color .25s ease,border-color .25s ease,box-shadow .25s ease,-webkit-backdrop-filter .25s ease,backdrop-filter .25s ease}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav::before{transition:opacity .2s ease}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav a:not(.nav-tulis){transition:opacity .2s ease,transform .25s ease}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav a.nav-tulis{transition:transform .2s cubic-bezier(.3,1.5,.5,1),translate .25s ease}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]).gulir-turun .nav{transform:none!important;pointer-events:none;background:transparent;border-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]).gulir-turun .nav::before{opacity:0}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]).gulir-turun .nav a:not(.nav-tulis){opacity:0;transform:translateY(40px);pointer-events:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]).gulir-turun .nav a.nav-tulis{pointer-events:auto;translate:0 16px}
 }
 @media (max-width:767px) and (prefers-reduced-motion:reduce){
-  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav,:root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav::before,:root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav a,:root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav a.nav-tulis{transition:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav,:root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav::before,:root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav a,:root:not([data-theme=kaca]):not([data-theme=awan]) body:is([data-tab=beranda],[data-tab=explore],[data-tab=pesan],[data-tab=profil]) .nav a.nav-tulis{transition:none}
 }
 @media (prefers-reduced-motion:reduce){
   :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed::after,:root:not([data-theme=kaca]):not([data-theme=awan]) .nav svg,:root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis,:root:not([data-theme=kaca]):not([data-theme=awan]) .header-lonceng{transition:none}
@@ -1751,3 +1751,12 @@ dialog:not(.lembar){margin:auto;max-height:calc(100dvh - 32px)}
 .cari-tips{padding:0 16px 10px;font-size:13px;color:var(--redup)}
 
 /* <<< SELESAI tampilan-baru-v6 <<< */
+
+/* Profil (HP): tab Catatan/dst. yang menempel di bawah header ikut naik ke puncak saat header menyingkir */
+@media (max-width:767px){
+  body[data-tab=profil] .tab-profil{transition:top .25s ease}
+  body[data-tab=profil].gulir-turun .tab-profil{top:0}
+}
+@media (max-width:767px) and (prefers-reduced-motion:reduce){
+  body[data-tab=profil] .tab-profil{transition:none}
+}
