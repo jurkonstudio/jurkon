@@ -46,6 +46,8 @@
   }
   // true bila saling mengikuti. Bila jaringan gagal, anggap boleh: database tetap yang memutuskan.
   async function cekSalingIkuti() {
+    // Akun resmi (mis. asisten Jurkon) boleh dibalas tanpa saling mengikuti; database mengizinkan hal yang sama (migrasi 042).
+    if (o && typeof AKUN_RESMI !== 'undefined' && AKUN_RESMI.includes(o.username)) return true;
     const { data, error } = await db.from('follows').select('follower_id,following_id')
       .or('and(follower_id.eq.' + saya.id + ',following_id.eq.' + lawanId + '),and(follower_id.eq.' + lawanId + ',following_id.eq.' + saya.id + ')');
     if (error) return true;

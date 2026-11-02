@@ -176,4 +176,18 @@
       ke.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' });
     }
   });
+  // Pesan sambutan otomatis untuk pengguna baru (migrasi 042). Bahasa mengikuti ponsel/browser, bukan pilihan manual.
+  // Server hanya mengirim sekali per akun; di sini cukup mengingat hasilnya supaya tidak memanggil terus.
+  (async function sambutan() {
+    try {
+      if (!window.db || !db.rpc) return;
+      const { data: { session } } = await db.auth.getSession();
+      if (!session) return;
+      const kunci = 'sambutan:' + session.user.id;
+      try { if (localStorage.getItem(kunci)) return; } catch (e) {}
+      const bhs = (window.I18n && I18n.deteksi) ? I18n.deteksi() : String(navigator.language || 'id').slice(0, 2);
+      const { data, error } = await db.rpc('kirim_sambutan', { p_bahasa: bhs });
+      if (!error && (data === 'terkirim' || data === 'sudah')) { try { localStorage.setItem(kunci, '1'); } catch (e) {} }
+    } catch (e) { /* migrasi belum dijalankan atau jaringan putus: abaikan, coba lagi di kunjungan berikutnya */ }
+  })();
 })();

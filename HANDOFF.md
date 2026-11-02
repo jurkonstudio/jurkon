@@ -239,3 +239,13 @@ Ide berikutnya: balas pesan tertentu (kolom `balas_id`), tanda sudah dibaca, rea
 - Uji manual: `/ar/` di 320 dan 390 px (arah kanan-ke-kiri, benang langkah, FAQ, tema gelap), ganti bahasa lewat tautan di kaki landing, kartu pertanyaan di Beranda untuk tiap bahasa, jawab pertanyaan lalu lihat kiriman di umpan dengan bahasa lain.
 - Setelah unggah: Search Console > kirim ulang `sitemap.xml`; Pemeriksaan URL untuk `/es/`, `/fr/`, `/hi/`, `/ar/`; opsional `node tools/indexnow.js`. Terjemahan baru (dan Jawa/Sunda) sebaiknya dibaca penutur asli.
 
+---
+
+# Handoff tambahan, 2 November 2026 (sambutan otomatis dan kerangka asisten)
+
+**Belum diuji di database sungguhan.** Baru: `sql/042_sambutan.sql`. Berubah: `js/nav.js` (memanggil `kirim_sambutan` sekali per akun, bahasa dari `I18n.deteksi()` = bahasa ponsel), `js/chat.js` (akun resmi boleh dibalas tanpa saling mengikuti), `sql/README.md`, `sw.js`.
+Syarat: akun dengan username `jurkon` harus ada (migrasi 009). Jalankan 042 di Supabase SQL Editor SEBELUM mengunggah JS. Semua pengguna yang sudah ada saat itu ditandai "sudah" sehingga tidak dikirimi sambutan.
+Pesan sambutan: sembilan bahasa (id, en, ms, jv, su, zh, ja, ko, hi), teks ada di fungsi `teks_sambutan`. Terjemahan selain Indonesia dan Inggris sebaiknya dicek penutur asli. Nama diambil dari `profiles.nama` (cadangan: username).
+Asisten: trigger `asisten_pesan_trg` memanggil `asisten_balas(percakapan, pengguna, pengirim, teks)` untuk setiap pesan pengguna ke `jurkon`. Sekarang isinya hanya membalas sapaan (hi, halo, hello, dst.) dengan teks sementara `teks_asisten_sementara`. Saat asisten sudah jadi, ganti isi `asisten_balas()` saja (mis. kirim ke Edge Function lewat pg_net, lalu Edge Function menyimpan balasan lewat service_role).
+Uji manual: daftar akun baru (bahasa ponsel Inggris dan Indonesia), buka Pesan (ada percakapan dari Jurkon + notifikasi), balas "hi" (muncul balasan sementara), kirim "hi" berulang cepat (hanya satu balasan per 30 detik), akun lama tidak dikirimi apa pun.
+
