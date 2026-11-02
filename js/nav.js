@@ -43,7 +43,6 @@
     });
   })();
   // <<< lonceng-header <<<
-
   // Panel kanan (tampil hanya di layar lebar)
   if (aktif) {
     const p = document.createElement('aside');
