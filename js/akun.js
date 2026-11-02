@@ -1,40 +1,52 @@
-// Bagian "Email" dan "Data & akun" di profil sendiri: ganti email, unduh data, hapus akun, panel admin.
+// Isi panel Pengaturan yang berhubungan dengan akun, dibagi per kategori:
+//   Keamanan        -> #kmEmail (ganti email), #kmSandi (ganti kata sandi), #kmSesi (perangkat login, lihat js/sesi.js)
+//   Data & privasi  -> #dpData (unduh data), #dpBahaya (hapus akun)
+//   Menu utama      -> #linkAdmin (hanya admin)
 (function () {
-  const el = document.getElementById('akun');
-  if (!el) return;
-  el.innerHTML = `<section class="set-grup set-email">
-      <h3>${esc(t('ak.email'))}</h3>
+  const wEmail = document.getElementById('kmEmail');
+  if (!wEmail) return;
+  const I = id => document.getElementById(id);
+
+  // ---------- Keamanan: email ----------
+  wEmail.innerHTML = `<h3>${esc(t('ak.email'))}</h3>
       <p class="set-nilai" id="emailKini">${esc(t('umum.memuat'))}</p>
       <div class="set-isian">
         <input type="email" id="emailBaru" aria-label="${esc(t('ak.emailBaruPh'))}" placeholder="${esc(t('ak.emailBaruPh'))}" autocomplete="email" autocapitalize="none" spellcheck="false">
         <button class="btn garis" id="gantiEmail">${esc(t('ak.ganti'))}</button>
       </div>
-      <p class="hitung" id="emailInfo" role="status">${esc(t('ak.infoGanti'))}</p>
-    </section>
-    <section class="set-grup set-data">
-      <h3>${esc(t('ak.dataAkun'))}</h3>
-      <div class="akun-aksi">
-        <button class="btn garis" id="unduhData">${esc(t('ak.unduh'))}</button>
-        <a id="linkAdmin" href="/murthehelp/031411" hidden>${esc(t('ak.admin'))}</a>
-      </div>
-      <p class="hitung">${esc(t('ak.infoData'))}</p>
-    </section>
-    <section class="set-grup zona-bahaya">
-      <h3>${esc(t('ak.zona'))}</h3>
-      <p class="hitung">${esc(t('ak.zonaInfo'))}</p>
-      <button class="btn bahaya garis" id="hapusAkun">${esc(t('ak.hapus'))}</button>
-    </section>`;
+      <p class="hitung" id="emailInfo" role="status">${esc(t('ak.infoGanti'))}</p>`;
 
-  const infoEmail = document.getElementById('emailInfo');
+  // ---------- Keamanan: kata sandi ----------
+  I('kmSandi').innerHTML = `<h3>${esc(t('kt.sandi'))}</h3>
+      <div class="set-isian set-kolom">
+        <input type="password" id="sandiBaru" aria-label="${esc(t('kt.sandiBaru'))}" placeholder="${esc(t('kt.sandiBaru'))}" autocomplete="new-password" maxlength="72">
+        <input type="password" id="sandiUlang" aria-label="${esc(t('kt.sandiUlang'))}" placeholder="${esc(t('kt.sandiUlang'))}" autocomplete="new-password" maxlength="72">
+        <button class="btn garis" id="gantiSandi">${esc(t('kt.sandiUbah'))}</button>
+      </div>
+      <p class="hitung" id="sandiInfo" role="status">${esc(t('kt.sandiInfo'))}</p>`;
+
+  // ---------- Keamanan: perangkat & aktivitas login ----------
+  if (window.Sesi) Sesi.pasang(I('kmSesi'));
+
+  // ---------- Data & privasi ----------
+  I('dpData').innerHTML = `<h3>${esc(t('ak.dataAkun'))}</h3>
+      <div class="akun-aksi"><button class="btn garis" id="unduhData">${esc(t('ak.unduh'))}</button></div>
+      <p class="hitung">${esc(t('ak.infoData'))}</p>
+      <p class="hitung">${esc(t('dp.sesi'))}</p>`;
+  I('dpBahaya').innerHTML = `<h3>${esc(t('ak.zona'))}</h3>
+      <p class="hitung">${esc(t('ak.zonaInfo'))}</p>
+      <button class="btn bahaya garis" id="hapusAkun">${esc(t('ak.hapus'))}</button>`;
+
+  const infoEmail = I('emailInfo');
   db.auth.getSession().then(({ data: { session } }) => {
-    document.getElementById('emailKini').textContent = session ? t('ak.emailKini', { email: session.user.email }) : '';
+    I('emailKini').textContent = session ? t('ak.emailKini', { email: session.user.email }) : '';
   });
-  document.getElementById('gantiEmail').onclick = async () => {
-    const baru = document.getElementById('emailBaru').value.trim().toLowerCase();
+  I('gantiEmail').onclick = async () => {
+    const baru = I('emailBaru').value.trim().toLowerCase();
     if (!/^\S+@\S+\.\S+$/.test(baru)) { infoEmail.textContent = t('ak.isiValid'); return; }
     const { data: { session } } = await db.auth.getSession();
     if (session && session.user.email && session.user.email.toLowerCase() === baru) { infoEmail.textContent = t('ak.sudahItu'); return; }
-    const tbl = document.getElementById('gantiEmail');
+    const tbl = I('gantiEmail');
     tbl.disabled = true;
     const { error } = await db.auth.updateUser({ email: baru }, { emailRedirectTo: location.origin + '/profil.html' });
     tbl.disabled = false;
@@ -46,10 +58,35 @@
       return;
     }
     infoEmail.textContent = t('ak.cek');
-    document.getElementById('emailBaru').value = '';
+    I('emailBaru').value = '';
   };
 
-  document.getElementById('unduhData').onclick = async () => {
+  // Ganti kata sandi: aturan kekuatan sama dengan saat daftar (js/keamanan.js). Supabase tetap menegakkan aturannya sendiri.
+  const infoSandi = I('sandiInfo');
+  I('gantiSandi').onclick = async () => {
+    const a = I('sandiBaru').value, b = I('sandiUlang').value;
+    if (a.length < 8) { infoSandi.textContent = t('auth.e.sandiPendek'); return; }
+    if (a !== b) { infoSandi.textContent = t('kt.sandiBeda'); return; }
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) return;
+    if (window.Keamanan && !Keamanan.sandiKuat(a, session.user.email)) { infoSandi.textContent = t('auth.e.sandiLemah'); return; }
+    const tbl = I('gantiSandi');
+    tbl.disabled = true;
+    const { error } = await db.auth.updateUser({ password: a });
+    tbl.disabled = false;
+    if (error) {
+      const m = error.message || '';
+      infoSandi.textContent = /different from the old|same as the old|should be different/i.test(m) ? t('kt.sandiSama')
+        : /reauthenticat|recent|nonce/i.test(m) ? t('kt.sandiMasukLagi')
+        : /weak|pwned|easy to guess|at least|characters/i.test(m) ? t('auth.e.sandiLemah')
+        : t('kt.sandiGagal', { pesan: galatRamah(error) });
+      return;
+    }
+    infoSandi.textContent = t('kt.sandiOk');
+    I('sandiBaru').value = ''; I('sandiUlang').value = '';
+  };
+
+  I('unduhData').onclick = async () => {
     const { data, error } = await db.rpc('ekspor_data');
     if (error) { alert(t('ak.gagalUnduh', { pesan: galatRamah(error) })); return; }
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -61,7 +98,7 @@
   };
 
   // Hapus akun ala GitHub: dialog peringatan, ketik username untuk konfirmasi, tombol baru aktif bila cocok.
-  document.getElementById('hapusAkun').onclick = async () => {
+  I('hapusAkun').onclick = async () => {
     const { data: { session } } = await db.auth.getSession();
     if (!session) return;
     const { data: pr } = await db.from('profiles').select('username').eq('id', session.user.id).maybeSingle();
@@ -92,7 +129,7 @@
     dlg.querySelector('#hdTutup').onclick = tutup;
     dlg.querySelector('#hdBatal').onclick = tutup;
     dlg.addEventListener('cancel', () => dlg.remove());
-    dlg.querySelector('#hdUnduh').onclick = () => document.getElementById('unduhData').click();
+    dlg.querySelector('#hdUnduh').onclick = () => I('unduhData').click();
     tombol.onclick = async () => {
       if (tombol.disabled) return;
       tombol.disabled = true; input.disabled = true;
@@ -112,9 +149,10 @@
     input.focus();
   };
 
+  // Tautan Panel admin di menu utama Pengaturan, hanya untuk admin.
   db.auth.getSession().then(async ({ data: { session } }) => {
     if (!session) return;
     const { data } = await db.from('admins').select('user_id').eq('user_id', session.user.id).maybeSingle();
-    if (data) document.getElementById('linkAdmin').hidden = false;
+    if (data && I('linkAdmin')) I('linkAdmin').hidden = false;
   });
 })();

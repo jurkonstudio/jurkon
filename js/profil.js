@@ -76,17 +76,16 @@ async function muat() {
   });
   if (milikSaya) {
     $('#keluar').innerHTML = `<button class="ikon-btn" id="bukaPengaturan" aria-label="${esc(t('pf.pengaturan'))}">${IKP.gigi}</button>`;
-    $('#bukaPengaturan').onclick = () => $('#lembarPengaturan').showModal();
+    $('#bukaPengaturan').onclick = () => Pengaturan.buka('beranda');
     $('#tutupPengaturan').onclick = () => $('#lembarPengaturan').close();
     $('#versi').textContent = t('set.versi', { v: '1.0.0' });
     // Setelah ganti bahasa halaman dimuat ulang; buka lagi Pengaturan supaya terasa berkelanjutan
-    try { if (sessionStorage.getItem('bukaPengaturan') === '1') { sessionStorage.removeItem('bukaPengaturan'); $('#lembarPengaturan').showModal(); } } catch (e) {}
+    try { if (sessionStorage.getItem('bukaPengaturan') === '1') { sessionStorage.removeItem('bukaPengaturan'); Pengaturan.buka('tampilan'); } } catch (e) {}
     $('#lembarPengaturan').onclick = e => { if (e.target === e.currentTarget) e.currentTarget.close(); };
     $('#logout').onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.href = 'login.html'; };
     $('#ubah').onclick = ubah;
     $('#bagikanSaya').onclick = bagikanProfil;
     $('#tema').hidden = false;
-    $('#akun').hidden = false;
   } else {
     $('#menuLain').onclick = e => {
       e.stopPropagation();

@@ -872,3 +872,15 @@ if (typeof IKON === 'object' && !IKON.ulang && typeof IK2 === 'object') IKON.ula
   try { db.auth.onAuthStateChange(() => { masuk = null; }); } catch (e) {}
   jadwal(3000);
 })();
+
+// Catat lokasi/perangkat sesi (paling sering sekali per jam; lihat js/sesi.js). Dimuat hanya bila halaman belum memuatnya.
+(function () {
+  try {
+    setTimeout(function () {
+      if (window.Sesi) { window.Sesi.catat(false); return; }
+      var s = document.createElement('script'); s.src = '/js/sesi.js';
+      s.onload = function () { if (window.Sesi) window.Sesi.catat(false); };
+      document.head.appendChild(s);
+    }, 6000);
+  } catch (e) {}
+})();

@@ -28,11 +28,33 @@
 <div id="sematan"></div>
 <div id="daftar" role="tabpanel" aria-labelledby="tp-catatan"></div></main>
 <dialog id="lembarPengaturan" class="lembar lembar-set" aria-labelledby="jPengaturan">
-<div class="lembar-kepala"><h2 id="jPengaturan" data-i="pf.pengaturan">Pengaturan</h2><button class="ikon-btn" id="tutupPengaturan" aria-label="Tutup" data-i-aria="umum.tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div class="lembar-kepala"><div class="set-judul"><button class="ikon-btn" id="setKembali" type="button" aria-label="Kembali" data-i-aria="set.kembali" hidden><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><h2 id="jPengaturan" tabindex="-1" data-i="pf.pengaturan">Pengaturan</h2></div><button class="ikon-btn" id="tutupPengaturan" aria-label="Tutup" data-i-aria="umum.tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
 <div class="set-badan">
+<div class="set-pane" data-pane="beranda">
+<nav class="set-menu" aria-label="Pengaturan" data-i-aria="pf.pengaturan">
+<button type="button" class="set-baris" data-ke="tampilan"><span class="ik"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 3a9 9 0 010 18z" fill="currentColor"/></svg></span><span class="tk"><b data-i="set.katTampilan"></b><small data-i="set.katTampilanSub"></small></span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+<button type="button" class="set-baris" data-ke="keamanan"><span class="ik"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="tk"><b data-i="set.katKeamanan"></b><small data-i="set.katKeamananSub"></small></span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+<button type="button" class="set-baris" data-ke="data"><span class="ik"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span><span class="tk"><b data-i="set.katData"></b><small data-i="set.katDataSub"></small></span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+<button type="button" class="set-baris" data-ke="info"><span class="ik"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span><span class="tk"><b data-i="set.info"></b><small data-i="set.katInfoSub"></small></span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+<a class="set-baris" id="linkAdmin" href="/murthehelp/031411" hidden><span class="ik"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z"/><path d="M12 8v4M12 15h.01"/></svg></span><span class="tk"><b data-i="ak.admin">Panel admin</b></span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+</nav>
+<div class="set-keluar"><button class="btn garis penuh" id="logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/></svg><span data-i="set.keluar">Keluar</span></button></div>
+<p class="hitung set-versi" id="versi">Versi 1.0.0</p>
+</div>
+<div class="set-pane" data-pane="tampilan" hidden>
 <section id="tema" class="set-grup" hidden></section>
 <section id="bahasa" class="set-grup"></section>
-<div id="akun" class="set-bungkus" hidden></div>
+</div>
+<div class="set-pane" data-pane="keamanan" hidden>
+<section id="kmEmail" class="set-grup set-email"></section>
+<section id="kmSandi" class="set-grup set-sandi"></section>
+<section id="kmSesi" class="set-grup set-sesi"></section>
+</div>
+<div class="set-pane" data-pane="data" hidden>
+<section id="dpData" class="set-grup set-data"></section>
+<section id="dpBahaya" class="set-grup zona-bahaya"></section>
+</div>
+<div class="set-pane" data-pane="info" hidden>
 <section class="set-grup set-info"><h3 data-i="set.info">Informasi</h3>
 <ul class="info-daftar">
 <li><a href="kebijakan-privasi.html"><svg class="set-ikon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z"/></svg><span data-i="set.privasi">Kebijakan privasi</span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
@@ -42,8 +64,7 @@
 <li><a href="tentang.html"><svg class="set-ikon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span data-i="set.tentang">Tentang Jurkon</span><svg class="set-panah" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a></li>
 </ul>
 <p class="hitung" data-i="set.catatanBahasa">Halaman informasi mengikuti bahasa tampilan. Bila terjemahan berbeda, versi Bahasa Indonesia yang berlaku.</p></section>
-<div class="set-keluar"><button class="btn garis penuh" id="logout"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/></svg><span data-i="set.keluar">Keluar</span></button></div>
-<p class="hitung set-versi" id="versi">Versi 1.0.0</p>
+</div>
 </div>
 </dialog>
 <dialog id="lembarBrankas" class="lembar lembar-bk" aria-labelledby="jBrankas">
@@ -66,6 +87,8 @@
 <script src="js/kartu.js"></script>
 <script src="js/brankas.js"></script>
 <script src="js/penerjemah.js"></script>
+<script src="js/sesi.js"></script>
+<script src="js/pengaturan.js"></script>
 <script src="js/profil.js"></script>
 <script src="js/akun.js"></script>
 <script src="js/notif.js"></script>

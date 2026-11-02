@@ -47,6 +47,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `036_perbaiki_hak_anon.sql` | Pasang ulang hak anon hanya untuk 5 fungsi publik (catatan_publik, daftar_publik, landing_publik, jelajahi_publik, catat_corong) + muat ulang cache API. Jalankan bila Jelajahi "Gagal memuat" atau setelah menjalankan ulang 019 (019 kini sudah memasang ulang daftar putih itu sendiri) | kapan saja, aman diulang; hasil cek: 5 baris (fungsi anon) |
 | `039_jurnal_draf_4000.sql` | Jurnal: kolom `draf` (draf selalu pribadi) dan batas isi 4000 karakter, kebijakan baca menolak draf | setelah 034; hasil cek: 1 baris, 2 baris, 5 baris |
 | `040_username_aman.sql` | username lebih aman: daftar cadangan (halaman situs, peran, `jurkon…`), wajib ada huruf, anti penyamaran (`jurk0n`, `jur_kon`), username lama ditahan 60 hari, `username_tersedia()` untuk cek langsung di layar | setelah 002, 007, 009, 019; hasil cek: 3 baris (0, sekitar 150, jumlah akun lama yang melanggar) |
+| `041_sesi_login.sql` | riwayat sesi login: tabel `sesi_login` (lokasi, perangkat, provider, IP disamarkan), `catat_sesi()` (hanya service_role, dipanggil Edge Function `catat-sesi`), `daftar_sesi()`, `keluarkan_sesi()`, `keluarkan_sesi_lain()` | setelah 002 dan 019; deploy `supabase/functions/catat-sesi`; hasil cek: 3 baris, 0 baris |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 

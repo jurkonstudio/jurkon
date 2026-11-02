@@ -93,6 +93,11 @@ async function jalankan(tombol, fn) {
   try { await fn(); } finally { tombol.disabled = false; tombol.textContent = teks; }
 }
 
+// Catat lokasi/perangkat sesi baru (js/sesi.js). Gagal atau lambat tidak boleh menghalangi masuk: tunggu paling lama 2,5 detik.
+async function catatSesiCepat() {
+  try { if (window.Sesi) await Promise.race([Sesi.catat(true), new Promise(r => setTimeout(r, 2500))]); } catch (e) {}
+}
+
 if ($('#masuk')) $('#masuk').onclick = function () {
   const a = periksa(true); if (!a) return;
   if (!gerbang(false).ok) return;
@@ -100,7 +105,7 @@ if ($('#masuk')) $('#masuk').onclick = function () {
     const opsi = adaCaptcha() ? { captchaToken: pakaiToken() } : undefined;
     const { error } = await db.auth.signInWithPassword(opsi ? { ...a, options: opsi } : a);
     if (error) { catatGagal(); galat.textContent = t('auth.gagalMasuk', { pesan: terjemah(error.message) }); $('#sandi').value = ''; $('#sandi').focus(); }   // sandi salah: kosongkan, ketik ulang
-    else { catatBerhasil(); location.href = lanjutAman() || 'index.html'; }
+    else { catatBerhasil(); await catatSesiCepat(); location.href = lanjutAman() || 'index.html'; }
   });
 };
 if ($('#daftar')) $('#daftar').onclick = function () {
@@ -113,7 +118,7 @@ if ($('#daftar')) $('#daftar').onclick = function () {
     // Email yang sudah terdaftar tidak memberi galat (perlindungan Supabase): identities kosong
     else if (data.user && data.user.identities && data.user.identities.length === 0) galat.textContent = t('auth.sudahTerdaftarLupa');
     else if (!data.session) { galat.classList.add('ok'); galat.textContent = t('auth.cekEmail'); }
-    else location.href = lanjutAman() || 'index.html';
+    else { await catatSesiCepat(); location.href = lanjutAman() || 'index.html'; }
   });
 };
 // Login Google dinonaktifkan sementara (belum dikonfigurasi). Untuk mengaktifkan lagi: pasang tombol #google di login.html dan
