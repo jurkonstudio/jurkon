@@ -1,8 +1,10 @@
 /* =====================================================================
    Tema "Awan" (data-theme="awan")
-   Gaya antarmuka iCloud mode gelap (web / iOS): latar hitam, permukaan abu
-   gelap, pemisah setipis rambut, kontrol segmented, bar atas & bawah blur
-   tipis, biru sistem. Selalu gelap, tidak bergantung pada pengaturan perangkat.
+   Gaya "Liquid Glass" iOS 27 (gelap): latar hitam dengan pendar warna lembut,
+   kaca gelap padat (transparansi default rendah seperti iOS 27), sorot tepi
+   atas-kiri, dock kapsul dengan lensa pada tab aktif, biru sistem.
+   Selalu gelap, tidak bergantung pada pengaturan perangkat.
+   Transparansi diatur satu variabel: --a-opasitas (0.3 - 0.95).
 
    Dimuat oleh js/tema.js hanya saat tema Awan dipilih. Semua aturan
    diawali  :root[data-theme=awan]  sehingga tidak memengaruhi tema lain.
@@ -23,11 +25,16 @@
   --serif:var(--sans);
   --isi:var(--sans);
 
-  --a-bar:rgba(28,28,30,.72);           /* bar atas/bawah */
+  --a-opasitas:.62;                     /* makin besar makin padat */
+  --a-bar:rgba(34,34,38,calc(var(--a-opasitas) + .12));   /* bar atas / bawah */
+  --a-kaca:linear-gradient(135deg,rgba(66,66,72,calc(var(--a-opasitas) + .14)),rgba(34,34,38,var(--a-opasitas)));
+  --a-tepi:rgba(255,255,255,.14);
+  --a-kilau:inset 1.5px 1.5px 1px -1px rgba(255,255,255,.38),inset -1px -1px 1px -1px rgba(255,255,255,.14),inset 0 0 0 .5px rgba(255,255,255,.08);
+  --a-lensa:rgba(255,255,255,.14);      /* lensa tab aktif */
   --a-isian:rgba(118,118,128,.24);      /* isian & segmented */
   --a-kartu:#2c2c2e;                    /* kartu, menu, lembar */
   --a-aktif:#636366;                    /* segmen terpilih */
-  --a-bayang:0 8px 30px rgba(0,0,0,.55),0 1px 3px rgba(0,0,0,.4);
+  --a-bayang:0 10px 34px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.4);
 
   --bayang-1:0 0 0 rgba(0,0,0,0);
   --bayang-2:0 1px 3px rgba(0,0,0,.5);
@@ -45,7 +52,16 @@
 
 /* ---------- 3. Dasar ---------- */
 :root[data-theme=awan] body{background:var(--latar);letter-spacing:-.011em;-webkit-font-smoothing:antialiased}
-:root[data-theme=awan] main{background:var(--bg)}
+:root[data-theme=awan] body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(60% 46% at 10% 6%,rgba(10,132,255,.30) 0%,transparent 70%),
+    radial-gradient(55% 44% at 94% 16%,rgba(94,92,230,.24) 0%,transparent 70%),
+    radial-gradient(60% 48% at 88% 94%,rgba(255,55,95,.14) 0%,transparent 70%),
+    radial-gradient(52% 42% at 6% 90%,rgba(48,209,200,.12) 0%,transparent 70%),
+    #000;
+}
+:root[data-theme=awan] main{background:rgba(18,18,21,.62)}
 @media (min-width:768px){
   :root[data-theme=awan] main{border-color:var(--garis)}
   :root[data-theme=awan] body:not([data-tab]) main{border-radius:16px;border:0;box-shadow:var(--a-bayang)}
@@ -55,7 +71,8 @@
 :root[data-theme=awan] .header{
   background:var(--a-bar);
   -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
-  border-bottom:1px solid var(--garis);box-shadow:none;font-weight:600;
+  border-bottom:0;font-weight:600;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 .5px 0 rgba(255,255,255,.10),0 10px 28px -16px rgba(0,0,0,.8);
 }
 /* tab feed jadi kontrol segmented iOS (desktop); di HP memakai kapsul bersama dari css/style.css */
 @media (min-width:768px){
@@ -68,21 +85,31 @@
   :root[data-theme=awan] .tab-feed button{color:var(--redup)}
   :root[data-theme=awan] .tab-feed button[aria-selected=true]{color:var(--teks)}
   :root[data-theme=awan] .tab-feed::after{background:var(--a-aktif);border:0;box-shadow:0 3px 8px rgba(0,0,0,.35),0 1px 1px rgba(0,0,0,.25)}
-  :root[data-theme=awan] .header-lonceng{background:var(--a-isian)}
+  :root[data-theme=awan] .header-lonceng{
+    background:var(--a-kaca);border:1px solid var(--a-tepi);
+    -webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);
+    box-shadow:var(--a-kilau),0 2px 8px rgba(0,0,0,.35)}
 }
 
 /* ---------- 5. Dock bawah (HP): kapsul mengambang gelap; tata letak dari css/style.css ---------- */
 @media (max-width:767.98px){
   :root[data-theme=awan] .nav{
-    background:var(--a-bar);
-    -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
-    border:1px solid var(--garis);box-shadow:var(--a-bayang);
+    background:var(--a-kaca);
+    -webkit-backdrop-filter:saturate(190%) blur(22px);backdrop-filter:saturate(190%) blur(22px);
+    border:1px solid var(--a-tepi);box-shadow:var(--a-kilau),var(--a-bayang);
   }
   :root[data-theme=awan] .nav::before{display:none}
   :root[data-theme=awan] main{min-height:100vh;min-height:100dvh}
-  :root[data-theme=awan] .nav a.aktif{color:var(--aksen)}
-  :root[data-theme=awan] .nav a.aktif svg{background:var(--ubin);fill:color-mix(in srgb,var(--aksen) 30%,transparent)}
-  :root[data-theme=awan] .nav a.nav-tulis{background:var(--aksen);box-shadow:0 0 0 5px var(--a-kartu),0 6px 16px rgba(10,132,255,.45)}
+  /* tab aktif: lensa kaca membungkus ikon + label */
+  :root[data-theme=awan] .nav a.aktif{
+    color:var(--aksen);background:var(--a-lensa);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 .5px rgba(255,255,255,.06);
+  }
+  :root[data-theme=awan] .nav a.aktif svg{background:none;box-shadow:none;fill:color-mix(in srgb,var(--aksen) 30%,transparent)}
+  :root[data-theme=awan] .nav a.nav-tulis{
+    background:linear-gradient(180deg,rgba(64,156,255,.97),rgba(10,132,255,.95));
+    box-shadow:0 0 0 4px rgba(40,40,44,.72),inset 0 1.5px 1px -.5px rgba(255,255,255,.55),inset 0 -1px 1px -.5px rgba(0,40,120,.35),0 10px 24px -6px rgba(10,132,255,.55);
+  }
   :root[data-theme=awan] .nav a.nav-tulis svg{background:none;fill:none}
 }
 @media (min-width:768px){
@@ -92,13 +119,20 @@
 /* ---------- 6. Tombol ---------- */
 :root[data-theme=awan] .btn{font-weight:600;letter-spacing:-.01em;border-radius:12px}
 :root[data-theme=awan] .btn:not(.garis):not(.bahaya):not(.x){
-  background:var(--aksen);background-image:none;color:#fff;border:0;box-shadow:none;
+  background:linear-gradient(180deg,rgba(64,156,255,.97),rgba(10,132,255,.95));color:#fff;border:0;
+  box-shadow:inset 0 1.5px 1px -.5px rgba(255,255,255,.5),inset 0 -1px 1px -.5px rgba(0,40,120,.3),0 6px 16px -6px rgba(10,132,255,.5);
 }
 :root[data-theme=awan] .btn.bahaya:not(.garis){background:var(--bahaya);background-image:none;color:#fff;box-shadow:none}
-:root[data-theme=awan] .btn.garis:not(.bahaya){background:var(--ubin);color:var(--aksen);border:0;box-shadow:none}
+:root[data-theme=awan] .btn.garis:not(.bahaya){
+  background:var(--a-kaca);color:var(--link);border:1px solid var(--a-tepi);
+  -webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);
+  box-shadow:var(--a-kilau)}
 :root[data-theme=awan] .btn:active{filter:brightness(.9)}
 :root[data-theme=awan] .fab{background:var(--aksen);box-shadow:0 4px 14px rgba(10,132,255,.45)}
-:root[data-theme=awan] .ikon-btn{background:var(--a-isian);border:0;color:var(--teks);box-shadow:none}
+:root[data-theme=awan] .ikon-btn{
+  background:var(--a-kaca);border:1px solid var(--a-tepi);color:var(--teks);
+  -webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);
+  box-shadow:var(--a-kilau)}
 
 /* ---------- 7. Isian ---------- */
 :root[data-theme=awan] textarea,
@@ -116,13 +150,18 @@
 :root[data-theme=awan] .menu-isi,
 :root[data-theme=awan] .sebut-list,
 :root[data-theme=awan] .panel section{
-  background:var(--a-kartu);border:0;border-radius:14px;box-shadow:var(--a-bayang);
+  background:linear-gradient(135deg,rgba(60,60,66,.94),rgba(40,40,45,.90));border:1px solid var(--a-tepi);border-radius:16px;
+  -webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);
+  box-shadow:var(--a-kilau),var(--a-bayang);
 }
 :root[data-theme=awan] .menu-isi button:hover,
 :root[data-theme=awan] .menu-isi button:active{background:var(--ubin)}
-:root[data-theme=awan] .lembar{background:var(--a-kartu);border-radius:16px 16px 0 0}
-:root[data-theme=awan] .lembar::backdrop{background:rgba(0,0,0,.55)}
-:root[data-theme=awan] .kirim{background:var(--a-bar);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:1px solid var(--garis)}
+:root[data-theme=awan] .lembar{
+  background:linear-gradient(135deg,rgba(58,58,64,.95),rgba(36,36,40,.93));border-radius:28px 28px 0 0;
+  -webkit-backdrop-filter:blur(34px) saturate(180%);backdrop-filter:blur(34px) saturate(180%);
+  box-shadow:var(--a-kilau),0 -10px 50px rgba(0,0,0,.6)}
+:root[data-theme=awan] .lembar::backdrop{background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+:root[data-theme=awan] .kirim{background:var(--a-bar);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-top:1px solid var(--a-tepi)}
 
 /* ---------- 9. Login & pilihan tema ---------- */
 :root[data-theme=awan] .logo-login img{border-radius:18px;box-shadow:var(--a-bayang)}
@@ -131,7 +170,7 @@
 
 /* ---------- 10. Aksesibilitas ---------- */
 @media (prefers-reduced-transparency:reduce){
-  :root[data-theme=awan]{--a-bar:var(--bg)}
+  :root[data-theme=awan]{--a-bar:var(--bg);--a-kaca:#2c2c2e;--a-opasitas:1}
   :root[data-theme=awan] *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 }
 @media (prefers-contrast:more){
