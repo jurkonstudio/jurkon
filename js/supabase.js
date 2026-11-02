@@ -1,6 +1,6 @@
 // Isi dengan data dari Supabase > Project Settings > API
 // HANYA pakai "anon public key". JANGAN PERNAH pakai service_role key.
-const SUPABASE_URL = 'https://yghgmfvlthzcuhelqesr.supabase.co';
+const SUPABASE_URL = 'https://twdrpydydxlhfmllfoan.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_kRhUqqmzTHW7igXOPPrcZA_VRHQ9C94';
 
 // Kunci SITUS Cloudflare Turnstile (publik, aman ditaruh di sini). Kosong = CAPTCHA mati.

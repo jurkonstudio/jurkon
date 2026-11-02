@@ -31,7 +31,7 @@ Supabase > SQL Editor > New query > tempel isi `sql/041_sesi_login.sql` > Run. L
 ### 5. Pasang Edge Function
 Pilih salah satu:
 - **Dashboard**: Supabase > Edge Functions > Deploy a new function > nama `catat-sesi` > tempel isi `supabase/functions/catat-sesi/index.ts` > Deploy. Biarkan "Verify JWT" **aktif**.
-- **CLI di Codespace**: `npx supabase login` lalu `npx supabase functions deploy catat-sesi --project-ref yghgmfvlthzcuhelqesr`
+- **CLI di Codespace**: `npx supabase login` lalu `npx supabase functions deploy catat-sesi --project-ref twdrpydydxlhfmllfoan`
 
 Tidak perlu secret tambahan (SUPABASE_URL dan SERVICE_ROLE_KEY sudah disediakan Supabase). Opsional: `GEO_URL` bila ingin mengganti layanan geolokasi (pakai `{ip}` sebagai penanda alamat).
 
