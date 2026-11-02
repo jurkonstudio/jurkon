@@ -1,3 +1,14 @@
+# Handoff tambahan, 2 November 2026 (Brankas dan Penerjemah di Profil)
+
+**Belum diuji di browser.** Dijalankan: `node --check` (brankas.js, penerjemah.js, profil.js, sw.js), uji bolak-balik enkripsi (bungkus kunci, sandi salah ditolak, enkripsi/dekripsi berkas), uji mesin penerjemah di node (aksara Jawa dua arah, Morse, biner), `pecah-bahasa`, `cek-bahasa` (704 kunci x 9 bahasa, OK), `naikkan-cache`.
+Baru: `sql/040_brankas.sql`, `js/brankas.js`, `js/penerjemah.js`; 52 kunci `bk.*` dan `pn.*` di `js/bahasa.js`. Berubah: `profil.html` (dua dialog + skrip), `js/profil.js` (dua ikon di samping gear), `css/style.css` (bagian paling bawah), `sw.js`, `sql/README.md`.
+Brankas: berkas dienkripsi di perangkat (AES-GCM 256) dengan kunci acak yang dibungkus kunci turunan sandi (PBKDF2-SHA256, 310.000 putaran). Sandi tidak dikirim dan TIDAK bisa dipulihkan; lupa sandi = hapus brankas (semua berkas hilang). Terkunci saat ditutup atau 5 menit diam. Batas: 10 MB per berkas, 25 berkas per akun, arsip dan berkas program ditolak (di klien dan trigger database). Nama, jenis, dan ukuran berkas tersimpan polos di tabel; isi terenkripsi.
+Penerjemah: Latin <-> aksara Jawa (font Noto Sans Javanese dimuat dari Google Fonts saat panel dibuka), Morse, biner (UTF-8). Huruf e biasa dibaca pepet; é/è untuk taling. Hasil aksara sebaiknya dicek penutur asli.
+Belum dikerjakan: penghapusan akun belum membuang objek storage brankas (baris tabel ikut terhapus lewat cascade).
+Setelah unggah: jalankan `sql/040_brankas.sql` di Supabase SQL Editor SEBELUM mengunggah JS. Uji manual: buat brankas, unggah foto/txt, unduh dan bandingkan, coba .zip (harus ditolak), >10 MB (ditolak), sandi salah, ganti sandi, tutup lalu buka (minta sandi lagi), tema gelap, 320 px.
+
+---
+
 # Handoff tambahan, 2 November 2026 (halaman info statis enam bahasa)
 
 **Belum diuji di browser dan Search Console.** Dijalankan: `node --check` semua skrip baru/diubah, `buat-info`, `buat-landing`, `buat-sitemap` (51 alamat; pemeriksa hreflang timbal balik lolos), `cek-bahasa` (OK), `naikkan-cache`, uji tiruan `js/info-arah.js`, hitung hreflang (8 per halaman, 30 halaman).
