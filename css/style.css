@@ -1718,6 +1718,22 @@ dialog:not(.lembar){margin:auto;max-height:calc(100dvh - 32px)}
   :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis{flex-basis:52px;width:52px;height:52px;margin-left:2px;margin-right:2px}
 }
 @keyframes dock-muncul{0%{transform:scale(.78)}100%{transform:scale(1)}}
+
+/* Feed (HP, tema dock): saat gulir turun, kapsul menu & header menyingkir, tetapi tombol Tulis (+) tetap tampil
+   dan turun ke dekat sudut bawah. Gulir naik: kapsul muncul lagi dan tombol kembali ke tengah. */
+@media (max-width:767px){
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav{transition:background-color .25s ease,border-color .25s ease,box-shadow .25s ease,-webkit-backdrop-filter .25s ease,backdrop-filter .25s ease}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav::before{transition:opacity .2s ease}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav a:not(.nav-tulis){transition:opacity .2s ease,transform .25s ease}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav a.nav-tulis{transition:transform .2s cubic-bezier(.3,1.5,.5,1),translate .25s ease}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda].gulir-turun .nav{transform:none!important;pointer-events:none;background:transparent;border-color:transparent;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda].gulir-turun .nav::before{opacity:0}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda].gulir-turun .nav a:not(.nav-tulis){opacity:0;transform:translateY(40px);pointer-events:none}
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda].gulir-turun .nav a.nav-tulis{pointer-events:auto;translate:0 16px}
+}
+@media (max-width:767px) and (prefers-reduced-motion:reduce){
+  :root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav,:root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav::before,:root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav a,:root:not([data-theme=kaca]):not([data-theme=awan]) body[data-tab=beranda] .nav a.nav-tulis{transition:none}
+}
 @media (prefers-reduced-motion:reduce){
   :root:not([data-theme=kaca]):not([data-theme=awan]) .tab-feed::after,:root:not([data-theme=kaca]):not([data-theme=awan]) .nav svg,:root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.nav-tulis,:root:not([data-theme=kaca]):not([data-theme=awan]) .header-lonceng{transition:none}
   :root:not([data-theme=kaca]):not([data-theme=awan]) .nav a.aktif svg{animation:none}
