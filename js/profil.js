@@ -6,8 +6,6 @@ const IKP = {
   gigi: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
   bagikan: '<svg viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>',
   semat: '<svg viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg>',
-  brankas: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="3.2"/><path d="M12 8.8V7M12 17v-1.8M8.8 12H7M17 12h-1.8M7 20v1M17 20v1"/></svg>',
-  terjemah: '<svg viewBox="0 0 24 24"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>',
   kalender: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'
 };
 function tutupMenu() {
@@ -77,10 +75,8 @@ async function muat() {
     el.hidden = false;
   });
   if (milikSaya) {
-    $('#keluar').innerHTML = `<button class="ikon-btn" id="bukaPenerjemah" aria-label="${esc(t('pn.judul'))}">${IKP.terjemah}</button><button class="ikon-btn" id="bukaBrankas" aria-label="${esc(t('bk.judul'))}">${IKP.brankas}</button><button class="ikon-btn" id="bukaPengaturan" aria-label="${esc(t('pf.pengaturan'))}">${IKP.gigi}</button>`;
+    $('#keluar').innerHTML = `<button class="ikon-btn" id="bukaPengaturan" aria-label="${esc(t('pf.pengaturan'))}">${IKP.gigi}</button>`;
     $('#bukaPengaturan').onclick = () => $('#lembarPengaturan').showModal();
-    $('#bukaBrankas').onclick = () => window.Brankas && Brankas.buka();
-    $('#bukaPenerjemah').onclick = () => window.Penerjemah && Penerjemah.buka();
     $('#tutupPengaturan').onclick = () => $('#lembarPengaturan').close();
     $('#versi').textContent = t('set.versi', { v: '1.0.0' });
     // Setelah ganti bahasa halaman dimuat ulang; buka lagi Pengaturan supaya terasa berkelanjutan
@@ -473,6 +469,10 @@ function ubah() {
     const nama = $('#uNama').value.trim().slice(0, 40) || null;
     const galat = $('#uGalat'); galat.textContent = '';
     if (!/^[a-z0-9_]{3,20}$/.test(username)) { galat.textContent = t('user.harus'); return; }
+    if (username !== profil.username) {
+      const kode = await cekUsernameServer(username);
+      if (kode && kode !== 'ok') { galat.textContent = t(PESAN_USERNAME[kode] || 'user.cadangan'); return; }
+    }
     const gabung = [$('#uNama').value, $('#uBio').value, username].join(' \n ');
     if (!bolehKirim(gabung, m => galat.textContent = m)) return;
 

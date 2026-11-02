@@ -9,10 +9,13 @@
 
   const POLA = /^[a-z0-9_]{3,20}$/;
   const info = $('#infoUser');
-  let tunda;
+  let tunda, urut = 0;
   const cek = async () => {
-    const u = $('#username').value.trim().toLowerCase();
+    const u = $('#username').value.trim().toLowerCase(), n = ++urut;
     if (!POLA.test(u)) { info.textContent = t('user.hint'); info.className = 'hitung'; return false; }
+    const k = await cekUsernameServer(u);
+    if (n !== urut) return false;   // pengguna sudah mengetik lagi: abaikan hasil lama
+    if (k && k !== 'ok') { info.textContent = t(PESAN_USERNAME[k] || 'user.cadangan'); info.className = 'hitung habis'; return false; }
     if (u === p.username) { info.textContent = t('sel.bisa'); info.className = 'hitung'; return true; }
     const { data } = await db.from('profiles').select('id').eq('username', u).maybeSingle();
     if (data) { info.textContent = t('user.dipakai'); info.className = 'hitung habis'; return false; }
@@ -26,6 +29,8 @@
     const username = $('#username').value.trim().toLowerCase();
     if (!POLA.test(username)) { galat.textContent = t('user.harus'); return; }
     if (!$('#setuju').checked) { galat.textContent = t('sel.centang'); return; }
+    const kode = await cekUsernameServer(username);
+    if (kode && kode !== 'ok') { galat.textContent = t(PESAN_USERNAME[kode] || 'user.cadangan'); return; }
     if (!bolehKirim($('#nama').value + ' \n ' + username, m => galat.textContent = m)) return;
     $('#simpan').disabled = true;
     const { error } = await db.from('profiles')

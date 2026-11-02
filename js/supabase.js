@@ -48,6 +48,14 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { globa
 const $ = (s, el = document) => el.querySelector(s);
 const param = k => new URLSearchParams(location.search).get(k);
 
+// Cek username ke server (migrasi 040): 'ok' | 'format' | 'huruf' | 'cadangan' | 'tahan' | 'dipakai'.
+// null bila server belum punya fungsinya atau gagal: layar tidak menghalangi, database tetap memeriksa saat simpan.
+const PESAN_USERNAME = { format: 'user.harus', huruf: 'user.huruf', cadangan: 'user.cadangan', tahan: 'user.tahan', dipakai: 'user.dipakai' };
+async function cekUsernameServer(u) {
+  try { const { data, error } = await db.rpc('username_tersedia', { u }); return error || typeof data !== 'string' ? null : data; }
+  catch (e) { return null; }
+}
+
 function esc(t) {
   return String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
