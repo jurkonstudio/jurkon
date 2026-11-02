@@ -44,6 +44,31 @@
   const isi = () => $('#bkIsi');
   const galat = (teks) => { const g = $('#bkGalat'); if (!g) return teks ? toastUmum(teks) : undefined; g.textContent = teks; g.hidden = !teks; };
 
+  // ------------------------------------------------------------------ ikon
+  const sv = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+  const IK = {
+    kunci: sv('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+    perisai: sv('<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>'),
+    unggah: sv('<path d="M12 16V4M7 9l5-5 5 5M5 20h14"/>'),
+    unduh: sv('<path d="M12 4v12M7 11l5 5 5-5M5 20h14"/>'),
+    sampah: sv('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-12M9 7V4h6v3"/>'),
+    berkas: sv('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>'),
+    gambar: sv('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-9 9"/>'),
+    video: sv('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5v5l4.5-2.5z"/>'),
+    musik: sv('<path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/>'),
+    kunciGanti: sv('<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>'),
+    awas: sv('<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.01"/>')
+  };
+  function ikonBerkas(b) {
+    const m = (b.mime || '').toLowerCase(), n = (b.nama || '').toLowerCase();
+    if (m.startsWith('image/')) return IK.gambar;
+    if (m.startsWith('video/')) return IK.video;
+    if (m.startsWith('audio/')) return IK.musik;
+    if (/\.(png|jpe?g|gif|webp|heic|avif|svg)$/.test(n)) return IK.gambar;
+    return IK.berkas;
+  }
+  const ekstensi = n => { const m = /\.([a-z0-9]{1,5})$/i.exec(n || ''); return m ? m[1].toUpperCase() : ''; };
+
   function atur() { clearTimeout(timer); if (dek) timer = setTimeout(() => { kunci(); toastUmum(t('bk.terkunciOto')); }, OTOKUNCI); }
   function kunci() {
     dek = null; berkas = []; clearTimeout(timer);
@@ -55,10 +80,12 @@
   function tampilBelumSiap() { isi().innerHTML = `<p class="bk-galat">${esc(t('bk.belumSiap'))}</p>`; }
   function tampilBuat() {
     isi().innerHTML = `<form id="bkForm" class="bk-form" autocomplete="off">
-      <p class="bk-intro">${esc(t('bk.intro'))}</p><h3>${esc(t('bk.buatJudul'))}</h3>
-      <label class="bk-label">${esc(t('bk.sandi'))}<input type="password" id="bkS1" autocomplete="new-password" autocapitalize="off" minlength="8" required></label>
-      <label class="bk-label">${esc(t('bk.sandiUlang'))}<input type="password" id="bkS2" autocomplete="new-password" autocapitalize="off" required></label>
-      <p class="bk-peringatan">${esc(t('bk.peringatan'))}</p>
+      <div class="bk-hero"><span class="bk-hero-ik">${IK.perisai}</span><h3>${esc(t('bk.buatJudul'))}</h3><p class="bk-intro">${esc(t('bk.intro'))}</p></div>
+      <div class="bk-kartu">
+        <label class="bk-label">${esc(t('bk.sandi'))}<input type="password" id="bkS1" autocomplete="new-password" autocapitalize="off" minlength="8" required></label>
+        <label class="bk-label">${esc(t('bk.sandiUlang'))}<input type="password" id="bkS2" autocomplete="new-password" autocapitalize="off" required></label>
+      </div>
+      <div class="bk-peringatan" role="note">${IK.awas}<p>${esc(t('bk.peringatan'))}</p></div>
       <p class="bk-galat" id="bkGalat" role="alert" hidden></p>
       <button class="btn penuh" type="submit">${esc(t('bk.buat'))}</button></form>`;
     $('#bkForm').onsubmit = async e => {
@@ -80,11 +107,13 @@
   }
   function tampilKunci() {
     isi().innerHTML = `<form id="bkForm" class="bk-form" autocomplete="off">
-      <p class="bk-intro">${esc(t('bk.intro'))}</p>
-      <label class="bk-label">${esc(t('bk.sandi'))}<input type="password" id="bkS1" autocomplete="current-password" autocapitalize="off" required></label>
+      <div class="bk-hero"><span class="bk-hero-ik">${IK.kunci}</span><p class="bk-intro">${esc(t('bk.intro'))}</p></div>
+      <div class="bk-kartu">
+        <label class="bk-label">${esc(t('bk.sandi'))}<input type="password" id="bkS1" autocomplete="current-password" autocapitalize="off" required></label>
+      </div>
       <p class="bk-galat" id="bkGalat" role="alert" hidden></p>
       <button class="btn penuh" type="submit">${esc(t('bk.buka'))}</button>
-      <button class="bk-tautan" type="button" data-aksi="reset">${esc(t('bk.reset'))}</button></form>`;
+      <button class="bk-tautan bahaya tengah" type="button" data-aksi="reset">${esc(t('bk.reset'))}</button></form>`;
     $('#bkForm').onsubmit = async e => {
       e.preventDefault();
       if (sibuk) return; sibuk = true; galat('');
@@ -102,22 +131,39 @@
     setTimeout(() => { const i = $('#bkS1'); if (i) i.focus(); }, 60);
   }
   function daftarHtml() {
-    if (!berkas.length) return `<p class="kosong bk-kosong">${esc(t('bk.kosong'))}</p>`;
-    return '<ul class="bk-daftar">' + berkas.map(b => `<li data-id="${esc(b.id)}"><div class="bk-nama"><b>${esc(b.nama)}</b><span>${esc(ukuranTeks(b.ukuran))} · ${esc(tglTeks(b.dibuat_at))}</span></div>
-      <button type="button" class="btn garis" data-aksi="unduh">${esc(t('bk.unduh'))}</button><button type="button" class="btn garis bahaya" data-aksi="hapus">${esc(t('bk.hapus'))}</button></li>`).join('') + '</ul>';
+    if (!berkas.length) return `<div class="bk-kosong">${IK.berkas}<p>${esc(t('bk.kosong'))}</p></div>`;
+    return '<ul class="bk-daftar">' + berkas.map(b => {
+      const ek = ekstensi(b.nama);
+      return `<li data-id="${esc(b.id)}"><span class="bk-tile">${ikonBerkas(b)}</span>
+        <div class="bk-nama"><b>${esc(b.nama)}</b><span>${ek ? `<em>${esc(ek)}</em>` : ''}${esc(ukuranTeks(b.ukuran))} · ${esc(tglTeks(b.dibuat_at))}</span></div>
+        <button type="button" class="bk-ikon" data-aksi="unduh" aria-label="${esc(t('bk.unduh'))}" title="${esc(t('bk.unduh'))}">${IK.unduh}</button>
+        <button type="button" class="bk-ikon bahaya" data-aksi="hapus" aria-label="${esc(t('bk.hapus'))}" title="${esc(t('bk.hapus'))}">${IK.sampah}</button></li>`;
+    }).join('') + '</ul>';
   }
   function tampilBuka() {
     const total = berkas.reduce((a, b) => a + (+b.ukuran || 0), 0);
-    isi().innerHTML = `<div class="bk-atas"><span id="bkJumlah" class="hitung">${esc(t('bk.jumlah', { n: berkas.length, ukuran: ukuranTeks(total) }))}</span><button type="button" class="btn garis" data-aksi="kunci">${esc(t('bk.kunci'))}</button></div>
-      <label class="btn penuh bk-unggah">${esc(t('bk.unggah'))}<input type="file" id="bkBerkas" multiple hidden></label>
-      <p class="hitung bk-batas">${esc(t('bk.batas'))}</p><p class="bk-status hitung" id="bkStatus" role="status" hidden></p>
+    isi().innerHTML = `<div class="bk-ringkas">
+        <span class="bk-tile besar">${IK.perisai}</span>
+        <div class="bk-ringkas-teks"><b id="bkJumlah">${esc(t('bk.jumlah', { n: berkas.length, ukuran: ukuranTeks(total) }))}</b>
+          <div class="bk-meter" role="progressbar" aria-valuemin="0" aria-valuemax="${MAKS_BERKAS}" aria-valuenow="${berkas.length}"><i id="bkMeter" style="width:${Math.min(100, berkas.length / MAKS_BERKAS * 100)}%"></i></div></div>
+        <button type="button" class="btn garis bk-kecil" data-aksi="kunci">${IK.kunci}<span>${esc(t('bk.kunci'))}</span></button></div>
+      <label class="bk-unggah" id="bkZona">${IK.unggah}<b>${esc(t('bk.unggah'))}</b><small>${esc(t('bk.batas'))}</small><input type="file" id="bkBerkas" multiple hidden></label>
+      <p class="bk-status hitung" id="bkStatus" role="status" hidden></p>
       <div id="bkDaftar">${daftarHtml()}</div>
-      <div class="bk-bawah"><button type="button" class="bk-tautan" data-aksi="ganti">${esc(t('bk.ganti'))}</button><button type="button" class="bk-tautan bahaya" data-aksi="reset">${esc(t('bk.reset'))}</button></div>
-      <form id="bkGanti" class="bk-form" hidden autocomplete="off">
-        <label class="bk-label">${esc(t('bk.sandiLama'))}<input type="password" id="bkLama" autocomplete="current-password" autocapitalize="off"></label>
-        <label class="bk-label">${esc(t('bk.sandiBaru'))}<input type="password" id="bkBaru" autocomplete="new-password" autocapitalize="off" minlength="8"></label>
-        <label class="bk-label">${esc(t('bk.sandiUlang'))}<input type="password" id="bkBaru2" autocomplete="new-password" autocapitalize="off"></label>
-        <p class="bk-galat" id="bkGalat" role="alert" hidden></p><button class="btn" type="submit">${esc(t('bk.simpan'))}</button></form>`;
+      <section class="bk-aman"><h3>${esc(t('bk.keamanan'))}</h3>
+        <div class="bk-baris">
+          <button type="button" class="bk-aksi" data-aksi="ganti"><span class="bk-tile">${IK.kunciGanti}</span><span class="bk-aksi-teks">${esc(t('bk.ganti'))}</span></button>
+          <form id="bkGanti" class="bk-form bk-ganti" hidden autocomplete="off">
+            <label class="bk-label">${esc(t('bk.sandiLama'))}<input type="password" id="bkLama" autocomplete="current-password" autocapitalize="off"></label>
+            <label class="bk-label">${esc(t('bk.sandiBaru'))}<input type="password" id="bkBaru" autocomplete="new-password" autocapitalize="off" minlength="8"></label>
+            <label class="bk-label">${esc(t('bk.sandiUlang'))}<input type="password" id="bkBaru2" autocomplete="new-password" autocapitalize="off"></label>
+            <p class="bk-galat" id="bkGalat" role="alert" hidden></p><button class="btn" type="submit">${esc(t('bk.simpan'))}</button></form>
+          <button type="button" class="bk-aksi bahaya" data-aksi="reset"><span class="bk-tile">${IK.sampah}</span><span class="bk-aksi-teks">${esc(t('bk.reset'))}</span></button>
+        </div></section>`;
+    const zona = $('#bkZona');
+    ['dragenter', 'dragover'].forEach(n => zona.addEventListener(n, e => { e.preventDefault(); zona.classList.add('seret'); }));
+    ['dragleave', 'drop'].forEach(n => zona.addEventListener(n, e => { e.preventDefault(); zona.classList.remove('seret'); }));
+    zona.addEventListener('drop', e => { const f = Array.from((e.dataTransfer && e.dataTransfer.files) || []); if (f.length) unggah(f); });
     $('#bkBerkas').onchange = e => { const f = Array.from(e.target.files || []); e.target.value = ''; unggah(f); };
     $('#bkGanti').onsubmit = gantiSandi;
   }
@@ -125,6 +171,7 @@
     const total = berkas.reduce((a, b) => a + (+b.ukuran || 0), 0);
     if ($('#bkDaftar')) $('#bkDaftar').innerHTML = daftarHtml();
     if ($('#bkJumlah')) $('#bkJumlah').textContent = t('bk.jumlah', { n: berkas.length, ukuran: ukuranTeks(total) });
+    const mt = $('#bkMeter'); if (mt) { mt.style.width = Math.min(100, berkas.length / MAKS_BERKAS * 100) + '%'; if (mt.parentNode) mt.parentNode.setAttribute('aria-valuenow', berkas.length); }
   }
   function status(teks) { const s = $('#bkStatus'); if (!s) return; s.textContent = teks || ''; s.hidden = !teks; }
 
