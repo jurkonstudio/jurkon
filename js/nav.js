@@ -180,7 +180,7 @@
   // Server hanya mengirim sekali per akun; di sini cukup mengingat hasilnya supaya tidak memanggil terus.
   (async function sambutan() {
     try {
-      if (!window.db || !db.rpc) return;
+      if (typeof db === 'undefined' || !db.rpc) return;   // db adalah const global (js/supabase.js), BUKAN properti window
       const { data: { session } } = await db.auth.getSession();
       if (!session) return;
       const kunci = 'sambutan:' + session.user.id;
