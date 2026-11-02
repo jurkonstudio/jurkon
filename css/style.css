@@ -1751,12 +1751,3 @@ dialog:not(.lembar){margin:auto;max-height:calc(100dvh - 32px)}
 .cari-tips{padding:0 16px 10px;font-size:13px;color:var(--redup)}
 
 /* <<< SELESAI tampilan-baru-v6 <<< */
-
-/* Profil (HP): tab Catatan/dst. yang menempel di bawah header ikut naik ke puncak saat header menyingkir */
-@media (max-width:767px){
-  body[data-tab=profil] .tab-profil{transition:top .25s ease}
-  body[data-tab=profil].gulir-turun .tab-profil{top:0}
-}
-@media (max-width:767px) and (prefers-reduced-motion:reduce){
-  body[data-tab=profil] .tab-profil{transition:none}
-}
