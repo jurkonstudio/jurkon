@@ -18,8 +18,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && $('#menuIsi') && !$('#menuIsi').hidden) { tutupMenu(); const b = $('#menuLain'); if (b) b.focus(); }
 });
 
+let usernameAwal = param('u');   // diingat sebelum alamat dirapikan ke /@username (muat() bisa dipanggil ulang)
 async function muat() {
-  const { data: p, error } = await ambilProfilInfo(param('u'), saya);
+  const { data: p, error } = await ambilProfilInfo(usernameAwal, saya);
   if (error) {
     $('#atas').innerHTML = '<div class="kosong"><h3>' + esc(t('pf.gagal')) + '</h3><p>' + esc(pesanGalat(error)) + '</p><button class="btn" id="coba">' + esc(t('umum.cobaLagi')) + '</button></div>';
     $('#coba').onclick = muat;
@@ -27,6 +28,9 @@ async function muat() {
   }
   if (!p) { $('#atas').innerHTML = '<div class="kosong">' + esc(t('pf.noProfil')) + '</div>'; return; }
   profil = p;
+  usernameAwal = p.username;
+  // Rapikan alamat di bilah browser: jurkon.my.id/@username. Muat ulang tetap jalan (404.html + alih-profil.js).
+  try { if (location.pathname !== '/@' + p.username) history.replaceState(null, '', '/@' + p.username + location.hash); } catch (e) {}
   const milikSaya = p.id === saya.id;
   const pengikut = p.pengikut, mengikuti = p.mengikuti, ikut = p.saya_ikut, blk = p.saya_blokir;
   const nama = p.nama || p.username;
