@@ -1415,3 +1415,63 @@ dialog:not(.lembar){margin:auto;max-height:calc(100dvh - 32px)}
 @media (min-width:768px) and (max-width:900px){
   .kartu-dlg{grid-template-columns:minmax(0,1fr) 260px;column-gap:20px;padding:20px}
 }
+
+/* ===== Profil: "Sampul jurnal" (menggantikan banner gradien) =====
+   Sampul = kertas bergaris dengan garis margin merah dan jahitan benang di tepi bawah, sama seperti logo dan
+   garis putus-putus di kepala halaman. Foto profil seperti foto yang dijahit di sampul. Hanya memakai token tema. */
+#atas .profil-atas{--pp:var(--k-pad);padding:0 var(--pp) 18px;background:var(--bg);border-bottom:1px solid var(--garis);
+  display:grid;grid-template-columns:minmax(0,1fr);column-gap:0;align-items:start}
+#atas .profil-atas::before{content:none;display:none}
+#atas .sampul{grid-column:1;grid-row:1;position:relative;height:116px;margin:0 calc(-1 * var(--pp));overflow:hidden;
+  background-color:color-mix(in srgb,var(--latar) 78%,var(--bg));
+  background-image:linear-gradient(90deg,transparent 0 35px,color-mix(in srgb,var(--aksen) 45%,transparent) 35px 36.5px,transparent 36.5px),
+    repeating-linear-gradient(180deg,transparent 0 22px,color-mix(in srgb,var(--garis) 85%,transparent) 22px 23px);
+  background-position:0 0,0 12px;border-bottom:1px solid var(--garis)}
+/* jahitan benang di tepi bawah sampul */
+#atas .sampul::after{content:"";position:absolute;left:0;right:0;bottom:7px;height:0;
+  border-top:2px dashed color-mix(in srgb,var(--aksen) 70%,transparent)}
+/* stempel "menulis sejak" di pojok kanan atas sampul */
+#atas .sampul .profil-gabung{position:absolute;top:12px;right:var(--pp);display:inline-flex;align-items:center;gap:6px;margin:0;
+  padding:4px 11px;border:1.5px solid color-mix(in srgb,var(--aksen) 55%,transparent);border-radius:8px;transform:rotate(-1.5deg);
+  background:color-mix(in srgb,var(--bg) 70%,transparent);color:color-mix(in srgb,var(--aksen) 80%,var(--teks));
+  font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;line-height:1.2}
+#atas .sampul .profil-gabung[hidden]{display:none}
+#atas .sampul .profil-gabung svg{width:13px;height:13px}
+/* kepala: foto di kiri (menimpa sampul), tombol sendiri di kanan */
+#atas .kartu-kepala{display:contents}
+#atas .profil-atas .avatar{grid-column:1;grid-row:2;justify-self:start;width:92px!important;height:92px!important;font-size:38px!important;
+  margin-top:-46px;border-radius:26px;z-index:1;box-shadow:0 0 0 6px var(--bg);outline:2px dashed color-mix(in srgb,var(--aksen) 65%,transparent);outline-offset:3px}
+#atas .profil-atas .avatar img{border-radius:inherit}
+#atas .profil-nama{grid-column:1;grid-row:3;margin-top:14px}
+#atas .profil-atas h2{font-family:var(--serif);font-size:27px;font-weight:650;letter-spacing:-.015em;line-height:1.15}
+.profil-user{font-size:14.5px;color:var(--redup);margin-top:3px}
+#atas .profil-atas .bio{grid-column:1;grid-row:4;margin:14px 0 0;max-width:60ch;font-family:var(--sans);font-size:15px;line-height:1.6}
+#atas .profil-atas .bio.redup{font-size:14px}
+/* statistik: kartu tiga kolom ala buku besar, angka di atas, keterangan di bawah */
+#atas .profil-atas .stat{grid-column:1;grid-row:5;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:18px 0 0;padding:0;
+  border:1px solid var(--garis);border-radius:16px;overflow:hidden;background:color-mix(in srgb,var(--latar) 45%,var(--bg))}
+#atas .profil-atas .stat>.stat-btn,#atas .profil-atas .stat>.stat-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  min-height:62px;padding:10px 4px;margin:0;border:0;border-radius:0;text-align:center;position:relative;transition:background .15s}
+#atas .profil-atas .stat>*+*::before{content:"";position:absolute;left:0;top:14px;bottom:14px;border-left:1.5px dashed var(--garis)}
+#atas .profil-atas .stat b{font-family:var(--serif);font-size:22px;font-weight:650;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--teks)}
+#atas .profil-atas .stat span{font-size:12.5px;color:var(--redup);text-decoration:none}
+#atas .profil-atas .stat>.stat-btn:hover,#atas .profil-atas .stat>.stat-btn:active{background:color-mix(in srgb,var(--aksen) 8%,transparent)}
+#atas .profil-atas .stat>.stat-btn:hover span{text-decoration:none}
+#atas .profil-atas .stat>.stat-btn:focus-visible{outline:2px solid var(--aksen);outline-offset:-3px;border-radius:12px}
+/* tombol */
+#atas .profil-atas .tombol{grid-column:1;grid-row:6;display:flex;gap:8px;margin-top:16px;align-items:center;flex-wrap:nowrap}
+#atas .profil-atas .tombol .btn{min-height:42px;padding:0 20px;font-size:14.5px;font-weight:650}
+#atas .profil-atas .tombol .btn.utama{flex:1}
+#atas .profil-atas .tombol .ikon-btn{width:42px;height:42px}
+#atas .profil-atas .tombol:has(#ubah){grid-column:1;grid-row:2;justify-self:end;align-self:end;margin:0 0 4px;gap:8px}
+#atas .profil-atas .tombol:has(#ubah) .btn.utama{flex:none}
+.hint-pesan{grid-column:1;grid-row:7;margin-top:10px}
+@media (min-width:768px){
+  #atas .profil-atas{--pp:24px;padding-bottom:22px}
+  #atas .sampul{height:140px;background-position:0 0,0 14px}
+  #atas .profil-atas .avatar{width:112px!important;height:112px!important;font-size:46px!important;margin-top:-56px;border-radius:32px}
+  #atas .profil-atas h2{font-size:31px}
+  #atas .profil-atas .bio{font-size:16px}
+}
+@media (max-width:359px){#atas .profil-atas .tombol .btn{padding:0 14px}#atas .profil-atas .stat b{font-size:19px}}
+@media (prefers-reduced-motion:reduce){#atas .profil-atas .stat>*{transition:none}}

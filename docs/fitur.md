@@ -187,3 +187,14 @@ Hanya lapisan publik. Menu dan halaman di dalam aplikasi tidak diubah, kecuali s
 - **"Masih baru"**: bagian jujur di landing (7 bahasa, dari `tools/landing-teks.js`) dan catatan di atas daftar Jelajahi. Tidak ada isi buatan.
 - **Corong** (`js/corong.js`, `catat_corong()`): hitungan harian per langkah dan bahasa; tanpa IP/cookie/id perangkat; mati bila Do Not Track atau GPC aktif. Lihat hasil: `select * from admin_corong(30);` di SQL Editor (juga memuat akun_baru dan catatan_pertama dari database).
 - Kamus: kunci `jl.*` dan `pub.jelajahi*` (7 bahasa).
+
+## Profil: "sampul jurnal" (bagian atas baru)
+
+Hanya perubahan tampilan. Tanpa SQL, tanpa tabel atau kolom baru.
+
+- **Sampul** menggantikan banner gradien: kertas bergaris dengan garis margin merah dan jahitan benang putus-putus di tepi bawah (selaras dengan logo dan garis putus-putus di kepala halaman). Dibuat murni dari CSS (`.sampul` di `js/profil.js`), warnanya dari token tema, jadi ikut Kertas, Terang, Gelap, Kaca, dan Awan.
+- **Foto profil** berbentuk persegi membulat dengan garis jahitan putus-putus, menimpa tepi sampul (khusus halaman profil; di tempat lain avatar tetap bulat).
+- **Stempel "Menulis sejak {bulan tahun}"** di pojok kanan atas sampul, memakai elemen `#gabung` yang sama (kunci kamus `pf.menulisSejak`, 9 bahasa; `pf.gabung` tidak lagi dipakai di sini).
+- **Nama** memakai huruf serif; **statistik** (posting, pengikut, mengikuti) menjadi kartu tiga kolom dengan sekat putus-putus. Pengikut dan mengikuti tetap tombol yang membuka daftar.
+- **Tombol:** di profil sendiri ("Ubah profil", "Jurnal", bagikan) berada di sisi kanan foto; di profil orang lain ("Ikuti", "Kirim Pesan", menu ⋯) berada satu baris penuh di bawah statistik. Semua ID dan logika lama tidak berubah.
+- Gaya ada di blok terakhir `css/style.css` ("Profil: Sampul jurnal"), memakai selektor `#atas .profil-atas ...` agar menimpa gaya profil lama tanpa menghapusnya.

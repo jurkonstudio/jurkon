@@ -772,7 +772,9 @@ const I18N_KAMUS = {
   'ui1.judulProfil': ['Profil', 'Profile', 'Profil', 'Profil', 'Profil', '我的', 'プロフィール', '프로필', 'प्रोफ़ाइल'],
   'ui5.judulBeranda': ['Journal Connection - tempat nulis catatan dan pengingat dirimu', 'Journal Connection - a place to write notes and reminders for yourself', 'Journal Connection - tempat menulis catatan dan peringatan untuk diri sendiri', 'Journal Connection - papan nulis cathetan lan pangeling-eling kanggo awakmu dhewe', 'Journal Connection - tempat nulis catetan jeung pangingkeran keur diri sorangan', 'Journal Connection - 写下笔记和提醒，写给未来的自己', 'Journal Connection - 自分へのメモやリマインダーを書く場所', 'Journal Connection - 나에게 남기는 노트와 알림을 쓰는 곳', 'Journal Connection - अपने लिए नोट और याद दिलाने वाली बातें लिखने की जगह'],
   'ui5.judulCatatan': ['Catatan di Jurkon', 'Note on Jurkon', 'Catatan di Jurkon', 'Cathetan ing Jurkon', 'Catetan di Jurkon', 'Jurkon 上的笔记', 'Jurkon のメモ', 'Jurkon의 노트', 'Jurkon पर नोट'],
-  'ui5.judulBagikan': ['{judul}: “{isi}”', '{judul}: “{isi}”', '{judul}: “{isi}”', '{judul}: “{isi}”', '{judul}: “{isi}”', '{judul}：“{isi}”', '{judul}：「{isi}」', '{judul}: “{isi}”', '{judul}: “{isi}”']
+  'ui5.judulBagikan': ['{judul}: “{isi}”', '{judul}: “{isi}”', '{judul}: “{isi}”', '{judul}: “{isi}”', '{judul}: “{isi}”', '{judul}：“{isi}”', '{judul}：「{isi}」', '{judul}: “{isi}”', '{judul}: “{isi}”'],
+  'pf.menulisSejak': ["Menulis sejak {tgl}", "Writing since {tgl}", "Menulis sejak {tgl}", "Nulis wiwit {tgl}", "Nulis ti {tgl}", "{tgl} 起开始写作", "{tgl}から執筆中", "{tgl}부터 기록 중", "{tgl} से लिख रहे हैं"]
 };
+
 
 

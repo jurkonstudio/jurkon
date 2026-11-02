@@ -40,10 +40,12 @@ async function muat() {
   }
   const salingIkuti = ikut && diaMengikuti;
   $('#judul').textContent = '@' + p.username;
+  // Bagian atas berupa "sampul jurnal": kertas bergaris dengan jahitan benang, foto profil seperti foto yang tertempel,
+  // dan stempel "menulis sejak ..." (id="gabung" diisi di bawah).
   $('#atas').innerHTML = `<div class="profil-atas">
+    <div class="sampul" aria-hidden="false"><div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div></div>
     <div class="kartu-kepala">${avatar(nama, 88, p.foto)}
-      <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}${diaMengikuti ? ` <span class="label-ikut">${esc(t('pf.mengikutiKamu'))}</span>` : ''}</div>
-        <div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div></div></div>
+      <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}${diaMengikuti ? ` <span class="label-ikut">${esc(t('pf.mengikutiKamu'))}</span>` : ''}</div></div></div>
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : esc(milikSaya ? t('pf.bioKosongSaya') : t('pf.bioKosong'))}</div>
     <div class="stat"><div class="stat-item" id="statPosting"><b id="jmlPosting">–</b><span>${esc(t('pf.posting'))}</span></div><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="${esc(t('pf.lihatPengikut', { n: pengikut }))}"><b>${pengikut}</b><span>${esc(t('pf.pengikut'))}</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="${esc(t('pf.lihatMengikuti', { n: mengikuti }))}"><b>${mengikuti}</b><span>${esc(t('pf.mengikuti'))}</span></button></div>
     <div class="tombol">${milikSaya
@@ -65,7 +67,7 @@ async function muat() {
   db.from('profiles').select('created_at').eq('id', p.id).maybeSingle().then(({ data }) => {
     const el = $('#gabung');
     if (!el || !data || !data.created_at || profil !== p) return;
-    el.querySelector('span').textContent = t('pf.gabung', { tgl: new Date(data.created_at).toLocaleDateString(I18n.locale, { month: 'long', year: 'numeric' }) });
+    el.querySelector('span').textContent = t('pf.menulisSejak', { tgl: new Date(data.created_at).toLocaleDateString(I18n.locale, { month: 'short', year: 'numeric' }) });
     el.hidden = false;
   });
   if (milikSaya) {
