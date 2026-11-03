@@ -33,7 +33,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `022_pastikan_rls_anggota.sql` | menghapus kebijakan baca terbuka (`using (true)`) dan memastikan hanya anggota login yang bisa membaca | setelah 021; hasil akhir: 0 baris (lihat kueri cek di berkas) |
 | `023_catatan_berumur.sql` | catatan berumur (hilang otomatis), kolom `kedaluwarsa` di feed | setelah 021 |
 | `024_kapsul_waktu.sql` | kapsul waktu: kolom `terbuka_pada`, kebijakan baca, `kapsul_saya()`, `batalkan_kapsul()`, kolom `kapsul_ditulis` di feed | setelah 023 |
-| `025_kunci_kolom_insert.sql` | **BERKAS TIDAK ADA di repo.** Rancangannya: trigger yang memaksa `created_at` = sekarang (dan `disorot` = false, `dilihat` = 0 di posts) saat klien insert, untuk menutup pemalsuan jumlah tayang, sorotan, dan pembatas laju (lihat `HANDOFF.md`, "Migrasi 025"). Statusnya "ditulis, belum dijalankan", jadi celahnya dianggap masih terbuka sampai berkas dibuat ulang dan dijalankan | setelah 024 |
+| `025_kunci_kolom_insert.sql` | trigger `a0_kunci_kolom_trg` (BEFORE INSERT) yang memaksa `created_at` = sekarang (dan `disorot` = false, `dilihat` = 0 di posts) untuk permintaan anggota login; dipasang hanya pada tabel yang punya kolom itu (posts, messages, reports, likes, follows, dislikes). **Dibuat ulang 3 Nov 2026, belum diuji di database** | setelah 024; hasil cek: 6 baris |
 | `026_sematkan_catatan.sql` | kolom `profiles.disematkan` + trigger yang memastikan hanya catatan utama milik sendiri (sudah tayang, tidak berumur) yang bisa disematkan | setelah 024 (disarankan setelah 025); hasil cek: 1 baris, 1 baris |
 | `027_catatan_publik.sql` | catatan publik per catatan: kolom `publik`, `jadikan_publik()`/`jadikan_privat()`, `catatan_publik()` dan `daftar_publik()` (boleh anon), kunci pengelola | setelah 026; hasil cek: tepat 3 fungsi yang boleh dipanggil anon |
 | `028_lencana_verified.sql` | lencana verified: kolom `profiles.verified`, trigger penjaga, `admin_set_verified()`, `daftar_verified()`, kolom `lencana` di `admin_cari_pengguna` | setelah 020 dan 021; hasil cek: 2 baris, 1 baris, 0 baris |
@@ -60,7 +60,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 
 Catatan penomoran (disamakan dengan isi folder `sql/` per 3 November 2026):
-- Nomor **025** dan **038** tidak punya berkas di repo. Untuk 025 ini penting: lihat baris 025 di atas. Cek apakah trigger-nya sudah ada di produksi: `select tgname from pg_trigger where tgname = 'a0_kunci_kolom_trg';` (0 baris = belum terpasang).
+- Nomor **038** tidak punya berkas di repo. Berkas **025** sudah dibuat ulang (belum diuji). Cek apakah trigger-nya sudah ada di produksi: `select tgname from pg_trigger where tgname = 'a0_kunci_kolom_trg';` (0 baris = belum terpasang).
 - Tiga nomor dipakai dua berkas: **035**, **036**, dan **040**. Keduanya perlu dijalankan; urutannya mengikuti tabel di atas.
 
 ## Database yang sudah berjalan
