@@ -4,7 +4,8 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <script src="{{r}}js/keamanan.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#fbf9f4">
+<meta name="theme-color" content="#fbf9f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="{{r}}manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="{{r}}assets/icons/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="{{r}}assets/icons/icon-192.png">
@@ -38,7 +39,7 @@
 <body class="lp" data-bahasa="{{kode}}">
 <div id="pengumuman" class="lp-info" role="status" hidden></div>
 <header class="lp-atas"><div class="lp-lebar">
-  <a class="lp-logo" href="{{lnkSelf}}" aria-label="Jurkon"><span class="logo-wrap"><img class="logo-terang" src="{{r}}assets/logo-header.webp" alt="Journal Connection" width="408" height="138"><img class="logo-gelap" src="{{r}}assets/logo-header-gelap.webp" alt="" aria-hidden="true" width="408" height="138"></span></a>
+  <a class="lp-logo" href="{{lnkSelf}}" aria-label="Jurkon"><span class="logo-wrap"><img class="logo-terang" src="{{r}}assets/logo-header.webp" alt="Journal Connection" width="408" height="138" fetchpriority="high" decoding="async"><img class="logo-gelap" src="{{r}}assets/logo-header-gelap.webp" alt="" aria-hidden="true" width="408" height="138"></span></a>
   <nav class="lp-nav" aria-label="{{navAria}}"><a href="#beda">{{navBeda}}</a><a href="#fitur">{{navFitur}}</a><a href="#aman">{{navAman}}</a><a href="{{r}}jelajahi.html">{{navJelajahi}}</a><a href="{{lnkTentang}}">{{navTentang}}</a>
     <a class="btn garis kecil" id="navMasuk" href="{{r}}login.html">{{navMasuk}}</a></nav>
 </div></header>
@@ -56,6 +57,7 @@
 
   <div class="lp-kertas-wrap" aria-label="{{kertasAria}}">
     <svg class="lp-benang" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M8 20 L392 6 L384 292 L16 280 Z M8 20 L384 292" vector-effect="non-scaling-stroke"/><circle cx="8" cy="20" r="5"/><circle cx="392" cy="6" r="5"/><circle cx="384" cy="292" r="5"/><circle cx="16" cy="280" r="5"/></svg>
+    <span class="lp-lapis a" aria-hidden="true"></span><span class="lp-lapis b" aria-hidden="true"></span>
     <div class="lp-kertas">
       <div class="lp-kertas-kepala"><span class="lp-titik"></span>{{kertasKepala}}</div>
       <label class="lp-sr" for="demoTulis">{{kertasLabel}}</label>
@@ -143,7 +145,7 @@
   </ol>
 </div></section>
 
-<section class="lp-bagian lp-alt" id="aman"><div class="lp-lebar">
+<section class="lp-bagian lp-gelap" id="aman"><div class="lp-lebar">
   <h2>{{amanH2}}</h2>
   <div class="lp-grid dua">
     <article><h3>{{a1h}}</h3><p>{{a1p}}</p></article>
@@ -194,6 +196,8 @@
   <nav aria-label="{{kakiAria}}"><a href="{{lnkTentang}}">{{kTentang}}</a><a href="{{lnkBantuan}}">{{kBantuan}}</a><a href="{{lnkAturan}}">{{kAturan}}</a><a href="{{lnkKetentuan}}">{{kKetentuan}}</a><a href="{{lnkPrivasi}}">{{kPrivasi}}</a><a id="kontak" href="#" hidden>{{kKontak}}</a></nav>
 </div>
 <div class="lp-lebar lp-bahasa-baris"><nav class="lp-bahasa" aria-label="{{bahasaAria}}">{{bahasaNav}}</nav></div></footer>
+
+<div class="lp-lekat" id="lekat" hidden><a class="btn besar" id="ctaLekat" href="{{r}}login.html">{{ctaMulai}}</a></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script src="{{r}}js/supabase.js"></script>
