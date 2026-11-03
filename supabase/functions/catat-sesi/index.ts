@@ -72,7 +72,10 @@ function uraiUA(ua: string) {
     : peramban === 'Samsung Internet' ? ua.match(/SamsungBrowser\/(\d+)/) : peramban === 'Firefox' ? ua.match(/(?:Firefox|FxiOS)\/(\d+)/)
     : peramban === 'Chrome' ? ua.match(/(?:Chrome|CriOS)\/(\d+)/) : peramban === 'Safari' ? ua.match(/Version\/(\d+)/) : null;
   if (mv) perVersi = mv[1];
-  return { os, jenis, peramban, osVersi, perVersi };
+  let modelUA: string | null = null;
+  const mm = ua.match(/Android [\d.]+; ([^;)]+)/);
+  if (mm) { const m = mm[1].trim(); if (m && m !== 'K' && !/^(Mobile|wv)$/i.test(m)) modelUA = m; }
+  return { os, jenis, peramban, osVersi, perVersi, modelUA };
 }
 
 // Client Hints dari klien (navigator.userAgentData). Hanya label tampilan untuk akun si pemilik sendiri,
@@ -154,7 +157,7 @@ Deno.serve(async (req) => {
 
   // Label perangkat: User-Agent dari header (dikirim browser, bukan isian bebas klien).
   const ua = (req.headers.get('user-agent') || '').slice(0, 400);
-  const { os, jenis, peramban, osVersi, perVersi } = uraiUA(ua);
+  const { os, jenis, peramban, osVersi, perVersi, modelUA } = uraiUA(ua);
   let badan: any = null;
   try { badan = await req.json(); } catch { /* badan kosong: tidak apa-apa */ }
   const h = petunjuk(badan);
@@ -167,7 +170,7 @@ Deno.serve(async (req) => {
     p_ip_samar: ip ? samarkan(ip) : null,
     p_kota: lok.kota, p_wilayah: lok.wilayah, p_negara: lok.negara, p_kode_negara: lok.kode,
     p_provider: lok.provider, p_asn: lok.asn,
-    p_model: h.model, p_os_versi: h.osVersi || osVersi, p_peramban_versi: h.perVersi || perVersi,
+    p_model: h.model || bersih(modelUA, 60), p_os_versi: h.osVersi || osVersi, p_peramban_versi: h.perVersi || perVersi,
     p_metode: metodeDariJwt(token, u.user.app_metadata),
   });
   if (error) return json({ ok: false, galat: error.message }, 500);

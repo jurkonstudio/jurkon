@@ -45,7 +45,19 @@
       try { simpan = JSON.parse(localStorage.getItem(KUNCI) || 'null'); } catch (e) {}
       if (!paksa && simpan && simpan.id === id && Date.now() - simpan.t < JEDA) return true;
       const { error } = await db.functions.invoke('catat-sesi', { body: await petunjuk() });
-      if (error) { galatCatat = error; return false; }
+      if (error) {
+        let rinci = '';
+        try {
+          const r = error.context;
+          if (r && typeof r.status === 'number') {
+            let teks = '';
+            try { const j = await r.clone().json(); teks = j.galat || j.error || j.message || ''; } catch (e) {}
+            rinci = r.status + (teks ? ' ' + String(teks) : '');
+          } else rinci = (error.name || 'galat') + (error.message ? ': ' + error.message : '');
+        } catch (e) { rinci = 'galat'; }
+        galatCatat = String(rinci).replace(/[<>]/g, '').slice(0, 140);
+        return false;
+      }
       try { localStorage.setItem(KUNCI, JSON.stringify({ id: id, t: Date.now() })); } catch (e) {}
       return true;
     } catch (e) { return false; }
@@ -143,10 +155,10 @@
         <dt>${lolos(tr('ss.provider'))}</dt><dd>${lolos(s.provider || tr('ss.tidakDiketahui'))}</dd>
         ${s.ip_samar ? `<dt>IP</dt><dd>${lolos(s.ip_samar)}</dd>` : ''}
         <dt>${lolos(tr('ss.terakhir'))}</dt><dd${aktif ? ' class="ss-hidup"' : ''}>${lolos(ini ? tr('ss.sekarang') : waktuRelatif(s.terakhir_at))}</dd>
-        <dt>${lolos(tr('ss.masuk'))}</dt><dd>${lolos(waktuLengkap(s.masuk_at))}</dd>
+        ${s.lokal ? '' : `<dt>${lolos(tr('ss.masuk'))}</dt><dd>${lolos(waktuLengkap(s.masuk_at))}</dd>`}
         ${s.metode ? `<dt>${lolos(tr('ss.metode'))}</dt><dd>${lolos(namaMetode(s.metode))}</dd>` : ''}
       </dl>
-      ${s.lokal ? `<p class="hitung ss-belum">${lolos(tr('ss.belumTercatat'))}</p>` : ''}
+      ${s.lokal ? `<p class="hitung ss-belum">${lolos(tr('ss.belumTercatat'))}${galatCatat ? ` <code class="ss-galat">${lolos(galatCatat)}</code>` : ''}</p>` : ''}
       ${ini ? '' : `<button type="button" class="btn garis kecil ss-keluarkan" data-id="${lolos(s.session_id)}" data-nama="${lolos(namaPerangkat(s))}">${lolos(tr('ss.keluarkan'))}</button>`}
     </li>`;
   }
