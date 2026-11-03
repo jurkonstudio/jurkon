@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://yghgmfvlthzcuhelqesr.supabase.co; media-src 'self' blob: https://yghgmfvlthzcuhelqesr.supabase.co; connect-src 'self' https://yghgmfvlthzcuhelqesr.supabase.co wss://yghgmfvlthzcuhelqesr.supabase.co; frame-src 'none'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<!-- <base> wajib: halaman ini juga dilayani di alamat /@username (404.html atau Worker), jadi alamat relatif harus dari akar. -->
+<base href="/">
+<script src="js/keamanan.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fbf9f4">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
+<script src="js/bahasa-muat.js"></script><script src="js/i18n.js"></script>
+<script src="js/tema.js"></script>
+<link rel="stylesheet" href="css/style.css">
+<!-- Halaman profil untuk TAMU. Sengaja noindex: profil publik adalah pilihan pemilik untuk dibagikan lewat tautan,
+     bukan untuk masuk hasil pencarian. Anggota yang sudah masuk langsung dialihkan ke profil.html (js/profil-publik.js).
+     Pratinjau media sosial per profil ditulis ulang oleh Worker (worker/catatan-publik.js, route jurkon.my.id/@*). -->
+<meta name="robots" content="noindex,follow">
+<meta name="description" content="Jurkon (Jurnal Koneksi): tempat menulis dan terhubung tanpa algoritma.">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="Jurnal Koneksi">
+<meta property="og:locale" content="id_ID">
+<meta property="og:title" content="Profil di Jurkon">
+<meta property="og:description" content="Jurkon (Jurnal Koneksi): tempat menulis dan terhubung tanpa algoritma.">
+<meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<title data-i="pp.judulDoc">Profil di Jurkon</title></head>
+<body class="pub-halaman">
+<main>
+<div class="header header-logo"><a class="logo-wrap" href="landing.html" aria-label="Jurkon"><img class="logo-terang" src="assets/logo-header.webp" alt="Journal Connection" width="408" height="138"><img class="logo-gelap" src="assets/logo-header-gelap.webp" alt="" aria-hidden="true" width="408" height="138"></a></div>
+<div id="atas"><div class="profil-atas skel"><div class="kartu-kepala"><span class="avatar" style="width:88px;height:88px"></span><div style="flex:1"><div class="garis-skel" style="width:60%"></div><div class="garis-skel" style="width:35%"></div></div></div><div class="garis-skel" style="width:90%;margin-top:18px"></div></div></div>
+<div class="pub-ajak" id="ajak" hidden></div>
+<div id="daftar" aria-live="polite"></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+<script src="js/supabase.js"></script>
+<script src="js/profil-publik.js"></script>
+</body></html>

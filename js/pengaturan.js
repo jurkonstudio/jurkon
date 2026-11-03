@@ -2,12 +2,13 @@
 // di dalam lembar yang sama (tombol panah kembali di kiri atas).
 //   tampilan  -> tema, bahasa
 //   keamanan  -> email, kata sandi, perangkat & aktivitas login
+//   privasi   -> saklar Profil publik (js/privasi.js)
 //   data      -> unduh data, hapus akun
 //   info      -> kebijakan, aturan, bantuan, tentang
 (function () {
   const lembar = document.getElementById('lembarPengaturan');
   if (!lembar) return;
-  const JUDUL = { tampilan: 'set.katTampilan', keamanan: 'set.katKeamanan', data: 'set.katData', info: 'set.info' };
+  const JUDUL = { tampilan: 'set.katTampilan', keamanan: 'set.katKeamanan', privasi: 'set.katPrivasi', data: 'set.katData', info: 'set.info' };
   const kembali = document.getElementById('setKembali');
   const judul = document.getElementById('jPengaturan');
   let kini = 'beranda';

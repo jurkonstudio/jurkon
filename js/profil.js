@@ -90,6 +90,7 @@ async function muat() {
     $('#ubah').onclick = ubah;
     $('#bagikanSaya').onclick = bagikanProfil;
     $('#tema').hidden = false;
+    if (window.Privasi) Privasi.pasangSaklarProfil($("#atas .profil-atas"));   // saklar "Profil publik" (js/privasi.js)
   } else {
     $('#menuLain').onclick = e => {
       e.stopPropagation();
@@ -329,7 +330,7 @@ function bukaLaporAkun(p) {
 async function bagikanProfil() {
   const p = profil;
   if (!p) return;
-  // Alamat bersih jurkon.my.id/@username; 404.html + js/alih-profil.js mengalihkannya ke profil.html?u=...
+  // Alamat bersih jurkon.my.id/@username; 404.html + js/alih-profil.js mengalihkannya (tamu: profil-publik.html, anggota: profil.html)
   const url = location.origin + '/@' + encodeURIComponent(p.username);
   if (navigator.share) {
     try { await navigator.share({ title: t('pf.bagikanJudul', { nama: p.nama || p.username, u: p.username }), url }); return; }
@@ -519,6 +520,11 @@ function ubah() {
   $('#uNama').focus();
 }
 (async () => {
+  // Tamu yang membuka tautan lama profil.html?u=username: tampilkan halaman profil tamu (profil publik atau ajakan), bukan layar masuk.
+  if (/^[a-z0-9_]{3,20}$/i.test(usernameAwal || '')) {
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) { location.replace('/profil-publik.html?u=' + usernameAwal.toLowerCase()); return; }
+  }
   saya = await wajibLogin();
   if (!saya) return;
   pasangAksiPost(saya, muat);

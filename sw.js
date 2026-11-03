@@ -3,7 +3,7 @@
 // tanpa menunggu jaringan. HTML, JS, dan CSS selalu berasal dari versi yang sama, jadi tidak pernah campur lama-baru.
 // Versi baru terpasang di belakang layar saat sw.js berubah.
 // JANGAN edit angka CACHE secara manual: jalankan  node tools/naikkan-cache.js  sebelum unggah.
-const CACHE = 'jurkon-9a561e70';
+const CACHE = 'jurkon-bd0f5e89';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 
 // Hanya yang dipakai hampir setiap kunjungan. Bahasa lain, tema Kaca/Awan, admin, dan landing disimpan
@@ -11,9 +11,9 @@ const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/
 const STATIS = ['/css/style.css', '/css/login.css', '/css/dokumen.css', '/manifest.json', '/assets/logo-header.webp', '/assets/logo-header-gelap.webp',
   '/js/bahasa-muat.js', '/js/bahasa/id.js', '/js/bahasa/en.js', '/js/i18n.js', '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/ui.js', '/js/data.js',
   '/js/filter-data.js', '/js/filter.js', '/js/notif.js', '/js/notifikasi.js', '/js/nav.js', '/js/feed.js', '/js/post.js', '/js/mention.js', '/js/tulis.js',
-  '/js/detail.js', '/js/explore.js', '/js/profil.js', '/js/akun.js', '/js/sesi.js', '/js/pengaturan.js', '/js/pesan.js', '/js/chat.js', '/js/keamanan.js', '/js/kontak.js', '/js/auth.js', '/js/akar.js', '/js/corong.js',
+  '/js/detail.js', '/js/explore.js', '/js/profil.js', '/js/privasi.js', '/js/profil-publik.js', '/js/akun.js', '/js/sesi.js', '/js/pengaturan.js', '/js/pesan.js', '/js/chat.js', '/js/keamanan.js', '/js/kontak.js', '/js/auth.js', '/js/akar.js', '/js/corong.js',
   '/js/reset.js', '/js/selamat.js', '/js/publik.js', '/js/kartu.js', '/js/pertanyaan.js', '/js/pertanyaan-halaman.js',
-  '/index.html', '/login.html', '/daftar.html', '/explore.html', '/notifikasi.html', '/pesan.html', '/profil.html', '/post.html', '/detail.html', '/chat.html', '/pertanyaan.html'];
+  '/index.html', '/login.html', '/daftar.html', '/explore.html', '/notifikasi.html', '/pesan.html', '/profil.html', '/profil-publik.html', '/post.html', '/detail.html', '/chat.html', '/pertanyaan.html'];
 
 const WAKTU_JARINGAN = 10000;     // berkas yang belum ada di cache: tunggu jaringan paling lama segini
 const BISA_DISIMPAN = /\.(js|css|html|json|png|jpe?g|webp|svg|woff2?)$/;
@@ -52,7 +52,7 @@ async function dariCache(e, r, u) {
   if (ada) return ada;
   try {
     const res = await ambil(r, WAKTU_JARINGAN);
-    if (res.ok && res.status === 200 && res.type === 'basic' && (navigasi || BISA_DISIMPAN.test(u.pathname))) {
+    if (res.ok && res.status === 200 && res.type === 'basic' && (navigasi || BISA_DISIMPAN.test(u.pathname)) && !u.pathname.startsWith('/@')) {
       const salin = res.clone();
       e.waitUntil(c.put(navigasi ? u.origin + u.pathname : r, salin).catch(() => {}));
     }

@@ -6,9 +6,11 @@
 // Variabel (Worker > Settings > Variables): SUPABASE_URL, SUPABASE_ANON_KEY  (kunci anon/publishable, BUKAN service_role)
 // Route (Worker > Settings > Triggers > Routes, bukan Custom Domain):
 //   jurkon.my.id/n   jurkon.my.id/n.html   jurkon.my.id/detail.html   jurkon.my.id/sitemap-catatan.xml
+//   jurkon.my.id/@*   (pratinjau profil publik, butuh sql/045_profil_publik.sql)
 // Opsional: ORIGIN (bawaan: host permintaan sendiri).
 
 const SITUS = 'https://jurkon.my.id';
+const USERNAME = /^[a-z0-9_]{3,20}$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 async function rpc(env, fn, body) {
@@ -99,6 +101,47 @@ async function halamanDetail(env, url) {
     .transform(new Response(asal.body, { status: 200, headers: kepala }));
 }
 
+// Pratinjau profil: jurkon.my.id/@username. Selalu HTTP 200 (tidak pernah 404): profil publik mendapat pratinjau
+// berisi nama, bio, dan foto; profil privat, username yang tidak ada, dan gangguan database mendapat pratinjau
+// generik + noindex, jadi pengunjung melihat ajakan bergabung dan penebak username tidak bisa membedakan "privat" dari "tidak ada".
+// Halaman yang dilayani: profil-publik.html (js/profil-publik.js membaca username dari alamat).
+async function halamanProfil(env, url, mentah) {
+  const u = mentah.toLowerCase();
+  const asal = await fetch((env.ORIGIN || url.origin) + '/profil-publik.html', { redirect: 'follow' });
+  const kepala = { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' };
+  let c = null;
+  if (USERNAME.test(u)) {
+    try { const d = await rpc(env, 'profil_publik_info', { p_username: u }); c = d && d[0]; } catch (e) { c = null; }
+  }
+  if (!c) return new Response(asal.body, { status: 200, headers: Object.assign({ 'x-robots-tag': 'noindex' }, kepala) });
+
+  const nama = c.nama || c.username;
+  const judul = nama + ' (@' + c.username + ') di Jurkon';
+  const desk = potong(c.bio || 'Jurkon (Jurnal Koneksi): tempat menulis dan terhubung tanpa algoritma.', 155);
+  const kanon = SITUS + '/@' + c.username;
+  const foto = c.foto && !/^[a-z]+:/i.test(c.foto)
+    ? env.SUPABASE_URL + '/storage/v1/object/public/avatar/' + String(c.foto).split('/').map(encodeURIComponent).join('/') : '';
+  const set = (atr, nilai) => ({ element(e) { e.setAttribute(atr, nilai); } });
+  let r = new HTMLRewriter()
+    .on('title', { element(e) { e.setInnerContent(judul); } })
+    .on('meta[name="description"]', set('content', desk))
+    .on('meta[property="og:title"]', set('content', judul))
+    .on('meta[property="og:description"]', set('content', desk))
+    .on('meta[property="og:url"]', set('content', kanon))
+    .on('meta[name="twitter:title"]', set('content', judul))
+    .on('meta[name="twitter:description"]', set('content', desk))
+    .on('head', { element(e) {
+      e.append('<meta property="profile:username" content="' + c.username.replace(/[^a-z0-9_]/g, '') + '">', { html: true });
+      e.append('<meta property="og:image:alt" content="' + judul.replace(/[&<>"]/g, '') + '">', { html: true });
+    } });
+  if (foto) {
+    // Foto profil berbentuk persegi: kartu kecil (summary) lebih rapi daripada kartu lebar
+    r = r.on('meta[property="og:image"]', set('content', foto)).on('meta[name="twitter:card"]', set('content', 'summary'))
+      .on('head', { element(e) { e.append('<meta name="twitter:image" content="' + foto.replace(/"/g, '%22') + '">', { html: true }); } });
+  }
+  return r.transform(new Response(asal.body, { status: 200, headers: kepala }));
+}
+
 async function sitemap(env) {
   const baris = await rpc(env, 'daftar_publik', { p_limit: 1000 });
   const isi = (baris || []).filter(x => UUID.test(x.id)).map(x =>
@@ -114,6 +157,8 @@ export default {
       if (url.pathname === '/sitemap-catatan.xml') return await sitemap(env);
       if (url.pathname === '/n' || url.pathname === '/n.html') return await halaman(env, url);
       if (url.pathname === '/detail.html') return await halamanDetail(env, url);
+      const pf = /^\/@([A-Za-z0-9_]{3,20})\/?$/.exec(url.pathname);
+      if (pf) return await halamanProfil(env, url, pf[1]);
     } catch (e) {
       return new Response('Layanan sementara tidak tersedia.', { status: 503, headers: { 'retry-after': '300' } });
     }
