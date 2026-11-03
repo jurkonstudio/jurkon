@@ -4,6 +4,11 @@
 // Tanpa jaringan: hanya membaca localStorage. Bila localStorage tidak bisa dibaca, tidak melakukan apa-apa
 // (beranda lalu mengarahkan ke login seperti sebelumnya).
 (function () {
+  // Tautan undangan (?undang=username): simpan di perangkat supaya bertahan sampai pendaftaran selesai (dipakai js/selamat.js).
+  try {
+    var uq = (new URLSearchParams(location.search).get('undang') || '').trim().toLowerCase().replace(/^@/, '');
+    if (/^[a-z0-9_]{3,20}$/.test(uq)) localStorage.setItem('undang', JSON.stringify({ u: uq, t: Date.now() }));
+  } catch (e) {}
   try {
     for (var i = 0; i < localStorage.length; i++) {
       var k = localStorage.key(i);

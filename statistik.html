@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://yghgmfvlthzcuhelqesr.supabase.co; media-src 'self' blob: https://yghgmfvlthzcuhelqesr.supabase.co; connect-src 'self' https://yghgmfvlthzcuhelqesr.supabase.co wss://yghgmfvlthzcuhelqesr.supabase.co; frame-src 'none'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="js/keamanan.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fbf9f4">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://yghgmfvlthzcuhelqesr.supabase.co" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<script src="js/bahasa-muat.js"></script><script src="js/i18n.js"></script>
+<script src="js/tema.js"></script>
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/mulai.css">
+<meta name="robots" content="noindex">
+<title>Statistik · Jurkon</title></head><body>
+<main><div class="header"><h1>Statistik</h1><a class="mulai-lewati" href="index.html">Beranda</a></div>
+<div class="mulai stat">
+  <p class="mulai-teks">Angka agregat tanpa data pribadi: tanpa cookie, IP, atau pelacak pihak ketiga. Khusus pengelola.</p>
+  <div class="mulai-chip-baris" id="rentang" role="tablist">
+    <button type="button" class="mulai-chip" data-h="7">7 hari</button>
+    <button type="button" class="mulai-chip" data-h="30">30 hari</button>
+    <button type="button" class="mulai-chip" data-h="90">90 hari</button>
+  </div>
+  <div class="galat" id="galat" role="alert"></div>
+  <div id="ringkas" class="stat-kartu"></div>
+  <h2>Per hari</h2><div class="stat-gulung" id="harian"></div>
+  <h2>Kohort pendaftar</h2>
+  <p class="mulai-teks">Aktif D1/D7: akun yang tercatat aktif lagi paling cepat 1 atau 7 hari setelah daftar (dari riwayat sesi). Kosong (-) berarti kohortnya belum cukup umur.</p>
+  <div class="stat-gulung" id="kohort"></div>
+</div></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
+<script src="js/supabase.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/statistik.js"></script>
+</body></html>

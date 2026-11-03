@@ -7,6 +7,25 @@
   $('#username').value = p.username || '';
   $('#nama').value = p.nama || '';
 
+  // Tautan undangan (?undang=username, disimpan js/akar.js / js/auth.js): tawarkan mengikuti pengundang, tanpa memaksa.
+  let undangan = null, cbIkut = null;
+  try {
+    const x = JSON.parse(localStorage.getItem('undang') || 'null');
+    if (x && /^[a-z0-9_]{3,20}$/.test(x.u) && Date.now() - x.t < 14 * 864e5) undangan = x;
+  } catch (e) {}
+  if (undangan) {
+    try {
+      const { data: pu } = await db.from('profiles').select('username,nama').eq('username', undangan.u).eq('siap', true).maybeSingle();
+      if (pu && pu.username !== p.username) {
+        const lab = document.createElement('label'); lab.className = 'centang';
+        lab.innerHTML = '<input type="checkbox" id="ikutUndang" checked><span></span>';
+        lab.querySelector('span').textContent = t('mulai.ikutiPengundang', { u: pu.username });
+        $('#simpan').parentNode.insertBefore(lab, $('#simpan'));
+        cbIkut = lab.querySelector('input');
+      } else undangan = null;
+    } catch (e) { undangan = null; }
+  }
+
   const POLA = /^[a-z0-9_]{3,20}$/;
   const info = $('#infoUser');
   let tunda, urut = 0;
@@ -43,6 +62,10 @@
       return;
     }
     try { sessionStorage.setItem('siap:' + saya.id, '1'); } catch (e) {}
-    location.href = 'index.html';
+    if (undangan) {
+      try { await db.rpc('terima_undangan', { p_username: undangan.u, p_ikuti: !!(cbIkut && cbIkut.checked) }); } catch (e) {}
+      try { localStorage.removeItem('undang'); } catch (e) {}
+    }
+    location.href = 'mulai.html';   // onboarding 3 langkah (boleh dilewati); halaman itu sendiri tidak memaksa
   };
 })();

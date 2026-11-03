@@ -2,6 +2,12 @@ const galat = $('#galat');
 const ambil = () => ({ email: $('#email').value.trim(), password: $('#sandi').value });
 const MULAI = Date.now();
 if (window.catatCorong && !$('#daftar')) catatCorong('login_buka');   // angka corong tanpa data pribadi (js/corong.js)
+// Tautan undangan langsung ke daftar.html?undang=username: simpan di perangkat (dipakai js/selamat.js setelah username dipilih).
+try {
+  const uq = (new URLSearchParams(location.search).get('undang') || '').trim().toLowerCase().replace(/^@/, '');
+  if (/^[a-z0-9_]{3,20}$/.test(uq)) localStorage.setItem('undang', JSON.stringify({ u: uq, t: Date.now() }));
+} catch (e) {}
+if (window.catatCorong && $('#daftar')) catatCorong('daftar_buka');
 db.auth.getSession().then(({ data }) => { if (data.session) location.href = lanjutAman() || 'index.html'; });
 
 // ---- Anti-bot sisi klien -----------------------------------------------------------------------

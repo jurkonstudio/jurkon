@@ -1,0 +1,36 @@
+/* Onboarding (mulai.html). Hanya memakai token tema, jadi ikut Kertas, Terang, Gelap, Kaca, dan Awan. */
+.mulai{max-width:560px;margin:0 auto;padding:16px 16px 40px;display:grid;gap:12px}
+.mulai h2{font-size:20px;margin:4px 0 0}
+.mulai-teks{color:var(--redup);font-size:14px;line-height:1.5}
+.mulai-langkah{font-size:13px;color:var(--redup);font-weight:600}
+.mulai-lewati{font-size:14px;color:var(--redup);text-decoration:underline;padding:10px 4px}
+.mulai-titik{display:flex;gap:6px}
+.mulai-titik span{height:4px;flex:1;border-radius:4px;background:var(--garis)}
+.mulai-titik span.on{background:var(--aksen)}
+.mulai-saran{display:grid;gap:0;border:1px solid var(--garis);border-radius:12px;overflow:hidden}
+.mulai-saran>.hitung{padding:16px}
+.mulai-orang{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid var(--garis);min-height:64px}
+.mulai-orang:last-child{border-bottom:0}
+.mulai-info{flex:1;min-width:0}
+.mulai-info .sub{color:var(--redup);font-size:13px}
+.mulai-info .sub:last-child{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.mulai-ikuti{min-height:44px;white-space:nowrap}
+.mulai-label{font-size:14px;color:var(--redup)}
+.mulai-chip-baris{display:flex;flex-wrap:wrap;gap:8px}
+.mulai-chip{background:var(--latar);color:var(--teks);border:1px solid var(--garis);border-radius:999px;padding:10px 14px;font:inherit;font-size:14px;cursor:pointer;min-height:44px;text-align:left}
+.mulai textarea,.mulai input[type=text]{width:100%;box-sizing:border-box}
+.mulai-aksi{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.mulai-aksi .btn{min-height:44px;padding:10px 20px}
+.mulai-pasang{display:grid;gap:8px}
+
+/* Statistik (statistik.html, khusus pengelola) */
+.stat{max-width:900px}
+.stat-kartu{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stat-k{border:1px solid var(--garis);border-radius:12px;padding:12px;background:var(--latar)}
+.stat-k b{display:block;font-size:22px}
+.stat-k span{font-size:12px;color:var(--redup)}
+.stat-gulung{overflow-x:auto;border:1px solid var(--garis);border-radius:12px}
+.stat table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}
+.stat th,.stat td{padding:8px 10px;border-bottom:1px solid var(--garis);text-align:right}
+.stat th:first-child,.stat td:first-child{text-align:left;position:sticky;left:0;background:var(--bg)}
+.stat .mulai-chip[aria-selected=true]{background:var(--aksen);color:#fff;border-color:var(--aksen)}

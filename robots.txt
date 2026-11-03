@@ -17,6 +17,8 @@ Disallow: /reset.html
 Disallow: /selamat.html
 Disallow: /chat.html
 Disallow: /pesan.html
+Disallow: /mulai.html
+Disallow: /statistik.html
 
 # 2) Pengumpul data latih model AI dan pengikis data/SEO pihak ketiga: DIBLOKIR.
 #    Google-Extended dan Applebot-Extended hanya mengatur pemakaian untuk melatih AI; tidak memengaruhi Google Search, AI Overviews, atau Siri/Spotlight.
@@ -46,6 +48,8 @@ Disallow: /reset.html
 Disallow: /selamat.html
 Disallow: /chat.html
 Disallow: /pesan.html
+Disallow: /mulai.html
+Disallow: /statistik.html
 
 Sitemap: https://jurkon.my.id/sitemap.xml
 Sitemap: https://jurkon.my.id/sitemap-catatan.xml
