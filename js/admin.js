@@ -211,10 +211,12 @@
     laporan:   { judul: 'Laporan', v: vLaporan },
     pengguna:  { judul: 'Pengguna', v: vPengguna },
     posting:   { judul: 'Posting', v: vPosting },
+    statistik: { judul: 'Statistik', v: vStatistik },
     sorotan:   { judul: 'Sorotan Jelajah', v: vSorotan },
     situs:     { judul: 'Landing & situs', v: vSitus },
     admin:     { judul: 'Akses admin', v: vAdmin },
     keamanan:  { judul: 'Keamanan akun', v: vKeamanan },
+    kesehatan: { judul: 'Kesehatan skema', v: vKesehatan },
     log:       { judul: 'Jejak admin', v: vLog }
   };
 
@@ -413,9 +415,10 @@
   };
 
   // ---------------------------------------------------------------- daftar dengan pencarian (Pengguna, Posting)
-  async function daftarCari(g, fn, baris, placeholder, ambilQ, simpanQ, teksKosong) {
+  // opsi.bar: HTML tambahan di bar alat (mis. filter); opsi.args(): argumen RPC tambahan; opsi.pasang(muat): hubungkan kontrol tambahan.
+  async function daftarCari(g, fn, baris, placeholder, ambilQ, simpanQ, teksKosong, opsi = {}) {
     const BATAS = 30;
-    isiEl.innerHTML = `<div class="bar-alat"><div class="cari-kotak">${ikon('cari')}<input type="search" id="cari" placeholder="${esc(placeholder)}" aria-label="${esc(placeholder)}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="100"></div></div>
+    isiEl.innerHTML = `<div class="bar-alat"><div class="cari-kotak">${ikon('cari')}<input type="search" id="cari" placeholder="${esc(placeholder)}" aria-label="${esc(placeholder)}" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="100"></div>${opsi.bar || ''}</div>
       <div id="hasil" class="daftar"></div><div class="bar-alat" id="lagi" hidden style="justify-content:center;margin-top:16px"><button type="button" class="btn garis" id="lagiBtn">Muat lagi</button></div>`;
     const cari = el('cari'), hasil = el('hasil'), lagi = el('lagi');
     cari.value = ambilQ();
@@ -424,7 +427,7 @@
       const no = ++urut;
       if (ulang) { mulaiN = 0; hasil.innerHTML = '<div class="rangka"></div><div class="rangka"></div>'; lagi.hidden = true; }
       try {
-        const rows = await rpc(fn, { p_cari: ambilQ(), p_batas: BATAS, p_mulai: mulaiN });
+        const rows = await rpc(fn, { p_cari: ambilQ(), p_batas: BATAS, p_mulai: mulaiN, ...(opsi.args ? opsi.args() : {}) });
         if (no !== urut || !aktif(g)) return;
         if (ulang) hasil.innerHTML = rows.length ? '' : kosongHtml(teksKosong);
         hasil.insertAdjacentHTML('beforeend', rows.map(baris).join(''));
@@ -434,6 +437,7 @@
     }
     cari.addEventListener('input', () => { clearTimeout(tm); tm = setTimeout(() => { simpanQ(cari.value.trim()); muat(true); }, 300); });
     el('lagiBtn').addEventListener('click', () => muat(false));
+    if (opsi.pasang) opsi.pasang(() => muat(true));
     await muat(true);
   }
 
@@ -512,22 +516,52 @@
   // ---------------------------------------------------------------- Posting
   let qPosting = '';
   const daftarP = {};
+  let fPosting = '';
+  const FILTER_POSTING = [['', 'Semua posting'], ['publik', 'Publik'], ['jelajahi', 'Di Jelajahi'], ['dikunci', 'Dikunci publik'],
+    ['dilaporkan', 'Dilaporkan'], ['disorot', 'Disorot'], ['berumur', 'Catatan berumur'], ['kapsul', 'Kapsul waktu']];
   function barisPosting(p) {
     daftarP[p.id] = p;
+    const kapsulTutup = p.terbuka_pada && new Date(p.terbuka_pada) > new Date();
     const lencana = [
       p.adalah_balasan ? '<span class="lencana">Balasan</span>' : '',
+      p.jenis === 'kutip' ? '<span class="lencana">Kutipan</span>' : p.jenis === 'ulang' ? '<span class="lencana">Posting ulang</span>' : '',
       p.disorot ? '<span class="lencana aksen">Disorot</span>' : '',
+      p.publik ? '<span class="lencana hijau">Publik</span>' : '',
+      p.jelajahi ? '<span class="lencana hijau">Di Jelajahi</span>' : '',
+      p.publik_dikunci ? '<span class="lencana merah">Dikunci publik</span>' : '',
+      p.kedaluwarsa ? `<span class="lencana kuning">Hilang ${esc(tglJam(p.kedaluwarsa))}</span>` : '',
+      p.terbuka_pada ? `<span class="lencana kuning">Kapsul ${kapsulTutup ? 'tertutup · buka ' + esc(tglJam(p.terbuka_pada)) : 'sudah terbuka'}</span>` : '',
       p.laporan_baru > 0 ? `<span class="lencana merah">${p.laporan_baru} laporan baru</span>` : ''
     ].join('');
+    const tombolKunci = p.publik_dikunci
+      ? `<button type="button" class="btn kecil garis" data-act="bukaKunciP" data-id="${p.id}">Buka kunci publik</button>`
+      : (p.publik ? `<button type="button" class="btn kecil garis bahaya" data-act="kunciP" data-id="${p.id}">Cabut &amp; kunci publik</button>` : '');
     return `<article class="baris">${ava(p.username, null, true)}<div class="badan">
       <div class="atas-b"><span class="nama">@${esc(p.username)}</span><span class="sub">${wkt(p.dibuat)}</span>${lencana}</div>
       <div class="teks">${esc(p.isi || '(posting ulang)')}</div>
       <div class="sub" style="margin-top:8px">${angka(p.dilihat)} dilihat · ${angka(p.jml_suka)} suka</div>
       <div class="aksi-b"><a class="btn kecil garis" href="/detail.html?id=${esc(p.id)}" target="_blank" rel="noopener">${ikon('luar')}Buka</a>
         ${p.adalah_balasan ? '' : `<button type="button" class="btn kecil garis" data-act="sorotP" data-id="${p.id}" data-v="${p.disorot ? 0 : 1}">${p.disorot ? 'Cabut sorotan' : 'Sorot'}</button>`}
+        ${tombolKunci}
         <button type="button" class="btn kecil garis bahaya" data-act="hapusP" data-id="${p.id}">Hapus</button></div></div></article>`;
   }
-  async function vPosting(g) { await daftarCari(g, 'admin_cari_posting', barisPosting, 'Cari isi posting, username, atau ID…', () => qPosting, v => { qPosting = v; }, 'Tidak ada posting yang cocok.'); }
+  async function vPosting(g) {
+    await daftarCari(g, 'admin_cari_posting', barisPosting, 'Cari isi posting, username, atau ID…', () => qPosting, v => { qPosting = v; }, 'Tidak ada posting yang cocok.', {
+      bar: `<select id="fPosting" style="width:auto;min-width:190px" aria-label="Filter posting">${FILTER_POSTING.map(([v, l]) => `<option value="${v}"${v === fPosting ? ' selected' : ''}>${esc(l)}</option>`).join('')}</select>`,
+      args: () => ({ p_filter: fPosting }),
+      pasang: muat => el('fPosting').addEventListener('change', e => { fPosting = e.target.value; muat(); })
+    });
+  }
+  aksi.kunciP = async b => {
+    const p = daftarP[b.dataset.id];
+    const a = await tanya({ judul: `Cabut dan kunci catatan publik @${p.username}?`, teks: 'Catatan ini langsung hilang dari halaman publik dan Jelajahi, dan penulis tidak bisa mempublikasikannya lagi sampai kuncinya dibuka. Catatan tetap ada untuk pengikutnya.', input: 'Alasan (masuk jejak admin)', ok: 'Cabut & kunci', bahaya: true });
+    if (a === null) return;
+    if (await jalankan(b, () => rpc('admin_kunci_publik', { p_id: p.id, p_alasan: a || null }), 'Catatan publik dikunci')) tampil();
+  };
+  aksi.bukaKunciP = async b => {
+    if (await tanya({ judul: 'Buka kunci publik?', teks: 'Penulis bisa mempublikasikan catatan ini lagi. Catatan tidak otomatis menjadi publik.', ok: 'Buka kunci' }) === null) return;
+    if (await jalankan(b, () => rpc('admin_buka_kunci_publik', { p_id: b.dataset.id }), 'Kunci publik dibuka')) tampil();
+  };
   aksi.sorotP = async b => {
     const nilai = b.dataset.v === '1';
     if (await jalankan(b, () => rpc('admin_sorot', { p_id: b.dataset.id, p_nilai: nilai }), nilai ? 'Posting disorot' : 'Sorotan dicabut')) tampil();
@@ -714,11 +748,72 @@
     }
   });
 
+  // ---------------------------------------------------------------- Statistik (corong + retensi, dulu di statistik.html)
+  let hariStat = 30;
+  const KOLOM_CORONG = [['landing', 'Landing'], ['landing_mulai', 'Klik mulai'], ['jelajahi', 'Jelajahi'], ['login_buka', 'Buka masuk'], ['daftar_buka', 'Buka daftar'],
+    ['akun_baru', 'Akun baru'], ['onboarding_mulai', 'Onboarding'], ['onboarding_selesai', 'Selesai'], ['catatan_pertama', 'Catatan 1']];
+  const pct = (a, b) => b > 0 ? Math.round(a * 100 / b) + '%' : '-';
+  const tglPendek = d => String(d).slice(5);
+  async function vStatistik(g) {
+    const [a, b] = await Promise.all([rpc('admin_corong', { p_hari: hariStat }), rpc('admin_retensi', { p_hari: hariStat }).catch(() => null)]);
+    if (!aktif(g)) return;
+    const jml = {}, peta = {};
+    (a || []).forEach(r => {
+      jml[r.langkah] = (jml[r.langkah] || 0) + Number(r.jumlah);
+      (peta[r.hari] = peta[r.hari] || {})[r.langkah] = Number(r.jumlah);
+    });
+    const kartu = (n, l) => `<div class="stat"><div class="stat-kepala"><span>${esc(l)}</span></div><div class="angka">${esc(String(n))}</div></div>`;
+    const hari = Object.keys(peta).sort().reverse();
+    const rentang = [7, 30, 90].map(h => `<button type="button" data-act="rentangStat" data-h="${h}" aria-pressed="${h === hariStat}">${h} hari</button>`).join('');
+    isiEl.innerHTML = `<div class="bar-alat"><div class="seg">${rentang}</div></div>
+      <div class="grid-stat">
+        ${kartu(angka(jml.akun_baru || 0), 'Akun baru')}
+        ${kartu(pct(jml.akun_baru || 0, jml.daftar_buka || 0), 'Buka daftar → akun')}
+        ${kartu(pct(jml.onboarding_selesai || 0, jml.akun_baru || 0), 'Akun → onboarding selesai')}
+        ${kartu(pct(jml.catatan_pertama || 0, jml.akun_baru || 0), 'Akun → catatan pertama')}
+        ${kartu(angka(jml.landing || 0), 'Kunjungan landing')}
+      </div>
+      <div class="kartu"><h2>Corong per hari</h2><p class="ket">Angka agregat tanpa data pribadi.</p>
+        ${hari.length ? `<div class="tabel-bungkus"><table class="tabel"><thead><tr><th>Tgl</th>${KOLOM_CORONG.map(k => `<th>${esc(k[1])}</th>`).join('')}</tr></thead><tbody>
+          ${hari.map(d => `<tr><td>${esc(tglPendek(d))}</td>${KOLOM_CORONG.map(k => `<td>${angka(peta[d][k[0]] || 0)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>` : kosongHtml('Belum ada data pada rentang ini')}</div>
+      <div class="kartu"><h2>Kohort pendaftar</h2><p class="ket">Aktif D1/D7: akun yang tercatat aktif lagi paling cepat 1 atau 7 hari setelah daftar (dari riwayat sesi). Tanda - berarti kohortnya belum cukup umur.</p>
+        ${b === null ? '<p class="hitung">Kohort belum tersedia (jalankan sql/044).</p>'
+          : `<div class="tabel-bungkus"><table class="tabel"><thead><tr><th>Daftar</th><th>Akun</th><th>Profil siap</th><th>Mengikuti</th><th>Catatan 7h</th><th>Aktif D1</th><th>Aktif D7</th><th>Undangan</th></tr></thead><tbody>
+          ${(b || []).map(r => `<tr><td>${esc(tglPendek(r.hari))}</td><td>${angka(r.akun_baru)}</td><td>${angka(r.selesai_profil)}</td><td>${angka(r.ikut_akun)}</td><td>${angka(r.catatan_7h)}</td><td>${r.aktif_d1 == null ? '-' : angka(r.aktif_d1)}</td><td>${r.aktif_d7 == null ? '-' : angka(r.aktif_d7)}</td><td>${angka(r.lewat_undangan)}</td></tr>`).join('')}</tbody></table></div>`}</div>`;
+  }
+  aksi.rentangStat = b => { hariStat = +b.dataset.h; tampil(); };
+
+  // ---------------------------------------------------------------- Kesehatan skema (admin_cek_skema, sql/047)
+  const STATUS_SKEMA = { ok: ['hijau', 'cek', 'Aman'], peringatan: ['kuning', 'awas', 'Periksa'], gagal: ['merah', 'awas', 'Perbaiki'] };
+  async function vKesehatan(g) {
+    const r = await rpc('admin_cek_skema');
+    if (!aktif(g)) return;
+    aksiAtas.innerHTML = `<span class="hitung">Diperiksa ${esc(tglJam(r.diperiksa))}</span>`;
+    const hitung = { ok: 0, peringatan: 0, gagal: 0 };
+    r.pemeriksaan.forEach(c => { hitung[c.status] = (hitung[c.status] || 0) + 1; });
+    const ringkas = hitung.gagal ? ['merah', `${hitung.gagal} pemeriksaan gagal`] : hitung.peringatan ? ['kuning', `${hitung.peringatan} perlu diperiksa`] : ['hijau', 'Semua pemeriksaan lolos'];
+    const baris = r.pemeriksaan.map(c => {
+      const [warna, ik, label] = STATUS_SKEMA[c.status] || STATUS_SKEMA.peringatan;
+      return `<article class="baris" style="align-items:center"><div class="badan">
+        <div class="atas-b"><span class="nama">${esc(c.judul)}</span><span class="lencana ${warna}">${label}</span></div>
+        <div class="sub">${esc(c.detail)}</div></div></article>`;
+    }).join('');
+    const admins = (r.admin || []).map(a => `<article class="baris" style="align-items:center"><div class="badan">
+        <div class="atas-b"><span class="nama">@${esc(a.username || '?')}</span>${a.user_id === saya.id ? '<span class="lencana aksen">Kamu</span>' : ''}
+        <span class="lencana ${a.dua_langkah ? 'hijau' : 'kuning'}">${a.dua_langkah ? '2 langkah aktif' : 'Belum 2 langkah'}</span></div></div></article>`).join('');
+    isiEl.innerHTML = `<div class="kartu"><h2>Kesehatan skema</h2><p class="ket">Pemeriksaan hanya-baca atas keadaan database. Menggantikan cek manual di SQL Editor.</p>
+        <span class="lencana ${ringkas[0]}">${esc(ringkas[1])}</span></div>
+      <div class="daftar" style="margin-top:16px">${baris}</div>
+      <div class="kartu"><h2>Admin dan 2 langkah</h2><p class="ket">Admin tanpa 2 langkah tetap bisa masuk dengan kata sandi saja. Minta mereka memasang di tab Keamanan.</p></div>
+      <div class="daftar" style="margin-top:16px">${admins || kosongHtml('Tidak ada admin')}</div>`;
+  }
+
   // ---------------------------------------------------------------- Jejak
   const LABEL = {
     hapus_posting: 'Hapus posting', bekukan_akun: 'Bekukan akun', buka_pembekuan: 'Buka pembekuan', hapus_akun: 'Hapus akun',
     sorot: 'Sorot posting', cabut_sorot: 'Cabut sorotan', beri_verified: 'Beri verified', cabut_verified: 'Cabut verified', laporan_selesai: 'Laporan selesai', laporan_baru: 'Laporan dibuka kembali',
-    laporan_selesai_massal: 'Laporan selesai (massal)', tambah_admin: 'Tambah admin', cabut_admin: 'Cabut admin', pengaturan: 'Ubah pengaturan'
+    laporan_selesai_massal: 'Laporan selesai (massal)', tambah_admin: 'Tambah admin', cabut_admin: 'Cabut admin', pengaturan: 'Ubah pengaturan',
+    kunci_publik: 'Kunci catatan publik', buka_kunci_publik: 'Buka kunci publik'
   };
   async function vLog(g) {
     const data = await rpc('admin_log_daftar', { p_batas: 100 });
