@@ -5,7 +5,7 @@
 //
 // Variabel (Worker > Settings > Variables): SUPABASE_URL, SUPABASE_ANON_KEY  (kunci anon/publishable, BUKAN service_role)
 // Route (Worker > Settings > Triggers > Routes, bukan Custom Domain):
-//   jurkon.my.id/n   jurkon.my.id/n.html   jurkon.my.id/detail.html   jurkon.my.id/sitemap-catatan.xml
+//   jurkon.my.id/n   jurkon.my.id/n.html   jurkon.my.id/detail.html   jurkon.my.id/sitemap-catatan.xml   jurkon.my.id/sitemap-profil.xml
 //   jurkon.my.id/@*   (pratinjau profil publik, butuh sql/045_profil_publik.sql)
 // Opsional: ORIGIN (bawaan: host permintaan sendiri).
 
@@ -150,11 +150,27 @@ async function sitemap(env) {
     { headers: { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
 }
 
+async function sitemapProfil(env) {
+  // Profil yang pemiliknya menyalakan "profil publik" saja (lihat sql/046). Maks 5 x 1000 profil per sitemap.
+  let semua = [];
+  for (let i = 0; i < 5; i++) {
+    const hal = await rpc(env, 'daftar_profil_publik', { p_limit: 1000, p_offset: i * 1000 });
+    semua = semua.concat(hal || []);
+    if (!hal || hal.length < 1000) break;
+  }
+  const isi = semua.filter(x => USERNAME.test(x.username || '')).map(x =>
+    '<url><loc>' + SITUS + '/@' + x.username + '</loc>' +
+    (x.diperbarui ? '<lastmod>' + String(x.diperbarui).slice(0, 10) + '</lastmod>' : '') + '</url>').join('');
+  return new Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + isi + '</urlset>',
+    { headers: { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=3600' } });
+}
+
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
     try {
       if (url.pathname === '/sitemap-catatan.xml') return await sitemap(env);
+      if (url.pathname === '/sitemap-profil.xml') return await sitemapProfil(env);
       if (url.pathname === '/n' || url.pathname === '/n.html') return await halaman(env, url);
       if (url.pathname === '/detail.html') return await halamanDetail(env, url);
       const pf = /^\/@([A-Za-z0-9_]{3,20})\/?$/.exec(url.pathname);

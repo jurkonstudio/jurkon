@@ -12,7 +12,7 @@ declare
   r record;
   ada int := 0;
 begin
-  foreach nama in array array['catatan_publik', 'daftar_publik', 'landing_publik', 'jelajahi_publik', 'catat_corong', 'profil_publik_info', 'profil_publik_catatan'] loop
+  foreach nama in array array['catatan_publik', 'daftar_publik', 'landing_publik', 'jelajahi_publik', 'catat_corong', 'profil_publik_info', 'profil_publik_catatan', 'daftar_profil_publik'] loop
     for r in
       select p.oid::regprocedure as sig
         from pg_proc p join pg_namespace n on n.oid = p.pronamespace
@@ -23,7 +23,7 @@ begin
       ada := ada + 1;
     end loop;
   end loop;
-  raise notice 'Hak anon dipasang pada % fungsi publik (harus 7; 5 bila 045 belum dijalankan).', ada;
+  raise notice 'Hak anon dipasang pada % fungsi publik (harus 8; 5 bila 045 belum dijalankan; 7 bila 046 belum).', ada;
 end $$;
 
 -- Minta API (PostgREST) memuat ulang daftar fungsi
@@ -32,7 +32,7 @@ notify pgrst, 'reload schema';
 -- =====================================================================
 -- PEMERIKSAAN (jalankan terpisah, satu per satu)
 -- =====================================================================
--- 1) Harus TEPAT 7 baris (5 bila 045 belum dijalankan): catat_corong, catatan_publik, daftar_publik, jelajahi_publik, landing_publik,
+-- 1) Harus TEPAT 8 baris (5 bila 045 belum dijalankan, 7 bila 046 belum): catat_corong, catatan_publik, daftar_profil_publik, daftar_publik, jelajahi_publik, landing_publik,
 --    profil_publik_catatan, profil_publik_info
 --   select p.proname from pg_proc p join pg_namespace n on n.oid = p.pronamespace
 --    where n.nspname = 'public' and has_function_privilege('anon', p.oid, 'execute') order by 1;

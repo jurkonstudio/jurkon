@@ -16,10 +16,11 @@ Tanpa Worker, fitur catatan publik **tetap jalan**: halaman `n.html` bisa dibuka
    - `jurkon.my.id/n.html`
    - `jurkon.my.id/detail.html`  (pratinjau semua catatan yang dibagikan; perlu `sql/036_pratinjau_tautan.sql`)
    - `jurkon.my.id/sitemap-catatan.xml`
+   - `jurkon.my.id/sitemap-profil.xml`  (sitemap profil publik; perlu `sql/046_daftar_profil_publik.sql`)
    - `jurkon.my.id/@*`  (pratinjau profil publik; perlu `sql/045_profil_publik.sql`)
 4. Pastikan DNS `jurkon.my.id` berstatus **Proxied** (awan oranye). Bila tidak, route Worker tidak berjalan.
 5. Uji: jadikan satu catatan publik, buka `https://jurkon.my.id/n?id=<id>` di jendela privat. Lihat sumber halaman (view-source): `<title>` berisi nama dan cuplikan catatan. Lalu buka `https://jurkon.my.id/sitemap-catatan.xml`.
-6. Search Console (Domain jurkon.my.id) > Sitemaps > kirim `sitemap-catatan.xml`.
+6. Search Console (Domain jurkon.my.id) > Sitemaps > kirim `sitemap-catatan.xml` dan `sitemap-profil.xml`.
 7. Pratinjau WhatsApp menyimpan cache lama; uji dengan menambah `&v=2` pada tautan.
 
 ## Perilaku yang perlu diketahui
@@ -27,5 +28,5 @@ Tanpa Worker, fitur catatan publik **tetap jalan**: halaman `n.html` bisa dibuka
 - Jadikan privat berlaku **seketika** di Worker (tanpa cache): tautan langsung 404 + noindex. Hasil Google butuh hari sampai minggu untuk hilang. Untuk mempercepat: Search Console > Penghapusan (Removals).
 - Gangguan Supabase: Worker membalas 503 (crawler mencoba lagi nanti), bukan 404, supaya catatan tidak keliru dijatuhkan dari indeks.
 - Alamat `/@username` selalu dibalas 200 (tidak pernah 404). Profil publik: judul/deskripsi/foto per profil. Profil privat atau tidak ada: pratinjau generik + `noindex`, jadi pembaca tidak bisa menebak akun.
-- Worker memanggil hanya `catatan_publik`, `daftar_publik`, `pratinjau_catatan`, dan `profil_publik_info`. Semuanya sengaja mengembalikan data minimal.
+- Worker memanggil hanya `catatan_publik`, `daftar_publik`, `pratinjau_catatan`, dan `profil_publik_info`, dan `daftar_profil_publik`. Semuanya sengaja mengembalikan data minimal.
 - Cloudflare gratis: 100.000 permintaan Worker per hari. Cukup untuk tahap awal.

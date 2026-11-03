@@ -56,6 +56,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `043_sesi_detail_perangkat.sql` | detail sesi login: model perangkat, versi OS & peramban, cara masuk (email/google). Jalankan SEBELUM memasang ulang Edge Function `catat-sesi` |
 | `044_onboarding_undangan.sql` | onboarding dan undangan: tabel `undangan`, `terima_undangan()`, `jumlah_undangan()`, `saran_akun()`, `catat_corong()` diperluas, `admin_retensi()` (untuk `statistik.html`) | setelah 035_jelajahi_publik dan 020; sebelum mengunggah JS |
 | `045_profil_publik.sql` | profil publik pilihan sendiri: kolom `profiles.profil_publik` (bawaan false), `atur_profil_publik()`, dan dua fungsi tamu `profil_publik_info()` / `profil_publik_catatan()`. Setelah ini jalankan lagi `036` (daftar anon jadi 7 fungsi) bila `019` pernah dijalankan ulang |
+| `046_daftar_profil_publik.sql` | `daftar_profil_publik(p_limit, p_offset)` untuk `sitemap-profil.xml` di Worker: hanya username dan tanggal akun yang menyalakan profil publik (boleh anon). Daftar anon di 019/036 ikut ditambah | setelah 045; hasil cek: 8 baris (fungsi anon), 0 baris, galat permission denied |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 

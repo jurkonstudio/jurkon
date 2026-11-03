@@ -53,3 +53,4 @@ Disallow: /statistik.html
 
 Sitemap: https://jurkon.my.id/sitemap.xml
 Sitemap: https://jurkon.my.id/sitemap-catatan.xml
+Sitemap: https://jurkon.my.id/sitemap-profil.xml
