@@ -18,7 +18,7 @@ Catatan:
 Temuan yang belum dikerjakan:
 1. **`sql/025_kunci_kolom_insert.sql` tidak ada di repo** padahal dicatat di README dan HANDOFF (status "belum dijalankan"). Celahnya: anggota login bisa memalsukan `created_at`, `dilihat`, dan `disorot` lewat API. Cek di Supabase: `select tgname from pg_trigger where tgname = 'a0_kunci_kolom_trg';` (0 baris = belum ada). Berkas perlu dibuat ulang dari rancangan di bagian "Migrasi 025" HANDOFF, diuji, lalu dijalankan.
 2. Email kontak tidak seragam: `js/config.js` memakai `journalconnection@aol.com`, sedangkan `js/kontak.js` dan `.well-known/security.txt` memakai `jurkon@yahoo.com`.
-3. Kode ganda `htmlPost` dan `pasangAksiPost` masih ada di `js/supabase.js` dan `js/ui.js` (yang di `ui.js` yang berlaku karena dimuat belakangan).
+3. ~~Kode ganda `htmlPost` dan `pasangAksiPost`~~: selesai 3 November malam. Alat uji browser baru: `tools/uji-browser.js` (lihat README paling atas).
 4. Periksa *Enforce HTTPS* di Pages dan ganti `document.write` di `js/bahasa-muat.js` dan `js/info-muat.js`.
 
 ---

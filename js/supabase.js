@@ -117,42 +117,7 @@ function pasangHitung(textarea, el, maks) {
   u();
 }
 
-function htmlPost(p, saya) {
-  const jml = p.likes?.[0]?.count ?? 0;
-  const suka = p.sudah_suka ? 'sudah' : '';
-  return `<article class="post" data-id="${p.id}">
-    <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(p.profiles.nama || p.profiles.username)}</span>
-    <span class="user">@${esc(p.profiles.username)} · ${waktu(p.created_at)}</span></a>
-    <a href="detail.html?id=${p.id}"><div class="isi">${esc(p.content)}</div></a>
-    <div class="aksi">
-      <button class="btn-suka ${suka}" data-id="${p.id}">♥ <span>${jml}</span></button>
-      <a href="detail.html?id=${p.id}">${esc(t('umum.balas'))}</a>
-      <button class="btn-lapor" data-id="${p.id}">${esc(t('pc.lapor'))}</button>
-      ${saya && saya.id === p.user_id ? `<button class="btn-hapus" data-id="${p.id}">${esc(t('pc.hapus'))}</button>` : ''}
-    </div></article>`;
-}
-
-// Satu pendengar klik untuk semua tombol posting
-function pasangAksiPost(saya, muat) {
-  document.addEventListener('click', async e => {
-    const b = e.target.closest('button[data-id]');
-    if (!b) return;
-    const id = b.dataset.id;
-    if (!saya) { keLogin(); return; }
-    if (b.classList.contains('btn-suka')) {
-      const sudah = b.classList.contains('sudah');
-      const n = b.querySelector('span');
-      if (sudah) { await db.from('likes').delete().match({ post_id: id, user_id: saya.id }); n.textContent = +n.textContent - 1; }
-      else { await db.from('likes').insert({ post_id: id, user_id: saya.id }); n.textContent = +n.textContent + 1; }
-      b.classList.toggle('sudah');
-    } else if (b.classList.contains('btn-lapor')) {
-      const alasan = prompt(t('pc.alasan'));
-      if (alasan) { await db.from('reports').insert({ reporter_id: saya.id, post_id: id, alasan: alasan.slice(0, 300) }); alert(t('pc.terkirim')); }
-    } else if (b.classList.contains('btn-hapus')) {
-      if (confirm(t('pc.konfirmHapus'))) { await db.from('posts').delete().eq('id', id); muat(); }
-    }
-  });
-}
+// htmlPost() dan pasangAksiPost() ada di js/ui.js (dimuat setelah berkas ini). Salinan lama di sini sudah dihapus.
 
 async function tandaiSuka(posts, saya) {
   if (!saya || !posts.length) return posts;

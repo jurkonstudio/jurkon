@@ -1,3 +1,42 @@
+# Update Jurkon, 3 November 2026 (malam): uji browser dan perapian JS/CSS
+
+Tanpa SQL, tanpa deploy Edge Function. Cukup unggah berkas lalu push.
+
+| Pekerjaan | Berkas | Status |
+|---|---|---|
+| **Alat uji browser baru**: membuka semua halaman utama di Chromium dengan Supabase tiruan, pada tema kertas/gelap/kaca/awan, lebar 320/390/1280 px, mode tamu dan masuk; melaporkan galat JS, berkas 404, dan layar yang melebar ke samping | `tools/uji-browser.js`, `tools/uji/fake-supabase.js` | Dijalankan: 696 pemuatan (29 halaman x 2 mode x 4 tema x 3 lebar), tidak ada masalah setelah perbaikan di bawah |
+| **Bug tampilan ditemukan alat uji**: `statistik.html` melebar 9 px ke samping di 390 px. Penyebab: kelas `stat` di halaman itu bentrok dengan aturan global `.stat>div{display:flex}` milik statistik profil. Kelas diganti `stat-halaman` | `statistik.html` | Diperbaiki dan diuji ulang |
+| Hapus kode ganda `htmlPost` dan `pasangAksiPost` di `js/supabase.js` (yang berlaku selama ini sudah di `js/ui.js`). Dicek: halaman yang memuat `supabase.js` tanpa `ui.js` (`jelajahi`, `n`, `profil-publik`, `landing`) tidak memakainya | `js/supabase.js` | Diuji |
+| Hapus 13 aturan CSS mati (sisa gaya Jurnal lama `jr-item`, `jr-meta`, `jr-lencana`, `jr-isi`, `jr-aksi`, `jr-hapus`, `jr-publik`, `jr-daftar`, `jr-aksi-kepala`, dan `.baris-profil`; `style.css` turun sekitar 1 KB). Kelas yang dibentuk dinamis (`j-suka` di notifikasi) sengaja DIPERTAHANKAN | `css/style.css` | Diuji |
+| Versi cache dinaikkan | `sw.js` | `node tools/naikkan-cache.js` |
+
+Cara memakai alat uji (di Codespaces, sekali pasang):
+```
+npm i --no-save playwright && npx playwright install chromium
+node tools/uji-browser.js --cepat      # ±1 menit: tema kertas, lebar 390 dan 1280
+node tools/uji-browser.js              # lengkap, ±10 menit
+node tools/uji-browser.js --halaman=profil.html,jurnal.html
+```
+Jalankan sebelum tiap unggah. Keluar dengan kode 1 bila ada masalah.
+
+Batas alat uji (jujur):
+- Supabase DITIRUKAN (semua kueri mengembalikan data kosong). Jadi yang teruji: skrip berjalan tanpa galat, halaman tidak rusak di 4 tema dan 3 lebar, tidak ada berkas hilang. TIDAK teruji: RLS, SQL, Edge Function, realtime, unggah berkas, dan tampilan dengan data nyata (daftar catatan terisi, chat berisi).
+- Uji manual di HP tetap perlu untuk alur dengan akun sungguhan (login, kirim catatan, Jurnal, Kapsul, Brankas).
+- Pustaka Supabase asli tidak dipakai karena sandbox pembuatnya tidak bisa mengunduhnya; atribut `integrity` (SRI) dilepas hanya di server uji.
+
+Hasil pengukuran utang CSS (`css/style.css`, 136 KB, 1.7 ribu baris):
+- 29 bagian bertanda, 78 blok `@media`, 42 `!important`, 62 aturan berselektor ID (`#atas ...`) yang dipakai untuk menimpa gaya lama.
+- Selektor yang ditulis ulang 4-5 kali: `.header`, `.nav`, `.nav a`, `.nav svg`, `.post`, `.post .aksi`, `.post .isi`, `.btn`. Lapisan "Desktop v5" dan "Sampul jurnal" sengaja diletakkan paling bawah supaya menang; aturan HP `.nav a{font-size:11px}` yang jatuh sesudah aturan desktop pernah menyebabkan ikon menu 0 px.
+- Hanya 13 kelas (sekitar 3%) yang tidak dirujuk di mana pun; sudah dihapus. Penghapusan lebih besar (menggabungkan lapisan) SENGAJA belum dilakukan karena butuh pembanding gambar sebelum-sesudah; urutannya di bagian "Sisa pekerjaan teknis".
+- Aturan praktis agar bug serupa tidak terulang: jangan memberi kelas umum (`stat`, `kartu`, `daftar`) pada elemen halaman baru tanpa awalan halaman, dan selalu batasi aturan turunan global (`.stat>div`) dengan induk (`#atas .profil-atas .stat>div`).
+
+Yang TIDAK diubah, dan alasannya:
+- `document.write` di `js/bahasa-muat.js` dan `js/tema.js`: sengaja, karena kamus bahasa harus sudah ada sebelum `i18n.js` berjalan. Memuat dengan `async` akan membuat teks Indonesia berkedip. Berkasnya sama-asal (bukan lintas situs), jadi tidak terkena pemblokiran Chrome.
+- Email kontak (`journalconnection@aol.com` di `js/config.js` vs `jurkon@yahoo.com` di `js/kontak.js` dan `security.txt`): ini keputusanmu alamat mana yang dipakai. Setelah dipilih, ubah satu alamat di tiga tempat itu.
+- `sql/025_kunci_kolom_insert.sql` tetap hilang (lihat temuan 1 di bawah); butuh SQL baru dan uji di database.
+
+---
+
 # Update Jurkon, 3 November 2026 (tindak lanjut audit)
 
 Perbaikan dari audit kode dan penyamaan dokumen dengan isi repo. Tanpa SQL.
@@ -18,7 +57,7 @@ Catatan:
 Temuan yang belum dikerjakan:
 1. **`sql/025_kunci_kolom_insert.sql` tidak ada di repo** padahal dicatat di README dan HANDOFF (status "belum dijalankan"). Celahnya: anggota login bisa memalsukan `created_at`, `dilihat`, dan `disorot` lewat API. Cek di Supabase: `select tgname from pg_trigger where tgname = 'a0_kunci_kolom_trg';` (0 baris = belum ada). Berkas perlu dibuat ulang dari rancangan di bagian "Migrasi 025" HANDOFF, diuji, lalu dijalankan.
 2. Email kontak tidak seragam: `js/config.js` memakai `journalconnection@aol.com`, sedangkan `js/kontak.js` dan `.well-known/security.txt` memakai `jurkon@yahoo.com`.
-3. Kode ganda `htmlPost` dan `pasangAksiPost` masih ada di `js/supabase.js` dan `js/ui.js` (yang di `ui.js` yang berlaku karena dimuat belakangan).
+3. ~~Kode ganda `htmlPost` dan `pasangAksiPost`~~: SELESAI 3 November malam (lihat bagian paling atas).
 4. Periksa *Enforce HTTPS* di Pages dan ganti `document.write` di `js/bahasa-muat.js` dan `js/info-muat.js`.
 
 ---
@@ -225,11 +264,11 @@ Belum dikonfirmasi:
 Sisa pekerjaan teknis (urut prioritas):
 1. Cadangan data pertama, lalu admin kedua dan catatan aksi MFA ke Jejak audit.
 2. Notifikasi "kapsul terbuka" (butuh pg_cron atau pemeriksaan saat aplikasi dibuka).
-3. Hapus kode ganda `htmlPost` dan `pasangAksiPost` di `js/supabase.js`.
+3. ~~Hapus kode ganda `htmlPost` dan `pasangAksiPost`~~ (selesai 3 November malam).
 4. Satukan email kontak (`js/config.js` memakai `journalconnection@aol.com`; `js/kontak.js` dan `security.txt` memakai `jurkon@yahoo.com`).
 5. Rapikan kamus bahasa (dua kunci yatim: `auth.google`, `auth.gagalGoogle`) dan jalankan `tools/cek-bahasa.js` otomatis.
-6. CI GitHub Actions (cek-bahasa, versi cache, lint).
-7. Utang teknis: runner migrasi SQL, CSP `style-src 'unsafe-inline'`, header HTTP via Cloudflare, kebijakan like/follow antar pengguna yang saling blokir.
+6. CI GitHub Actions: jalankan `node tools/cek-bahasa.js` dan `node tools/uji-browser.js --cepat` otomatis tiap push (alat ujinya sudah ada sejak 3 November malam; tinggal workflow-nya).
+7. Utang teknis: pembanding gambar sebelum-sesudah lalu gabungkan lapisan CSS timpa (lihat pengukuran di atas), runner migrasi SQL + tabel pencatat (nomor ganda 035, 036, 040 dan 025 hilang), CSP `style-src 'unsafe-inline'`, header HTTP via Cloudflare, kebijakan like/follow antar pengguna yang saling blokir.
 
 Arah fitur berikutnya: jeda sebelum kirim (catatan emosional), atur sendiri feedmu (butuh hashtag), komunitas sekitar, Simpan (bookmark), hashtag, pencarian isi posting, polling.
 
