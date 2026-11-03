@@ -8,10 +8,12 @@ const akar = path.join(__dirname, '..');
 const swPath = path.join(akar, 'sw.js');
 const sw = fs.readFileSync(swPath, 'utf8');
 
-const blok = sw.match(/const STATIS = \[([\s\S]*?)\];/);
-if (!blok) { console.error('Daftar STATIS tidak ditemukan di sw.js'); process.exit(1); }
-const hilang = [...blok[1].matchAll(/'(\/[^']+)'/g)].map(m => m[1]).filter(f => !fs.existsSync(path.join(akar, f)));
-if (hilang.length) { console.error('Berkas di STATIS tidak ada:\n  ' + hilang.join('\n  ')); process.exit(1); }
+const baca = nama => { const m = sw.match(new RegExp('const ' + nama + ' = \\[([\\s\\S]*?)\\];')); return m ? [...m[1].matchAll(/'(\/[^']+)'/g)].map(x => x[1]).filter(f => !fs.existsSync(path.join(akar, f))) : null; };
+const hilang = baca('STATIS');
+if (hilang === null) { console.error('Daftar STATIS tidak ditemukan di sw.js'); process.exit(1); }
+if (hilang.length) { console.error('Berkas INTI di STATIS tidak ada:\n  ' + hilang.join('\n  ')); process.exit(1); }
+const hilangOpsi = baca('OPSIONAL') || [];
+if (hilangOpsi.length) console.warn('PERINGATAN, berkas di OPSIONAL tidak ada (pemasangan tetap jalan, tapi perbaiki daftarnya):\n  ' + hilangOpsi.join('\n  '));
 
 const LEWATI = new Set(['.git', '.github', 'node_modules', 'sql', 'tools', 'supabase', '.well-known']);
 const TIPE = /\.(html|css|js|json|png|jpe?g|webp|svg|woff2?)$/i;
