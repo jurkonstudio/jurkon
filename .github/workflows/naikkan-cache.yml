@@ -1,0 +1,28 @@
+name: Naikkan versi cache
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+concurrency:
+  group: naikkan-cache
+  cancel-in-progress: false
+jobs:
+  naikkan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Hitung versi cache
+        run: node tools/naikkan-cache.js
+      - name: Commit bila berubah
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add sw.js
+          git diff --cached --quiet && echo "Versi tidak berubah" && exit 0
+          git commit -m "Naikkan versi cache otomatis"
+          git pull --rebase origin main
+          git push
