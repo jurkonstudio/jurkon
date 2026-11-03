@@ -4,7 +4,7 @@ Panduan memasang Jurkon dari nol, urutan SQL, dan cara merilis pembaruan.
 
 ## Langkah pasang
 1. **Supabase**: buat project baru → SQL Editor → tempel isi `sql/schema.sql` → Run.
-1b. Jalankan juga `sql/002_privasi_keamanan.sql`, `sql/003_feed_cepat.sql`, `sql/004_filter_konten.sql`, lalu `sql/006_feed_dua_bagian.sql`, `sql/007_anti_spam.sql`, dan `sql/008_foto_profil_limit.sql` (berurutan; `005_notifikasi.sql` opsional, lihat bagian Notifikasi). Tanpa 002, tidak ada blokir, batas spam, admin, hapus akun, dan ekspor data. Migrasi lanjutan (009-020) beserta urutannya ada di `sql/README.md`.
+1b. Jalankan juga `sql/002_privasi_keamanan.sql`, `sql/003_feed_cepat.sql`, `sql/004_filter_konten.sql`, lalu `sql/006_feed_dua_bagian.sql`, `sql/007_anti_spam.sql`, dan `sql/008_foto_profil_limit.sql` (berurutan; `005_notifikasi.sql` opsional, lihat bagian Notifikasi). Tanpa 002, tidak ada blokir, batas spam, admin, hapus akun, dan ekspor data. Migrasi lanjutan (009-045) beserta urutannya ada di `sql/README.md`.
 2. Supabase → Project Settings → API → salin *Project URL* dan *anon public key* ke `js/supabase.js`.
 3. Supabase → Authentication → URL Configuration: isi Site URL dengan `https://jurkon.my.id`.
    Tambahkan juga `https://jurkon.my.id/reset.html` dan `https://jurkon.my.id/index.html` di *Redirect URLs* (wajib agar "Lupa kata sandi" bisa kembali ke aplikasi).
@@ -25,4 +25,4 @@ Setiap perubahan JS/CSS/HTML/gambar yang ditampilkan ke pengguna perlu menaikkan
 node tools/naikkan-cache.js
 ```
 
-Skrip ini menghitung sidik jari isi semua berkas situs lalu menulisnya ke `CACHE` (mis. `jurkon-252deb79`). Isi berubah → versi berubah; tidak ada perubahan → versi tetap. Skrip juga memastikan semua berkas di daftar `STATIS` benar-benar ada. Kalau lupa menjalankannya, pengguna bisa terus melihat berkas lama.
+Skrip ini menghitung sidik jari isi semua berkas situs lalu menulisnya ke `CACHE` (mis. `jurkon-252deb79`). Isi berubah → versi berubah; tidak ada perubahan → versi tetap. Skrip juga memastikan semua berkas di daftar `STATIS` (inti) benar-benar ada (bila tidak, ia berhenti), dan memberi peringatan untuk berkas di daftar `OPSIONAL` yang tidak ada. Kalau lupa menjalankannya, pengguna bisa terus melihat berkas lama.

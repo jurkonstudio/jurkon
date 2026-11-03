@@ -21,9 +21,16 @@
    - *Sessions*: kecilkan *JWT expiry* (3600 dtk) dan aktifkan *Refresh token rotation*.
    - Aktifkan TOTP/MFA dan 2FA untuk akun admin Anda, dan 2FA di akun GitHub, Supabase, dan registrar domain.
 4. **Browser:** setiap halaman kini memakai Content-Security-Policy (hanya skrip dari situs sendiri + jsDelivr [+ Cloudflare Turnstile di login]), `referrer` terbatas, pemblokir iframe (`js/keamanan.js`), dan tanpa skrip inline. Bila menambah layanan luar (analitik, font, dsb), tambahkan domainnya di meta CSP tiap HTML atau akan diblokir. Semua halaman sudah diuji di browser headless tanpa pelanggaran CSP (kecuali widget Turnstile, yang baru aktif setelah site key diisi, jadi uji login Anda sendiri setelah langkah 2). Bila dibingkai situs lain, halaman menyembunyikan diri.
-5. **SRI pustaka Supabase:** jalankan sekali di komputer Anda `node tools/pasang-sri.js` (menambahkan `integrity` ke tag `<script>` pustaka). Lalu naikkan `CACHE` di `sw.js` dan unggah ulang.
+5. **SRI pustaka Supabase:** sudah terpasang (atribut `integrity` di semua tag `<script>` pustaka). Untuk memasang ulang, atau setelah menaikkan versi pustaka: GitHub > Actions > **Pasang SRI** > Run workflow (`.github/workflows/sri.yml`: menghitung hash, memasangnya di semua HTML, lalu menaikkan versi cache). Alternatif di komputer: `node tools/pasang-sri.js`. Bila versi supabase-js diganti, ubah URL-nya di `sw.js` (`LIB`), di workflow, dan di semua HTML sekaligus.
 6. **GitHub:** Settings > Branches > aturan proteksi `main` (wajib pull request, tanpa force-push), aktifkan Secret scanning dan Push protection, dan *Enforce HTTPS* di Pages.
 7. **Lapisan tambahan yang disarankan:** letakkan domain di belakang Cloudflare (gratis) untuk Bot Fight Mode, rate limiting, dan *Transform Rules* yang mengirim header sungguhan (`Strict-Transport-Security`, `X-Frame-Options: DENY`, `Permissions-Policy`, `frame-ancestors 'none'`); GitHub Pages sendiri tidak bisa mengirim header.
+
+8. **Login dengan username (Edge Function `masuk-username`):**
+   - IP untuk batas laju diambil dari `cf-connecting-ip`, dengan cadangan entri TERAKHIR `x-forwarded-for`. Entri pertama tidak dipercaya karena bisa dipalsukan klien.
+   - Hanya galat CAPTCHA, batas laju, dan "email belum dikonfirmasi" yang diteruskan; semua galat lain dijawab sama ("Invalid login credentials"). Username yang tidak ada tetap melalui satu percobaan masuk palsu agar waktu jawabnya mirip.
+   - CORS dibatasi ke `https://jurkon.my.id` dan `https://www.jurkon.my.id`. Menambah asal lain (mis. pratinjau Codespaces): `supabase secrets set ALLOWED_ORIGINS="https://jurkon.my.id,https://www.jurkon.my.id,https://NAMA.app.github.dev"`.
+   - Deploy ulang setiap kali `index.ts` berubah: `supabase functions deploy masuk-username --no-verify-jwt`. GitHub Pages tidak menjalankan fungsi ini.
+   - Token akses Supabase yang dipakai untuk deploy adalah kunci ke seluruh akun: hapus dari dashboard (Account > Access Tokens) setelah selesai, dan jangan menampilkannya di layar atau tangkapan layar.
 
 Kerentanan ditemukan? Lihat `/.well-known/security.txt`.
 

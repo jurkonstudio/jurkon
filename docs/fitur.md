@@ -201,3 +201,26 @@ Hanya perubahan tampilan. Tanpa SQL, tanpa tabel atau kolom baru.
 
 ## Profil publik (pilihan sendiri)
 Bawaan mati. Pemilik menyalakan **Profil publik** di Pengaturan > Privasi atau lewat saklar di profilnya (`js/privasi.js`, kolom `profiles.profil_publik`, `sql/045`). Tamu yang membuka `jurkon.my.id/@username` dilayani `profil-publik.html` (`js/profil-publik.js`): bila menyala, kartu profil + catatan publik lewat `profil_publik_info()` / `profil_publik_catatan()`; bila tidak, ajakan bergabung (bukan 404). Anggota yang sudah masuk dialihkan ke `profil.html`. `js/alih-profil.js` memilih halaman dari ada-tidaknya sesi di perangkat. Halaman ini `noindex`. Pratinjau media sosial per profil: Worker route `jurkon.my.id/@*` (`worker/catatan-publik.js`). Panduan pasang: `PASANG-PROFIL-PUBLIK.md`.
+
+## Brankas (migrasi 040)
+Berkas pribadi yang dienkripsi di perangkat sebelum diunggah (PBKDF2 310.000 putaran + AES-GCM). Server hanya menyimpan berkas terenkripsi dan kunci yang terbungkus; sandi brankas tidak pernah dikirim dan **tidak bisa dipulihkan** (lupa sandi = hapus brankas).
+- Batas: 10 MB per berkas, 25 berkas per akun. Arsip (ZIP, RAR, dll.) dan berkas program ditolak, di klien dan di database.
+- Terkunci otomatis setelah 5 menit tidak aktif atau saat ditutup. Kunci hanya ada di memori selama brankas terbuka.
+- Berkas: `js/brankas.js`, `sql/040_brankas.sql`. Jalankan SQL dulu, baru unggah JS.
+
+## Penerjemah (di Profil)
+Mengubah Latin dari/ke aksara Jawa, Morse, dan biner. Semua dihitung di perangkat tanpa jaringan (`js/penerjemah.js`; mesin konversi `PenerjemahMesin` dipisah dari tampilan supaya mudah diuji dengan node). Hasil aksara Jawa sebaiknya diperiksa penutur asli.
+
+## Riwayat sesi login (migrasi 041 dan 043)
+Pengaturan > Keamanan menampilkan perangkat tempat akun sedang masuk: perkiraan lokasi, provider, model perangkat, sistem, peramban, dan cara masuk. IP disamarkan, hanya pemilik yang melihat, dan baris hilang saat sesinya berakhir.
+- Lokasi dan provider dicari di server oleh Edge Function `catat-sesi` dari IP permintaan, jadi tidak bisa dipalsukan dari browser. `catat_sesi()` hanya bisa dipanggil service_role.
+- Klien memakai `daftar_sesi()`, `keluarkan_sesi(id)`, dan `keluarkan_sesi_lain()`.
+- Urutan pasang: jalankan 043 SEBELUM memasang ulang `catat-sesi`.
+
+## Pesan sambutan otomatis (migrasi 042)
+Pengguna baru menerima satu pesan sambutan dari akun resmi `jurkon` (bahasa mengikuti ponsel, lewat `kirim_sambutan()` yang dipanggil `js/nav.js`; idempoten). Akun resmi boleh dibalas tanpa saling mengikuti, dan pembatas laju dilewati untuk pesan sistem. `asisten_balas()` baru kerangka: sementara hanya membalas sapaan hi/halo.
+
+## Onboarding dan tautan undangan (migrasi 044)
+- `mulai.html`, tiga langkah: ikuti beberapa akun (`saran_akun()`), tulis catatan pertama, bagikan tautan undangan.
+- Tautan `daftar.html?undang=<username>` disimpan di perangkat; setelah username dipilih, `js/selamat.js` memanggil `terima_undangan()` (pendaftar boleh sekaligus mengikuti pengundang). `jumlah_undangan()` menghitung yang bergabung lewat tautanmu.
+- Statistik pendaftaran dan retensi tanpa pelacak: `statistik.html` (khusus pengelola) memakai `admin_corong()` (035) dan `admin_retensi()` (044).

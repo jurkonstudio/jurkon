@@ -1,3 +1,28 @@
+# Update Jurkon, 3 November 2026 (tindak lanjut audit)
+
+Perbaikan dari audit kode dan penyamaan dokumen dengan isi repo. Tanpa SQL.
+
+| Pekerjaan | Berkas | Perlu deploy? | Status |
+|---|---|---|---|
+| Batas laju login: IP dari `cf-connecting-ip` (bukan entri pertama `x-forwarded-for`) | `supabase/functions/masuk-username/index.ts` | Ya: `supabase functions deploy masuk-username --no-verify-jwt` | Kode dicek sintaks; tes login di produksi belum dikonfirmasi |
+| Galat seragam (hanya CAPTCHA, batas laju, email belum dikonfirmasi yang diteruskan), percobaan masuk palsu untuk username tak ada, CORS dibatasi | sama | Ya (sama) | Sama |
+| Service worker: daftar `STATIS` (inti) dan `OPSIONAL` | `sw.js`, `tools/naikkan-cache.js` | Tidak, cukup push | Sama |
+| Hapus berkas CSS mati di akar (`style.css`, `tema-awan.css`, `tema-kaca.css`; yang dipakai ada di `css/`) | 3 berkas dihapus | Tidak | Sudah di-commit |
+
+Catatan:
+- Asal tambahan untuk CORS (mis. pratinjau Codespaces): `supabase secrets set ALLOWED_ORIGINS="https://jurkon.my.id,https://www.jurkon.my.id,https://NAMA.app.github.dev"`.
+- Token akses Supabase untuk deploy: hapus dari dashboard setelah dipakai, dan jangan tampilkan di layar.
+- Dokumen yang disamakan dengan isi repo: `sql/README.md` (5 migrasi yang belum tercatat; 025 tidak ada berkasnya), `docs/pasang.md`, `docs/teknis.md`, `docs/keamanan.md`, `docs/fitur.md` (Brankas, Penerjemah, sesi login, sambutan, onboarding), `PASANG-MASUK-USERNAME.md`.
+- Kamus bahasa kini 822 kunci per bahasa (id, en, ko, hi sama). Angka "647 kunci" di bagian 2 November di bawah adalah catatan lama.
+
+Temuan yang belum dikerjakan:
+1. **`sql/025_kunci_kolom_insert.sql` tidak ada di repo** padahal dicatat di README dan HANDOFF (status "belum dijalankan"). Celahnya: anggota login bisa memalsukan `created_at`, `dilihat`, dan `disorot` lewat API. Cek di Supabase: `select tgname from pg_trigger where tgname = 'a0_kunci_kolom_trg';` (0 baris = belum ada). Berkas perlu dibuat ulang dari rancangan di bagian "Migrasi 025" HANDOFF, diuji, lalu dijalankan.
+2. Email kontak tidak seragam: `js/config.js` memakai `journalconnection@aol.com`, sedangkan `js/kontak.js` dan `.well-known/security.txt` memakai `jurkon@yahoo.com`.
+3. Kode ganda `htmlPost` dan `pasangAksiPost` masih ada di `js/supabase.js` dan `js/ui.js` (yang di `ui.js` yang berlaku karena dimuat belakangan).
+4. Periksa *Enforce HTTPS* di Pages dan ganti `document.write` di `js/bahasa-muat.js` dan `js/info-muat.js`.
+
+---
+
 # Update Jurkon, 2 November 2026 (bahasa Korea dan Hindi)
 
 Bahasa **한국어 (ko)** dan **हिन्दी (hi)** ditambahkan ke seluruh bagian: antarmuka aplikasi (647 kunci), landing page, halaman Tentang/Privasi/Aturan/Bantuan/Ketentuan, navigasi bahasa, hreflang, sitemap, dan versi cache.
@@ -201,7 +226,7 @@ Sisa pekerjaan teknis (urut prioritas):
 1. Cadangan data pertama, lalu admin kedua dan catatan aksi MFA ke Jejak audit.
 2. Notifikasi "kapsul terbuka" (butuh pg_cron atau pemeriksaan saat aplikasi dibuka).
 3. Hapus kode ganda `htmlPost` dan `pasangAksiPost` di `js/supabase.js`.
-4. Satukan email kontak (`EMAIL_KONTAK` di `js/config.js` masih placeholder, `kontak.js` hardcode).
+4. Satukan email kontak (`js/config.js` memakai `journalconnection@aol.com`; `js/kontak.js` dan `security.txt` memakai `jurkon@yahoo.com`).
 5. Rapikan kamus bahasa (dua kunci yatim: `auth.google`, `auth.gagalGoogle`) dan jalankan `tools/cek-bahasa.js` otomatis.
 6. CI GitHub Actions (cek-bahasa, versi cache, lint).
 7. Utang teknis: runner migrasi SQL, CSP `style-src 'unsafe-inline'`, header HTTP via Cloudflare, kebijakan like/follow antar pengguna yang saling blokir.
