@@ -49,6 +49,7 @@ Semua migrasi aman diulang, kecuali disebut lain di kolom catatan.
 | `040_username_aman.sql` | username lebih aman: daftar cadangan (halaman situs, peran, `jurkon…`), wajib ada huruf, anti penyamaran (`jurk0n`, `jur_kon`), username lama ditahan 60 hari, `username_tersedia()` untuk cek langsung di layar | setelah 002, 007, 009, 019; hasil cek: 3 baris (0, sekitar 150, jumlah akun lama yang melanggar) |
 | `041_sesi_login.sql` | riwayat sesi login: tabel `sesi_login` (lokasi, perangkat, provider, IP disamarkan), `catat_sesi()` (hanya service_role, dipanggil Edge Function `catat-sesi`), `daftar_sesi()`, `keluarkan_sesi()`, `keluarkan_sesi_lain()` | setelah 002 dan 019; deploy `supabase/functions/catat-sesi`; hasil cek: 3 baris, 0 baris |
 | `042_sambutan.sql` | pesan sambutan otomatis untuk pendaftar baru dari akun `jurkon` (bahasa mengikuti ponsel), pengguna lama ditandai sudah, boleh membalas akun resmi tanpa saling mengikuti, pembatas laju dilewati untuk pesan sistem, dan kerangka asisten `asisten_balas()` (sekarang balasan sementara untuk sapaan hi/halo) |
+| `043_sesi_detail_perangkat.sql` | detail sesi login: model perangkat, versi OS & peramban, cara masuk (email/google). Jalankan SEBELUM memasang ulang Edge Function `catat-sesi` |
 
 Catatan nama: `014a` dan `014b` dulu bernama `014_notifikasi_kutip_ulang.sql` dan `014_pesan_saling_ikuti_notif_mengikuti.sql`. Isinya tidak berubah, hanya diberi huruf supaya urutannya jelas.
 

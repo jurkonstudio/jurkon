@@ -61,7 +61,37 @@ function uraiUA(ua: string) {
   else if (/Firefox\/|FxiOS/.test(ua)) peramban = 'Firefox';
   else if (/Chrome\/|CriOS/.test(ua)) peramban = 'Chrome';
   else if (/Safari\//.test(ua)) peramban = 'Safari';
-  return { os, jenis, peramban };
+  // Versi (kasar, cukup untuk label). Chrome modern membekukan versi OS di UA; yang lebih akurat datang dari
+  // Client Hints yang dikirim klien (lihat `petunjuk` di bawah) dan menimpa nilai ini bila ada.
+  let osVersi: string | null = null, perVersi: string | null = null;
+  const mA = ua.match(/Android (\d+(?:\.\d+)?)/), mI = ua.match(/OS (\d+)[_.](\d+)/);
+  if (os === 'Android' && mA) osVersi = mA[1];
+  else if ((os === 'iOS' || os === 'iPadOS') && mI) osVersi = mI[1] + '.' + mI[2];
+  else if (os === 'macOS') { const m = ua.match(/Mac OS X (\d+)[_.](\d+)/); if (m) osVersi = m[1] + '.' + m[2]; }
+  const mv = peramban === 'Edge' ? ua.match(/Edg\/(\d+)/) : peramban === 'Opera' ? ua.match(/OPR\/(\d+)/)
+    : peramban === 'Samsung Internet' ? ua.match(/SamsungBrowser\/(\d+)/) : peramban === 'Firefox' ? ua.match(/(?:Firefox|FxiOS)\/(\d+)/)
+    : peramban === 'Chrome' ? ua.match(/(?:Chrome|CriOS)\/(\d+)/) : peramban === 'Safari' ? ua.match(/Version\/(\d+)/) : null;
+  if (mv) perVersi = mv[1];
+  return { os, jenis, peramban, osVersi, perVersi };
+}
+
+// Client Hints dari klien (navigator.userAgentData). Hanya label tampilan untuk akun si pemilik sendiri,
+// jadi dibersihkan dan dibatasi panjangnya; lokasi/provider TIDAK pernah diambil dari klien.
+function petunjuk(b: any) {
+  const o = b && typeof b === 'object' ? b : {};
+  return { model: bersih(o.model, 60), osVersi: bersih(o.os_versi, 30), perVersi: bersih(o.peramban_versi, 30) };
+}
+
+// Cara masuk dari klaim `amr` di JWT (password / oauth / otp ...).
+function metodeDariJwt(token: string, appMeta: any): string | null {
+  try {
+    const p = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+    const m = Array.isArray(p.amr) && p.amr[0] ? String(p.amr[0].method || '') : '';
+    if (m === 'password') return 'email';
+    if (m === 'oauth') return bersih(appMeta?.provider, 20) || 'oauth';
+    if (m === 'otp' || m === 'magiclink') return 'email';
+    return null;                                      // 'token' (penyegaran) dll: biarkan nilai lama di basis data
+  } catch { return null; }
 }
 
 function sesiDariJwt(token: string): string | null {
@@ -79,23 +109,30 @@ async function cariLokasi(ip: string, req: Request) {
   if (/^[A-Z]{2}$/.test(cc) && cc !== 'XX' && cc !== 'T1') hasil.kode = cc;
   if (privat(ip)) return hasil;
   const tpl = Deno.env.get('GEO_URL') || 'https://ipwho.is/{ip}?fields=success,country,country_code,region,city,connection';
-  try {
+  const ambil = async (url: string) => {
     const ctl = new AbortController();
     const timer = setTimeout(() => ctl.abort(), 3000);
-    const r = await fetch(tpl.replace('{ip}', encodeURIComponent(ip)), { signal: ctl.signal, headers: { Accept: 'application/json' } });
-    clearTimeout(timer);
-    if (!r.ok) return hasil;
-    const d = await r.json();
-    if (d && d.success !== false) {
-      hasil.kota = bersih(d.city, 80);
-      hasil.wilayah = bersih(d.region, 80);
-      hasil.negara = bersih(d.country, 80);
-      hasil.kode = bersih(d.country_code, 2) || hasil.kode;
-      const c = d.connection || {};
-      hasil.provider = bersih(c.isp, 120) || bersih(c.org, 120) || bersih(d.isp, 120) || bersih(d.org, 120);
-      hasil.asn = bersih(String(c.asn ?? d.asn ?? ''), 20);
-    }
-  } catch { /* geolokasi gagal: tetap catat perangkat + negara dari header */ }
+    try {
+      const r = await fetch(url.replace('{ip}', encodeURIComponent(ip)), { signal: ctl.signal, headers: { Accept: 'application/json' } });
+      return r.ok ? await r.json() : null;
+    } catch { return null; } finally { clearTimeout(timer); }
+  };
+  const isi = (d: any) => {
+    hasil.kota = bersih(d.city, 80) || hasil.kota;
+    hasil.wilayah = bersih(d.region ?? d.region_name, 80) || hasil.wilayah;
+    hasil.negara = bersih(d.country ?? d.country_name, 80) || hasil.negara;
+    hasil.kode = bersih(d.country_code, 2) || hasil.kode;
+    const c = d.connection || {};
+    hasil.provider = bersih(c.isp, 120) || bersih(c.org, 120) || bersih(d.isp, 120) || bersih(d.org, 120) || hasil.provider;
+    hasil.asn = bersih(String(c.asn ?? d.asn ?? ''), 20) || hasil.asn;
+  };
+  // Layanan utama dulu; bila gagal (batas permintaan / down) atau provider kosong, coba layanan cadangan.
+  const utama = await ambil(tpl);
+  if (utama && utama.success !== false) isi(utama);
+  if (!hasil.kota || !hasil.provider) {
+    const cadangan = await ambil('https://ipapi.co/{ip}/json/');
+    if (cadangan && !cadangan.error) isi(cadangan);
+  }
   return hasil;
 }
 
@@ -117,7 +154,10 @@ Deno.serve(async (req) => {
 
   // Label perangkat: User-Agent dari header (dikirim browser, bukan isian bebas klien).
   const ua = (req.headers.get('user-agent') || '').slice(0, 400);
-  const { os, jenis, peramban } = uraiUA(ua);
+  const { os, jenis, peramban, osVersi, perVersi } = uraiUA(ua);
+  let badan: any = null;
+  try { badan = await req.json(); } catch { /* badan kosong: tidak apa-apa */ }
+  const h = petunjuk(badan);
   const ip = ambilIp(req);
   const lok = ip ? await cariLokasi(ip, req) : { kota: null, wilayah: null, negara: null, kode: null, provider: null, asn: null };
 
@@ -127,6 +167,8 @@ Deno.serve(async (req) => {
     p_ip_samar: ip ? samarkan(ip) : null,
     p_kota: lok.kota, p_wilayah: lok.wilayah, p_negara: lok.negara, p_kode_negara: lok.kode,
     p_provider: lok.provider, p_asn: lok.asn,
+    p_model: h.model, p_os_versi: h.osVersi || osVersi, p_peramban_versi: h.perVersi || perVersi,
+    p_metode: metodeDariJwt(token, u.user.app_metadata),
   });
   if (error) return json({ ok: false, galat: error.message }, 500);
   return json({ ok: true });
