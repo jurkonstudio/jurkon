@@ -10,6 +10,8 @@
   const s = (k, d) => tk[k] || d;
   const lokal = tk.locale || 'id-ID';
   const asli = kode === 'id';
+  // Strip angka baru tampil bila penggunanya sudah cukup banyak; angka kecil justru kurang meyakinkan pengunjung baru. Ubah sesukamu (0 = selalu tampil).
+  const MIN_ANGKA = 100;
   const set = (k, v) => { if (v) document.querySelectorAll('[data-isi="' + k + '"]').forEach(el => { el.textContent = v; }); };
 
   const [sesi, hasil] = await Promise.all([
@@ -24,6 +26,7 @@
   if (sesi) {
     $('#ctaUtama').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaUtama').href = '/index.html';
     $('#ctaAkhir').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaAkhir').href = '/index.html';
+    $('#ctaLekat').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaLekat').href = '/index.html';
     $('#navMasuk').textContent = s('beranda', 'Beranda'); $('#navMasuk').href = '/index.html';
     $('#penutupJudul').textContent = s('selamatDatang', 'Selamat datang kembali.');
   }
@@ -38,7 +41,7 @@
 
   if (!hasil.pendaftaran_buka && !sesi) {
     $('#catatanDaftar').hidden = false;
-    $('#ctaUtama').textContent = s('masuk', 'Masuk'); $('#ctaAkhir').textContent = s('masuk', 'Masuk');
+    $('#ctaUtama').textContent = s('masuk', 'Masuk'); $('#ctaAkhir').textContent = s('masuk', 'Masuk'); $('#ctaLekat').textContent = s('masuk', 'Masuk');
     $('#penutupJudul').textContent = s('sampaiJumpa', 'Sampai jumpa lagi.');
   }
 
@@ -48,7 +51,7 @@
 
   // Angka: hitung naik pelan (dilewati bila pengguna meminta gerak dikurangi)
   const kurangiGerak = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  $('#angka').hidden = false;
+  $('#angka').hidden = !(MIN_ANGKA <= 0 || Number(hasil.pengguna) >= MIN_ANGKA);
   document.querySelectorAll('[data-hitung]').forEach(el => {
     const target = Number(hasil[el.dataset.hitung]) || 0;
     if (kurangiGerak || target < 2) { el.textContent = target.toLocaleString(lokal); return; }
@@ -98,9 +101,18 @@
     });
 
     // Klik ajakan mendaftar/masuk dihitung sebagai satu langkah "mulai" (angka saja)
-    ['ctaUtama', 'ctaAkhir', 'demoKirim'].forEach(id => { const a = q(id); if (a) a.addEventListener('click', () => { if (window.catatCorong) catatCorong('landing_mulai', document.body.dataset.bahasa || 'id'); }); });
+    ['ctaUtama', 'ctaAkhir', 'ctaLekat', 'demoKirim'].forEach(id => { const a = q(id); if (a) a.addEventListener('click', () => { if (window.catatCorong) catatCorong('landing_mulai', document.body.dataset.bahasa || 'id'); }); });
 
-    // 3) Muncul pelan saat digulir (dilewati bila gerak dikurangi)
+    // 3) Tombol mulai melekat di bawah layar HP: muncul setelah tombol hero lewat, hilang saat tombol penutup terlihat
+    const lekat = q('lekat'), cu = q('ctaUtama'), ca = q('ctaAkhir');
+    if (lekat && cu && ca && 'IntersectionObserver' in window) {
+      let lewat = false, akhir = false;
+      const segarkan = () => { lekat.hidden = false; lekat.classList.toggle('tampil', lewat && !akhir); };
+      new IntersectionObserver(es => { const e = es[es.length - 1]; lewat = !e.isIntersecting && e.boundingClientRect.top < 0; segarkan(); }).observe(cu);
+      new IntersectionObserver(es => { akhir = es[es.length - 1].isIntersecting; segarkan(); }).observe(ca);
+    }
+
+    // 4) Muncul pelan saat digulir (dilewati bila gerak dikurangi)
     const kurangi = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     const target = document.querySelectorAll('.lp-sorot-kartu, .lp-grid article, .lp-langkah li, .lp-cincin');
     if (kurangi || !('IntersectionObserver' in window)) { document.querySelectorAll('.lp-cincin').forEach(x => x.classList.add('tampil')); return; }

@@ -258,3 +258,98 @@ a.btn:active,.btn:active{transform:translateY(0)}
 [dir="rtl"] .lp-faq summary::after{right:auto;left:0}
 [dir="rtl"] .lp-langkah::before{left:auto;right:18px}
 [dir="rtl"] .lp-nav a:not(.btn)::after{transform-origin:right}
+
+/* ===== Lapisan profesional (3 Nov 2026): ritme terang-gelap, kartu lebih tegas, ajakan lebih jelas ===== */
+
+/* header: tombol masuk beraksen */
+.lp-nav .btn.garis{border-color:var(--aksen);color:var(--aksen);font-weight:650}
+.lp-nav .btn.garis:hover{background:var(--aksen);color:#fff}
+
+/* hero: titik halus + kertas bertumpuk */
+.lp-hero-isi{position:relative;z-index:1}
+.lp-hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(color-mix(in srgb,var(--teks) 14%,transparent) 1px,transparent 1.3px);background-size:22px 22px;
+  -webkit-mask-image:radial-gradient(70% 85% at 72% 30%,#000,transparent 78%);mask-image:radial-gradient(70% 85% at 72% 30%,#000,transparent 78%)}
+.lp-lapis{position:absolute;inset:0;z-index:0;background:var(--bg);border:1px solid var(--garis);border-radius:6px 6px 14px 6px;pointer-events:none}
+.lp-lapis.a{transform:rotate(2.6deg) translate(10px,10px);opacity:.75}
+.lp-lapis.b{transform:rotate(5deg) translate(20px,18px);opacity:.45}
+.lp-kertas{box-shadow:0 1px 0 var(--garis),0 28px 56px -28px color-mix(in srgb,var(--teks) 55%,transparent)}
+.lp-kertas textarea{min-height:132px}
+.lp-kertas .btn.kecil{padding:8px 18px}
+.lp-janji li{backdrop-filter:blur(4px)}
+
+/* angka */
+.lp-angka{gap:12px 56px}
+.lp-angka li{text-align:center}
+
+/* kartu sorotan: bayangan lembut, naik saat disentuh */
+.lp-sorot-kartu{box-shadow:0 1px 0 color-mix(in srgb,var(--teks) 4%,transparent),0 22px 44px -34px color-mix(in srgb,var(--teks) 55%,transparent)}
+@media (prefers-reduced-motion:no-preference){
+  .lp-sorot-kartu{transition:transform .25s ease,box-shadow .25s ease}
+  .lp-sorot-kartu:hover{transform:translateY(-3px)}
+}
+
+/* fitur: susunan bento di layar lebar */
+#fitur .lp-grid{grid-template-columns:repeat(2,1fr)}
+#fitur .lp-grid article:first-child{background:linear-gradient(140deg,color-mix(in srgb,var(--aksen) 9%,var(--bg)),var(--bg) 70%)}
+@media (min-width:980px){
+  #fitur .lp-grid{grid-template-columns:repeat(4,1fr)}
+  #fitur .lp-grid article:nth-child(1),#fitur .lp-grid article:nth-child(6),
+  #fitur .lp-grid article:nth-child(7),#fitur .lp-grid article:nth-child(8){grid-column:span 2}
+}
+@media (max-width:600px){#fitur .lp-grid{grid-template-columns:1fr}}
+
+/* tiga langkah: tiga kartu bersambung garis putus di layar lebar */
+@media (min-width:820px){
+  .lp-langkah{max-width:none;grid-template-columns:repeat(3,1fr);gap:20px}
+  .lp-langkah::before{display:none}
+  .lp-langkah li{flex-direction:column;gap:16px;padding:28px;border:1px solid var(--garis);border-radius:20px;background:var(--latar)}
+  .lp-langkah li:not(:last-child)::after{content:"";position:absolute;top:50px;inset-inline-end:-20px;width:20px;border-top:2px dashed color-mix(in srgb,var(--aksen) 55%,transparent)}
+  .lp-langkah b{width:46px;height:46px;font-size:20px;box-shadow:0 0 0 6px color-mix(in srgb,var(--aksen) 14%,transparent)}
+}
+
+/* keamanan: panel gelap untuk memecah ritme dan memberi kesan serius */
+.lp-gelap{background:#231f1c;color:#ece6dc}
+:root[data-theme="gelap"] .lp-gelap{background:#0e0c0b}
+.lp-gelap h2,.lp-gelap h3{color:#fbf9f4}
+.lp-gelap .lp-grid{counter-reset:aman}
+.lp-gelap .lp-grid article{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);box-shadow:none}
+.lp-gelap .lp-grid p{color:#b9b0a4}
+.lp-gelap .lp-grid h3::before{counter-increment:aman;content:"0" counter(aman);display:block;margin-bottom:10px;font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.16em;color:#f0a39b}
+.lp-gelap a:focus-visible{outline-color:#f0a39b}
+
+/* penutup: panel ajakan beraksen */
+.lp-penutup{background:var(--bg);border-top:0;padding:72px 0 88px}
+.lp-penutup .lp-lebar{position:relative;overflow:hidden;width:calc(100% - 32px);max-width:960px;padding:60px 24px;border-radius:28px;color:#fff;
+  background:radial-gradient(60% 120% at 100% 0%,rgba(255,255,255,.16),transparent 60%),linear-gradient(135deg,#b3261e,#7f1a15);
+  box-shadow:0 30px 60px -36px #7f1a15}
+.lp-penutup h2{color:#fff;margin-bottom:24px}
+.lp-penutup .btn{background:#fff;color:#8f1f19;border:0;margin-top:0}
+.lp-penutup .btn:hover{box-shadow:0 10px 24px -10px rgba(0,0,0,.5)}
+.lp-penutup a:focus-visible{outline-color:#fff}
+
+/* ajak teman dan "masih baru": sedikit lebih lega */
+.lp-ajak,.lp-baru{padding:72px 0}
+
+/* tombol mulai yang melekat di bawah layar HP */
+.lp-lekat{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--bg) 92%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-top:1px solid var(--garis);transform:translateY(110%);transition:transform .25s ease}
+.lp-lekat[hidden]{display:none}
+.lp-lekat.tampil{transform:none}
+.lp-lekat .btn{display:block;width:100%;padding:13px 20px}
+@media (min-width:641px){.lp-lekat{display:none}}
+@media (max-width:640px){
+  .lp-kaki{padding-bottom:88px}
+  .lp-penutup{padding:48px 0 64px}
+  .lp-penutup .lp-lebar{padding:44px 20px;border-radius:24px}
+  .lp-ajak,.lp-baru{padding:56px 0}
+}
+@media (prefers-reduced-motion:reduce){.lp-lekat{transition:none}}
+@media print{.lp-lekat{display:none}}
+[dir="rtl"] .lp-lapis.a{transform:rotate(-2.6deg) translate(-10px,10px)}
+[dir="rtl"] .lp-lapis.b{transform:rotate(-5deg) translate(-20px,18px)}
+.lp-cta.tengah{justify-content:center}
+/* empat kartu keamanan: 2 x 2, bukan 3 + 1 */
+@media (min-width:700px){.lp-grid.dua{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:699px){.lp-grid.dua{grid-template-columns:1fr}}

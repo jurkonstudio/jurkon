@@ -1,247 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url>
-    <loc>https://jurkon.my.id/landing.html</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/en/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/ms/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/jv/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/su/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/zh/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/ja/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/es/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/fr/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/hi/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/ar/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://jurkon.my.id/ko/</loc>
-    <lastmod>2026-11-02</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/>
-    <xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/>
-    <xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/>
-    <xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/>
-    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/>
-    <xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/>
-    <xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/>
-    <xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/>
-    <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
-  </url>
-  <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url><loc>https://jurkon.my.id/landing.html</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/en/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/ms/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/jv/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/su/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/zh/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/ja/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/es/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/fr/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/hi/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/ar/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url><loc>https://jurkon.my.id/ko/</loc><lastmod>2026-11-03</lastmod><xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/landing.html"/><xhtml:link rel="alternate" hreflang="en" href="https://jurkon.my.id/en/"/><xhtml:link rel="alternate" hreflang="ms" href="https://jurkon.my.id/ms/"/><xhtml:link rel="alternate" hreflang="jv" href="https://jurkon.my.id/jv/"/><xhtml:link rel="alternate" hreflang="su" href="https://jurkon.my.id/su/"/><xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jurkon.my.id/zh/"/><xhtml:link rel="alternate" hreflang="ja" href="https://jurkon.my.id/ja/"/><xhtml:link rel="alternate" hreflang="ko" href="https://jurkon.my.id/ko/"/><xhtml:link rel="alternate" hreflang="es" href="https://jurkon.my.id/es/"/><xhtml:link rel="alternate" hreflang="fr" href="https://jurkon.my.id/fr/"/><xhtml:link rel="alternate" hreflang="hi" href="https://jurkon.my.id/hi/"/><xhtml:link rel="alternate" hreflang="ar" href="https://jurkon.my.id/ar/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/"/></url>
+<url>
     <loc>https://jurkon.my.id/jelajahi.html</loc>
     <lastmod>2026-11-01</lastmod>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/login.html</loc>
     <lastmod>2026-11-01</lastmod>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/daftar.html</loc>
     <lastmod>2026-11-01</lastmod>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/tempat-curhat-tanpa-algoritma.html</loc>
     <lastmod>2026-11-01</lastmod>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/proses-membangun-jurkon.html</loc>
     <lastmod>2026-11-01</lastmod>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/tentang.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/tentang.html"/>
@@ -256,7 +52,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/about.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/en/about.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/tentang.html"/>
@@ -271,7 +67,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/about.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ms/about.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/tentang.html"/>
@@ -286,7 +82,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/about.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/jv/about.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/tentang.html"/>
@@ -301,7 +97,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/about.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/su/about.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/tentang.html"/>
@@ -316,7 +112,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/about.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/zh/about.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/tentang.html"/>
@@ -331,7 +127,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/about.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ja/about.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/tentang.html"/>
@@ -346,7 +142,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/about.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ko/about.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/tentang.html"/>
@@ -361,7 +157,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/about.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/hi/about.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/tentang.html"/>
@@ -376,7 +172,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/about.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/kebijakan-privasi.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/kebijakan-privasi.html"/>
@@ -391,7 +187,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/privacy.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/en/privacy.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/kebijakan-privasi.html"/>
@@ -406,7 +202,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/privacy.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ms/privacy.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/kebijakan-privasi.html"/>
@@ -421,7 +217,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/privacy.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/jv/privacy.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/kebijakan-privasi.html"/>
@@ -436,7 +232,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/privacy.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/su/privacy.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/kebijakan-privasi.html"/>
@@ -451,7 +247,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/privacy.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/zh/privacy.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/kebijakan-privasi.html"/>
@@ -466,7 +262,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/privacy.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ja/privacy.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/kebijakan-privasi.html"/>
@@ -481,7 +277,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/privacy.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ko/privacy.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/kebijakan-privasi.html"/>
@@ -496,7 +292,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/privacy.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/hi/privacy.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/kebijakan-privasi.html"/>
@@ -511,7 +307,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/privacy.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/aturan.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/aturan.html"/>
@@ -526,7 +322,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/rules.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/en/rules.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/aturan.html"/>
@@ -541,7 +337,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/rules.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ms/rules.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/aturan.html"/>
@@ -556,7 +352,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/rules.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/jv/rules.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/aturan.html"/>
@@ -571,7 +367,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/rules.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/su/rules.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/aturan.html"/>
@@ -586,7 +382,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/rules.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/zh/rules.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/aturan.html"/>
@@ -601,7 +397,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/rules.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ja/rules.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/aturan.html"/>
@@ -616,7 +412,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/rules.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ko/rules.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/aturan.html"/>
@@ -631,7 +427,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/rules.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/hi/rules.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/aturan.html"/>
@@ -646,7 +442,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/rules.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/pusat-bantuan.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/pusat-bantuan.html"/>
@@ -661,7 +457,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/help.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/en/help.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/pusat-bantuan.html"/>
@@ -676,7 +472,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/help.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ms/help.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/pusat-bantuan.html"/>
@@ -691,7 +487,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/help.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/jv/help.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/pusat-bantuan.html"/>
@@ -706,7 +502,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/help.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/su/help.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/pusat-bantuan.html"/>
@@ -721,7 +517,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/help.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/zh/help.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/pusat-bantuan.html"/>
@@ -736,7 +532,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/help.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ja/help.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/pusat-bantuan.html"/>
@@ -751,7 +547,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/help.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ko/help.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/pusat-bantuan.html"/>
@@ -766,7 +562,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/help.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/hi/help.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/pusat-bantuan.html"/>
@@ -781,7 +577,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/help.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ketentuan-layanan.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/ketentuan-layanan.html"/>
@@ -796,7 +592,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/terms.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/en/terms.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/ketentuan-layanan.html"/>
@@ -811,7 +607,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/terms.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ms/terms.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/ketentuan-layanan.html"/>
@@ -826,7 +622,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/terms.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/jv/terms.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/ketentuan-layanan.html"/>
@@ -841,7 +637,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/terms.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/su/terms.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/ketentuan-layanan.html"/>
@@ -856,7 +652,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/terms.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/zh/terms.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/ketentuan-layanan.html"/>
@@ -871,7 +667,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/terms.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ja/terms.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/ketentuan-layanan.html"/>
@@ -886,7 +682,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/terms.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/ko/terms.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/ketentuan-layanan.html"/>
@@ -901,7 +697,7 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://jurkon.my.id/en/terms.html"/>
     <image:image><image:loc>https://jurkon.my.id/assets/og.jpg</image:loc></image:image>
   </url>
-  <url>
+<url>
     <loc>https://jurkon.my.id/hi/terms.html</loc>
     <lastmod>2026-11-01</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://jurkon.my.id/ketentuan-layanan.html"/>

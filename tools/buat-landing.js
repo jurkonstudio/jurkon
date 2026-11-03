@@ -42,7 +42,7 @@ for (const b of BAHASA) {
     '@graph': [
       { '@type': 'WebSite', '@id': HOST + '/#situs', name: t.brand, alternateName: ['Jurkon', 'Jurnal Koneksi'], url: urlLengkap(k), inLanguage: b.hreflang, description: t.desc, publisher: { '@id': HOST + '/#org' } },
       { '@type': 'Organization', '@id': HOST + '/#org', name: 'Jurnal Koneksi', alternateName: 'Jurkon', url: HOST + '/', logo: HOST + '/assets/icons/icon-512.png' },
-      { '@type': 'WebApplication', name: t.brand, url: urlLengkap(k), applicationCategory: 'SocialNetworkingApplication', operatingSystem: 'Any (web browser)', inLanguage: BAHASA.map(x => x.hreflang), description: t.desc, offers: { '@type': 'Offer', price: '0', priceCurrency: 'IDR' } },
+      { '@type': 'WebApplication', name: t.brand, url: urlLengkap(k), applicationCategory: 'SocialNetworkingApplication', operatingSystem: 'Any (web browser)', inLanguage: BAHASA.map(x => x.hreflang), description: t.desc, image: HOST + '/assets/og.jpg', isAccessibleForFree: true, offers: { '@type': 'Offer', price: '0', priceCurrency: 'IDR' } },
       { '@type': 'FAQPage', inLanguage: b.hreflang, mainEntity: faq }
     ]
   }).replace(/</g, '\\u003c');
