@@ -246,18 +246,18 @@
     const dari = arah === 0 ? t('pn.latin') : nama(mode), ke = arah === 0 ? nama(mode) : t('pn.latin');
     isi.innerHTML = `<div class="pn-tab" role="tablist">${MODE.map(m => `<button type="button" role="tab" data-mode="${m}" aria-selected="${m === mode}">${esc(nama(m))}</button>`).join('')}</div>
       <div class="pn-arah" id="pnArah" role="group" aria-label="${esc(label)}"><span class="pn-sisi">${esc(dari)}</span>
-        <button type="button" class="pn-tukar" id="pnTukar" aria-label="${esc(t('pn.tukar'))}" title="${esc(t('pn.tukar'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4L3 8l4 4M3 8h15M17 20l4-4-4-4M21 16H6"/></svg></button>
+        <button type="button" class="pn-tukar" id="pnTukar" aria-label="${esc(t('pn.tukar'))}" title="${esc(t('pn.tukar'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="sp" cx="5" cy="8" r="1.3"/><path d="M8 8h9.5M14.5 5l3 3-3 3"/><circle class="sp" cx="19" cy="16" r="1.3"/><path d="M16 16H6.5M9.5 13l-3 3 3 3"/></svg></button>
         <span class="pn-sisi">${esc(ke)}</span></div>
       <section class="pn-kartu">
         <div class="pn-kartu-kepala"><span class="pn-label">${esc(dari)}</span><button type="button" class="pn-mini" id="pnBersih" hidden aria-label="${esc(t('pn.bersihkan'))}" title="${esc(t('pn.bersihkan'))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
         <textarea id="pnMasuk" class="pn-masuk${masukJawa ? ' pn-jawa' : ''}" rows="4" spellcheck="false" autocapitalize="off" aria-label="${esc(t('pn.masuk'))}" placeholder="${esc(t('pn.masuk'))}"></textarea>
       </section>
       <section class="pn-kartu pn-kartu-hasil">
-        <div class="pn-kartu-kepala"><span class="pn-label">${esc(t('pn.hasil'))} · ${esc(ke)}</span><button type="button" class="pn-mini teks" id="pnSalin" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg><span>${esc(t('pn.salin'))}</span></button></div>
+        <div class="pn-kartu-kepala"><span class="pn-label">${esc(t('pn.hasil'))} · ${esc(ke)}</span><button type="button" class="pn-mini teks" id="pnSalin" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 16H6.5A2.5 2.5 0 0 1 4 13.5v-7A2.5 2.5 0 0 1 6.5 4h7A2.5 2.5 0 0 1 16 6.5V8"/><rect class="dl" x="8" y="8" width="12" height="12" rx="2.5"/><circle class="sp" cx="14" cy="14" r="1.3"/></svg><span>${esc(t('pn.salin'))}</span></button></div>
         <div id="pnHasil" class="pn-hasil${hasilJawa ? ' pn-jawa' : ''}" aria-live="polite"></div>
       </section>
       <p class="pn-galat" id="pnGalat" role="status" hidden></p>
-      <div class="pn-info"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.01"/></svg><div><p>${esc(catatan)}</p>${mode === 'aksara' ? `<p>${esc(t('pn.fontJawa'))}</p>` : ''}</div></div>`;
+      <div class="pn-info"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="dl" cx="12" cy="12" r="8.5"/><path d="M12 11.5v5"/><circle class="sp" cx="12" cy="8" r="1.2"/></svg><div><p>${esc(catatan)}</p>${mode === 'aksara' ? `<p>${esc(t('pn.fontJawa'))}</p>` : ''}</div></div>`;
     if (mode === 'aksara') muatFont();
     isi.querySelectorAll('[data-mode]').forEach(b => { b.onclick = () => { if (b.dataset.mode !== mode) { mode = b.dataset.mode; arah = 0; render(); } }; });
     document.getElementById('pnTukar').onclick = () => {

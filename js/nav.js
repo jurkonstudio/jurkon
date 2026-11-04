@@ -1,11 +1,11 @@
 (function () {
   const ikon = {
-    beranda: '<svg viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
-    explore: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
-    notifikasi: '<svg viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>',
-    pesan: '<svg viewBox="0 0 24 24"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>',
-    profil: '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>',
-    tulis: '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'
+    beranda: '<svg viewBox="0 0 24 24"><path class="dl" d="M4.5 11 12 4l7.5 7v8a1.500 1.500 0 0 1-1.500 1.500H6A1.500 1.500 0 0 1 4.500 19z"/><path d="M12 16.800v3.700"/><circle class="sp" cx="12" cy="15" r="1.7"/></svg>',
+    explore: '<svg viewBox="0 0 24 24"><circle class="dl" cx="10.500" cy="10.500" r="6.500"/><path d="m15.300 15.300 4.700 4.700"/><circle class="sp" cx="10.5" cy="10.5" r="1.6"/></svg>',
+    notifikasi: '<svg viewBox="0 0 24 24"><path class="dl" d="M6 17v-6a6 6 0 0 1 12 0v6l1.500 2h-15z"/><path d="M12 3.500V5"/><circle class="sp" cx="12" cy="21.4" r="1.3"/></svg>',
+    pesan: '<svg viewBox="0 0 24 24"><path class="dl" d="M4 6.500A2.500 2.500 0 0 1 6.500 4h11A2.500 2.500 0 0 1 20 6.500v7a2.500 2.500 0 0 1-2.500 2.500H10l-4.500 4v-4A2.500 2.500 0 0 1 4 13.500z"/><path d="M9.600 10h4.800"/><circle class="sp" cx="8.4" cy="10" r="1.2"/><circle class="sp" cx="15.6" cy="10" r="1.2"/></svg>',
+    profil: '<svg viewBox="0 0 24 24"><path class="dl" d="M5 20.500c0-3.600 3.100-6 7-6s7 2.400 7 6z"/><circle class="sp" cx="12" cy="8" r="3.4"/></svg>',
+    tulis: '<svg viewBox="0 0 24 24"><path d="M12 5.500v13M5.500 12H15"/><circle class="sp" cx="18.8" cy="12" r="1.6"/></svg>'
   };
   const menu = [
     ['/', t('nav.beranda'), 'beranda'],
@@ -49,7 +49,7 @@
     p.className = 'panel';
     p.setAttribute('aria-label', t('panel.aria'));
     const phCari = String(t('explore.ph')).split('|')[0];
-    p.innerHTML = `<form class="panel-cari" action="explore" method="get" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input type="search" name="q" maxlength="50" autocomplete="off" placeholder="${esc(phCari)}" aria-label="${esc(t('explore.aria'))}"></form>
+    p.innerHTML = `<form class="panel-cari" action="explore" method="get" role="search"><svg aria-hidden="true" viewBox="0 0 24 24"><circle class="dl" cx="10.500" cy="10.500" r="6.500"/><path d="m15.300 15.300 4.700 4.700"/><circle class="sp" cx="10.5" cy="10.5" r="1.6"/></svg><input type="search" name="q" maxlength="50" autocomplete="off" placeholder="${esc(phCari)}" aria-label="${esc(t('explore.aria'))}"></form>
       <section id="panel-notif"><h2>${esc(t('nav.notifikasi'))}</h2>
       <ul class="panel-notif"></ul>
       <a class="lihat-semua" href="notifikasi">${esc(t('panel.lihatSemua'))}</a></section>

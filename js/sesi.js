@@ -65,10 +65,10 @@
 
   // ---------- tampilan ----------
   const IKON = {
-    ponsel: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
-    tablet: '<rect x="4.5" y="3" width="15" height="18" rx="2.5"/><path d="M11 18h2"/>',
-    desktop: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>',
-    lain: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/>'
+    ponsel: '<rect class="dl" x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M10.5 5.5h3"/><circle class="sp" cx="12" cy="18.3" r="1.2"/>',
+    tablet: '<rect class="dl" x="4.5" y="3" width="15" height="18" rx="2.6"/><circle class="sp" cx="12" cy="17.8" r="1.2"/>',
+    desktop: '<rect class="dl" x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><circle class="sp" cx="12" cy="10" r="1.4"/>',
+    lain: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5c2.5 2.3 3.5 5.3 3.5 8.5s-1 6.2-3.5 8.5c-2.5-2.3-3.5-5.3-3.5-8.5s1-6.2 3.5-8.5z"/><path d="M3.5 12h5M15.5 12h5"/><circle class="sp" cx="12" cy="12" r="1.4"/>'
   };
 
   function waktuRelatif(iso) {

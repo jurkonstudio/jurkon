@@ -120,12 +120,12 @@ document.addEventListener('error', e => {
 }, true);
 
 const IK = {
-  suka: '<svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>',
-  balas: '<svg viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>',
-  lapor: '<svg viewBox="0 0 24 24"><path d="M4 22V4"/><path d="M4 4h13l-2.5 4.5L17 13H4"/></svg>',
-  hapus: '<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></svg>',
-  bagikan: '<svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m8 7 4-4 4 4"/><path d="M4 13v5a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-5"/></svg>',
-  mata: '<svg viewBox="0 0 24 24"><path d="M6 20v-6M12 20V4M18 20V10"/></svg>'
+  suka: '<svg viewBox="0 0 24 24"><path d="M12 20.200C7 16.600 3.500 13.500 3.500 9.400A4.400 4.400 0 0 1 12 7.600a4.400 4.400 0 0 1 8.500 1.800c0 4.100-3.500 7.200-8.500 10.800z"/><circle class="sp" cx="12" cy="12.4" r="1.2"/></svg>',
+  balas: '<svg viewBox="0 0 24 24"><path d="M19.500 17v-2.500a4.500 4.500 0 0 0-4.500-4.500H8"/><path d="M11.500 6.500 8 10l3.500 3.500"/><circle class="sp" cx="19.5" cy="19" r="1.3"/></svg>',
+  lapor: '<svg viewBox="0 0 24 24"><path d="M5 4h12l-2.500 4 2.500 4H5"/><path d="M5 4v14.500"/><circle class="sp" cx="5" cy="20.4" r="1.2"/></svg>',
+  hapus: '<svg viewBox="0 0 24 24"><path d="M4.500 7h15"/><path d="M6.500 7l.8 11.500a2 2 0 0 0 2 1.900h5.400a2 2 0 0 0 2-1.900L17.500 7"/><path d="M9.500 7V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2"/><path d="M12 11v5"/></svg>',
+  bagikan: '<svg viewBox="0 0 24 24"><path d="M4 14v3.500A2.500 2.500 0 0 0 6.500 20h11a2.500 2.500 0 0 0 2.500-2.500V14"/><path d="M12 13.500V4.500M8.500 8 12 4.500 15.500 8"/><circle class="sp" cx="12" cy="16.2" r="1.2"/></svg>',
+  mata: '<svg viewBox="0 0 24 24"><path d="M6 20v-5.600M12 20V8.400M18 20V5.400"/><circle class="sp" cx="6" cy="13" r="1.4"/><circle class="sp" cx="12" cy="7" r="1.4"/><circle class="sp" cx="18" cy="4" r="1.4"/></svg>'
 };
 
 // 1.234 -> "1,2 rb", 1.500.000 -> "1,5 jt" (angka kecil apa adanya)
@@ -329,11 +329,11 @@ function htmlPost(p, saya, opsi) {
 }
 
 const IKON = {
-  pena: '<svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>',
-  cari: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>',
-  pesan: '<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
-  balas: '<svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>',
-  suka: '<svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.9 3.8 4.5 7.2 4.5c1.9 0 3.700 1 4.800 2.700 1.100-1.700 2.900-2.700 4.800-2.700 3.400 0 5.600 3.400 4.400 6.700-1.700 4.700-9.200 9.300-9.200 9.300z"/></svg>'
+  pena: '<svg viewBox="0 0 24 24"><path d="M19.500 4.500C13 4.500 8.500 8 7 14.500l-1.500 5 5-1.500c6.500-1.500 9-7.500 9-13.500z"/><path d="M5.500 19.500 13 12"/><circle class="sp" cx="5.5" cy="19.5" r="1.2"/></svg>',
+  cari: '<svg viewBox="0 0 24 24"><circle class="dl" cx="10.500" cy="10.500" r="6.500"/><path d="m15.300 15.300 4.700 4.700"/><circle class="sp" cx="10.5" cy="10.5" r="1.6"/></svg>',
+  pesan: '<svg viewBox="0 0 24 24"><path class="dl" d="M4 6.500A2.500 2.500 0 0 1 6.500 4h11A2.500 2.500 0 0 1 20 6.500v7a2.500 2.500 0 0 1-2.500 2.500H10l-4.500 4v-4A2.500 2.500 0 0 1 4 13.500z"/><path d="M9.600 10h4.800"/><circle class="sp" cx="8.4" cy="10" r="1.2"/><circle class="sp" cx="15.6" cy="10" r="1.2"/></svg>',
+  balas: '<svg viewBox="0 0 24 24"><path d="M19.500 17v-2.500a4.500 4.500 0 0 0-4.500-4.500H8"/><path d="M11.500 6.500 8 10l3.500 3.500"/><circle class="sp" cx="19.5" cy="19" r="1.3"/></svg>',
+  suka: '<svg viewBox="0 0 24 24"><path d="M12 20.200C7 16.600 3.500 13.500 3.500 9.400A4.400 4.400 0 0 1 12 7.600a4.400 4.400 0 0 1 8.500 1.800c0 4.100-3.500 7.200-8.500 10.800z"/><circle class="sp" cx="12" cy="12.4" r="1.2"/></svg>'
 };
 
 function kosong(ikon, judul, teks, href, label) {
@@ -497,11 +497,11 @@ try { db.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_OUT') hapusCacheLokal
 // Semua angka tambahan diambil satu kali lewat statistik_posting lalu ditempel ke kartu.
 // Bila migrasi belum dijalankan, bagian ini berhenti diam-diam dan kartu tampil seperti biasa.
 const IK2 = {
-  ios: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M11 18.5h2"/></svg>',
-  android: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M10.500 5.500h3"/><path d="M10 18.500h4"/></svg>',
-  web: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>',
-  tidaksuka: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 14V2"/><path d="M9 18.120 10 14H4.170a2 2 0 0 1-1.920-2.560l2.330-8A2 2 0 0 1 6.500 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.760a2 2 0 0 0-1.790 1.110L12 22a3.130 3.130 0 0 1-3-3.880Z"/></svg>',
-  ulang: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m2 9 3-3 3 3"/><path d="M13 18H7a2 2 0 0 1-2-2V6"/><path d="m22 15-3 3-3-3"/><path d="M11 6h6a2 2 0 0 1 2 2v10"/></svg>'
+  ios: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.500" width="10" height="19" rx="2.400"/><path d="M10.500 5.500h3"/><circle class="sp" cx="12" cy="18.4" r="1.2"/></svg>',
+  android: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.500" width="10" height="19" rx="2.400"/><circle class="sp" cx="12" cy="5.4" r="1.1"/><path d="M10 18.500h4"/></svg>',
+  web: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><circle class="sp" cx="12" cy="10" r="1.4"/></svg>',
+  tidaksuka: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.200C7 16.600 3.500 13.500 3.500 9.400A4.400 4.400 0 0 1 12 7.600a4.400 4.400 0 0 1 8.500 1.800c0 4.100-3.500 7.200-8.500 10.800z"/><path d="m12.300 8.500-2 3.400 3 2.100-1.500 3.200"/></svg>',
+  ulang: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11V9.500A2.500 2.500 0 0 1 7.500 7H17"/><path d="M14.500 4.500 17 7l-2.500 2.500"/><path d="M19 13v1.500a2.500 2.500 0 0 1-2.500 2.500H7"/><path d="M9.500 19.500 7 17l2.500-2.500"/></svg>'
 };
 const NAMA_PERANGKAT = { ios: 'iOS', android: 'Android', web: 'Web' };
 

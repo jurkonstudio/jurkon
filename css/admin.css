@@ -285,3 +285,10 @@ a.stat:hover{border-color:var(--garis-2);box-shadow:var(--bayang-2);transform:tr
 
 .dlg .dlg-label{display:block;font-size:13px;font-weight:600;color:var(--redup);margin:2px 0 6px}
 .dlg select{margin-bottom:12px}
+
+/* ===== IKON JURKON 2 (ikon admin) =====
+   Sprite dipakai lewat <use>, jadi isian bidang .dl dikendalikan variabel --dl dari tautan menu. */
+svg .sp{fill:currentColor;stroke:none}
+svg .dl{fill:var(--dl,none);fill-opacity:.16}
+.menu a.aktif svg{--dl:currentColor}
+.menu a:hover svg{--dl:currentColor}

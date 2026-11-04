@@ -11,7 +11,7 @@ var ProfilEkstra = (function () {
     kamera: '<svg ' + S + '><path d="M4 8h3l1.6-2.4h6.8L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg>',
     plus: '<svg ' + S + '><path d="M12 5v14M5 12h14"/></svg>',
     silang: '<svg ' + S + '><path d="M6 6l12 12M18 6L6 18"/></svg>',
-    kalender: '<svg ' + S + '><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'
+    kalender: '<svg ' + S + '><rect class="dl" x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10.5h17M8 3v3.5M16 3v3.5"/><circle class="sp" cx="15.5" cy="15" r="1.5"/></svg>'
   };
 
   function urlSampul(path) {

@@ -677,12 +677,12 @@ a,button,summary,label{touch-action:manipulation}
 .lembar-set .set-grup>h3{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--teks)}
 .lembar-set .set-grup>h3::before{content:"";width:18px;height:18px;flex:none;background:var(--aksen);-webkit-mask:var(--ik) center/contain no-repeat;mask:var(--ik) center/contain no-repeat}
 .lembar-set .zona-bahaya>h3::before{background:var(--bahaya)}
-.lembar-set #tema>h3{--ik:url("data:image/svg+xml,%3Csvg viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22/%3E%3Cpath d=%22M12 3v18%22 /%3E%3Cpath d=%22M12 3a9 9 0 010 18z%22 fill=%22black%22/%3E%3C/svg%3E")}
-.lembar-set #bahasa>h3{--ik:url("data:image/svg+xml,%3Csvg viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22/%3E%3Cpath d=%22M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z%22/%3E%3C/svg%3E")}
-.lembar-set .set-email>h3{--ik:url("data:image/svg+xml,%3Csvg viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect x=%223%22 y=%225%22 width=%2218%22 height=%2214%22 rx=%222%22/%3E%3Cpath d=%22M3 7l9 6 9-6%22/%3E%3C/svg%3E")}
-.lembar-set .set-data>h3{--ik:url("data:image/svg+xml,%3Csvg viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M12 4v11M7 11l5 5 5-5M5 20h14%22/%3E%3C/svg%3E")}
-.lembar-set .set-info>h3{--ik:url("data:image/svg+xml,%3Csvg viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Ccircle cx=%2212%22 cy=%2212%22 r=%229%22/%3E%3Cpath d=%22M12 11v5M12 8h.01%22/%3E%3C/svg%3E")}
-.lembar-set .zona-bahaya>h3{--ik:url("data:image/svg+xml,%3Csvg viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M12 4l9 16H3L12 4zM12 10v4M12 17h.01%22/%3E%3C/svg%3E")}
+.lembar-set #tema>h3{--ik:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath fill='black' d='M12 3.5a8.5 8.5 0 0 1 0 17z'/%3E%3Ccircle fill='black' stroke='none' cx='8.2' cy='12' r='1.3'/%3E%3C/svg%3E")}
+.lembar-set #bahasa>h3{--ik:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8V5.5A2.5 2.5 0 0 1 5.5 3h5A2.5 2.5 0 0 1 13 5.5V8a2.5 2.5 0 0 1-2.5 2.5H9L6.5 13v-2.5h-1A2.5 2.5 0 0 1 3 8z'/%3E%3Cpath d='M6.4 8.4 8 5l1.6 3.4'/%3E%3Cpath d='M21 16v2.5a2.5 2.5 0 0 1-2.5 2.5h-5a2.5 2.5 0 0 1-2.5-2.5V16a2.5 2.5 0 0 1 2.5-2.5H15L17.5 11v2.5h1A2.5 2.5 0 0 1 21 16z'/%3E%3Ccircle fill='black' stroke='none' cx='16' cy='17.3' r='1.3'/%3E%3C/svg%3E")}
+.lembar-set .set-email>h3{--ik:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5.5' width='18' height='13' rx='3'/%3E%3Cpath d='M4 8l8 5.5L20 8'/%3E%3Ccircle fill='black' stroke='none' cx='12' cy='16.2' r='1'/%3E%3C/svg%3E")}
+.lembar-set .set-data>h3{--ik:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle fill='black' stroke='none' cx='12' cy='7' r='1.5'/%3E%3Cpath d='M12 10v9M8.2 15.2 12 19l3.8-3.8M5 3.5h14'/%3E%3C/svg%3E")}
+.lembar-set .set-info>h3{--ik:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='8.5'/%3E%3Cpath d='M12 11.5v5'/%3E%3Ccircle fill='black' stroke='none' cx='12' cy='8' r='1.2'/%3E%3C/svg%3E")}
+.lembar-set .zona-bahaya>h3{--ik:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4.2 21 19.5H3z'/%3E%3Cpath d='M12 10v4'/%3E%3Ccircle fill='black' stroke='none' cx='12' cy='16.8' r='1.1'/%3E%3C/svg%3E")}
 
 /* Tema: lima pilihan ringkas dalam satu baris */
 .lembar-set .tema-opsi{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
@@ -1596,8 +1596,8 @@ dialog:not(.lembar){margin:auto;max-height:calc(100dvh - 32px)}
 .set-baris[hidden]{display:none}
 
 /* Ikon judul untuk bagian baru */
-.lembar-set .set-sandi>h3{--ik:url("data:image/svg+xml,%3Csvg viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect x=%224.5%22 y=%2210.5%22 width=%2215%22 height=%2210%22 rx=%222.5%22/%3E%3Cpath d=%22M8 10.5V8a4 4 0 018 0v2.5M12 15v2%22/%3E%3C/svg%3E")}
-.lembar-set .set-sesi>h3{--ik:url("data:image/svg+xml,%3Csvg viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Crect x=%222.5%22 y=%225%22 width=%2214%22 height=%2210%22 rx=%222%22/%3E%3Cpath d=%22M6 19h7M9.5 15v4M18 9h2.5a1 1 0 011 1v8a1 1 0 01-1 1H18a1 1 0 01-1-1v-8a1 1 0 011-1z%22/%3E%3C/svg%3E")}
+.lembar-set .set-sandi>h3{--ik:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4.5' y='10.5' width='15' height='10' rx='2.8'/%3E%3Cpath d='M8 10.5V8a4 4 0 0 1 8 0v2.5'/%3E%3Ccircle fill='black' stroke='none' cx='12' cy='15.2' r='1.4'/%3E%3Cpath d='M12 16.5v1.6'/%3E%3C/svg%3E")}
+.lembar-set .set-sesi>h3{--ik:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2.5' y='5' width='14' height='10' rx='2'/%3E%3Cpath d='M6 19h7M9.5 15v4'/%3E%3Crect x='18.5' y='9' width='3.5' height='10' rx='1.3'/%3E%3Ccircle fill='black' stroke='none' cx='9.5' cy='10' r='1.3'/%3E%3C/svg%3E")}
 .set-kolom{flex-direction:column}
 .set-kolom .btn{width:100%}
 .set-isian.set-kolom input{width:100%}
@@ -1857,3 +1857,31 @@ a.pi-link:focus-visible,.pi-tambah:focus-visible{outline:2px solid var(--aksen);
   -webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);box-shadow:var(--kaca-kilau),0 2px 8px rgba(31,48,110,.12)}
 :root[data-theme=awan] .profil-panel .pp-btn{background:var(--a-kaca);border:1px solid var(--a-tepi);
   -webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);box-shadow:var(--a-kilau),0 2px 8px rgba(0,0,0,.35)}
+
+/* ===== IKON JURKON "Simpul Halaman" =====
+   Satu simpul (titik) per ikon = koneksi; bidang .dl terisi lembut saat aktif. */
+svg .sp{fill:currentColor;stroke:none}
+svg .dl{fill:none}
+.nav svg{stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav a.aktif svg .dl{fill:currentColor;fill-opacity:.16}
+.nav a.nav-tulis svg{stroke-width:2.2}
+.pp-btn svg,.header-lonceng svg{stroke-linecap:round;stroke-linejoin:round}
+.notif-jenis svg .sp{r:1.6px}
+.post .aksi .btn-suka.sudah svg .sp{fill:var(--bg)}
+@media (prefers-reduced-motion:no-preference){
+  .nav a svg .sp{transform-box:fill-box;transform-origin:center;transition:transform .18s ease}
+  .nav a:hover svg .sp,.nav a.aktif svg .sp{transform:scale(1.25)}
+}
+
+/* ===== IKON JURKON 2 (Pengaturan, Brankas, Penerjemah, kalender) =====
+   Ikon yang garisnya berwarna aksen perlu simpul berwarna aksen juga (fill tidak ikut stroke). */
+.set-baris .ik svg,.set-ikon{stroke-width:1.8}
+.set-baris .ik svg .sp,.set-ikon .sp,.ss-ikon .sp{fill:var(--aksen)}
+.set-baris .ik svg .dl,.ss-ikon .dl{fill:var(--aksen);fill-opacity:.16}
+.set-baris .ik svg .bg{fill:var(--aksen);stroke:none}
+.lembar-bk svg,.lembar-pn svg{stroke-width:1.8}
+.lembar-bk .bk-tile svg .dl,.lembar-bk .bk-hero-ik svg .dl,.lembar-bk .bk-unggah svg .dl{fill:currentColor;fill-opacity:.16}
+.bk-peringatan svg .sp{fill:var(--bahaya)}
+.pp-btn:hover svg .dl,.pp-btn:focus-visible svg .dl{fill:currentColor;fill-opacity:.14}
+.profil-gabung svg{stroke-width:1.8}
+.pn-tukar svg .sp{fill:currentColor}

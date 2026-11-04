@@ -47,17 +47,17 @@
   // ------------------------------------------------------------------ ikon
   const sv = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
   const IK = {
-    kunci: sv('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
-    perisai: sv('<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>'),
-    unggah: sv('<path d="M12 16V4M7 9l5-5 5 5M5 20h14"/>'),
-    unduh: sv('<path d="M12 4v12M7 11l5 5 5-5M5 20h14"/>'),
-    sampah: sv('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-12M9 7V4h6v3"/>'),
-    berkas: sv('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>'),
-    gambar: sv('<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-9 9"/>'),
-    video: sv('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9.5v5l4.5-2.5z"/>'),
-    musik: sv('<path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/>'),
-    kunciGanti: sv('<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>'),
-    awas: sv('<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17.5v.01"/>')
+    kunci: sv('<rect class="dl" x="5" y="10.5" width="14" height="9.5" rx="2.8"/><path d="M8.2 10.5V8a3.8 3.8 0 0 1 7.6 0v2.5"/><circle class="sp" cx="12" cy="15.2" r="1.4"/>'),
+    perisai: sv('<path class="dl" d="M12 3.2l7.5 2.8v5.6c0 4.5-3.1 7.6-7.5 9.2-4.4-1.6-7.5-4.7-7.5-9.2V6z"/><circle class="sp" cx="12" cy="10.6" r="1.6"/><path d="M12 12.8v2.8"/>'),
+    unggah: sv('<circle class="sp" cx="12" cy="16.8" r="1.5"/><path d="M12 14V5M8.2 8.8 12 5l3.8 3.8M5 20.5h14"/>'),
+    unduh: sv('<circle class="sp" cx="12" cy="7" r="1.5"/><path d="M12 10v9M8.2 15.2 12 19l3.8-3.8M5 3.5h14"/>'),
+    sampah: sv('<path d="M4.5 7h15"/><path d="M6.5 7l.8 11.5a2 2 0 0 0 2 1.9h5.4a2 2 0 0 0 2-1.9L17.5 7"/><path d="M9.5 7V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2"/><path d="M12 11v5"/>'),
+    berkas: sv('<path class="dl" d="M14 3.5H7.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V8z"/><path d="M14 3.5V8h4.5"/><circle class="sp" cx="12" cy="14.5" r="1.4"/>'),
+    gambar: sv('<rect class="dl" x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M20.5 16l-4.5-4.5L8 19.5"/><circle class="sp" cx="8.8" cy="9.6" r="1.5"/>'),
+    video: sv('<rect class="dl" x="3.5" y="5" width="17" height="14" rx="3"/><path d="M10.3 9.4v5.2l4.3-2.6z"/><circle class="sp" cx="17.2" cy="8.3" r="1"/>'),
+    musik: sv('<path d="M9.9 17.5V6.5l9-2v11"/><circle class="sp" cx="7.5" cy="17.5" r="2.4"/><circle class="sp" cx="16.5" cy="15.5" r="2.4"/>'),
+    kunciGanti: sv('<circle class="dl" cx="8" cy="15" r="4"/><path d="M10.9 12.1 19.5 3.5M16 7l2.8 2.8"/><circle class="sp" cx="8" cy="15" r="1.1"/>'),
+    awas: sv('<path class="dl" d="M12 4.2 21 19.5H3z"/><path d="M12 10v4"/><circle class="sp" cx="12" cy="16.8" r="1.1"/>')
   };
   function ikonBerkas(b) {
     const m = (b.mime || '').toLowerCase(), n = (b.nama || '').toLowerCase();

@@ -3,16 +3,16 @@ const SUKA_PUBLIK = true;   // false = tab Menyukai hanya terlihat oleh pemilik 
 const TAB_PROFIL = ['catatan', 'balasan', 'ulang', 'suka', 'kapsul'];
 const IKP = {
   titik: '<svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="19" cy="12" r="1.2"/></svg>',
-  gigi: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>',
+  gigi: '<svg viewBox="0 0 24 24"><path class="dl" d="M10.78 5.11L10.97 2.56L13.03 2.56L13.22 5.11A7 7 0 0 1 16.02 6.27L16.02 6.27L17.95 4.6L19.4 6.05L17.73 7.98A7 7 0 0 1 18.89 10.78L18.89 10.78L21.44 10.97L21.44 13.03L18.89 13.22A7 7 0 0 1 17.73 16.02L17.73 16.02L19.4 17.95L17.95 19.4L16.02 17.73A7 7 0 0 1 13.22 18.89L13.22 18.89L13.03 21.44L10.97 21.44L10.78 18.89A7 7 0 0 1 7.98 17.73L7.98 17.73L6.05 19.4L4.6 17.95L6.27 16.02A7 7 0 0 1 5.11 13.22L5.11 13.22L2.56 13.03L2.56 10.97L5.11 10.78A7 7 0 0 1 6.27 7.98L6.27 7.98L4.6 6.05L6.05 4.6L7.98 6.27A7 7 0 0 1 10.78 5.11Z"/><circle class="sp" cx="12" cy="12" r="2.2"/></svg>',
   bagikan: '<svg viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/></svg>',
   semat: '<svg viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></svg>',
-  brankas: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M12 9v1M12 14v1M9 12h1M14 12h1M7 20v1M17 20v1"/></svg>',
-  terjemah: '<svg viewBox="0 0 24 24"><path d="M4 5h8M8 3v2M5 9c1.5 3 4 5 7 6M11 9c-1 3-3.500 5.500-7 7"/><path d="M13 20l4-9 4 9M14.500 17h5"/></svg>',
-  kalender: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'
+  brankas: '<svg viewBox="0 0 24 24"><rect class="dl" x="3.5" y="4.5" width="17" height="14.5" rx="3"/><path d="M7.5 19v1.8M16.5 19v1.8"/><circle cx="12" cy="11.8" r="3.4"/><circle class="sp" cx="12" cy="11.8" r="1.1"/></svg>',
+  terjemah: '<svg viewBox="0 0 24 24"><path class="dl" d="M3 8V5.5A2.5 2.5 0 0 1 5.5 3h5A2.5 2.5 0 0 1 13 5.5V8a2.5 2.5 0 0 1-2.5 2.5H9L6.5 13v-2.5h-1A2.5 2.5 0 0 1 3 8z"/><path d="M6.4 8.4 8 5l1.6 3.4"/><path class="dl" d="M21 16v2.5a2.5 2.5 0 0 1-2.5 2.5h-5a2.5 2.5 0 0 1-2.5-2.5V16a2.5 2.5 0 0 1 2.5-2.5H15L17.5 11v2.5h1A2.5 2.5 0 0 1 21 16z"/><circle class="sp" cx="16" cy="17.3" r="1.3"/></svg>',
+  kalender: '<svg viewBox="0 0 24 24"><rect class="dl" x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10.5h17M8 3v3.5M16 3v3.5"/><circle class="sp" cx="15.5" cy="15" r="1.5"/></svg>'
 };
 // Lonceng notifikasi di panel samping foto (hanya tampil di HP lewat CSS; di layar lebar menu samping sudah memuatnya)
 function lonceng() {
-  return `<a class="pp-btn pp-lonceng" href="notifikasi" aria-label="${esc(t('nav.notifikasi'))}" title="${esc(t('nav.notifikasi'))}"><svg viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><span class="lencana" hidden></span></a>`;
+  return `<a class="pp-btn pp-lonceng" href="notifikasi" aria-label="${esc(t('nav.notifikasi'))}" title="${esc(t('nav.notifikasi'))}"><svg viewBox="0 0 24 24"><path class="dl" d="M6 17v-6a6 6 0 0 1 12 0v6l1.500 2h-15z"/><path d="M12 3.500V5"/><circle class="sp" cx="12" cy="21.4" r="1.3"/></svg><span class="lencana" hidden></span></a>`;
 }
 let loncengPasang = false;
 function pasangLonceng() {
