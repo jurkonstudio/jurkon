@@ -1899,11 +1899,12 @@ svg .dl{fill:none}
 .jl-undang-btn{margin-top:10px}
 .jl-saran-baris{display:flex;gap:10px;padding:2px 16px 8px;scroll-padding-inline:16px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
 .jl-saran-baris::-webkit-scrollbar{display:none}
-.jl-orang{flex:0 0 136px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px 10px;border:1px solid var(--garis);border-radius:14px;background:var(--bg);text-align:center}
+.jl-orang{flex:0 0 136px;width:136px;min-width:0;overflow:hidden;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px 10px;border:1px solid var(--garis);border-radius:14px;background:var(--bg);text-align:center}
 .jl-orang-tautan{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;width:100%;color:inherit;text-decoration:none}
 .jl-orang-tautan b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:6px;font-size:14.5px;font-weight:650}
 .jl-orang-tautan .sub{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px}
 .jl-orang .btn{width:100%;min-height:36px}
+#tabJelajah button[aria-selected=true]{color:var(--link,var(--aksen))}
 @media (min-width:768px){
   .jl-saran-kepala{padding-left:24px;padding-right:24px}
   .jl-saran-baris{padding-left:24px;padding-right:24px;scroll-padding-inline:24px}
