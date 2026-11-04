@@ -53,7 +53,17 @@ html:root body.login main{
 .lg-alih a{color:var(--link,var(--aksen));font-weight:600;text-decoration:none;padding:8px 4px;display:inline-block}
 .lg-alih a:hover{text-decoration:underline;text-underline-offset:2px}
 .lg-petunjuk{margin:0;font-size:12px;line-height:1.4;color:var(--redup)}
-.lg-form .galat.ok{background:color-mix(in srgb,var(--teks) 6%,transparent);border-color:var(--garis)}
+/* Pesan sukses (daftar berhasil, tautan reset terkirim): hijau di semua tema (kertas, terang, gelap, kaca, awan).
+   --hijau ditentukan per tema di css/style.css; teks dicampur sedikit dengan warna teks tema agar tetap terbaca di latar terang. */
+.lg-form .galat.ok{
+  --ok-hijau:var(--hijau,#1f8f5f);
+  color:color-mix(in srgb,var(--ok-hijau) 78%,var(--teks));
+  background:color-mix(in srgb,var(--ok-hijau) 12%,transparent);
+  border-color:color-mix(in srgb,var(--ok-hijau) 45%,transparent);
+  font-weight:600;
+}
+.lg-form .galat.ok::before{content:"\2713\00a0";font-weight:800}
+:root[data-theme=gelap] .lg-form .galat.ok,:root[data-theme=awan] .lg-form .galat.ok{color:var(--ok-hijau)}
 
 /* ---------- Formulir ---------- */
 .lg-form{display:grid;gap:14px;margin-top:22px}

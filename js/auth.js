@@ -97,7 +97,7 @@ function gerbang(lewatiKunci) {
   return { ok: true };
 }
 async function jalankan(tombol, fn) {
-  galat.textContent = ''; galat.classList.remove('ok');
+  galat.textContent = ''; galat.classList.remove('ok'); galat.setAttribute('role', 'alert');
   const teks = tombol.textContent;
   tombol.disabled = true; tombol.textContent = t('auth.memproses');
   try { await fn(); } finally { tombol.disabled = false; tombol.textContent = teks; }
@@ -145,7 +145,7 @@ if ($('#daftar')) $('#daftar').onclick = function () {
     if (error) { catatGagal(); galat.textContent = t('auth.gagalDaftar', { pesan: terjemah(error.message) }); }
     // Email yang sudah terdaftar tidak memberi galat (perlindungan Supabase): identities kosong
     else if (data.user && data.user.identities && data.user.identities.length === 0) galat.textContent = t('auth.sudahTerdaftarLupa');
-    else if (!data.session) { galat.classList.add('ok'); galat.textContent = t('auth.cekEmail'); }
+    else if (!data.session) { galat.classList.add('ok'); galat.setAttribute('role', 'status'); galat.textContent = t('auth.cekEmail'); }
     else { await catatSesiCepat(); location.href = lanjutAman() || '/'; }
   });
 };

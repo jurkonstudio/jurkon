@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pratinjau Jurnal Koneksi (Jurkon) · Catatan singkat, koneksi yang tenang</title>
+<meta name="description" content="Kenali Jurnal Koneksi (Jurkon): sosmed catatan singkat buatan Indonesia, 250 karakter per catatan, feed ada ujungnya, tanpa iklan.">
+<link rel="canonical" href="https://jurkon.my.id/pratinjau">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jurnal Koneksi · Catatan singkat, koneksi yang tenang">
+<meta property="og:description" content="Sosmed catatan singkat buatan Indonesia: 250 karakter, feed ada ujungnya, tanpa iklan.">
+<meta property="og:url" content="https://jurkon.my.id/pratinjau">
+<meta property="og:image" content="https://jurkon.my.id/assets/og.jpg">
+<meta name="theme-color" content="#fbf9f4">
+<style>
+/* Halaman pembungkus saja (bukan bagian yang disalin) */
+body{margin:0;background:#eee9de;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;color:#231f1c}
+.bungkus{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+.bungkus h1{font-size:20px;margin:8px 0 6px}
+.bungkus p.pet{font-size:14px;line-height:1.55;color:#6b6359;margin:0 0 16px}
+.salin-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 20px}
+.salin-bar button{min-height:44px;padding:0 18px;border-radius:10px;border:0;background:#ae2a22;color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+.salin-bar span{font-size:13.5px;color:#1f7a50;font-weight:600}
+@media (prefers-color-scheme:dark){body{background:#12100f;color:#ece6dc}.bungkus p.pet{color:#a79f94}.salin-bar button{background:#d9473b}.salin-bar span{color:#5fd3a0}}
+</style>
+</head><body>
+<div class="bungkus">
+<h1>Pratinjau untuk promosi Jurnal Koneksi</h1>
+<p class="pet">Blok di bawah berdiri sendiri (CSS dan HTML dalam satu paket, semua kelas berawalan <code>jkp-</code> sehingga tidak bentrok dengan gaya situsmu). Tekan <b>Salin kode</b>, lalu tempel di halaman blog atau situs mana pun yang mengizinkan HTML. Warna mengikuti mode terang/gelap pengunjung.</p>
+<div class="salin-bar"><button id="salin" type="button">Salin kode</button><span id="ket" role="status"></span></div>
+
+<!-- ===================== MULAI BLOK YANG DISALIN ===================== -->
+<template id="blok">
+<section class="jkp" aria-label="Tentang Jurnal Koneksi">
+<style>
+.jkp{--jkp-bg:#fbf9f4;--jkp-kartu:#fff;--jkp-teks:#231f1c;--jkp-redup:#6b6359;--jkp-garis:#ddd5c4;--jkp-aksen:#ae2a22;--jkp-hijau:#1f7a50;
+  box-sizing:border-box;max-width:680px;margin:24px auto;padding:28px 20px;border:1px solid var(--jkp-garis);border-radius:18px;
+  background:var(--jkp-bg);color:var(--jkp-teks);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,sans-serif;text-align:center}
+@media (prefers-color-scheme:dark){.jkp{--jkp-bg:#1c1917;--jkp-kartu:#26221f;--jkp-teks:#ece6dc;--jkp-redup:#a79f94;--jkp-garis:#34302b;--jkp-aksen:#d9473b;--jkp-hijau:#5fd3a0}}
+.jkp *{box-sizing:border-box}
+.jkp-logo{display:block;height:44px;width:auto;margin:0 auto 14px}
+.jkp-kicker{margin:0 0 8px;font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--jkp-aksen)}
+.jkp-judul{margin:0 0 10px;font-size:26px;line-height:1.2;letter-spacing:-.01em;color:var(--jkp-teks)}
+.jkp-sub{margin:0 auto 20px;max-width:46ch;color:var(--jkp-redup)}
+.jkp-kartu{margin:0 auto 20px;max-width:460px;text-align:left;padding:14px 16px;border:1px solid var(--jkp-garis);border-radius:14px;background:var(--jkp-kartu)}
+.jkp-penulis{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px}
+.jkp-ava{flex:none;width:34px;height:34px;border-radius:50%;background:var(--jkp-aksen);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.jkp-penulis small{display:block;color:var(--jkp-redup);font-size:12.5px}
+.jkp-isi{margin:0 0 10px;color:var(--jkp-teks)}
+.jkp-meter{display:flex;justify-content:space-between;font-size:12.5px;color:var(--jkp-redup);border-top:1px solid var(--jkp-garis);padding-top:8px}
+.jkp-ujung{color:var(--jkp-hijau);font-weight:600}
+.jkp-fitur{list-style:none;margin:0 0 22px;padding:0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.jkp-fitur li{padding:7px 13px;border:1px solid var(--jkp-garis);border-radius:999px;background:var(--jkp-kartu);font-size:13.5px;color:var(--jkp-teks)}
+.jkp-fitur li::before{content:"\2713\00a0";color:var(--jkp-hijau);font-weight:800}
+.jkp-aksi{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.jkp-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;border:1px solid var(--jkp-aksen)}
+.jkp-btn.utama{background:var(--jkp-aksen);color:#fff}
+.jkp-btn.kedua{background:transparent;color:var(--jkp-aksen)}
+.jkp-btn:focus-visible{outline:3px solid color-mix(in srgb,var(--jkp-aksen) 45%,transparent);outline-offset:2px}
+.jkp-catatan{margin:16px 0 0;font-size:12.5px;color:var(--jkp-redup)}
+</style>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://jurkon.my.id/assets/logo-header-gelap.webp"><img class="jkp-logo" src="https://jurkon.my.id/assets/logo-header.webp" alt="Jurnal Koneksi" width="130" height="44" loading="lazy"></picture>
+<p class="jkp-kicker">Jurnal Koneksi (Jurkon)</p>
+<h2 class="jkp-judul">Catatan singkat, koneksi yang tenang.</h2>
+<p class="jkp-sub">Media sosial berbahasa Indonesia dengan batas 250 karakter. Tulis yang penting, baca yang berarti, tanpa keramaian.</p>
+<div class="jkp-kartu">
+  <div class="jkp-penulis"><span class="jkp-ava" aria-hidden="true">J</span><span><b>@contoh</b><small>Contoh catatan</small></span></div>
+  <p class="jkp-isi">Segini saja cukup. Satu catatan, satu gagasan.</p>
+  <div class="jkp-meter"><span>41 / 250</span><span class="jkp-ujung">Kamu sudah sampai di ujung</span></div>
+</div>
+<ul class="jkp-fitur">
+  <li>Tanpa iklan</li><li>Feed ada ujungnya</li><li>Kapsul waktu</li><li>Tujuh bahasa</li><li>Lima tema</li><li>Buatan orang Indonesia</li>
+</ul>
+<div class="jkp-aksi">
+  <a class="jkp-btn utama" href="https://jurkon.my.id/landing" rel="noopener">Kenali Jurkon</a>
+  <a class="jkp-btn kedua" href="https://jurkon.my.id/jelajahi" rel="noopener">Baca catatan publik</a>
+</div>
+<p class="jkp-catatan">Gratis, tanpa iklan, datamu tidak dijual.</p>
+</section>
+</template>
+<!-- ===================== SELESAI BLOK YANG DISALIN ===================== -->
+
+<div id="tempat"></div>
+</div>
+<script>
+(function(){
+  var t=document.getElementById('blok'), tempat=document.getElementById('tempat');
+  tempat.appendChild(t.content.cloneNode(true));
+  document.getElementById('salin').onclick=function(){
+    var d=document.createElement('div'); d.appendChild(t.content.cloneNode(true));
+    var kode=d.innerHTML.trim(), ket=document.getElementById('ket');
+    function ok(){ket.textContent='Kode tersalin. Tinggal tempel.';}
+    function gagal(){ket.style.color='#b42318';ket.textContent='Gagal menyalin. Salin manual dari blok MULAI sampai SELESAI di berkas ini.';}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(kode).then(ok,gagal);}
+    else{var a=document.createElement('textarea');a.value=kode;document.body.appendChild(a);a.select();try{document.execCommand('copy')?ok():gagal();}catch(e){gagal();}a.remove();}
+  };
+})();
+</script>
+</body></html>
