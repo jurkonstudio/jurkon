@@ -1627,7 +1627,8 @@ dialog:not(.lembar){margin:auto;max-height:calc(100dvh - 32px)}
 /* ===== TAMPILAN BARU v7: header bermerek + lonceng notifikasi + dock mengambang =====
    CSS (plus lonceng kecil di js/nav.js). Berlaku untuk kelima tema; Kaca dan Awan hanya mengganti warna/bahan di css/tema-kaca.css dan css/tema-awan.css.
    Untuk membatalkan: hapus blok ini. */
-.header-lonceng{display:none}
+/* :root menaikkan kekhususan supaya mengalahkan ".header a{display:inline-flex}"; tanpa itu lonceng (dan lencananya) bocor tampil di desktop */
+:root .header-lonceng{display:none}
 @media (max-width:767px){
   /* --- Header beranda: logo lengkap (stempel + nama) di kiri, lonceng di kanan, tab kapsul di bawah --- */
   :root body[data-tab=beranda] .header-tab{flex-wrap:wrap;align-items:center;gap:0;padding:8px 14px 10px;min-height:0}
