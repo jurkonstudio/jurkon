@@ -369,7 +369,7 @@ document.addEventListener('click', e => {
   if (String(window.getSelection ? getSelection() : '').length) return;   // sedang memilih teks
   const post = isi.closest('.post');
   const id = post && post.dataset.id;
-  if (!id || (/detail\.html$/.test(location.pathname) && param('id') === id)) return;
+  if (!id || (/detail(\.html)?$/.test(location.pathname) && param('id') === id)) return;
   location.href = 'detail.html?id=' + id;
 });
 
@@ -448,7 +448,7 @@ function pasangAksiPost(saya, muat) {
 
 // Akun yang belum memilih username diarahkan ke halaman selamat.html
 (async function jagaProfilSiap() {
-  const hal = location.pathname.split('/').pop();
+  const hal = location.pathname.split('/').pop().replace(/^([^.]+)$/, '$1.html');
   if (['login.html', 'selamat.html', 'aturan.html', 'reset.html'].includes(hal)) return;
   try {
     const { data: { session } } = await db.auth.getSession();

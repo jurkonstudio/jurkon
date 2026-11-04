@@ -5,7 +5,7 @@
   var PETA = {"tentang.html":"about.html","kebijakan-privasi.html":"privacy.html","aturan.html":"rules.html","pusat-bantuan.html":"help.html","ketentuan-layanan.html":"terms.html"};
   var ADA = ["en","ms","jv","su","zh","ja","ko","hi"];
   var kode = window.I18N_KODE;
-  var berkas = location.pathname.replace(/^.*\//, '');
+  var berkas = location.pathname.replace(/^.*\//, ''); if (berkas && !/\.html$/.test(berkas)) berkas += '.html';
   if (!kode || kode === 'id' || ADA.indexOf(kode) < 0 || !PETA[berkas]) return;
   location.replace('/' + kode + '/' + PETA[berkas] + location.search + location.hash);
 })();

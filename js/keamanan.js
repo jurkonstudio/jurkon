@@ -43,7 +43,7 @@ document.addEventListener('click', function (e) {
   var dariSitus = false;
   try {
     var r = document.referrer ? new URL(document.referrer) : null;
-    dariSitus = !!r && r.origin === location.origin && !/\/(login|reset|selamat)\.html$/.test(r.pathname);
+    dariSitus = !!r && r.origin === location.origin && !/\/(login|reset|selamat)(\.html)?$/.test(r.pathname);
   } catch (x) {}
   if (dariSitus && history.length > 1) { e.preventDefault(); history.back(); }
 });

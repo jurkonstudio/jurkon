@@ -3,7 +3,7 @@
 // tanpa menunggu jaringan. HTML, JS, dan CSS selalu berasal dari versi yang sama, jadi tidak pernah campur lama-baru.
 // Versi baru terpasang di belakang layar saat sw.js berubah.
 // JANGAN edit angka CACHE secara manual: jalankan  node tools/naikkan-cache.js  sebelum unggah.
-const CACHE = 'jurkon-b291dec8';
+const CACHE = 'jurkon-aacfa6af';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 
 // STATIS = INTI: kerangka minimum agar aplikasi jalan. Bila salah satu gagal diunduh, pemasangan dibatalkan
@@ -56,7 +56,9 @@ async function dariCache(e, r, u) {
   const c = await caches.open(CACHE);
   const navigasi = r.mode === 'navigate';
   // "/" dan "/?x=y" memakai halaman beranda yang sudah tersimpan; halaman lain dicocokkan tanpa query (detail.html?id=...)
-  const kunci = navigasi ? (u.pathname === '/' ? '/index.html' : u.pathname) : r;
+  // Alamat bersih (/login) memakai berkas tersimpan yang sama (/login.html); /@username tidak diubah
+  const bersih = /^\/[a-z0-9-]+$/.test(u.pathname) ? u.pathname + '.html' : u.pathname;
+  const kunci = navigasi ? (u.pathname === '/' ? '/index.html' : bersih) : r;
   const ada = await c.match(kunci, { ignoreSearch: navigasi });
   if (ada) return ada;
   try {

@@ -182,7 +182,7 @@ simpan('js/info-arah.js', `// DIHASILKAN oleh tools/buat-info.js. Jangan diedit 
   var PETA = ${JSON.stringify(peta)};
   var ADA = ${JSON.stringify(NON_ID.map(b => b.kode))};
   var kode = window.I18N_KODE;
-  var berkas = location.pathname.replace(/^.*\\//, '');
+  var berkas = location.pathname.replace(/^.*\\//, ''); if (berkas && !/\\.html$/.test(berkas)) berkas += '.html';
   if (!kode || kode === 'id' || ADA.indexOf(kode) < 0 || !PETA[berkas]) return;
   location.replace('/' + kode + '/' + PETA[berkas] + location.search + location.hash);
 })();
