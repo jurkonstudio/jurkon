@@ -49,7 +49,7 @@ Catatanmu privat secara bawaan. Kamu bisa mulai dengan menulis jurnal pribadi, a
 Nikmati ketenangannya. Kalau butuh bantuan, ketik "hi" atau "halo" di sini.
 
 Salam hangat,
-Tim Journal Connection$t$
+Tim Jurkon$t$
     when 'en' then $t$Hi, {nama}. Welcome to Jurkon.
 
 Take a deep breath. Here, you don't have to rush, you don't have to show off, and there's no algorithm pushing you to keep scrolling.
@@ -59,7 +59,7 @@ Your notes are private by default. You can start by writing a personal journal e
 Enjoy the calm. If you need help, type "hi" or "hello" here.
 
 Warmly,
-The Journal Connection Team$t$
+The Jurkon Team$t$
     when 'ms' then $t$Hai, {nama}. Selamat datang ke Jurkon.
 
 Tarik nafas dalam-dalam. Di sini, awak tak perlu tergesa-gesa, tak perlu menunjuk-nunjuk, dan tiada algoritma yang memaksa awak terus menatal.
@@ -69,7 +69,7 @@ Nota awak peribadi secara lalai. Awak boleh mulakan dengan menulis jurnal periba
 Nikmati ketenangannya. Kalau perlukan bantuan, taip "hi" atau "helo" di sini.
 
 Salam hangat,
-Pasukan Journal Connection$t$
+Pasukan Jurkon$t$
     when 'jv' then $t$Halo, {nama}. Sugeng rawuh ing Jurkon.
 
 Narik napas dawa. Ing kene, kowe ora perlu kesusu, ora perlu pamer, lan ora ana algoritma sing meksa kowe terus nggulung layar.
@@ -79,7 +79,7 @@ Catetanmu pribadi sacara bawaan. Kowe bisa miwiti nulis jurnal pribadi, utawa ma
 Nikmatana katentremane. Yen butuh pitulungan, ketik "hi" utawa "halo" ing kene.
 
 Salam anget,
-Tim Journal Connection$t$
+Tim Jurkon$t$
     when 'su' then $t$Halo, {nama}. Wilujeng sumping di Jurkon.
 
 Tarik napas panjang. Di dieu, anjeun teu kedah buru-buru, teu kedah pamer, sareng teu aya algoritma anu maksa anjeun terus ngagulung.
@@ -89,7 +89,7 @@ Catetan anjeun pribadi sacara bawaan. Anjeun tiasa ngamimitian ku nulis jurnal p
 Nikmati katengtremanana. Upami peryogi pitulung, ketik "hi" atanapi "halo" di dieu.
 
 Salam anget,
-Tim Journal Connection$t$
+Tim Jurkon$t$
     when 'zh' then $t$你好，{nama}。欢迎来到 Jurkon。
 
 深呼吸一下。在这里，你不用着急，不用炫耀，也没有算法逼着你不停地刷。
@@ -99,7 +99,7 @@ Tim Journal Connection$t$
 慢慢享受这份宁静。需要帮助的话，在这里输入“hi”或“你好”。
 
 温暖问候，
-Journal Connection 团队$t$
+Jurkon 团队$t$
     when 'ja' then $t$こんにちは、{nama}さん。Jurkonへようこそ。
 
 ゆっくり深呼吸をしてください。ここでは、急ぐ必要も、自慢する必要もありません。スクロールし続けるよう迫るアルゴリズムもありません。
@@ -109,7 +109,7 @@ Journal Connection 团队$t$
 静けさをゆっくり味わってください。困ったときは、ここに「hi」または「こんにちは」と入力してください。
 
 あたたかい気持ちを込めて、
-Journal Connection チーム$t$
+Jurkon チーム$t$
     when 'ko' then $t$안녕하세요, {nama}님. Jurkon에 오신 것을 환영합니다.
 
 숨을 크게 들이쉬어 보세요. 여기서는 서두르지 않아도 되고, 자랑하지 않아도 되며, 계속 스크롤하라고 재촉하는 알고리즘도 없습니다.
@@ -119,7 +119,7 @@ Journal Connection チーム$t$
 고요함을 마음껏 누리세요. 도움이 필요하면 여기에 "hi" 또는 "안녕"이라고 입력해 주세요.
 
 따뜻한 마음을 담아,
-Journal Connection 팀$t$
+Jurkon 팀$t$
     when 'hi' then $t$नमस्ते, {nama}। Jurkon में आपका स्वागत है।
 
 एक गहरी साँस लीजिए। यहाँ आपको जल्दबाज़ी करने की ज़रूरत नहीं है, दिखावा करने की ज़रूरत नहीं है, और कोई एल्गोरिदम आपको लगातार स्क्रॉल करने के लिए मजबूर नहीं करता।
@@ -129,7 +129,7 @@ Journal Connection 팀$t$
 इस शांति का आनंद लीजिए। मदद चाहिए तो यहाँ "hi" या "नमस्ते" लिखिए।
 
 गर्मजोशी के साथ,
-Journal Connection टीम$t$
+Jurkon टीम$t$
     else $t$Hi, {nama}. Welcome to Jurkon.
 
 Take a deep breath. Here, you don't have to rush, you don't have to show off, and there's no algorithm pushing you to keep scrolling.
@@ -139,7 +139,7 @@ Your notes are private by default. You can start by writing a personal journal e
 Enjoy the calm. If you need help, type "hi" or "hello" here.
 
 Warmly,
-The Journal Connection Team$t$ end, '{nama}', nama);
+The Jurkon Team$t$ end, '{nama}', nama);
 $$;
 
 create or replace function teks_asisten_sementara(bhs text, nama text) returns text

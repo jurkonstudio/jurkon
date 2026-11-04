@@ -150,6 +150,6 @@
   if (h1) h1.textContent = d.h1;
   document.title = d.h1 + ' · Jurkon';
   var meta = document.querySelector('meta[name="description"]');
-  if (meta) meta.setAttribute('content', d.h1 + ' · Jurnal Koneksi');
+  if (meta) meta.setAttribute('content', d.h1 + ' · Jurkon');
   kotak.innerHTML = html;
 })();

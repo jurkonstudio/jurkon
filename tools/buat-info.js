@@ -77,16 +77,16 @@ function buat(k, h) {
   const url = HOST + alamat(k, h), landing = HOST + '/' + k + '/';
   if (!p.h1 || !p.desc || !p.isi.trim()) galat.push(`${k}/${slug}: judul, deskripsi, atau isi kosong`);
   if (!p.nav || p.nav.length !== 5) galat.push(`${k}/${slug}: nav harus 5 butir`);
-  const ogJudul = p.h1 + ' · Jurnal Koneksi';
+  const ogJudul = p.h1 + ' · Jurkon';
   const nav = URUT_NAV.map((x, i) => `<a href="${HALAMAN[x].slug}"${x === h ? ' aria-current="page"' : ''}>${p.nav[i]}</a>`).join(' · ')
-    + ' · <a href="/' + k + '/">Jurnal Koneksi</a>';
+    + ' · <a href="/' + k + '/">Jurkon</a>';
   const bahasaNav = AKTIF.map(x => `<a href="${alamat(x.kode, h)}" lang="${x.htmlLang}" hreflang="${x.hl}" data-bhs="${x.kode}"${x.kode === k ? ' aria-current="page"' : ''}>${esc(x.nama)}</a>`).join(' ');
   const graf = [
-      { '@type': 'WebSite', '@id': HOST + '/#situs', name: 'Jurnal Koneksi', alternateName: ['Jurkon'], url: landing, inLanguage: b.hl },
+      { '@type': 'WebSite', '@id': HOST + '/#situs', name: 'Jurkon', alternateName: ['Jurnal Koneksi'], url: landing, inLanguage: b.hl },
       { '@type': 'WebPage', '@id': url + '#halaman', url, name: ogJudul, description: p.desc, inLanguage: b.hl,
         isPartOf: { '@id': HOST + '/#situs' }, breadcrumb: { '@id': url + '#remah' } },
       { '@type': 'BreadcrumbList', '@id': url + '#remah', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Jurnal Koneksi', item: landing },
+        { '@type': 'ListItem', position: 1, name: 'Jurkon', item: landing },
         { '@type': 'ListItem', position: 2, name: p.h1, item: url } ] }
   ];
   // Halaman Bantuan: tanya-jawab (<details class="faq">) juga diberikan sebagai FAQPage supaya mudah dikutip mesin jawab (teks sama persis dengan yang tampil)
@@ -119,7 +119,7 @@ ${CSP}
 ${hreflang(h)}
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Jurnal Koneksi">
+<meta property="og:site_name" content="Jurkon">
 <meta property="og:locale" content="${b.ogLocale}">
 ${ogAlt}
 <meta property="og:title" content="${esc(ogJudul)}">

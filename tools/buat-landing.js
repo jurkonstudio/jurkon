@@ -40,8 +40,8 @@ for (const b of BAHASA) {
   const jsonld = JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'WebSite', '@id': HOST + '/#situs', name: t.brand, alternateName: ['Jurkon', 'Jurnal Koneksi'], url: urlLengkap(k), inLanguage: b.hreflang, description: t.desc, publisher: { '@id': HOST + '/#org' } },
-      { '@type': 'Organization', '@id': HOST + '/#org', name: 'Jurnal Koneksi', alternateName: 'Jurkon', url: HOST + '/', logo: HOST + '/assets/icons/icon-512.png' },
+      { '@type': 'WebSite', '@id': HOST + '/#situs', name: t.brand, alternateName: ['Jurnal Koneksi'], url: urlLengkap(k), inLanguage: b.hreflang, description: t.desc, publisher: { '@id': HOST + '/#org' } },
+      { '@type': 'Organization', '@id': HOST + '/#org', name: 'Jurkon', alternateName: 'Jurnal Koneksi', url: HOST + '/', logo: HOST + '/assets/icons/icon-512.png' },
       { '@type': 'WebApplication', name: t.brand, url: urlLengkap(k), applicationCategory: 'SocialNetworkingApplication', operatingSystem: 'Any (web browser)', inLanguage: BAHASA.map(x => x.hreflang), description: t.desc, image: HOST + '/assets/og.jpg', isAccessibleForFree: true, offers: { '@type': 'Offer', price: '0', priceCurrency: 'IDR' } },
       { '@type': 'FAQPage', inLanguage: b.hreflang, mainEntity: faq }
     ]

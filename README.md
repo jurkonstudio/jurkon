@@ -216,7 +216,7 @@ Isi paket: `tools/ganti-deskripsi.js` dan `tools/ganti-judul.js`.
 Perubahan:
 - Deskripsi (meta description dan og:description) di `index.html`, `landing.html`, `tentang.html`:
   "Sosmed buatan orang Indonesia. Nulisnya cuma 250 karakter, feed ada ujungnya, dan bisa titip catatan buat dirimu untuk setahun lagi."
-- Judul `index.html` dan `landing.html`: "Journal Connection - tempat nulis catatan dan pengingat dirimu".
+- Judul `index.html` dan `landing.html`: "Jurkon (Jurnal Koneksi) - tempat nulis catatan dan pengingat dirimu".
 - Di `index.html` atribut `data-i-doc` pada `<title>` dibuang agar JS (`js/i18n.js`) tidak menimpa judul menjadi "Beranda · Jurkon" (Googlebot menjalankan JS). Hitungan notifikasi "(3)" di judul tab tetap jalan (`js/notif.js`).
 - Favicon 192 px (`assets/icons/icon-192.png`) ditambahkan agar ikon di hasil Google tidak berupa globe.
 
@@ -234,7 +234,7 @@ git push
 ```
 
 Catatan:
-- Judul tidak memuat kata "Jurkon". Alternatif: "Jurkon (Journal Connection) - tempat nulis catatan dan pengingat dirimu".
+- Nama merek diseragamkan: **Jurkon** (sesuai domain) sebagai nama utama di judul, `og:site_name`, `brand_nama`, JSON-LD, dan alt logo. "Jurnal Koneksi" hanya kepanjangan (di judul beranda dan `og:title`). Nama merek tidak lagi diterjemahkan di tiap bahasa.
 - `js/landing.js` menimpa judul landing bila `hero_judul` diisi di panel admin.
 - Google butuh beberapa hari sampai beberapa minggu untuk menjelajah ulang. Pratinjau WhatsApp menyimpan cache lama; uji dengan menambahkan `?v=2` pada tautan.
 - Saat dicek (`site:jurkon.my.id`), baru `/` yang terindeks, dengan judul dan deskripsi lama.
@@ -271,7 +271,7 @@ Catatan:
 ## 5. Catatan tindak lanjut
 
 - Akun resmi sudah menulis catatan pengumuman kapsul waktu. Saran gaya: nada pribadi, tanpa daftar fitur, tanpa emoji berderet.
-- Temuan di WhatsApp: tautan `http://` dengan pratinjau generik sempat dikira phishing. Bagikan tautan dengan `https://`, tambahkan satu kalimat pribadi, dan samakan nama merek di judul dan gambar pratinjau (`assets/og.jpg` bertuliskan "Journal Connection").
+- Temuan di WhatsApp: tautan `http://` dengan pratinjau generik sempat dikira phishing. Bagikan tautan dengan `https://`, tambahkan satu kalimat pribadi, dan samakan nama merek di judul dan gambar pratinjau (`assets/og.jpg`; teks di gambar perlu disamakan menjadi "Jurkon").
 - Cloudflare: dipakai untuk DNS, Turnstile, dan bisa ditambah pembatas laju dan header keamanan (HSTS, frame-ancestors).
 
 ## 6. Belum dikonfirmasi / sisa pekerjaan

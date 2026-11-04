@@ -3,7 +3,7 @@
 // Idempoten dan semua-atau-tidak-sama-sekali. Pakai: node tools/ganti-judul.js
 const fs = require('fs'), path = require('path');
 const akar = path.join(__dirname, '..');
-const JUDUL = 'Journal Connection - tempat nulis catatan dan pengingat dirimu';
+const JUDUL = 'Jurkon (Jurnal Koneksi) - tempat nulis catatan dan pengingat dirimu';
 const IKON = '<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">';
 const IKON32 = '<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">';
 // [berkas, pola judul lama]

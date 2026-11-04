@@ -30,9 +30,9 @@ const DINAMIS = ['bukaBeranda', 'beranda', 'selamatDatang', 'masuk', 'sampaiJump
 const T = {};
 
 T.id = {
-  title: 'Journal Connection - tempat nulis catatan dan pengingat dirimu',
+  title: 'Jurkon (Jurnal Koneksi) - tempat nulis catatan dan pengingat dirimu',
   desc: 'Sosmed buatan orang Indonesia. Nulisnya cuma 250 karakter, feed ada ujungnya, dan bisa titip catatan buat dirimu untuk setahun lagi.',
-  ogTitle: 'Jurnal Koneksi (Jurkon)', siteName: 'Jurnal Koneksi', brand: 'Jurnal Koneksi',
+  ogTitle: 'Jurkon (Jurnal Koneksi)', siteName: 'Jurkon', brand: 'Jurkon',
   navAria: 'Navigasi', navBeda: 'Kenapa beda', navFitur: 'Fitur', navAman: 'Keamanan', navTentang: 'Tentang', navMasuk: 'Masuk',
   heroJudul: 'Catatan singkat, koneksi yang tenang.',
   heroSub: 'Media sosial berbahasa Indonesia dengan batas 250 karakter. Tulis yang penting, baca yang berarti, tanpa keramaian.',
@@ -91,9 +91,9 @@ T.id = {
 };
 
 T.en = {
-  title: 'Journal Connection - write short notes to your future self',
+  title: 'Jurkon (Jurnal Koneksi) - write short notes to your future self',
   desc: 'A social journal made in Indonesia. Notes are capped at 250 characters, your feed has an end, and you can leave a note for yourself a year from now.',
-  ogTitle: 'Journal Connection (Jurkon)', siteName: 'Journal Connection', brand: 'Journal Connection',
+  ogTitle: 'Jurkon (Jurnal Koneksi)', siteName: 'Jurkon', brand: 'Jurkon',
   navAria: 'Navigation', navBeda: 'Why it’s different', navFitur: 'Features', navAman: 'Security', navTentang: 'About', navMasuk: 'Sign in',
   heroJudul: 'Short notes, calm connection.',
   heroSub: 'A social journal with a 250-character limit. Write what matters, read what means something, without the noise.',
@@ -152,9 +152,9 @@ T.en = {
 };
 
 T.ms = {
-  title: 'Journal Connection - catatan ringkas untuk diri anda di masa depan',
+  title: 'Jurkon (Jurnal Koneksi) - catatan ringkas untuk diri anda di masa depan',
   desc: 'Jurnal sosial buatan Indonesia. Catatan hanya 250 aksara, suapan ada penghujungnya, dan anda boleh titipkan catatan untuk diri sendiri setahun lagi.',
-  ogTitle: 'Journal Connection (Jurkon)', siteName: 'Journal Connection', brand: 'Journal Connection',
+  ogTitle: 'Jurkon (Jurnal Koneksi)', siteName: 'Jurkon', brand: 'Jurkon',
   navAria: 'Navigasi', navBeda: 'Kenapa berbeza', navFitur: 'Ciri', navAman: 'Keselamatan', navTentang: 'Tentang', navMasuk: 'Log masuk',
   heroJudul: 'Catatan ringkas, hubungan yang tenang.',
   heroSub: 'Jurnal sosial dengan had 250 aksara. Tulis yang penting, baca yang bermakna, tanpa hiruk-pikuk.',
@@ -213,9 +213,9 @@ T.ms = {
 };
 
 T.jv = {
-  title: 'Journal Connection - cathetan cekak kanggo sampeyan ing tembe',
+  title: 'Jurkon (Jurnal Koneksi) - cathetan cekak kanggo sampeyan ing tembe',
   desc: 'Jurnal sosial gawean Indonesia. Cathetan mung 250 aksara, feed-e ana pungkasane, lan sampeyan bisa nitipake cathetan kanggo awak dhewe setaun maneh.',
-  ogTitle: 'Journal Connection (Jurkon)', siteName: 'Journal Connection', brand: 'Journal Connection',
+  ogTitle: 'Jurkon (Jurnal Koneksi)', siteName: 'Jurkon', brand: 'Jurkon',
   navAria: 'Navigasi', navBeda: 'Apa bedane', navFitur: 'Fitur', navAman: 'Keamanan', navTentang: 'Tentang', navMasuk: 'Mlebu',
   heroJudul: 'Cathetan cekak, sesambungan sing tenang.',
   heroSub: 'Jurnal sosial kanthi watesan 250 aksara. Tulisen sing penting, wacanen sing ana tegese, tanpa rame-rame.',
@@ -274,9 +274,9 @@ T.jv = {
 };
 
 T.su = {
-  title: 'Journal Connection - catetan pondok pikeun anjeun di hareup',
+  title: 'Jurkon (Jurnal Koneksi) - catetan pondok pikeun anjeun di hareup',
   desc: 'Jurnal sosial jieunan Indonesia. Catetan ngan 250 aksara, feed-na aya tungtungna, sarta anjeun tiasa nitipkeun catetan pikeun diri sorangan sataun deui.',
-  ogTitle: 'Journal Connection (Jurkon)', siteName: 'Journal Connection', brand: 'Journal Connection',
+  ogTitle: 'Jurkon (Jurnal Koneksi)', siteName: 'Jurkon', brand: 'Jurkon',
   navAria: 'Navigasi', navBeda: 'Naon bédana', navFitur: 'Fitur', navAman: 'Kaamanan', navTentang: 'Ngeunaan', navMasuk: 'Lebet',
   heroJudul: 'Catetan pondok, sambungan anu tengtrem.',
   heroSub: 'Jurnal sosial anu watesna 250 aksara. Tulis anu penting, baca anu aya hartina, tanpa hiruk-pikuk.',
@@ -335,9 +335,9 @@ T.su = {
 };
 
 T.zh = {
-  title: 'Journal Connection - 写给未来自己的简短笔记',
+  title: 'Jurkon (Jurnal Koneksi) - 写给未来自己的简短笔记',
   desc: '印尼人打造的社交日记。每条笔记仅限 250 字，信息流有尽头，还能给一年后的自己留一条笔记。',
-  ogTitle: 'Journal Connection (Jurkon)', siteName: 'Journal Connection', brand: 'Journal Connection',
+  ogTitle: 'Jurkon (Jurnal Koneksi)', siteName: 'Jurkon', brand: 'Jurkon',
   navAria: '导航', navBeda: '为什么不同', navFitur: '功能', navAman: '安全', navTentang: '关于', navMasuk: '登录',
   heroJudul: '简短笔记，安静的连接。',
   heroSub: '每条仅限 250 字的社交日记。写下重要的事，读那些有意义的内容，远离喧嚣。',
@@ -396,9 +396,9 @@ T.zh = {
 };
 
 T.ja = {
-  title: 'Journal Connection - 未来の自分へ、短いノートを',
+  title: 'Jurkon (Jurnal Koneksi) - 未来の自分へ、短いノートを',
   desc: 'インドネシア発のソーシャル日記。ノートは250文字まで、フィードには終わりがあり、1年後の自分へノートを預けることもできます。',
-  ogTitle: 'Journal Connection (Jurkon)', siteName: 'Journal Connection', brand: 'Journal Connection',
+  ogTitle: 'Jurkon (Jurnal Koneksi)', siteName: 'Jurkon', brand: 'Jurkon',
   navAria: 'ナビゲーション', navBeda: 'ほかとの違い', navFitur: '機能', navAman: 'セキュリティ', navTentang: '概要', navMasuk: 'ログイン',
   heroJudul: '短いノートで、静かなつながりを。',
   heroSub: '250文字までのソーシャル日記。大切なことを書いて、意味のあるものを読む。にぎやかさとは無縁です。',
@@ -458,11 +458,11 @@ T.ja = {
 
 // es (landing-only: antarmuka aplikasi belum diterjemahkan, lihat docs/seo.md)
 T.es = {
-  "title": "Diario Conexión - escribe notas breves a tu yo del futuro",
+  "title": "Jurkon (Jurnal Koneksi) - escribe notas breves a tu yo del futuro",
   "desc": "Un diario social hecho en Indonesia. Las notas tienen un máximo de 250 caracteres, tu feed tiene un final y puedes dejarte una nota para dentro de un año.",
-  "ogTitle": "Diario Conexión (Jurkon)",
-  "siteName": "Diario Conexión",
-  "brand": "Diario Conexión",
+  "ogTitle": "Jurkon (Jurnal Koneksi)",
+  "siteName": "Jurkon",
+  "brand": "Jurkon",
   "navAria": "Navegación",
   "navBeda": "Por qué es diferente",
   "navFitur": "Funciones",
@@ -576,11 +576,11 @@ T.es = {
 
 // fr (landing-only: antarmuka aplikasi belum diterjemahkan, lihat docs/seo.md)
 T.fr = {
-  "title": "Journal Connexion - écrivez de courtes notes à votre futur vous",
+  "title": "Jurkon (Jurnal Koneksi) - écrivez de courtes notes à votre futur vous",
   "desc": "Un journal social conçu en Indonésie. Les notes sont limitées à 250 caractères, votre fil a une fin et vous pouvez vous laisser une note pour dans un an.",
-  "ogTitle": "Journal Connexion (Jurkon)",
-  "siteName": "Journal Connexion",
-  "brand": "Journal Connexion",
+  "ogTitle": "Jurkon (Jurnal Koneksi)",
+  "siteName": "Jurkon",
+  "brand": "Jurkon",
   "navAria": "Navigation",
   "navBeda": "Ce qui le distingue",
   "navFitur": "Fonctionnalités",
@@ -694,11 +694,11 @@ T.fr = {
 
 // hi (landing-only: antarmuka aplikasi belum diterjemahkan, lihat docs/seo.md)
 T.hi = {
-  "title": "जर्नल कनेक्शन - अपने भविष्य के स्वयं को छोटे नोट लिखें",
+  "title": "Jurkon (Jurnal Koneksi) - अपने भविष्य के स्वयं को छोटे नोट लिखें",
   "desc": "इंडोनेशिया में बना एक सोशल जर्नल। नोट अधिकतम 250 अक्षरों के होते हैं, आपकी फ़ीड का एक अंत है, और आप एक साल बाद के लिए खुद को नोट छोड़ सकते हैं।",
-  "ogTitle": "जर्नल कनेक्शन (Jurkon)",
-  "siteName": "जर्नल कनेक्शन",
-  "brand": "जर्नल कनेक्शन",
+  "ogTitle": "Jurkon (Jurnal Koneksi)",
+  "siteName": "Jurkon",
+  "brand": "Jurkon",
   "navAria": "नेविगेशन",
   "navBeda": "यह अलग क्यों है",
   "navFitur": "सुविधाएँ",
@@ -812,11 +812,11 @@ T.hi = {
 
 // ar (landing-only: antarmuka aplikasi belum diterjemahkan, lihat docs/seo.md)
 T.ar = {
-  "title": "يوميات التواصل - اكتب ملاحظات قصيرة إلى نفسك في المستقبل",
+  "title": "Jurkon (Jurnal Koneksi) - اكتب ملاحظات قصيرة إلى نفسك في المستقبل",
   "desc": "يوميات اجتماعية صُنعت في إندونيسيا. الملاحظات بحدّ أقصى 250 حرفًا، وللخلاصة نهاية، ويمكنك ترك ملاحظة لنفسك بعد عام.",
-  "ogTitle": "يوميات التواصل (Jurkon)",
-  "siteName": "يوميات التواصل",
-  "brand": "يوميات التواصل",
+  "ogTitle": "Jurkon (Jurnal Koneksi)",
+  "siteName": "Jurkon",
+  "brand": "Jurkon",
   "navAria": "التنقّل",
   "navBeda": "ما الذي يميّزه",
   "navFitur": "الميزات",
@@ -929,11 +929,11 @@ T.ar = {
 };
 
 T.ko = {
-  "title": "Journal Connection - 짧은 노트와 나를 위한 리마인더를 적는 곳",
+  "title": "Jurkon (Jurnal Koneksi) - 짧은 노트와 나를 위한 리마인더를 적는 곳",
   "desc": "인도네시아에서 만든 소셜 미디어예요. 노트는 250자까지만 쓸 수 있고, 피드에는 끝이 있으며, 1년 뒤의 나에게 노트를 남길 수 있어요.",
-  "ogTitle": "Jurnal Koneksi (Jurkon)",
-  "siteName": "Jurnal Koneksi",
-  "brand": "Jurnal Koneksi",
+  "ogTitle": "Jurkon (Jurnal Koneksi)",
+  "siteName": "Jurkon",
+  "brand": "Jurkon",
   "navAria": "내비게이션",
   "navBeda": "차별점",
   "navFitur": "기능",

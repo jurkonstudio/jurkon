@@ -26,7 +26,7 @@ alter table pengaturan_situs enable row level security;
 revoke all on pengaturan_situs from anon, authenticated;
 
 insert into pengaturan_situs (kunci, nilai) values
-  ('brand_nama',        'Jurnal Koneksi'),
+  ('brand_nama',        'Jurkon'),
   ('hero_judul',        'Catatan singkat, koneksi yang tenang.'),
   ('hero_sub',          'Media sosial berbahasa Indonesia dengan batas 250 karakter. Tulis yang penting, baca yang berarti, tanpa keramaian.'),
   ('pengumuman_aktif',  '0'),
