@@ -29,7 +29,7 @@ jobs:
           [ -n "$URL" ] && [ -n "$KEY" ] || { echo "::error::SUPABASE_URL / SUPABASE_ANON_KEY tidak terbaca dari js/supabase.js"; exit 1; }
           kode=$(curl -sS -o resp.json -w '%{http_code}' --max-time 30 --retry 2 --retry-delay 10 \
             -X POST "$URL/rest/v1/rpc/jelajahi_publik" \
-            -H "apikey: $KEY" -H 'Content-Type: application/json' -d '{"p_limit":1}')
+            -H "apikey: $KEY" -H 'Content-Type: application/json' -d '{"p_limit":1,"p_sebelum":null}')
           if [ "$kode" != "200" ] || [ "$(head -c1 resp.json)" != "[" ]; then
             echo "::error::Supabase membalas HTTP ${kode} (mungkin proyek di-pause atau fungsi berubah)"
             head -c 300 resp.json; echo
