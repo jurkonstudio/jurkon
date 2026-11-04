@@ -65,10 +65,9 @@
   $('#btnLapor').onclick = async () => {
     const s = await sesi();
     if (!s) { location.href = 'login?lanjut=' + encodeURIComponent('n?id=' + id); return; }
-    const alasan = prompt(t('pc.alasan'));
-    if (!alasan || !alasan.trim()) return;
-    const { error: e } = await db.from('reports').insert({ reporter_id: s.user.id, post_id: id, alasan: alasan.trim().slice(0, 300) });
-    if (e) alert(e.code === '23505' ? t('pc.sudahLapor') : t('pc.gagalLapor', { pesan: galatRamah(e) }));
-    else alert(t('pc.terkirim'));
+    try {
+      if (!window.Laporan) await new Promise((ok, gagal) => { const sc = document.createElement('script'); sc.src = 'js/laporan.js'; sc.onload = ok; sc.onerror = gagal; document.head.appendChild(sc); });
+      window.Laporan.buka({ jenis: 'catatan', id, username: c.username, cuplikan: c.content });
+    } catch (err) { alert(t('pc.gagalLapor', { pesan: '' })); }
   };
 })();

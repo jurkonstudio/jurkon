@@ -384,7 +384,9 @@
         const akun = !r.post_id && r.target_user_id;
         const p = r.posts, penulis = akun ? (r.sasaran?.username || '?') : (p?.profiles?.username || '?');
         const sasaranId = akun ? r.target_user_id : p?.user_id;
-        const KAT = { spam: 'Spam atau iklan', pelecehan: 'Pelecehan atau perundungan', palsu: 'Akun palsu atau meniru', tak_pantas: 'Konten tidak pantas', lainnya: 'Lainnya' };
+        const KAT = { spam: 'Spam atau iklan', pelecehan: 'Pelecehan atau perundungan', palsu: 'Akun palsu atau meniru', tak_pantas: 'Konten tidak pantas', lainnya: 'Lainnya',
+          penipuan: 'Penipuan atau pemerasan', hoaks: 'Informasi palsu atau menyesatkan', dewasa: 'Konten dewasa atau vulgar', kekerasan: 'Kekerasan atau ancaman', privasi: 'Data pribadi disebarkan', bahaya_diri: 'Menyakiti diri sendiri' };
+        const mendesak = ['bahaya_diri', 'kekerasan'].includes(r.kategori);
         const tombol = fLap === 'baru'
           ? `<button type="button" class="btn kecil garis" data-act="lapSelesai" data-r="${r.id}">${ikon('cek')}Tandai selesai</button>
              ${akun ? `<a class="btn kecil garis" href="/profil?u=${encodeURIComponent(penulis)}" target="_blank" rel="noopener">${ikon('luar')}Buka profil</a>` : ''}
@@ -395,7 +397,7 @@
         return `<article class="baris">${ava(penulis, null, true)}<div class="badan">
           <div class="atas-b"><span class="nama">@${esc(penulis)}</span><span class="sub">${akun ? 'laporan akun · ' : ''}dilaporkan oleh @${esc(r.pelapor?.username || '?')} · ${wkt(r.created_at)}</span></div>
           ${akun ? '' : `<div class="teks">${esc(p?.content || '(posting sudah dihapus)')}</div>`}
-          <div class="alasan"><b>${akun && r.kategori ? esc(KAT[r.kategori] || r.kategori) + ' · ' : ''}Alasan:</b> ${esc(r.alasan || '-')}</div>
+          <div class="alasan"><b>${r.kategori ? (mendesak ? '⚠ ' : '') + esc(KAT[r.kategori] || r.kategori) + ' · ' : ''}Alasan:</b> ${esc(r.alasan || '-')}</div>
           <div class="aksi-b">${tombol}</div></div></article>`;
       }).join('') + '</div>';
     isiEl.innerHTML = seg + daftar;

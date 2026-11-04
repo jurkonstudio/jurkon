@@ -300,54 +300,12 @@ function tampilToast(teks) {
   setTimeout(() => el.remove(), 2600);
 }
 // ---- Laporkan akun ---------------------------------------------------------
-// Memerlukan sql/031_laporan_akun.sql (kolom target_user_id dan kategori di tabel reports).
-const KATEGORI_LAPOR = ['spam', 'pelecehan', 'palsu', 'tak_pantas', 'lainnya'];
-const labelLapor = () => ({ spam: t('pf.lk.spam'), pelecehan: t('pf.lk.pelecehan'), palsu: t('pf.lk.palsu'), tak_pantas: t('pf.lk.tak_pantas'), lainnya: t('pf.lk.lainnya') });
-function bukaLaporAkun(p) {
-  const lama = document.getElementById('lembarLapor');
-  if (lama) lama.remove();
-  const L = labelLapor();
-  const d = document.createElement('dialog');
-  d.id = 'lembarLapor'; d.className = 'lembar lembar-lapor'; d.setAttribute('aria-labelledby', 'jLapor');
-  d.innerHTML = `<div class="lembar-kepala"><h2 id="jLapor">${esc(t('pf.laporJudul'))}</h2>
-      <button type="button" class="ikon-btn" id="tutupLapor" aria-label="${esc(t('umum.tutup'))}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-    <div class="lapor-badan">
-      <p class="lapor-tanya">${esc(t('pf.laporTanya', { u: p.username }))}</p>
-      <div class="lapor-daftar" role="radiogroup" aria-labelledby="jLapor">${KATEGORI_LAPOR.map(k =>
-        `<label class="lapor-opsi"><input type="radio" name="kategoriLapor" value="${k}"><span>${esc(L[k])}</span></label>`).join('')}</div>
-      <label class="lapor-rinci"><span>${esc(t('pf.laporRinci'))}</span>
-        <textarea id="rinciLapor" maxlength="300" rows="3"></textarea><small class="hitung" id="hitungLapor">0/300</small></label>
-      <p class="lapor-catatan">${esc(t('pf.laporCatatan', { u: p.username }))}</p>
-      <div class="tombol"><button type="button" class="btn garis" id="batalLapor">${esc(t('pf.laporBatal'))}</button>
-        <button type="button" class="btn utama" id="kirimLapor" disabled>${esc(t('pf.laporKirim'))}</button></div>
-    </div>`;
-  document.body.appendChild(d);
-  const kirim = d.querySelector('#kirimLapor'), rinci = d.querySelector('#rinciLapor');
-  const tutup = () => { d.close(); d.remove(); };
-  d.querySelector('#tutupLapor').onclick = tutup;
-  d.querySelector('#batalLapor').onclick = tutup;
-  d.onclick = e => { if (e.target === d) tutup(); };
-  d.addEventListener('cancel', () => setTimeout(() => d.remove(), 0));
-  d.addEventListener('change', e => { if (e.target.name === 'kategoriLapor') kirim.disabled = false; });
-  rinci.oninput = () => { d.querySelector('#hitungLapor').textContent = rinci.value.length + '/300'; };
-  kirim.onclick = async () => {
-    const pilih = d.querySelector('input[name="kategoriLapor"]:checked');
-    if (!pilih) return;
-    kirim.disabled = true;
-    const { error } = await db.from('reports').insert({
-      reporter_id: saya.id, target_user_id: p.id, kategori: pilih.value,
-      alasan: (rinci.value.trim() || L[pilih.value]).slice(0, 300)
-    });
-    if (error) {
-      kirim.disabled = false;
-      alert(error.code === '23505' ? t('pf.laporSudah') : t('pc.gagalLapor', { pesan: galatRamah(error) }));
-      if (error.code === '23505') tutup();
-      return;
-    }
-    tutup();
-    tampilToast(t('pc.terkirim'));
-  };
-  d.showModal();
+// Panel dan kategori ada di js/laporan.js (dimuat saat dibutuhkan). Kategori baru memerlukan sql/049_laporan_beragam.sql.
+async function bukaLaporAkun(p) {
+  try {
+    if (!window.Laporan) await new Promise((ok, gagal) => { const sc = document.createElement('script'); sc.src = 'js/laporan.js'; sc.onload = ok; sc.onerror = gagal; document.head.appendChild(sc); });
+    window.Laporan.buka({ jenis: 'akun', id: p.id, username: p.username });
+  } catch (err) { alert(t('pc.gagalLapor', { pesan: '' })); }
 }
 async function bagikanProfil() {
   const p = profil;

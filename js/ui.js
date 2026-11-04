@@ -407,6 +407,15 @@ document.addEventListener('click', async e => {
   catch (err) { prompt(t('pc.salinManual'), url); }
 });
 
+function muatLaporan() {
+  if (window.Laporan) return Promise.resolve(window.Laporan);
+  return new Promise((ok, gagal) => {
+    const s = document.createElement('script');
+    s.src = 'js/laporan.js'; s.onload = () => ok(window.Laporan); s.onerror = gagal;
+    document.head.appendChild(s);
+  });
+}
+
 // Satu pendengar klik untuk semua tombol posting (menggantikan versi di supabase.js)
 function pasangAksiPost(saya, muat) {
   document.addEventListener('click', async e => {
@@ -433,11 +442,13 @@ function pasangAksiPost(saya, muat) {
         alert(/terlalu cepat|batas/i.test(error.message || '') ? error.message : t('pc.gagalSuka'));
       }
     } else if (b.classList.contains('btn-lapor')) {
-      const alasan = prompt(t('pc.alasan'));
-      if (!alasan || !alasan.trim()) return;
-      const { error } = await db.from('reports').insert({ reporter_id: saya.id, post_id: id, alasan: alasan.trim().slice(0, 300) });
-      if (error) alert(error.code === '23505' ? t('pc.sudahLapor') : t('pc.gagalLapor', { pesan: galatRamah(error) }));
-      else alert(t('pc.terkirim'));
+      // Panel laporan bersama (js/laporan.js): kategori menyesuaikan catatan yang dilaporkan
+      const kartuPost = b.closest('.post');
+      const uEl = kartuPost && kartuPost.querySelector('.user'), iEl = kartuPost && kartuPost.querySelector('.isi');
+      try {
+        const L = await muatLaporan();
+        L.buka({ jenis: 'catatan', id, username: uEl ? uEl.textContent.replace(/^@/, '').trim() : '', cuplikan: iEl ? iEl.textContent : '' });
+      } catch (err) { alert(t('pc.gagalLapor', { pesan: '' })); }
     } else if (b.classList.contains('btn-hapus')) {
       if (!confirm(t('pc.konfirmHapus'))) return;
       const { error } = await db.from('posts').delete().eq('id', id);

@@ -965,6 +965,11 @@ textarea{min-height:80px}
 .lapor-catatan{font-size:12.5px;color:var(--redup);line-height:1.45}
 .lembar-lapor .tombol .btn{flex:1;min-height:42px}
 .lembar-lapor .btn:disabled{opacity:.45}
+/* Laporan beragam: cuplikan yang dilaporkan dan petunjuk keselamatan */
+.lapor-konteks{margin:0;padding:9px 12px;border-radius:10px;font-size:13.5px;line-height:1.4;color:var(--redup);background:color-mix(in srgb,var(--teks) 5%,transparent);border-left:3px solid var(--aksen);overflow-wrap:anywhere}
+.lapor-saran{margin:0;padding:9px 12px;border-radius:10px;font-size:13px;line-height:1.45;color:var(--teks);background:color-mix(in srgb,var(--bahaya) 9%,transparent);border:1px solid color-mix(in srgb,var(--bahaya) 28%,transparent)}
+.lapor-saran[hidden]{display:none}
+.lembar-lapor .lapor-daftar{max-height:44vh;overflow-y:auto}
 
 /* ===== Kartu profil modern: banner, avatar menimpa banner, statistik ringkas ===== */
 #atas .profil-atas{--pp:var(--k-pad);padding:0 var(--pp) 14px;border-bottom:1px solid var(--garis);background:var(--bg);
