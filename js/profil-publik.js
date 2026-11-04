@@ -20,14 +20,7 @@
   function rapikan() { try { if (u && location.pathname !== '/@' + u) history.replaceState(null, '', '/@' + u); } catch (e) {} }
   const urlLogin = () => 'login' + (u ? '?lanjut=' + encodeURIComponent('profil?u=' + u) : '');
 
-  function avatarTamu(nama, foto, ukuran) {
-    let h = 0;
-    for (const c of nama) h = (h * 31 + c.charCodeAt(0)) % 360;
-    const gambar = foto && !/^[a-z]+:/i.test(foto)
-      ? '<img src="' + esc(SUPABASE_URL + '/storage/v1/object/public/avatar/' + String(foto).split('/').map(encodeURIComponent).join('/')) + '" alt="" decoding="async">' : '';
-    return '<span class="avatar" style="width:' + ukuran + 'px;height:' + ukuran + 'px;font-size:' + Math.round(ukuran * 0.42) + 'px;background:hsl(' + h + ' 50% 42%)">' +
-      esc(Array.from(nama)[0].toUpperCase()) + gambar + '</span>';
-  }
+  function avatarTamu(nama, foto, ukuran, seed) { return avatar(nama, ukuran, foto, seed); }
 
   // Tampilan untuk profil privat / tidak ada / gangguan: ajakan, bukan galat.
   function tampilAjakan() {
@@ -46,7 +39,7 @@
 
   function kartuCatatan(c, d, nama) {
     const tgl = new Date(c.publik_pada).toLocaleDateString(I18n.locale, { day: 'numeric', month: 'long', year: 'numeric' });
-    return '<article class="post" data-id="' + esc(c.id) + '"><span class="ava">' + avatarTamu(nama, d.foto, 42) + '</span>' +
+    return '<article class="post" data-id="' + esc(c.id) + '"><span class="ava">' + avatarTamu(nama, d.foto, 42, d.username) + '</span>' +
       '<div class="badan"><span class="nama">' + esc(nama) + '</span> <span class="user">@' + esc(d.username) + '</span> ' +
       '<a class="waktu" href="n?id=' + esc(c.id) + '">' + esc(tgl) + '</a>' +
       '<div class="isi">' + esc(c.content) + '</div>' +
@@ -66,7 +59,7 @@
 
     const gabung = d.bergabung ? new Date(d.bergabung).toLocaleDateString(I18n.locale, { month: 'short', year: 'numeric' }) : '';
     atas.innerHTML = '<div class="profil-atas"><div class="sampul' + (d.sampul ? ' ada-foto' : '') + '">' + (d.sampul ? ProfilEkstra.htmlSampul(d.sampul) : '') + '</div>' +
-      '<div class="kartu-kepala">' + avatarTamu(nama, d.foto, 92) +
+      '<div class="kartu-kepala">' + avatarTamu(nama, d.foto, 92, d.username) +
       '<div class="profil-nama"><h2>' + esc(nama) + '</h2><div class="profil-user">@' + esc(d.username) + '</div></div></div>' +
       (d.bio ? '<div class="bio">' + esc(d.bio) + '</div>' : '') +
       (gabung ? '<div class="profil-gabung">' + ProfilEkstra.ikon.kalender + '<span>' + esc(t('pf.menulisSejak', { tgl: gabung })) + '</span></div>' : '') +

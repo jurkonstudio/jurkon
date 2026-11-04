@@ -298,3 +298,9 @@ Arah fitur berikutnya: jeda sebelum kirim (catatan emosional), atur sendiri feed
 ## 7. Prompt pembuka untuk sesi baru
 
 > Saya melanjutkan pengembangan Jurkon (jurkonstudio/jurkon, jurkon.my.id, Supabase). Bacalah dokumen update terlampir. Saya bekerja hanya dari HP (GitHub web dan Codespaces); paket perubahan dikirim sebagai zip dengan skrip tambalan. Audit keamanan selesai, kapsul waktu dan perapian SEO sudah dibuat. Mulai dari: (pilih) cadangan data / notifikasi kapsul terbuka / jeda sebelum kirim. Unggah juga zip repo terbaru bila perlu.
+
+
+## Avatar bawaan dan username awal (patch 051)
+- Akun tanpa foto kini memakai ilustrasi "benang jahit" orisinal Jurkon (`js/avatar.js`): digambar algoritma dari username, unik per akun, tanpa aset pihak lain. Foto unggahan tetap tampil di atasnya.
+- `avatar(nama, ukuran, foto, seed)`: isi `seed` dengan username supaya gambar tidak berubah saat nama tampilan diganti.
+- `sql/051_username_awal_dari_email.sql`: akun baru mendapat username dari bagian depan email (contoh `budi.santoso@x.com` menjadi `budisantoso`), jatuh ke akhiran acak bila terpakai atau ke username netral bila tidak lolos aturan. Catatan: username itu publik, jadi bagian depan email ikut terlihat sampai pengguna menggantinya (sebelumnya, migrasi 002 sengaja menghindari ini).

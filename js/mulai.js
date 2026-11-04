@@ -28,7 +28,7 @@
     if (saran === false) { el.innerHTML = '<p class="hitung">' + esc(t('mulai.s1.gagal')) + '</p>'; return; }
     if (!saran.length) { el.innerHTML = '<p class="hitung">' + esc(t('mulai.s1.kosong')) + '</p>'; return; }
     el.innerHTML = saran.map(o => `<div class="mulai-orang" data-id="${esc(o.id)}">
-      ${avatar(o.nama || o.username, 44, o.foto_url)}
+      ${avatar(o.nama || o.username, 44, o.foto_url, o.username)}
       <div class="mulai-info"><b>${esc(o.nama || o.username)}</b>${typeof lencanaResmi === 'function' ? lencanaResmi(o.username) : ''}
         <span class="sub">@${esc(o.username)}</span><div class="sub">${esc(o.bio || '')}</div></div>
       <button type="button" class="btn garis mulai-ikuti" aria-pressed="false">${esc(t('mulai.ikuti'))}</button></div>`).join('');

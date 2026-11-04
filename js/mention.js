@@ -51,7 +51,7 @@ function pasangMention(ta, saya) {
   function gambar() {
     if (!items.length) { tutup(); return; }
     list.innerHTML = items.map((p, i) => `<li role="option" id="${list.id}-${i}" data-i="${i}" aria-selected="${i === idx}" class="${i === idx ? 'aktif' : ''}">
-      ${avatar(p.nama || p.username, 32, p.foto_url)}
+      ${avatar(p.nama || p.username, 32, p.foto_url, p.username)}
       <span class="sebut-teks"><b>${esc(p.nama || p.username)}</b><span>@${esc(p.username)}</span></span></li>`).join('');
     list.hidden = false;
     ta.setAttribute('aria-activedescendant', `${list.id}-${idx}`);

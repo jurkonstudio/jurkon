@@ -51,7 +51,7 @@
     const baru = belum.has(c.id);
     const cari = (nama + ' ' + (o.username || '')).toLowerCase();
     return `<a class="psn-item${baru ? ' baru' : ''}" href="chat?id=${c.id}" data-cari="${esc(cari)}"${baru ? ' aria-label="' + esc(nama + ', ' + t('panel.belumDibaca')) + '"' : ''}>
-      <span class="psn-ava">${avatar(nama, 52, o.foto_url)}</span>
+      <span class="psn-ava">${avatar(nama, 52, o.foto_url, o.username)}</span>
       <span class="psn-isi">
         <span class="psn-atas"><span class="psn-nama">${esc(nama)}</span>${lencanaResmi(o.username)}<time class="psn-waktu" datetime="${esc((m || c).created_at)}">${esc(waktuRingkas((m || c).created_at))}</time></span>
         <span class="psn-bawah"><span class="psn-cuplikan">${esc(cuplikan)}</span>${baru ? '<span class="psn-titik" aria-hidden="true"></span>' : ''}</span>

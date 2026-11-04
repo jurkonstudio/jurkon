@@ -67,7 +67,7 @@ async function muat() {
   // "Menulis sejak ..." (id="gabung", diisi di bawah) tampil tepat di bawah bio.
   $('#atas').innerHTML = `<div class="profil-atas">
     <div class="sampul${p.sampul ? ' ada-foto' : ''}">${p.sampul ? ProfilEkstra.htmlSampul(p.sampul) : ''}${milikSaya ? `<button type="button" class="sampul-ubah" id="ubahSampul" aria-label="${esc(t('pe.gantiSampul'))}">${ProfilEkstra.ikon.kamera}</button>` : ''}</div>
-    <div class="kartu-kepala">${avatar(nama, 88, p.foto)}
+    <div class="kartu-kepala">${avatar(nama, 88, p.foto, p.username)}
       <div class="profil-panel" id="keluar">${lonceng()}</div>
       <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}${diaMengikuti ? ` <span class="label-ikut">${esc(t('pf.mengikutiKamu'))}</span>` : ''}</div></div></div>
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : esc(milikSaya ? t('pf.bioKosongSaya') : t('pf.bioKosong'))}</div>
@@ -465,7 +465,7 @@ function ubah(opsi) {
 
   const pratinjau = () => {
     const n = $('#uNama').value.trim(), u = $('#uUser').value.trim().toLowerCase();
-    $('#uPratinjau').innerHTML = avatar(n || u || '?', 56, fotoKini()) + `<div class="profil-nama"><div class="pr-nama">${esc(n || u || t('pf.u.namamu'))}</div><div class="profil-user">@${esc(u || 'username')}</div></div>`;
+    $('#uPratinjau').innerHTML = avatar(n || u || '?', 56, fotoKini(), u) + `<div class="profil-nama"><div class="pr-nama">${esc(n || u || t('pf.u.namamu'))}</div><div class="profil-user">@${esc(u || 'username')}</div></div>`;
     const ada = !!fotoKini();
     $('#uHapusFoto').hidden = !(ada || fotoBlob);
     $('#uHapusFoto').textContent = fotoBlob ? t('pf.u.batalPilihan') : t('pf.u.hapusFoto');
@@ -703,7 +703,7 @@ async function bukaDaftarOrang(jenis) {
   }
   let tampil = 0;
   const baris = o => `<a class="item dgn-avatar" href="profil?u=${esc(o.username)}">
-    ${avatar(o.nama || o.username, 44, o.foto_url)}
+    ${avatar(o.nama || o.username, 44, o.foto_url, o.username)}
     <div><b>${esc(o.nama || o.username)}</b>${lencanaResmi(o.username)}${o.id === saya.id ? ' <span class="sub">' + esc(t('pf.o.kamu')) + '</span>' : ''}
     <div class="sub">@${esc(o.username)}</div></div></a>`;
   const gambar = () => {

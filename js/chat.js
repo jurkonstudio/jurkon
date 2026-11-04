@@ -6,7 +6,7 @@
   if (!c) { $('#isi').innerHTML = '<div class="kosong">' + esc(t('chat.noConv')) + '</div>'; return; }
   const { data: o } = await db.from('profiles').select('username,nama,foto_url').eq('id', c.user_a === saya.id ? c.user_b : c.user_a).maybeSingle();
   const namaLawan = o ? (o.nama || o.username) : t('pesan.pengguna');
-  const isiLawan = avatar(namaLawan, 38, o && o.foto_url) +
+  const isiLawan = avatar(namaLawan, 38, o && o.foto_url, o && o.username) +
     '<span class="psn-nm"><b>' + esc(namaLawan) + lencanaResmi(o && o.username) + '</b>' + (o && o.username ? '<small>@' + esc(o.username) + '</small>' : '') + '</span>';
   $('#lawan').innerHTML = o && o.username
     ? '<a class="psn-profil" href="profil?u=' + encodeURIComponent(o.username) + '">' + isiLawan + '</a>'

@@ -13,7 +13,7 @@ const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/
 // Dengan begini satu berkas yang bermasalah tidak lagi menahan semua pengguna di versi lama.
 // Bahasa lain, tema Kaca/Awan, admin, dan landing disimpan otomatis saat pertama dipakai.
 const STATIS = ['/css/style.css', '/manifest.json', '/assets/logo-header.webp', '/assets/logo-header-gelap.webp',
-  '/js/bahasa-muat.js', '/js/bahasa/id.js', '/js/i18n.js', '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/ui.js', '/js/data.js',
+  '/js/bahasa-muat.js', '/js/bahasa/id.js', '/js/i18n.js', '/js/tema.js', '/js/config.js', '/js/supabase.js', '/js/avatar.js', '/js/ui.js', '/js/data.js',
   '/js/nav.js', '/js/feed.js', '/js/keamanan.js', '/js/akar.js', '/js/markdown.js',
   '/index.html', '/login.html', '/daftar.html'];
 const OPSIONAL = ['/css/login.css', '/css/gensandi.css', '/js/gensandi.js', '/css/dokumen.css', '/js/bahasa/en.js',

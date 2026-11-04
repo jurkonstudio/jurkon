@@ -71,7 +71,7 @@ async function muat() {
       const orang = [...peta.values()].slice(0, 10);
       jmlOrang = orang.length;
       elOrang.innerHTML = orang.map(o => `<a class="item dgn-avatar" href="profil?u=${esc(o.username)}">
-        ${avatar(o.nama || o.username, 44, o.foto_url)}
+        ${avatar(o.nama || o.username, 44, o.foto_url, o.username)}
         <div><b>${esc(o.nama || o.username)}</b>${lencanaResmi(o.username)} <span class="sub">@${esc(o.username)}</span>
         <div class="sub">${esc(o.bio || '')}</div></div></a>`).join('');
     }

@@ -1,22 +1,6 @@
 // Tampilan: avatar, keadaan kosong, efek memuat, placeholder bergantian.
 // Dimuat setelah supabase.js, jadi fungsi htmlPost di sini menggantikan yang lama.
 
-// Path foto di Supabase Storage (bucket "avatar") -> URL publik. URL penuh/blob dipakai apa adanya.
-function urlFoto(f) {
-  if (!f) return '';
-  if (/^(https?:|blob:|data:)/.test(f)) return f;
-  return SUPABASE_URL + '/storage/v1/object/public/avatar/' + String(f).split('/').map(encodeURIComponent).join('/');
-}
-
-// foto (opsional): path/URL foto profil. Huruf inisial tetap ada di bawahnya sebagai cadangan bila foto gagal dimuat.
-function avatar(nama, ukuran, foto) {
-  const u = ukuran || 40;
-  const n = (nama || '?').trim() || '?';
-  let h = 0;
-  for (const c of n) h = (h * 31 + c.charCodeAt(0)) % 360;
-  const gb = foto ? `<img src="${esc(urlFoto(foto))}" alt="" loading="lazy" decoding="async">` : '';
-  return `<span class="avatar" style="width:${u}px;height:${u}px;font-size:${Math.round(u * 0.42)}px;background:hsl(${h} 50% 42%)">${esc(Array.from(n)[0].toUpperCase())}${gb}</span>`;
-}
 // Lencana centang biru. Dua sumber:
 //  1) AKUN_RESMI: username yang dicadangkan di SQL (migrasi 009), selalu bercentang.
 //  2) Akun verified yang diberikan admin dari Pusat Kendali (migrasi 028), diambil lewat daftar_verified().
@@ -305,7 +289,7 @@ function htmlPost(p, saya, opsi) {
   const tayang = p.dilihat == null ? ''
     : `<span class="tayang"${p.dilihat > 0 ? '' : ' hidden'} title="${esc(t('pc.dilihat', { n: p.dilihat }))}" aria-label="${esc(t('pc.dilihat', { n: p.dilihat }))}">${IK.mata}<span data-n="${Number(p.dilihat) || 0}">${p.dilihat > 0 ? ringkas(p.dilihat) : ''}</span></span>`;
   return `<article class="post" data-id="${p.id}">
-    <a class="ava" href="profil?u=${esc(p.profiles.username)}" aria-label="${esc(t('pc.profilDari', { nama }))}">${avatar(nama, 42, p.profiles.foto_url)}</a>
+    <a class="ava" href="profil?u=${esc(p.profiles.username)}" aria-label="${esc(t('pc.profilDari', { nama }))}">${avatar(nama, 42, p.profiles.foto_url, p.profiles.username)}</a>
     <div class="badan">
       <a href="profil?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>${lencanaResmi(p.profiles.username)}
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
