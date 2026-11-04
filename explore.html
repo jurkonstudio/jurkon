@@ -18,7 +18,13 @@
 <title data-i-doc="nav.explore">Jelajah · Jurkon</title></head><body data-tab="explore">
 <main><div class="header"><h1 data-i="nav.explore">Jelajah</h1></div>
 <div class="pad"><input type="text" id="cari" aria-label="Cari orang atau topik" data-i-aria="explore.aria" data-i-phs="explore.ph"></div>
-<div id="daftar"></div></main>
+<div id="pertanyaan" class="ringkasan pq-kartu" hidden></div>
+<section id="saranOrang" class="jl-saran" hidden></section>
+<div id="tabJelajah" class="cari-ruang jl-tab" role="tablist" aria-label="Pilih daftar Jelajah" data-i-aria="explore.tabAria">
+<button type="button" role="tab" data-t="terbaru" aria-selected="true" aria-controls="daftar" data-i="explore.tabTerbaru">Terbaru</button>
+<button type="button" role="tab" data-t="sorotan" aria-selected="false" aria-controls="daftar" data-i="explore.sorotan">Sorotan</button>
+</div>
+<div id="daftar" role="tabpanel"></div></main>
 <a class="fab" href="post" aria-label="Tulis" data-i-aria="nav.tulis">+</a>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" integrity="sha384-0w2KAL2YHP6wKOkUDzkCDGgVvfmHnj02DHeQ6XcHOgTfFsGyonKOpShMH1x6nk9o" crossorigin="anonymous"></script>
 <script src="js/supabase.js"></script>

@@ -3,7 +3,7 @@
 // tanpa menunggu jaringan. HTML, JS, dan CSS selalu berasal dari versi yang sama, jadi tidak pernah campur lama-baru.
 // Versi baru terpasang di belakang layar saat sw.js berubah.
 // JANGAN edit angka CACHE secara manual: jalankan  node tools/naikkan-cache.js  sebelum unggah.
-const CACHE = 'jurkon-afddfc17';
+const CACHE = 'jurkon-31a8716f';
 const LIB = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
 
 // STATIS = INTI: kerangka minimum agar aplikasi jalan. Bila salah satu gagal diunduh, pemasangan dibatalkan

@@ -1,3 +1,22 @@
+# Update Jurkon, 4 November 2026 (Jelajah tidak lagi kosong)
+
+**Diuji di Chromium dengan data tiruan (390 dan 1280 px), belum di produksi.** Tanpa SQL baru: memakai `daftar_posting` (mode `semua`), `posting_sorotan` (012), dan `saran_akun` (044) yang sudah ada.
+
+Masalah: Jelajah (`explore.html`) hanya menampilkan Sorotan (dilihat >= 100.000 kali atau disorot admin), jadi pasti kosong selama pengguna sedikit.
+
+| Perubahan | Berkas |
+|---|---|
+| Kartu **Pertanyaan hari ini** di atas (memakai `#pertanyaan` + `pertanyaan.js`, sama seperti Beranda) | `explore.html` |
+| **Orang untuk diikuti**: kartu geser dari `saran_akun`, tombol Ikuti, tombol **Undang teman** (bagikan/salin `/?undang=USERNAME`). Bila 044 belum dijalankan, hanya tombol Undang yang tampil | `js/explore.js`, `css/style.css` (bagian paling bawah) |
+| Tab **Terbaru** (bawaan, semua catatan publik) dan **Sorotan** | `explore.html`, `js/explore.js` |
+| Tampilan kosong yang mengajak (Tulis sekarang + Undang teman) | `js/explore.js` |
+| Saat mencari, semua bagian di atas disembunyikan lewat kelas `body.sedang-cari` | `css/style.css` |
+| 9 kunci baru `explore.*` (9 bahasa), `pecah-bahasa` dan `cek-bahasa` sudah dijalankan (893 kunci, OK) | `js/bahasa.js`, `js/bahasa/*.js` |
+
+Setelah unggah: tulis satu catatan lewat akun @jurkon tiap hari dan sorot yang bagus lewat panel admin (`sorot_posting`). Uji manual: Ikuti dan batal ikuti dengan akun sungguhan, Undang teman di HP (menu bagikan), tema Gelap/Kaca/Awan, 320 px. Bila pengguna sudah > 100, turunkan `ambang_sorotan()` bertahap.
+
+---
+
 # Update Jurkon, 3 November 2026 (tindak lanjut audit)
 
 Perbaikan dari audit kode dan penyamaan dokumen dengan isi repo. Tanpa SQL.
