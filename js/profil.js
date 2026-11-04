@@ -49,10 +49,11 @@ async function muat() {
   // Bagian atas berupa "sampul jurnal": kertas bergaris dengan jahitan benang, foto profil seperti foto yang tertempel,
   // dan stempel "menulis sejak ..." (id="gabung" diisi di bawah).
   $('#atas').innerHTML = `<div class="profil-atas">
-    <div class="sampul" aria-hidden="false"><div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div></div>
+    <div class="sampul${p.sampul ? ' ada-foto' : ''}">${p.sampul ? ProfilEkstra.htmlSampul(p.sampul) : ''}<div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div>${milikSaya ? `<button type="button" class="sampul-ubah" id="ubahSampul" aria-label="${esc(t('pe.gantiSampul'))}">${ProfilEkstra.ikon.kamera}</button>` : ''}</div>
     <div class="kartu-kepala">${avatar(nama, 88, p.foto)}
       <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}${diaMengikuti ? ` <span class="label-ikut">${esc(t('pf.mengikutiKamu'))}</span>` : ''}</div></div></div>
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : esc(milikSaya ? t('pf.bioKosongSaya') : t('pf.bioKosong'))}</div>
+    ${ProfilEkstra.htmlInfo(p, milikSaya)}
     <div class="stat"><div class="stat-item" id="statPosting"><b id="jmlPosting">–</b><span>${esc(t('pf.posting'))}</span></div><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="${esc(t('pf.lihatPengikut', { n: pengikut }))}"><b>${pengikut}</b><span>${esc(t('pf.pengikut'))}</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="${esc(t('pf.lihatMengikuti', { n: mengikuti }))}"><b>${mengikuti}</b><span>${esc(t('pf.mengikuti'))}</span></button></div>
     <div class="tombol">${milikSaya
       ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button><a class="btn garis" id="keJurnal" href="jurnal">${esc(t('jr.judul'))}</a><button class="ikon-btn" id="bagikanSaya" aria-label="${esc(t('pf.bagikan'))}">${IKP.bagikan}</button>`
@@ -87,7 +88,9 @@ async function muat() {
     try { if (sessionStorage.getItem('bukaPengaturan') === '1') { sessionStorage.removeItem('bukaPengaturan'); Pengaturan.buka('tampilan'); } } catch (e) {}
     $('#lembarPengaturan').onclick = e => { if (e.target === e.currentTarget) e.currentTarget.close(); };
     $('#logout').onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.href = 'login'; };
-    $('#ubah').onclick = ubah;
+    $('#ubah').onclick = () => ubah();
+    $('#ubahSampul').onclick = () => ubah({ fokus: 'sampul' });
+    const tambahInfo = $('#tambahInfo'); if (tambahInfo) tambahInfo.onclick = () => ubah({ fokus: 'info' });
     $('#bagikanSaya').onclick = bagikanProfil;
     $('#tema').hidden = false;
     if (window.Privasi) Privasi.pasangSaklarProfil($("#atas .profil-atas"));   // saklar "Profil publik" (js/privasi.js)
@@ -389,13 +392,61 @@ async function bersihkanFoto(simpan) {
   } catch (e) {}
 }
 
-function ubah() {
+// Sampul: potong 3:1 dari tengah, 1200x400, JPEG (juga membuang data EXIF/lokasi). Tetap di bawah 1 MB.
+function ubahUkuranSampul(file) {
+  const L = 1200, T = 400;
+  return new Promise((ok, gagal) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const w = img.naturalWidth, h = img.naturalHeight;
+        URL.revokeObjectURL(url);
+        if (!w || !h) throw new Error(t('pf.foto.kosong'));
+        if (w < 600 || h < 200) throw new Error(t('pe.sampulKecil'));
+        let sw = w, sh = w / 3;
+        if (sh > h) { sh = h; sw = h * 3; }
+        const c = document.createElement('canvas'); c.width = L; c.height = T;
+        const x = c.getContext('2d');
+        x.fillStyle = '#fff'; x.fillRect(0, 0, L, T);
+        x.drawImage(img, (w - sw) / 2, (h - sh) / 2, sw, sh, 0, 0, L, T);
+        const coba = mutu => c.toBlob(b => {
+          if (!b) return gagal(new Error(t('pf.foto.proses')));
+          if (b.size > 900 * 1024 && mutu > 0.5) return coba(mutu - 0.15);
+          b.size > 1000 * 1024 ? gagal(new Error(t('pf.foto.besar'))) : ok(b);
+        }, 'image/jpeg', mutu);
+        coba(0.82);
+      } catch (e) { URL.revokeObjectURL(url); gagal(e); }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); gagal(new Error(t('pf.foto.baca'))); };
+    img.src = url;
+  });
+}
+async function bersihkanSampul(simpan) {
+  try {
+    const { data } = await db.storage.from('sampul').list(saya.id, { limit: 100 });
+    const nama = simpan ? simpan.split('/').pop() : null;
+    const buang = (data || []).filter(f => f.name !== nama && f.name !== '.emptyFolderPlaceholder').map(f => saya.id + '/' + f.name);
+    if (buang.length) await db.storage.from('sampul').remove(buang);
+  } catch (e) {}
+}
+
+function ubah(opsi) {
   if ($('#lembarUbah')) return;
   const d = document.createElement('dialog');
   d.id = 'lembarUbah'; d.className = 'lembar'; d.setAttribute('aria-labelledby', 'jUbah');
   d.innerHTML = `<div class="lembar-kepala"><h2 id="jUbah">${esc(t('pf.ubah'))}</h2><button class="ikon-btn" id="uTutup" aria-label="${esc(t('umum.tutup'))}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="pratinjau" id="uPratinjau"></div>
     <div id="formUbah" class="form">
+    <label for="uPilihSampul">${esc(t('pe.sampul'))}</label>
+    <div class="u-sampul" id="uSampul"></div>
+    <div class="foto-ubah">
+      <button type="button" class="btn garis" id="uPilihSampul">${esc(t('pe.pilihSampul'))}</button>
+      <button type="button" class="btn garis" id="uHapusSampul" hidden>${esc(t('pe.hapusSampul'))}</button>
+      <input type="file" id="uFileSampul" accept="image/jpeg,image/png,image/webp" hidden>
+    </div>
+    <div class="kuota" id="kSampul"></div>
+    <div class="hitung">${esc(t('pe.sampulHint'))}</div>
     <label for="uPilihFoto">${esc(t('pf.u.foto'))}</label>
     <div class="foto-ubah">
       <button type="button" class="btn garis" id="uPilihFoto">${esc(t('pf.u.pilihFoto'))}</button>
@@ -409,6 +460,12 @@ function ubah() {
     <label for="uBio">${esc(t('pf.u.bio'))}</label>
     <textarea id="uBio" style="min-height:70px" aria-label="${esc(t('pf.u.bio'))}"></textarea>
     <div class="baris"><span class="hitung" id="uHitung"></span></div>
+    <label for="uLokasi">${esc(t('pe.lokasi'))}</label>
+    <input type="text" id="uLokasi" maxlength="${ProfilEkstra.MAKS_LOKASI}" autocomplete="off" placeholder="${esc(t('pe.lokasiContoh'))}" value="${esc(profil.lokasi || '')}">
+    <label id="uTautanLabel">${esc(t('pe.tautan'))}</label>
+    <div class="u-tautan" id="uTautan" role="group" aria-labelledby="uTautanLabel"></div>
+    <button type="button" class="btn garis u-tambah" id="uTambahTautan">${ProfilEkstra.ikon.plus}<span>${esc(t('pe.tambahTautan'))}</span></button>
+    <div class="hitung">${esc(t('pe.tautanHint', { n: ProfilEkstra.MAKS_TAUTAN }))}</div>
     <label for="uUser">${esc(t('pf.u.username'))}</label>
     <input type="text" id="uUser" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(profil.username)}">
     <div class="hitung">${esc(t('user.hint'))}</div>
@@ -419,9 +476,12 @@ function ubah() {
   document.body.appendChild(d);
 
   let kuota = null, fotoBlob = null, fotoPratinjau = null, hapusFoto = false;
+  let sampulBlob = null, sampulPratinjau = null, hapusSampul = false;
+  const sampulKini = () => hapusSampul ? null : (sampulPratinjau || (profil.sampul ? ProfilEkstra.urlSampul(profil.sampul) : null));
+  const lepasSampul = () => { if (sampulPratinjau) { URL.revokeObjectURL(sampulPratinjau); sampulPratinjau = null; } };
   const fotoKini = () => hapusFoto ? null : (fotoPratinjau || profil.foto || null);
   const lepasPratinjau = () => { if (fotoPratinjau) { URL.revokeObjectURL(fotoPratinjau); fotoPratinjau = null; } };
-  d.addEventListener('close', () => { lepasPratinjau(); d.remove(); });
+  d.addEventListener('close', () => { lepasPratinjau(); lepasSampul(); d.remove(); });
   d.onclick = e => { if (e.target === d) d.close(); };
   $('#uBio').value = profil.bio || '';
   pasangHitung($('#uBio'), $('#uHitung'), 160);
@@ -433,11 +493,55 @@ function ubah() {
     $('#uHapusFoto').hidden = !(ada || fotoBlob);
     $('#uHapusFoto').textContent = fotoBlob ? t('pf.u.batalPilihan') : t('pf.u.hapusFoto');
   };
+  const pratinjauSampul = () => {
+    const u = sampulKini();
+    $('#uSampul').innerHTML = u ? `<img src="${esc(u)}" alt="">` : '';
+    $('#uHapusSampul').hidden = !(u || sampulBlob);
+    $('#uHapusSampul').textContent = sampulBlob ? t('pf.u.batalPilihan') : t('pe.hapusSampul');
+  };
+  const barisTautan = (x) => {
+    const b = document.createElement('div');
+    b.className = 'u-tautan-baris';
+    b.innerHTML = `<input type="text" class="ut-label" maxlength="${ProfilEkstra.MAKS_LABEL}" autocomplete="off" placeholder="${esc(t('pe.labelPh'))}" aria-label="${esc(t('pe.labelPh'))}">
+      <input type="text" class="ut-url" maxlength="200" inputmode="url" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="${esc(t('pe.urlPh'))}" aria-label="${esc(t('pe.tautan'))}">
+      <button type="button" class="ikon-btn ut-hapus" aria-label="${esc(t('pe.hapusTautan'))}">${ProfilEkstra.ikon.silang}</button>`;
+    b.querySelector('.ut-label').value = (x && x.label) || '';
+    b.querySelector('.ut-url').value = (x && x.url) ? x.url.replace(/^https:\/\//, '') : '';
+    b.querySelector('.ut-url').addEventListener('input', e => e.target.removeAttribute('aria-invalid'));
+    b.querySelector('.ut-hapus').onclick = () => { b.remove(); segarkanTautan(); };
+    $('#uTautan').appendChild(b);
+  };
+  const segarkanTautan = () => { $('#uTambahTautan').disabled = $('#uTautan').children.length >= ProfilEkstra.MAKS_TAUTAN; };
+  ProfilEkstra.bersih(profil.tautan).forEach(barisTautan);
+  segarkanTautan();
+  $('#uTambahTautan').onclick = () => { barisTautan(null); segarkanTautan(); const u = $('#uTautan').querySelectorAll('.ut-url'); u[u.length - 1].focus(); };
+  pratinjauSampul();
+  $('#uPilihSampul').onclick = () => $('#uFileSampul').click();
+  $('#uFileSampul').onchange = async () => {
+    const f = $('#uFileSampul').files[0]; $('#uFileSampul').value = '';
+    const galat = $('#uGalat'); galat.textContent = '';
+    if (!f) return;
+    if (!/^image\/(jpeg|png|webp)$/.test(f.type)) { galat.textContent = t('pf.foto.format'); return; }
+    if (f.size > 15 * 1024 * 1024) { galat.textContent = t('pf.foto.besar'); return; }
+    try {
+      sampulBlob = await ubahUkuranSampul(f);
+      lepasSampul();
+      sampulPratinjau = URL.createObjectURL(sampulBlob);
+      hapusSampul = false;
+      pratinjauSampul();
+    } catch (e) { galat.textContent = e.message || t('pf.foto.tidakBisa'); }
+  };
+  $('#uHapusSampul').onclick = () => {
+    if (sampulBlob) { sampulBlob = null; lepasSampul(); } else hapusSampul = true;
+    pratinjauSampul();
+  };
   const terapkanKuota = () => {
-    const f = infoKuota(kuota, 'foto', 'pf.l.foto'), n = infoKuota(kuota, 'nama', 'pf.l.nama'), u = infoKuota(kuota, 'username', 'pf.l.username');
-    [['#kFoto', f], ['#kNama', n], ['#kUser', u]].forEach(([sel, k]) => { $(sel).textContent = k.teks; $(sel).classList.toggle('habis', k.habis); });
+    const f = infoKuota(kuota, 'foto', 'pf.l.foto'), n = infoKuota(kuota, 'nama', 'pf.l.nama'), u = infoKuota(kuota, 'username', 'pf.l.username'), sp = infoKuota(kuota, 'sampul', 'pe.l.sampul');
+    [['#kFoto', f], ['#kSampul', sp], ['#kNama', n], ['#kUser', u]].forEach(([sel, k]) => { $(sel).textContent = k.teks; $(sel).classList.toggle('habis', k.habis); });
     $('#uPilihFoto').disabled = f.habis;
     if (f.habis) $('#uHapusFoto').disabled = true;
+    $('#uPilihSampul').disabled = sp.habis;
+    if (sp.habis) $('#uHapusSampul').disabled = true;
     $('#uNama').disabled = n.habis;
     $('#uUser').disabled = u.habis;
   };
@@ -477,13 +581,28 @@ function ubah() {
       const kode = await cekUsernameServer(username);
       if (kode && kode !== 'ok') { galat.textContent = t(PESAN_USERNAME[kode] || 'user.cadangan'); return; }
     }
-    const gabung = [$('#uNama').value, $('#uBio').value, username].join(' \n ');
+    const lokasi = $('#uLokasi').value.trim().slice(0, ProfilEkstra.MAKS_LOKASI) || null;
+    const tautan = []; let tautanSalah = false;
+    d.querySelectorAll('.u-tautan-baris').forEach(b => {
+      const label = b.querySelector('.ut-label').value.trim().slice(0, ProfilEkstra.MAKS_LABEL);
+      const kotak = b.querySelector('.ut-url'), mentah = kotak.value.trim();
+      if (!mentah && !label) return;
+      const url = ProfilEkstra.rapikanUrl(mentah);
+      if (!url) { tautanSalah = true; kotak.setAttribute('aria-invalid', 'true'); return; }
+      if (!tautan.some(x => x.url === url)) tautan.push({ label: label || null, url });
+    });
+    if (tautanSalah) { galat.textContent = t('pe.urlSalah'); return; }
+    const gabung = [$('#uNama').value, $('#uBio').value, username, lokasi || '', tautan.map(x => (x.label || '') + ' ' + x.url).join(' ')].join(' \n ');
     if (!bolehKirim(gabung, m => galat.textContent = m)) return;
 
     const ubahNama = nama !== (profil.nama || null), ubahUser = username !== profil.username;
     const ubahFoto = !!fotoBlob || (hapusFoto && !!profil.foto);
+    const ubahSampul = !!sampulBlob || (hapusSampul && !!profil.sampul);
+    const ubahLokasi = lokasi !== (profil.lokasi || null);
+    const tautanLama = ProfilEkstra.bersih(profil.tautan);
+    const ubahTautan = JSON.stringify(tautan) !== JSON.stringify(tautanLama);
     const daftar = [];
-    [[ubahFoto, 'foto', 'pf.l.foto'], [ubahNama, 'nama', 'pf.l.nama'], [ubahUser, 'username', 'pf.l.username']].forEach(([ya, jenis, label]) => {
+    [[ubahFoto, 'foto', 'pf.l.foto'], [ubahSampul, 'sampul', 'pe.l.sampul'], [ubahNama, 'nama', 'pf.l.nama'], [ubahUser, 'username', 'pf.l.username']].forEach(([ya, jenis, label]) => {
       if (!ya) return;
       const k = infoKuota(kuota, jenis, label);
       if (k.habis) { galat.textContent = k.teks; daftar.push(null); return; }
@@ -506,18 +625,40 @@ function ubah() {
       ubahan.foto_url = pathBaru;
     } else if (ubahFoto) ubahan.foto_url = null;
 
+    // Sampul, lokasi, dan tautan hanya dikirim bila berubah, jadi pengguna yang tidak menyentuhnya tidak terganggu
+    let pathSampul = null;
+    if (sampulBlob) {
+      pathSampul = saya.id + '/' + Date.now() + '.jpg';
+      const { error: es } = await db.storage.from('sampul').upload(pathSampul, sampulBlob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false });
+      if (es) {
+        if (pathBaru) db.storage.from('avatar').remove([pathBaru]).catch(() => {});
+        $('#uSimpan').disabled = false;
+        galat.textContent = /bucket not found/i.test(es.message || '') ? t('pe.belumAktif') : t('pf.foto.gagalUnggah', { pesan: pesanGalat(es) });
+        return;
+      }
+      ubahan.sampul_url = pathSampul;
+    } else if (ubahSampul) ubahan.sampul_url = null;
+    if (ubahLokasi) ubahan.lokasi = lokasi;
+    if (ubahTautan) ubahan.tautan = tautan;
+
     const { error } = await db.from('profiles').update(ubahan).eq('id', saya.id);
     $('#uSimpan').disabled = false;
     if (error) {
       if (pathBaru) db.storage.from('avatar').remove([pathBaru]).catch(() => {});
-      galat.textContent = error.code === '23505' ? t('user.dipakai') : error.code === '23514' ? t('user.harus') : pesanGalat(error);
+      if (pathSampul) db.storage.from('sampul').remove([pathSampul]).catch(() => {});
+      const belumAda = /sampul_url|lokasi|tautan/i.test(error.message || '') && /column|schema cache/i.test(error.message || '');
+      galat.textContent = belumAda ? t('pe.belumAktif') : error.code === '23505' ? t('user.dipakai') : error.code === '23514' ? t('user.harus') : pesanGalat(error);
       return;
     }
     if (ubahFoto) await bersihkanFoto(pathBaru);
+    if (ubahSampul) await bersihkanSampul(pathSampul);
     location.href = 'profil' + (username === profil.username ? '' : '?u=' + username);
   };
   d.showModal();
-  $('#uNama').focus();
+  const fokus = opsi && opsi.fokus;
+  if (fokus === 'info') $('#uLokasi').focus();
+  else if (fokus === 'sampul') $('#uPilihSampul').focus();
+  else $('#uNama').focus();
 }
 (async () => {
   // Tamu yang membuka tautan lama profil.html?u=username: tampilkan halaman profil tamu (profil publik atau ajakan), bukan layar masuk.

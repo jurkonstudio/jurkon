@@ -1761,3 +1761,64 @@ dialog:not(.lembar){margin:auto;max-height:calc(100dvh - 32px)}
 .pp-ajakan .hint-pesan{margin-top:16px}
 .pp-ajakan .jl-tentang{margin-top:10px}
 @media (prefers-reduced-motion:reduce){.saklar,.saklar::after{transition:none}}
+
+/* ===== Profil profesional: sampul foto 3:1, foto profil menimpa sampul, lokasi dan tautan =====
+   Lapisan paling akhir. Hanya memakai token tema, jadi ikut tema Kertas/Gelap/Kaca/Awan. Menghapus blok ini
+   mengembalikan tampilan "sampul jurnal" sebelumnya. */
+#atas .sampul{height:auto;aspect-ratio:3/1;min-width:0;max-height:220px;background-position:0 0,0 12px}
+#atas .sampul-foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#atas .sampul.ada-foto::after{display:none}
+#atas .sampul.ada-foto{background-image:none;background-color:var(--garis)}
+#atas .sampul .profil-gabung{z-index:1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#atas .sampul.ada-foto .profil-gabung{background:color-mix(in srgb,var(--bg) 82%,transparent)}
+.sampul-ubah{position:absolute;z-index:2;right:var(--pp);bottom:10px;display:grid;place-items:center;width:40px;height:40px;padding:0;border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--teks) 18%,var(--garis));background:color-mix(in srgb,var(--bg) 84%,transparent);color:var(--teks);cursor:pointer;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);-webkit-tap-highlight-color:transparent}
+.sampul-ubah svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.sampul-ubah:focus-visible{outline:2px solid var(--aksen);outline-offset:2px}
+@media (hover:hover){.sampul-ubah:hover{background:var(--bg)}}
+
+/* Foto profil di kiri bawah sampul; semua tombol aksi satu baris penuh di bawah statistik */
+#atas .profil-atas .avatar{width:96px!important;height:96px!important;font-size:40px!important;margin-top:-48px}
+#atas .profil-nama{margin-top:12px}
+#atas .profil-info{grid-column:1;grid-row:5;display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;min-width:0}
+#atas .profil-atas .stat{grid-row:6}
+#atas .profil-atas .stat.dua{grid-template-columns:repeat(2,minmax(0,1fr))}
+#atas .profil-atas .tombol,#atas .profil-atas .tombol:has(#ubah){grid-column:1;grid-row:7;justify-self:stretch;align-self:start;margin:16px 0 0}
+#atas .profil-atas .tombol .btn,#atas .profil-atas .tombol .btn.utama,#atas .profil-atas .tombol #ubah{flex:1 1 0!important;min-width:0}
+#atas .profil-atas .hint-pesan{grid-row:8}
+#atas .profil-atas .chip-publik{grid-row:9;grid-column:1;justify-self:start}
+@media (min-width:768px){
+  #atas .profil-atas .avatar{width:120px!important;height:120px!important;font-size:48px!important;margin-top:-60px}
+}
+
+/* Lokasi dan tautan tambahan */
+.pi-item{display:inline-flex;align-items:center;gap:6px;min-height:34px;max-width:100%;padding:0 12px;border:1px solid var(--garis);border-radius:999px;
+  background:color-mix(in srgb,var(--latar) 40%,var(--bg));color:var(--teks);font:inherit;font-size:13.5px;line-height:1.2;text-decoration:none}
+.pi-item svg{width:15px;height:15px;flex:none;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;color:var(--redup)}
+.pi-item span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+a.pi-link{max-width:min(100%,260px);color:var(--link,var(--aksen));font-weight:600}
+a.pi-link svg{color:inherit}
+.pi-tambah{border-style:dashed;color:var(--redup);cursor:pointer;-webkit-tap-highlight-color:transparent}
+@media (hover:hover){
+  a.pi-link:hover{background:color-mix(in srgb,var(--aksen) 8%,transparent);border-color:color-mix(in srgb,var(--aksen) 40%,var(--garis))}
+  .pi-tambah:hover{color:var(--teks);border-color:color-mix(in srgb,var(--teks) 30%,var(--garis))}
+}
+a.pi-link:focus-visible,.pi-tambah:focus-visible{outline:2px solid var(--aksen);outline-offset:2px}
+
+/* Dialog ubah profil: pratinjau sampul dan daftar tautan */
+.u-sampul{position:relative;aspect-ratio:3/1;border:1px solid var(--garis);border-radius:14px;overflow:hidden;
+  background-color:color-mix(in srgb,var(--latar) 78%,var(--bg));
+  background-image:linear-gradient(90deg,transparent 0 35px,color-mix(in srgb,var(--aksen) 45%,transparent) 35px 36.5px,transparent 36.5px),
+    repeating-linear-gradient(180deg,transparent 0 22px,color-mix(in srgb,var(--garis) 85%,transparent) 22px 23px)}
+.u-sampul img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:var(--bg)}
+.u-tautan{display:grid;gap:10px}
+.u-tautan:empty{display:none}
+.u-tautan-baris{display:grid;grid-template-columns:minmax(0,1fr) 40px;gap:6px 8px;align-items:center;padding-bottom:10px;border-bottom:1px dashed var(--garis)}
+.u-tautan-baris .ut-label,.u-tautan-baris .ut-url{grid-column:1;min-width:0}
+.u-tautan-baris .ut-hapus{grid-column:2;grid-row:1/3;width:40px;height:40px}
+.u-tautan-baris .ut-hapus svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.u-tautan-baris input[aria-invalid=true]{border-color:var(--bahaya,#c0392b)}
+.u-tambah{display:inline-flex;align-items:center;justify-content:center;gap:6px;justify-self:start}
+.u-tambah svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.u-tambah:disabled{opacity:.45}

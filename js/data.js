@@ -127,6 +127,7 @@ async function ambilProfilInfo(username, saya) {
     db.from('blocks').select('blocked_id').match({ blocker_id: saya.id, blocked_id: p.id }).maybeSingle()
   ]);
   return { data: { id: p.id, username: p.username, nama: p.nama, bio: p.bio, foto: p.foto_url || null,
+    sampul: p.sampul_url || null, lokasi: p.lokasi || null, tautan: p.tautan || [],
     pengikut: a.count || 0, mengikuti: b.count || 0, saya_ikut: !!c.data, saya_blokir: !!d.data }, error: null };
 }
 
