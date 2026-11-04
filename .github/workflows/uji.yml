@@ -1,0 +1,55 @@
+# Uji otomatis tiap push ke main (dan pull request): kamus bahasa, Markdown, lalu uji browser dengan Supabase tiruan.
+# Tidak menguji Supabase sungguhan (RLS, SQL, Edge Function). Lihat PASANG-CADANGAN-CI.md.
+name: Uji
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**.md', 'docs/**']
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      lengkap:
+        description: 'Uji browser lengkap (4 tema x 3 lebar, ±10 menit) alih-alih cepat'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: uji-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  uji:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Kamus bahasa dan Markdown
+        run: |
+          node tools/cek-bahasa.js
+          node tools/uji-markdown.js
+
+      - name: Pasang Playwright
+        run: |
+          npm i --no-save playwright
+          npx playwright install --with-deps chromium
+
+      - name: Uji browser
+        env:
+          MODE: ${{ inputs.lengkap && 'lengkap' || 'cepat' }}
+        run: |
+          if [ "$MODE" = "lengkap" ]; then
+            node tools/uji-browser.js
+          else
+            node tools/uji-browser.js --cepat
+          fi
+
+      - name: Uji Jurnal
+        run: node tools/uji-jurnal.js

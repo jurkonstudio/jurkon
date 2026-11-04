@@ -1,0 +1,89 @@
+# Cadangan database Supabase: harian, terenkripsi, disimpan sebagai artifact GitHub Actions.
+# Pasang: lihat PASANG-CADANGAN-CI.md (2 rahasia: SUPABASE_DB_URL dan CADANGAN_SANDI).
+name: Cadangan database
+
+on:
+  schedule:
+    - cron: '17 19 * * *'   # 02.17 WIB setiap hari (jam di GitHub memakai UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cadangan
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  cadangan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Periksa rahasia
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SANDI: ${{ secrets.CADANGAN_SANDI }}
+        run: |
+          [ -n "$DB_URL" ] || { echo "::error::Secret SUPABASE_DB_URL belum diisi"; exit 1; }
+          [ "${#SANDI}" -ge 16 ] || { echo "::error::Secret CADANGAN_SANDI belum diisi atau kurang dari 16 karakter"; exit 1; }
+
+      - name: Dump database (skema, data public, akun auth)
+        env:
+          DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          # Versi klien harus sama dengan atau lebih baru dari versi Postgres di Supabase.
+          # Bila dump gagal dengan "server version mismatch", isi variabel repo PG_VERSI.
+          PG_VERSI: ${{ vars.PG_VERSI || '17' }}
+        run: |
+          mkdir out
+          dump() {
+            local berkas="$1"; shift
+            docker run --rm -e DB_URL "postgres:${PG_VERSI}" sh -c 'pg_dump "$DB_URL" "$@"' sh "$@" | gzip -9 > "out/${berkas}"
+          }
+          dump skema-public.sql.gz --schema-only --schema=public --no-owner
+          dump data-public.sql.gz  --data-only   --schema=public --no-owner
+          dump auth-data.sql.gz    --data-only   --table=auth.users --table=auth.identities
+
+      - name: Periksa dump lengkap
+        run: |
+          for f in out/*.sql.gz; do
+            akhir=$(zcat "$f" | tail -n 5)
+            grep -q 'PostgreSQL database dump complete' <<<"$akhir" || { echo "::error::${f} tidak lengkap"; exit 1; }
+          done
+          {
+            echo "### Ukuran cadangan (terkompresi)"
+            echo '```'
+            ls -l out | awk 'NR>1 {print $5, $9}'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Kemas dan enkripsi (AES-256)
+        id: kemas
+        env:
+          SANDI: ${{ secrets.CADANGAN_SANDI }}
+        run: |
+          tgl=$(date -u +%Y-%m-%d-%H%M)
+          tar -C out -czf bundel.tar.gz skema-public.sql.gz data-public.sql.gz auth-data.sql.gz
+          printf '%s' "$SANDI" | gpg --batch --yes --pinentry-mode loopback --passphrase-fd 0 \
+            --symmetric --cipher-algo AES256 -o "cadangan-${tgl}.tar.gz.gpg" bundel.tar.gz
+          rm -rf out bundel.tar.gz
+          echo "tgl=${tgl}" >> "$GITHUB_OUTPUT"
+
+      - name: Uji buka kembali berkas terenkripsi
+        env:
+          SANDI: ${{ secrets.CADANGAN_SANDI }}
+        run: |
+          jumlah=$(printf '%s' "$SANDI" | gpg --batch --pinentry-mode loopback --passphrase-fd 0 \
+            --decrypt cadangan-*.tar.gz.gpg | tar -tz | wc -l)
+          [ "$jumlah" -eq 3 ] || { echo "::error::Isi cadangan tidak sesuai (${jumlah} berkas)"; exit 1; }
+
+      # Hanya berkas TERENKRIPSI yang diunggah. Di repo publik, artifact bisa diunduh siapa pun yang punya akses baca.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cadangan-${{ steps.kemas.outputs.tgl }}
+          path: cadangan-*.tar.gz.gpg
+          retention-days: 30
+          if-no-files-found: error

@@ -1,0 +1,46 @@
+# Menjaga proyek Supabase gratis tidak di-pause karena sepi, sekaligus pemantau sederhana:
+# bila Supabase atau situs tidak menjawab, workflow GAGAL dan GitHub mengirim email ke pemilik repo.
+name: Jaga aktif dan pantau
+
+on:
+  schedule:
+    - cron: '23 4 * * *'   # 11.23 WIB setiap hari
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  pantau:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Panggil Supabase (fungsi publik jelajahi_publik)
+        run: |
+          # URL dan kunci anon (publik) dibaca dari js/supabase.js, jadi tidak perlu rahasia tambahan.
+          URL=$(grep -oE "SUPABASE_URL = '[^']+'" js/supabase.js | cut -d"'" -f2)
+          KEY=$(grep -oE "SUPABASE_ANON_KEY = '[^']+'" js/supabase.js | cut -d"'" -f2)
+          [ -n "$URL" ] && [ -n "$KEY" ] || { echo "::error::SUPABASE_URL / SUPABASE_ANON_KEY tidak terbaca dari js/supabase.js"; exit 1; }
+          kode=$(curl -sS -o resp.json -w '%{http_code}' --max-time 30 --retry 2 --retry-delay 10 \
+            -X POST "$URL/rest/v1/rpc/jelajahi_publik" \
+            -H "apikey: $KEY" -H 'Content-Type: application/json' -d '{"p_limit":1}')
+          if [ "$kode" != "200" ] || [ "$(head -c1 resp.json)" != "[" ]; then
+            echo "::error::Supabase membalas HTTP ${kode} (mungkin proyek di-pause atau fungsi berubah)"
+            head -c 300 resp.json; echo
+            exit 1
+          fi
+          echo "Supabase OK (HTTP 200)"
+
+      - name: Periksa situs
+        run: |
+          DOMAIN=$(tr -d ' \r\n' < CNAME)
+          [ -n "$DOMAIN" ] || { echo "::error::CNAME kosong"; exit 1; }
+          curl -fsS --max-time 30 --retry 2 --retry-delay 10 -o /dev/null "https://${DOMAIN}/" \
+            || { echo "::error::https://${DOMAIN}/ tidak menjawab"; exit 1; }
+          echo "Situs OK: https://${DOMAIN}/"
