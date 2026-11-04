@@ -19,6 +19,9 @@
 <title data-i-doc="jr.judul">Jurnal · Jurkon</title></head><body data-tab="profil">
 <main><div class="header"><a href="profil" id="kembali" data-i="jr.kembali">← Profil</a><h1 id="judul" data-i="jr.judul">Jurnal</h1><span id="aksiAtas"></span></div>
 <div id="jr-kepala" class="jx-kepala" hidden></div>
+<div id="jr-cari" class="jx-cari" hidden>
+<input type="search" id="jrCari" data-i-ph="jr.cari" data-i-aria="jr.cari" placeholder="Cari di jurnal…" autocomplete="off" enterkeyhint="search" maxlength="100">
+<button type="button" class="btn garis kecil" id="jrUrut" data-i="jr.urutBaru">Terbaru dulu</button></div>
 <div id="daftar" class="jx-daftar" aria-live="polite"><div class="kosong"><p data-i="umum.memuat">Memuat…</p></div></div></main>
 <dialog id="lembarTulis" class="jx-editor" aria-labelledby="jTulis">
 <header class="jx-bar">
@@ -26,8 +29,23 @@
 <div class="jx-judul"><h2 id="jTulis" data-i="jr.baru">Catatan baru</h2><span class="jx-status" id="jxStatus" aria-live="polite"></span></div>
 <button type="button" class="btn" id="jrSimpan" data-i="jr.simpan">Simpan</button>
 </header>
+<div class="jx-alat" id="jxAlat">
+<div class="jx-alat-isi" role="toolbar" data-i-aria="jr.fmt.alat" aria-label="Alat format">
+<div class="jx-grup"><button type="button" class="jx-f" data-f="judul" data-i-aria="jr.fmt.judul" data-i-title="jr.fmt.judul"><span class="jx-h">H</span></button><button type="button" class="jx-f" data-f="tebal" data-i-aria="jr.fmt.tebal" data-i-title="jr.fmt.tebal" aria-keyshortcuts="Control+B Meta+B"><b>B</b></button><button type="button" class="jx-f" data-f="miring" data-i-aria="jr.fmt.miring" data-i-title="jr.fmt.miring" aria-keyshortcuts="Control+I Meta+I"><i>I</i></button><button type="button" class="jx-f" data-f="coret" data-i-aria="jr.fmt.coret" data-i-title="jr.fmt.coret"><s>S</s></button></div>
+<div class="jx-grup"><button type="button" class="jx-f" data-f="kutipan" data-i-aria="jr.fmt.kutipan" data-i-title="jr.fmt.kutipan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6v12M10 8h9M10 12h9M10 16h6"/></svg></button><button type="button" class="jx-f" data-f="daftar" data-i-aria="jr.fmt.daftar" data-i-title="jr.fmt.daftar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7h11M9 12h11M9 17h11"/><circle cx="4.5" cy="7" r="1" fill="currentColor"/><circle cx="4.5" cy="12" r="1" fill="currentColor"/><circle cx="4.5" cy="17" r="1" fill="currentColor"/></svg></button><button type="button" class="jx-f" data-f="nomor" data-i-aria="jr.fmt.nomor" data-i-title="jr.fmt.nomor"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7h10M10 12h10M10 17h10M4 5.5l1.5-1v5M3.8 14.5h2.4l-2.4 3h2.6"/></svg></button><button type="button" class="jx-f" data-f="tugas" data-i-aria="jr.fmt.tugas" data-i-title="jr.fmt.tugas"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M8.5 12.2l2.5 2.5 4.5-5"/></svg></button></div>
+<div class="jx-grup"><button type="button" class="jx-f" data-f="kode" data-i-aria="jr.fmt.kode" data-i-title="jr.fmt.kode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"/></svg></button><button type="button" class="jx-f" data-f="tautan" data-i-aria="jr.fmt.tautan" data-i-title="jr.fmt.tautan" aria-keyshortcuts="Control+K Meta+K"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4.5 4.5 0 006.4 0l3-3a4.5 4.5 0 00-6.4-6.4l-1 1M14 10a4.5 4.5 0 00-6.4 0l-3 3a4.5 4.5 0 006.4 6.4l1-1"/></svg></button><button type="button" class="jx-f" data-f="garis" data-i-aria="jr.fmt.garis" data-i-title="jr.fmt.garis"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16"/></svg></button></div>
+<div class="jx-grup"><button type="button" class="jx-f" data-f="urung" data-i-aria="jr.fmt.urung" data-i-title="jr.fmt.urung"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></svg></button><button type="button" class="jx-f" data-f="ulang" data-i-aria="jr.fmt.ulang" data-i-title="jr.fmt.ulang"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h3"/></svg></button></div>
+</div>
+<button type="button" class="jx-lihat" id="jxLihat" aria-pressed="false" data-i="jr.fmt.pratinjau">Pratinjau</button>
+</div>
+<form class="jx-tautan" id="jxTautan" hidden novalidate>
+<input type="text" id="jxUrl" data-i-ph="jr.fmt.tautanPh" data-i-aria="jr.fmt.tautan" placeholder="https://contoh.com" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="2000">
+<button type="submit" class="btn kecil" data-i="jr.fmt.sisipkan">Sisipkan</button>
+<p class="galat" id="jxUrlGalat" role="alert"></p>
+</form>
 <div class="jx-tubuh"><p class="jx-tgl" id="jxTgl"></p>
-<textarea id="jrIsi" rows="10" data-i-ph="jr.phBaru" placeholder="Apa yang ingin kamu catat hari ini?" spellcheck="true"></textarea></div>
+<textarea id="jrIsi" rows="10" data-i-ph="jr.phBaru" placeholder="Apa yang ingin kamu catat hari ini?" spellcheck="true"></textarea>
+<div class="jx-isi md jx-pratinjau" id="jxPrev" hidden></div></div>
 <div class="jx-meter" aria-hidden="true"><i id="jxMeter"></i></div>
 <div class="jx-buang" id="jxBuang" role="alertdialog" hidden>
 <p id="jxBuangTeks"></p>
@@ -52,6 +70,7 @@
 <script src="js/filter-data.js"></script>
 <script src="js/filter.js"></script>
 <script src="js/data.js"></script>
+<script src="js/markdown.js"></script>
 <script src="js/jurnal.js"></script>
 <script src="js/notif.js"></script>
 <script src="js/nav.js"></script></body></html>

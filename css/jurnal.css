@@ -17,6 +17,7 @@
 .jx-lencana.publik{color:var(--aksen);border-color:color-mix(in srgb,var(--aksen) 45%,transparent)}
 .jx-lencana.draf{border-style:dashed}
 .jx-isi{font-family:var(--isi);font-size:16.5px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.jx-isi.md{white-space:normal}
 .jx-isi.klem{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;overflow:hidden}
 .jx-lagi{margin-top:6px;padding:4px 0;border:0;background:none;color:var(--link,var(--aksen));font:inherit;font-size:14px;font-weight:600;cursor:pointer}
 .jx-kaki-kartu{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--garis);font-size:13px;color:var(--redup)}
@@ -53,3 +54,61 @@ dialog.jx-editor textarea::placeholder{color:var(--redup);opacity:.7}
 .jx-buang p{font-size:14px;font-weight:600}
 .jx-buang-aksi{display:flex;flex-wrap:wrap;gap:8px}
 @media (prefers-reduced-motion:reduce){dialog.jx-editor[open]{animation:none}.jx-meter i{transition:none}}
+
+/* Pencarian dan urutan */
+.jx-cari{display:flex;gap:8px;align-items:center;padding:10px 16px 0}
+.jx-cari[hidden]{display:none}
+.jx-cari input{flex:1;min-width:0;min-height:40px;padding:0 14px;border:1px solid var(--garis);border-radius:999px;background:transparent;color:var(--teks);font:inherit;font-size:16px}
+.jx-cari input:focus-visible{outline:2px solid var(--aksen);outline-offset:1px}
+.jx-cari .btn{flex:none;white-space:nowrap}
+
+/* Alat format di editor */
+.jx-alat{flex:none;display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid var(--garis);background:color-mix(in srgb,var(--teks) 3%,var(--bg))}
+.jx-alat-isi{flex:1;min-width:0;display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.jx-alat-isi::-webkit-scrollbar{display:none}
+.jx-grup{flex:none;display:flex;gap:2px;padding-right:6px;margin-right:6px;border-right:1px solid var(--garis)}
+.jx-grup:last-child{border-right:0;margin-right:0;padding-right:0}
+.jx-f{flex:none;display:inline-grid;place-items:center;min-width:36px;height:36px;padding:0 6px;border:0;border-radius:10px;background:transparent;color:var(--teks);font:inherit;font-size:16px;cursor:pointer}
+.jx-f svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.jx-f .jx-h{font-family:var(--sans);font-weight:800;font-size:15px}
+.jx-f:hover{background:color-mix(in srgb,var(--teks) 9%,transparent)}
+.jx-f:active{background:color-mix(in srgb,var(--teks) 16%,transparent)}
+.jx-f:focus-visible,.jx-lihat:focus-visible{outline:2px solid var(--aksen);outline-offset:-2px}
+.jx-f:disabled{opacity:.35;cursor:default;background:transparent}
+.jx-lihat{flex:none;min-height:36px;padding:0 14px;border:1px solid var(--garis);border-radius:999px;background:transparent;color:var(--teks);font:inherit;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.jx-lihat[aria-pressed=true]{background:var(--teks);border-color:var(--teks);color:var(--bg)}
+@media (pointer:coarse){.jx-f{min-width:40px;height:40px}}
+
+.jx-tautan{flex:none;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--garis)}
+.jx-tautan[hidden]{display:none}
+.jx-tautan input{flex:1;min-width:0;min-height:40px;padding:0 12px;border:1px solid var(--garis);border-radius:10px;background:transparent;color:var(--teks);font:inherit;font-size:16px}
+.jx-tautan input:focus-visible{outline:2px solid var(--aksen);outline-offset:1px}
+.jx-tautan .galat{flex-basis:100%;margin:0}
+.jx-tautan .galat:empty{display:none}
+dialog.jx-editor textarea[hidden]{display:none}
+.jx-pratinjau[hidden]{display:none}
+.jx-pratinjau{min-height:45dvh;font-size:18px;line-height:1.75}
+.jx-pratinjau .redup{color:var(--redup)}
+
+/* Isi Markdown (daftar jurnal dan pratinjau). Hanya token tema, jadi aman untuk kelima tema. */
+.md>:first-child{margin-top:0}
+.md>:last-child{margin-bottom:0}
+.md p{margin:.6em 0}
+.md h3,.md h4,.md h5{margin:1em 0 .3em;font-weight:700;line-height:1.3;color:var(--teks)}
+.md h3{font-size:1.28em}.md h4{font-size:1.14em}.md h5{font-size:1em;letter-spacing:.01em}
+.md blockquote{margin:.7em 0;padding:.1em 0 .1em 14px;border-left:3px solid var(--aksen);color:var(--redup)}
+.md ul,.md ol{margin:.5em 0;padding-left:1.5em}
+.md ul ul,.md ol ol,.md ul ol,.md ol ul{margin:.15em 0}
+.md li{margin:.15em 0;padding-left:.15em}
+.md li.tugas{list-style:none;margin-left:-1.35em}
+.md .cb{position:relative;display:inline-block;width:.95em;height:.95em;margin-right:.5em;border:1.5px solid var(--redup);border-radius:.25em;vertical-align:-.1em}
+.md .cb.ya{background:var(--aksen);border-color:var(--aksen)}
+.md .cb.ya::after{content:"";position:absolute;left:.26em;top:.06em;width:.26em;height:.5em;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.md code{padding:1px 5px;border-radius:5px;background:color-mix(in srgb,var(--teks) 9%,transparent);font:.88em ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.md pre{margin:.7em 0;padding:10px 12px;border:1px solid var(--garis);border-radius:10px;background:color-mix(in srgb,var(--teks) 6%,transparent);overflow-x:auto;white-space:pre;line-height:1.5}
+.md pre code{padding:0;background:none;font-size:.85em}
+.md hr{border:0;border-top:1px solid var(--garis);margin:1.1em 0}
+.md a{color:var(--link,var(--aksen));text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere}
+.md del{color:var(--redup)}
+/* Potong rapi untuk isi panjang: blok tidak bisa memakai line-clamp, jadi dipotong dengan tinggi + pudar */
+.jx-isi.md.klem{display:block;max-height:11.6em;overflow:hidden;-webkit-line-clamp:unset;-webkit-mask-image:linear-gradient(#000 70%,transparent);mask-image:linear-gradient(#000 70%,transparent)}
