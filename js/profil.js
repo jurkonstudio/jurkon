@@ -10,6 +10,22 @@ const IKP = {
   terjemah: '<svg viewBox="0 0 24 24"><path d="M4 5h8M8 3v2M5 9c1.5 3 4 5 7 6M11 9c-1 3-3.500 5.500-7 7"/><path d="M13 20l4-9 4 9M14.500 17h5"/></svg>',
   kalender: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>'
 };
+// Lonceng notifikasi di panel samping foto (hanya tampil di HP lewat CSS; di layar lebar menu samping sudah memuatnya)
+function lonceng() {
+  return `<a class="pp-btn pp-lonceng" href="notifikasi" aria-label="${esc(t('nav.notifikasi'))}" title="${esc(t('nav.notifikasi'))}"><svg viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg><span class="lencana" hidden></span></a>`;
+}
+let loncengPasang = false;
+function pasangLonceng() {
+  if (loncengPasang || !window.Notif) return;
+  loncengPasang = true;
+  Notif.pada(s => {
+    const b = document.querySelector('.pp-lonceng'), l = b && b.querySelector('.lencana');
+    if (!l) return;
+    const n = s.total + s.mengikuti;
+    l.hidden = n < 1; l.textContent = n > 99 ? '99+' : n > 0 ? String(n) : '';
+    b.setAttribute('aria-label', n > 0 ? t('nav.unreadNotif', { n }) : t('nav.notifikasi'));
+  });
+}
 function tutupMenu() {
   const m = $('#menuIsi'), b = $('#menuLain');
   if (m) m.hidden = true;
@@ -46,13 +62,14 @@ async function muat() {
   }
   const salingIkuti = ikut && diaMengikuti;
   $('#judul').textContent = '@' + p.username;
-  // Bagian atas berupa "sampul jurnal": kertas bergaris dengan jahitan benang, foto profil seperti foto yang tertempel,
-  // dan stempel "menulis sejak ..." (id="gabung" diisi di bawah).
+  // Bagian atas: foto profil dengan panel ikon di sampingnya (lonceng, penerjemah, brankas, pengaturan), lalu nama dan bio.
+  // "Menulis sejak ..." (id="gabung", diisi di bawah) tampil tepat di bawah bio. Tanpa sampul/header.
   $('#atas').innerHTML = `<div class="profil-atas">
-    <div class="sampul${p.sampul ? ' ada-foto' : ''}">${p.sampul ? ProfilEkstra.htmlSampul(p.sampul) : ''}<div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div>${milikSaya ? `<button type="button" class="sampul-ubah" id="ubahSampul" aria-label="${esc(t('pe.gantiSampul'))}">${ProfilEkstra.ikon.kamera}</button>` : ''}</div>
     <div class="kartu-kepala">${avatar(nama, 88, p.foto)}
+      <div class="profil-panel" id="keluar">${lonceng()}</div>
       <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}${diaMengikuti ? ` <span class="label-ikut">${esc(t('pf.mengikutiKamu'))}</span>` : ''}</div></div></div>
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : esc(milikSaya ? t('pf.bioKosongSaya') : t('pf.bioKosong'))}</div>
+    <div class="profil-gabung" id="gabung" hidden>${IKP.kalender}<span></span></div>
     ${ProfilEkstra.htmlInfo(p, milikSaya)}
     <div class="stat"><div class="stat-item" id="statPosting"><b id="jmlPosting">–</b><span>${esc(t('pf.posting'))}</span></div><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="${esc(t('pf.lihatPengikut', { n: pengikut }))}"><b>${pengikut}</b><span>${esc(t('pf.pengikut'))}</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="${esc(t('pf.lihatMengikuti', { n: mengikuti }))}"><b>${mengikuti}</b><span>${esc(t('pf.mengikuti'))}</span></button></div>
     <div class="tombol">${milikSaya
@@ -62,6 +79,7 @@ async function muat() {
          <div class="menu-lain"><button class="ikon-btn" id="menuLain" aria-label="${esc(t('pf.aksiLain'))}" aria-haspopup="menu" aria-expanded="false">${IKP.titik}</button>
            <div class="menu-isi" id="menuIsi" role="menu" hidden><button role="menuitem" id="bagikan">${esc(t('pf.bagikan'))}</button><button role="menuitem" id="blokir" class="${blk ? '' : 'bahaya'}">${esc(blk ? t('pf.bukaBlokir') : t('pf.blokir', { u: p.username }))}</button><button role="menuitem" id="laporAkun" class="bahaya">${esc(t('pf.lapor', { u: p.username }))}</button></div></div>`}</div>
     ${milikSaya || salingIkuti ? '' : `<p class="hint-pesan" id="hintPesan">${esc(t('pf.hintPesan'))}</p>`}</div>`;
+  pasangLonceng();
   // Jumlah posting (sama dengan isi tab Catatan: bukan balasan, bukan repost). Dihitung terpisah, tanpa migrasi SQL.
   db.from('posts').select('*', { count: 'exact', head: true })
     .eq('user_id', p.id).is('parent_id', null).neq('jenis', 'ulang')
@@ -78,7 +96,7 @@ async function muat() {
     el.hidden = false;
   });
   if (milikSaya) {
-    $('#keluar').innerHTML = `<button class="ikon-btn" id="bukaPenerjemah" aria-label="${esc(t('pn.judul'))}">${IKP.terjemah}</button> <button class="ikon-btn" id="bukaBrankas" aria-label="${esc(t('bk.judul'))}">${IKP.brankas}</button> <button class="ikon-btn" id="bukaPengaturan" aria-label="${esc(t('pf.pengaturan'))}">${IKP.gigi}</button>`;
+    $('#keluar').insertAdjacentHTML('beforeend', `<button class="ikon-btn pp-btn" id="bukaPenerjemah" aria-label="${esc(t('pn.judul'))}">${IKP.terjemah}</button> <button class="ikon-btn pp-btn" id="bukaBrankas" aria-label="${esc(t('bk.judul'))}">${IKP.brankas}</button> <button class="ikon-btn pp-btn" id="bukaPengaturan" aria-label="${esc(t('pf.pengaturan'))}">${IKP.gigi}</button>`);
     $('#bukaPengaturan').onclick = () => Pengaturan.buka('beranda');
     $('#bukaBrankas').onclick = () => window.Brankas && Brankas.buka();
     $('#bukaPenerjemah').onclick = () => window.Penerjemah && Penerjemah.buka();
@@ -89,7 +107,6 @@ async function muat() {
     $('#lembarPengaturan').onclick = e => { if (e.target === e.currentTarget) e.currentTarget.close(); };
     $('#logout').onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.href = 'login'; };
     $('#ubah').onclick = () => ubah();
-    $('#ubahSampul').onclick = () => ubah({ fokus: 'sampul' });
     const tambahInfo = $('#tambahInfo'); if (tambahInfo) tambahInfo.onclick = () => ubah({ fokus: 'info' });
     $('#bagikanSaya').onclick = bagikanProfil;
     $('#tema').hidden = false;
@@ -438,6 +455,7 @@ function ubah(opsi) {
   d.innerHTML = `<div class="lembar-kepala"><h2 id="jUbah">${esc(t('pf.ubah'))}</h2><button class="ikon-btn" id="uTutup" aria-label="${esc(t('umum.tutup'))}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="pratinjau" id="uPratinjau"></div>
     <div id="formUbah" class="form">
+    <div hidden>
     <label for="uPilihSampul">${esc(t('pe.sampul'))}</label>
     <div class="u-sampul" id="uSampul"></div>
     <div class="foto-ubah">
@@ -447,6 +465,7 @@ function ubah(opsi) {
     </div>
     <div class="kuota" id="kSampul"></div>
     <div class="hitung">${esc(t('pe.sampulHint'))}</div>
+    </div>
     <label for="uPilihFoto">${esc(t('pf.u.foto'))}</label>
     <div class="foto-ubah">
       <button type="button" class="btn garis" id="uPilihFoto">${esc(t('pf.u.pilihFoto'))}</button>
