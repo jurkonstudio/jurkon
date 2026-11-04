@@ -172,7 +172,7 @@ export default {
       if (url.pathname === '/sitemap-catatan.xml') return await sitemap(env);
       if (url.pathname === '/sitemap-profil.xml') return await sitemapProfil(env);
       if (url.pathname === '/n' || url.pathname === '/n.html') return await halaman(env, url);
-      if (url.pathname === '/detail.html') return await halamanDetail(env, url);
+      if (url.pathname === '/detail' || url.pathname === '/detail.html') return await halamanDetail(env, url);
       const pf = /^\/@([A-Za-z0-9_]{3,20})\/?$/.exec(url.pathname);
       if (pf) return await halamanProfil(env, url, pf[1]);
     } catch (e) {

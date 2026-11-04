@@ -55,7 +55,7 @@ async function muat() {
     <div class="bio ${p.bio ? '' : 'redup'}">${p.bio ? esc(p.bio) : esc(milikSaya ? t('pf.bioKosongSaya') : t('pf.bioKosong'))}</div>
     <div class="stat"><div class="stat-item" id="statPosting"><b id="jmlPosting">–</b><span>${esc(t('pf.posting'))}</span></div><button type="button" class="stat-btn" data-daftar="pengikut" aria-label="${esc(t('pf.lihatPengikut', { n: pengikut }))}"><b>${pengikut}</b><span>${esc(t('pf.pengikut'))}</span></button><button type="button" class="stat-btn" data-daftar="mengikuti" aria-label="${esc(t('pf.lihatMengikuti', { n: mengikuti }))}"><b>${mengikuti}</b><span>${esc(t('pf.mengikuti'))}</span></button></div>
     <div class="tombol">${milikSaya
-      ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button><a class="btn garis" id="keJurnal" href="jurnal.html">${esc(t('jr.judul'))}</a><button class="ikon-btn" id="bagikanSaya" aria-label="${esc(t('pf.bagikan'))}">${IKP.bagikan}</button>`
+      ? `<button class="btn utama" id="ubah">${esc(t('pf.ubah'))}</button><a class="btn garis" id="keJurnal" href="jurnal">${esc(t('jr.judul'))}</a><button class="ikon-btn" id="bagikanSaya" aria-label="${esc(t('pf.bagikan'))}">${IKP.bagikan}</button>`
       : `<button class="btn utama ${ikut ? 'garis' : ''}" id="ikuti" aria-pressed="${ikut ? 'true' : 'false'}">${esc(ikut ? t('feed.ikuti') : diaMengikuti ? t('pf.ikutiBalik') : t('pf.ikuti'))}</button>
          <button class="btn garis" id="pesan"${salingIkuti ? '' : ' disabled aria-describedby="hintPesan"'}>${esc(t('pf.kirimPesan'))}</button>
          <div class="menu-lain"><button class="ikon-btn" id="menuLain" aria-label="${esc(t('pf.aksiLain'))}" aria-haspopup="menu" aria-expanded="false">${IKP.titik}</button>
@@ -86,7 +86,7 @@ async function muat() {
     // Setelah ganti bahasa halaman dimuat ulang; buka lagi Pengaturan supaya terasa berkelanjutan
     try { if (sessionStorage.getItem('bukaPengaturan') === '1') { sessionStorage.removeItem('bukaPengaturan'); Pengaturan.buka('tampilan'); } } catch (e) {}
     $('#lembarPengaturan').onclick = e => { if (e.target === e.currentTarget) e.currentTarget.close(); };
-    $('#logout').onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.href = 'login.html'; };
+    $('#logout').onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.href = 'login'; };
     $('#ubah').onclick = ubah;
     $('#bagikanSaya').onclick = bagikanProfil;
     $('#tema').hidden = false;
@@ -118,7 +118,7 @@ async function muat() {
     };
     $('#pesan').onclick = async () => {
       const { data, error } = await db.rpc('buka_percakapan', { lawan: p.id });
-      if (error) alert(t('pf.gagalAksi', { pesan: galatRamah(error) })); else location.href = 'chat.html?id=' + data;
+      if (error) alert(t('pf.gagalAksi', { pesan: galatRamah(error) })); else location.href = 'chat?id=' + data;
     };
   }
   if (blk) { $('#tabProfil').hidden = true; $('#sematan').innerHTML = ''; $('#daftar').innerHTML = kosong('pena', t('pf.blokirJ'), t('pf.blokirT', { u: esc(p.username) })); return; }
@@ -174,10 +174,10 @@ function tampilTab(fokus) {
     if (aktif) { $('#daftar').setAttribute('aria-labelledby', b.id); if (fokus) b.focus(); }
   });
   const kosongTab = {
-    catatan: () => milikSaya ? kosong('pena', t('pf.k.catatanJ'), t('pf.k.catatanT'), 'post.html', t('umum.tulisSekarang')) : kosong('pena', t('pf.k.postJ'), t('pf.k.postT', { u })),
-    balasan: () => milikSaya ? kosong('balas', t('detail.noBalasanJ'), t('pf.k.balasanT'), 'explore.html', t('umum.cariCatatan')) : kosong('balas', t('detail.noBalasanJ'), t('pf.k.balasanOrangT', { u })),
-    ulang: () => milikSaya ? kosong('ulang', t('pf.k.ulangJ'), t('pf.k.ulangT'), 'explore.html', t('umum.jelajahi')) : kosong('ulang', t('pf.k.ulangJ'), t('pf.k.ulangOrangT', { u })),
-    suka: () => milikSaya ? kosong('suka', t('pf.k.sukaJ'), t('pf.k.sukaT'), 'explore.html', t('umum.jelajahi')) : kosong('suka', t('pf.k.sukaOrangJ'), t('pf.k.sukaOrangT', { u }))
+    catatan: () => milikSaya ? kosong('pena', t('pf.k.catatanJ'), t('pf.k.catatanT'), 'post', t('umum.tulisSekarang')) : kosong('pena', t('pf.k.postJ'), t('pf.k.postT', { u })),
+    balasan: () => milikSaya ? kosong('balas', t('detail.noBalasanJ'), t('pf.k.balasanT'), 'explore', t('umum.cariCatatan')) : kosong('balas', t('detail.noBalasanJ'), t('pf.k.balasanOrangT', { u })),
+    ulang: () => milikSaya ? kosong('ulang', t('pf.k.ulangJ'), t('pf.k.ulangT'), 'explore', t('umum.jelajahi')) : kosong('ulang', t('pf.k.ulangJ'), t('pf.k.ulangOrangT', { u })),
+    suka: () => milikSaya ? kosong('suka', t('pf.k.sukaJ'), t('pf.k.sukaT'), 'explore', t('umum.jelajahi')) : kosong('suka', t('pf.k.sukaOrangJ'), t('pf.k.sukaOrangT', { u }))
   };
   const mode = { catatan: 'catatan_oleh', balasan: 'balasan_oleh', ulang: 'ulang_oleh', suka: 'disukai_oleh' }[tabAktif];
   if (daf) daf.hentikan();            // batalkan permintaan tab sebelumnya
@@ -211,7 +211,7 @@ async function tampilKapsul(el) {
     $('#kapsulCoba').onclick = () => tampilKapsul(el);
     return;
   }
-  if (!data || !data.length) { el.innerHTML = kosong('pena', t('pf.k.kapsulJ'), t('pf.k.kapsulT'), 'post.html', t('umum.tulisSekarang')); return; }
+  if (!data || !data.length) { el.innerHTML = kosong('pena', t('pf.k.kapsulJ'), t('pf.k.kapsulT'), 'post', t('umum.tulisSekarang')); return; }
   el.innerHTML = '<div class="kapsul-daftar">' + data.map(k =>
     '<div class="kapsul-item"><p>' + esc(String(k.content).slice(0, 140)) + '</p><div class="kapsul-baris">' +
     '<span class="kapsul-waktu"><b class="kapsul-sisa" data-buka="' + esc(k.terbuka_pada) + '">' + esc(sisaKapsul(k.terbuka_pada)) + '</b>' +
@@ -514,7 +514,7 @@ function ubah() {
       return;
     }
     if (ubahFoto) await bersihkanFoto(pathBaru);
-    location.href = 'profil.html' + (username === profil.username ? '' : '?u=' + username);
+    location.href = 'profil' + (username === profil.username ? '' : '?u=' + username);
   };
   d.showModal();
   $('#uNama').focus();
@@ -523,7 +523,7 @@ function ubah() {
   // Tamu yang membuka tautan lama profil.html?u=username: tampilkan halaman profil tamu (profil publik atau ajakan), bukan layar masuk.
   if (/^[a-z0-9_]{3,20}$/i.test(usernameAwal || '')) {
     const { data: { session } } = await db.auth.getSession();
-    if (!session) { location.replace('/profil-publik.html?u=' + usernameAwal.toLowerCase()); return; }
+    if (!session) { location.replace('/profil-publik?u=' + usernameAwal.toLowerCase()); return; }
   }
   saya = await wajibLogin();
   if (!saya) return;
@@ -584,7 +584,7 @@ async function bukaDaftarOrang(jenis) {
     return;
   }
   let tampil = 0;
-  const baris = o => `<a class="item dgn-avatar" href="profil.html?u=${esc(o.username)}">
+  const baris = o => `<a class="item dgn-avatar" href="profil?u=${esc(o.username)}">
     ${avatar(o.nama || o.username, 44, o.foto_url)}
     <div><b>${esc(o.nama || o.username)}</b>${lencanaResmi(o.username)}${o.id === saya.id ? ' <span class="sub">' + esc(t('pf.o.kamu')) + '</span>' : ''}
     <div class="sub">@${esc(o.username)}</div></div></a>`;

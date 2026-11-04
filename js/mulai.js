@@ -96,7 +96,7 @@
     $('#selesai').onclick = () => {
       if (window.catatCorong) catatCorong('onboarding_selesai');
       try { localStorage.setItem('mulai:' + saya.id, 'selesai'); } catch (e) {}
-      location.href = 'index.html';
+      location.href = '/';
     };
     try {
       const r = await db.rpc('jumlah_undangan');

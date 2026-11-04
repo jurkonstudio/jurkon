@@ -9,7 +9,7 @@
   const isiLawan = avatar(namaLawan, 38, o && o.foto_url) +
     '<span class="psn-nm"><b>' + esc(namaLawan) + lencanaResmi(o && o.username) + '</b>' + (o && o.username ? '<small>@' + esc(o.username) + '</small>' : '') + '</span>';
   $('#lawan').innerHTML = o && o.username
-    ? '<a class="psn-profil" href="profil.html?u=' + encodeURIComponent(o.username) + '">' + isiLawan + '</a>'
+    ? '<a class="psn-profil" href="profil?u=' + encodeURIComponent(o.username) + '">' + isiLawan + '</a>'
     : '<span class="psn-profil">' + isiLawan + '</span>';
   if (o && o.username) document.title = namaLawan + ' · Jurkon';
   $('#teks').placeholder = t('chat.ph');   // nama lawan bicara sudah tampil di kepala halaman
@@ -41,7 +41,7 @@
     syarat.hidden = ok;
     if (!ok) {
       syarat.innerHTML = esc(t('chat.syarat', { nama: namaLawan })) +
-        (o && o.username ? ' <a href="profil.html?u=' + encodeURIComponent(o.username) + '">' + esc(t('chat.lihatProfil')) + '</a>' : '');
+        (o && o.username ? ' <a href="profil?u=' + encodeURIComponent(o.username) + '">' + esc(t('chat.lihatProfil')) + '</a>' : '');
     }
   }
   // true bila saling mengikuti. Bila jaringan gagal, anggap boleh: database tetap yang memutuskan.

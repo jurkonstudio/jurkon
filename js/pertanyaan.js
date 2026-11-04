@@ -113,7 +113,7 @@ async function pqStatus(tgl, saya) {
       '<p class="pq-teks">' + esc(pqTampil(teks)) + '</p><div class="pq-baris">' +
       (s.sudah ? '<span class="pq-hitung pq-ok">\u2713 ' + esc(t('pq.sudah')) + '</span>'
         : '<button type="button" class="btn kecil pq-jawab">' + esc(t('pq.jawab')) + '</button>') +
-      '<a class="pq-lihat" href="pertanyaan.html">' + esc(s.jumlah ? t('pq.hitung', { n: s.jumlah }) : t('pq.lihat')) + ' \u2192</a></div>';
+      '<a class="pq-lihat" href="pertanyaan">' + esc(s.jumlah ? t('pq.hitung', { n: s.jumlah }) : t('pq.lihat')) + ' \u2192</a></div>';
     el.hidden = false;
   }
   el.addEventListener('click', e => {

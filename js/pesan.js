@@ -5,7 +5,7 @@
   el.innerHTML = skeleton(3);
   const { data, error } = await db.from('conversations').select('id,user_a,user_b,created_at');
   if (error) { el.innerHTML = '<div class="kosong"><h3>' + esc(t('umum.gagalMuat')) + '</h3><p>' + esc(galatRamah(error)) + '</p></div>'; return; }
-  if (!data || !data.length) { el.innerHTML = kosong('pesan', t('pesan.kosongJ'), t('pesan.kosongT'), 'explore.html', t('umum.cariOrang')); return; }
+  if (!data || !data.length) { el.innerHTML = kosong('pesan', t('pesan.kosongJ'), t('pesan.kosongT'), 'explore', t('umum.cariOrang')); return; }
 
   // Pesan terakhir tiap percakapan, supaya daftar urut menurut aktivitas terbaru
   const cids = data.map(c => c.id);
@@ -50,7 +50,7 @@
     const cuplikan = m ? awal + (m.dihapus_at ? t('pesan.dihapus') : m.media_path ? t({ foto: 'pesan.foto', dokumen: 'pesan.dokumen' }[m.media_jenis] || 'pesan.suara') : m.content) : t('pesan.belum');
     const baru = belum.has(c.id);
     const cari = (nama + ' ' + (o.username || '')).toLowerCase();
-    return `<a class="psn-item${baru ? ' baru' : ''}" href="chat.html?id=${c.id}" data-cari="${esc(cari)}"${baru ? ' aria-label="' + esc(nama + ', ' + t('panel.belumDibaca')) + '"' : ''}>
+    return `<a class="psn-item${baru ? ' baru' : ''}" href="chat?id=${c.id}" data-cari="${esc(cari)}"${baru ? ' aria-label="' + esc(nama + ', ' + t('panel.belumDibaca')) + '"' : ''}>
       <span class="psn-ava">${avatar(nama, 52, o.foto_url)}</span>
       <span class="psn-isi">
         <span class="psn-atas"><span class="psn-nama">${esc(nama)}</span>${lencanaResmi(o.username)}<time class="psn-waktu" datetime="${esc((m || c).created_at)}">${esc(waktuRingkas((m || c).created_at))}</time></span>

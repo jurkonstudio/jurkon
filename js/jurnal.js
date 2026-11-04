@@ -21,7 +21,7 @@
   if (u) {
     const { data: p, error } = await ambilProfilInfo(u, saya);
     if (error) { tampilGalat(error); return; }
-    if (!p) { $('#daftar').innerHTML = '<div class="kosong"><p>' + esc(t('pf.noProfil')) + '</p></div>'; $('#kembali').href = 'profil.html'; return; }
+    if (!p) { $('#daftar').innerHTML = '<div class="kosong"><p>' + esc(t('pf.noProfil')) + '</p></div>'; $('#kembali').href = 'profil'; return; }
     pemilik = { id: p.id, username: p.username, nama: p.nama || p.username };
     milikSaya = p.id === saya.id;
   }
@@ -30,7 +30,7 @@
     pemilik.username = (data && data.username) || 'saya';
     pemilik.nama = (data && (data.nama || data.username)) || pemilik.username;
   }
-  $('#kembali').href = milikSaya ? 'profil.html' : 'profil.html?u=' + encodeURIComponent(pemilik.username);
+  $('#kembali').href = milikSaya ? 'profil' : 'profil?u=' + encodeURIComponent(pemilik.username);
   if (!milikSaya) $('#judul').textContent = t('jr.judulOrang', { nama: pemilik.nama });
 
   // ---------- Muat dan tampilkan ----------

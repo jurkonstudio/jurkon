@@ -23,7 +23,7 @@
     return '<article class="post jl-kartu" role="listitem" data-id="' + esc(c.id) + '">' +
       '<span class="ava"><span class="avatar" style="width:42px;height:42px;font-size:18px;background:hsl(' + h + ' 50% 42%)">' + esc(awal) + '</span></span>' +
       '<div class="badan"><div class="jl-nama"><span class="nama">' + esc(nama) + '</span> <span class="user">@' + esc(c.username) + '</span>' + (tgl ? ' <span class="waktu">' + esc(tgl) + '</span>' : '') + '</div>' +
-      '<a class="jl-isi" href="n.html?id=' + esc(c.id) + '"><div class="isi">' + esc(c.content) + '</div></a>' +
+      '<a class="jl-isi" href="n?id=' + esc(c.id) + '"><div class="isi">' + esc(c.content) + '</div></a>' +
       '<div class="aksi"><span class="btn-suka" aria-hidden="true">' + (typeof IK !== 'undefined' ? IK.suka : '♥') + '<span>' + Number(c.jumlah_suka || 0) + '</span></span></div></div></article>';
   }
 
@@ -35,12 +35,12 @@
 
   // ---- Ajakan gabung: di bawah daftar (layar sempit) dan kartu samping (desktop) -------------
   function ajakan() {
-    const href = masuk ? 'index.html' : 'login.html';
+    const href = masuk ? '/' : 'login';
     const teks = masuk ? t('pub.buka') : t('pub.gabung');
     ajak.innerHTML = '<p>' + esc(t('pub.ajak')) + '</p><a class="btn" data-gabung href="' + href + '">' + esc(teks) + '</a>';
     ajak.hidden = false;
     samping.innerHTML = '<div class="jl-samping-isi"><p>' + esc(t('pub.ajak')) + '</p><a class="btn" data-gabung href="' + href + '">' + esc(teks) + '</a></div>' +
-      '<nav class="jl-samping-tautan" aria-label="' + esc(t('jl.tentang')) + '"><a href="landing.html">' + esc(t('jl.tentang')) + '</a><a href="pusat-bantuan.html">' + esc(t('set.bantuan')) + '</a></nav>';
+      '<nav class="jl-samping-tautan" aria-label="' + esc(t('jl.tentang')) + '"><a href="landing">' + esc(t('jl.tentang')) + '</a><a href="pusat-bantuan">' + esc(t('set.bantuan')) + '</a></nav>';
     samping.hidden = false;
     aksiAtas.innerHTML = '<a class="btn kecil' + (masuk ? '' : ' garis') + '" data-gabung href="' + href + '">' + esc(masuk ? t('pub.buka') : t('auth.masuk')) + '</a>';
     if (!masuk) document.querySelectorAll('[data-gabung]').forEach(a => a.addEventListener('click', () => { if (window.catatCorong) catatCorong('landing_mulai'); }));

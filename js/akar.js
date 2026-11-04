@@ -28,6 +28,6 @@
       }
     }
     if (!kode) kode = 'en';
-    location.replace(kode === 'id' ? '/landing.html' : '/' + kode + '/');
+    location.replace(kode === 'id' ? '/landing' : '/' + kode + '/');
   } catch (e) { /* biarkan beranda yang menangani */ }
 })();

@@ -23,10 +23,10 @@ window.INFO_T = {
 
 <h3>大切なページ</h3>
 <ul>
-<li><a href="kebijakan-privasi.html">プライバシーポリシー</a></li>
-<li><a href="ketentuan-layanan.html">利用規約</a></li>
-<li><a href="aturan.html">利用ルール</a></li>
-<li><a href="pusat-bantuan.html">ヘルプセンター</a></li>
+<li><a href="kebijakan-privasi">プライバシーポリシー</a></li>
+<li><a href="ketentuan-layanan">利用規約</a></li>
+<li><a href="aturan">利用ルール</a></li>
+<li><a href="pusat-bantuan">ヘルプセンター</a></li>
 </ul>
 
 <h3>お問い合わせ</h3>
@@ -48,10 +48,10 @@ window.INFO_T = {
 <p>自動チェックは誤ることがあります。問題のない文章が拒否された場合は、少し言い回しを変えるか、下記の連絡先までご連絡ください。</p>
 <p>スパム防止のため、1日あたりの投稿数、メッセージ数、通報数には上限があります。</p>
 <h3>プライバシーポリシー（概要）</h3>
-<p>サービスを運営するために、メールアドレス、プロフィール、投稿、いいね、フォローリスト、メッセージを保存します。データは販売しません。メールアドレスは他のユーザーには表示されません。プロフィールと投稿は、ログイン済みのメンバーのみが閲覧できます。ダイレクトメッセージは、会話の2人だけが読めます。詳しくは<a href="kebijakan-privasi.html" style="text-decoration:underline">プライバシーポリシー</a>をご覧ください。</p>
+<p>サービスを運営するために、メールアドレス、プロフィール、投稿、いいね、フォローリスト、メッセージを保存します。データは販売しません。メールアドレスは他のユーザーには表示されません。プロフィールと投稿は、ログイン済みのメンバーのみが閲覧できます。ダイレクトメッセージは、会話の2人だけが読めます。詳しくは<a href="kebijakan-privasi" style="text-decoration:underline">プライバシーポリシー</a>をご覧ください。</p>
 <h3>あなたのデータとアカウント</h3>
 <p>プロフィールページから、データのダウンロードとアカウントの削除ができます。アカウントを削除すると、プロフィール、投稿、いいね、送信したメッセージが完全に削除されます。</p>
-<p style="margin-top:16px">関連ページ：<a href="kebijakan-privasi.html" style="text-decoration:underline">プライバシーポリシー</a> · <a href="ketentuan-layanan.html" style="text-decoration:underline">利用規約</a> · <a href="pusat-bantuan.html" style="text-decoration:underline">ヘルプセンター</a> · <a href="tentang.html" style="text-decoration:underline">Jurkonについて</a></p>
+<p style="margin-top:16px">関連ページ：<a href="kebijakan-privasi" style="text-decoration:underline">プライバシーポリシー</a> · <a href="ketentuan-layanan" style="text-decoration:underline">利用規約</a> · <a href="pusat-bantuan" style="text-decoration:underline">ヘルプセンター</a> · <a href="tentang" style="text-decoration:underline">Jurkonについて</a></p>
 <p style="margin-top:16px">連絡先：<span class="kontak-mail"></span></p>`
   },
 
@@ -67,7 +67,7 @@ window.INFO_T = {
 <details class="faq"><summary>名前、ユーザー名、写真を変更できないのはなぜですか？</summary><div><p>アカウントがなりすましや詐欺に使われないよう、変更は月ごとに回数が制限されています。上限は毎月1日にリセットされ、残りの回数はプロフィール編集画面で確認できます。ユーザー名は1日に1回だけ変更できます。</p></div></details>
 <details class="faq"><summary>青と金のチェックマークの意味は？</summary><div><p>青いチェックマークは、Jurkonチームが審査して認証したアカウントです。金のチェックマークは、Jurkonチームが直接運営する公式アカウントです。チェックマークを長押しすると説明が表示されます。</p></div></details>
 <h3>投稿と交流</h3>
-<details class="faq"><summary>投稿が拒否された、または警告が出たのはなぜですか？</summary><div><p>Jurkonは送信前にテキストをチェックします。賭博の宣伝、アダルトコンテンツ、詐欺、脅迫、ヘイトスピーチ、身分証明書番号（KTP/NIK）などは送信できず、乱暴な言葉や電話番号は警告のみです。自動チェックは誤ることがあるので、少し言い回しを変えてみてください。詳しくは<a href="aturan.html">ルール</a>のページをご覧ください。</p></div></details>
+<details class="faq"><summary>投稿が拒否された、または警告が出たのはなぜですか？</summary><div><p>Jurkonは送信前にテキストをチェックします。賭博の宣伝、アダルトコンテンツ、詐欺、脅迫、ヘイトスピーチ、身分証明書番号（KTP/NIK）などは送信できず、乱暴な言葉や電話番号は警告のみです。自動チェックは誤ることがあるので、少し言い回しを変えてみてください。詳しくは<a href="aturan">ルール</a>のページをご覧ください。</p></div></details>
 <details class="faq"><summary>「操作が早すぎます」「1日の上限に達しました」と表示されるのはなぜですか？</summary><div><p>スパム防止のため、投稿、返信、メッセージ、いいねの数には上限があります。新しいアカウント（最初の約3日間）は上限がより厳しくなっています。しばらく待つか、明日もう一度お試しください。</p></div></details>
 <details class="faq"><summary>自分の投稿を削除するには？</summary><div><p>自分の投稿にあるゴミ箱アイコンをタップし、確認してください。削除した投稿は元に戻せません。</p></div></details>
 <details class="faq"><summary>「閲覧数」とは？</summary><div><p>その投稿を見た異なる人の数です。1人につき1回だけ数えられ、自分の投稿は数えられません。</p></div></details>
@@ -75,7 +75,7 @@ window.INFO_T = {
 <h3>安全性とプライバシー</h3>
 <details class="faq"><summary>問題のある投稿を通報するには？</summary><div><p>投稿の通報アイコンをタップし、理由（最大300文字）を書いて送信します。通報は審査のため、運営者だけが閲覧します。</p></div></details>
 <details class="faq"><summary>誰かをブロックするには？</summary><div><p>その人のプロフィールを開き、⋯メニューをタップして、ブロックを選びます。その人の投稿はあなたには表示されなくなります。解除するには、同じメニューで<b>ブロック解除</b>を選んでください。</p></div></details>
-<details class="faq"><summary>メッセージは誰が読めますか？</summary><div><p>あなたと会話の相手だけです。メールアドレスは他のユーザーには表示されません。詳しくは<a href="kebijakan-privasi.html">プライバシーポリシー</a>をご覧ください。</p></div></details>
+<details class="faq"><summary>メッセージは誰が読めますか？</summary><div><p>あなたと会話の相手だけです。メールアドレスは他のユーザーには表示されません。詳しくは<a href="kebijakan-privasi">プライバシーポリシー</a>をご覧ください。</p></div></details>
 <details class="faq"><summary>自分のデータをダウンロードするには？</summary><div><p>プロフィールを開き、歯車アイコン（設定）をタップして、<b>自分のデータをダウンロード</b>を選びます。プロフィール、投稿、いいね、メッセージが入った1つのファイルを受け取れます。</p></div></details>
 <details class="faq"><summary>アカウントを削除するには？</summary><div><p>設定を開き、<b>アカウントを削除</b>を選びます。確認のためにHAPUSと入力する必要があります。削除は永久的で、プロフィール、投稿、いいね、送信したメッセージもすべて削除され、復元できません。先にデータをダウンロードしておくことをおすすめします。</p></div></details>
 <h3>表示</h3>

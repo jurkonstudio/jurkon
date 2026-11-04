@@ -24,10 +24,10 @@ window.INFO_T = {
 
 <h3>Kaca penting</h3>
 <ul>
-<li><a href="kebijakan-privasi.html">Kawijakan Privasi</a></li>
-<li><a href="ketentuan-layanan.html">Katangtuan Layanan</a></li>
-<li><a href="aturan.html">Aturan Pamakéan</a></li>
-<li><a href="pusat-bantuan.html">Puseur Bantuan</a></li>
+<li><a href="kebijakan-privasi">Kawijakan Privasi</a></li>
+<li><a href="ketentuan-layanan">Katangtuan Layanan</a></li>
+<li><a href="aturan">Aturan Pamakéan</a></li>
+<li><a href="pusat-bantuan">Puseur Bantuan</a></li>
 </ul>
 
 <h3>Hubungi kami</h3>
@@ -49,10 +49,10 @@ window.INFO_T = {
 <p>Pamariksaan otomatis bisa lepat. Upami tulisan anjeun nu wajar ditolak, robih saeutik kalimatna atawa hubungi kami ngaliwatan kontak di handap.</p>
 <p>Pikeun nyegah spam, jumlah kiriman, pesen, jeung laporan per poé diwatesan.</p>
 <h3>Kawijakan privasi (ringkesan)</h3>
-<p>Kami nyimpen surélék, profil, kiriman, resep, daptar tuturkeun, sareng pesen anjeun pikeun ngajalankeun layanan. Data henteu dijual. Surélék henteu dipidangkeun ka pamaké séjén. Profil sareng kiriman ngan bisa ditempo ku anggota nu geus asup. Pesen langsung ngan bisa dibaca ku dua pamilon paguneman. Katerangan lengkepna aya dina <a href="kebijakan-privasi.html" style="text-decoration:underline">Kawijakan privasi</a>.</p>
+<p>Kami nyimpen surélék, profil, kiriman, resep, daptar tuturkeun, sareng pesen anjeun pikeun ngajalankeun layanan. Data henteu dijual. Surélék henteu dipidangkeun ka pamaké séjén. Profil sareng kiriman ngan bisa ditempo ku anggota nu geus asup. Pesen langsung ngan bisa dibaca ku dua pamilon paguneman. Katerangan lengkepna aya dina <a href="kebijakan-privasi" style="text-decoration:underline">Kawijakan privasi</a>.</p>
 <h3>Data sareng akun anjeun</h3>
 <p>Dina kaca Profil anjeun tiasa ngaunduh data jeung ngahapus akun. Ngahapus akun ngahapus profil, kiriman, resep, sareng pesen nu anjeun kirim sacara permanén.</p>
-<p style="margin-top:16px">Langkung lengkep: <a href="kebijakan-privasi.html" style="text-decoration:underline">Kawijakan privasi</a> · <a href="ketentuan-layanan.html" style="text-decoration:underline">Katangtuan layanan</a> · <a href="pusat-bantuan.html" style="text-decoration:underline">Puseur bantuan</a> · <a href="tentang.html" style="text-decoration:underline">Ngeunaan</a></p>
+<p style="margin-top:16px">Langkung lengkep: <a href="kebijakan-privasi" style="text-decoration:underline">Kawijakan privasi</a> · <a href="ketentuan-layanan" style="text-decoration:underline">Katangtuan layanan</a> · <a href="pusat-bantuan" style="text-decoration:underline">Puseur bantuan</a> · <a href="tentang" style="text-decoration:underline">Ngeunaan</a></p>
 <p style="margin-top:16px">Kontak: <span class="kontak-mail"></span></p>`
   },
 
@@ -68,7 +68,7 @@ window.INFO_T = {
 <details class="faq"><summary>Naha kuring teu bisa ngaganti ngaran, username, atawa poto?</summary><div><p>Pangantian diwatesan per bulan supaya akun teu dipaké nyamar atawa nipu. Watesna disetél ulang unggal tanggal 1, sareng sésa jatah anjeun katingali dina layar Robih profil. Username ogé ngan bisa diganti sakali sapoé.</p></div></details>
 <details class="faq"><summary>Naon hartina centang biru jeung emas?</summary><div><p>Centang biru hartina akun geus ditaliti sarta diverifikasi ku tim Jurkon. Centang emas hartina akun resmi nu diurus langsung ku tim Jurkon. Tahan lila dina centangna pikeun nempo katerangannana.</p></div></details>
 <h3>Nulis jeung interaksi</h3>
-<details class="faq"><summary>Naha tulisan kuring ditolak atawa dibéré pépéling?</summary><div><p>Jurkon mariksa tulisan saméméh dikirim. Eusi saperti promosi judi, eusi déwasa, panipuan, ancaman, ujaran kabencian, jeung nomer KTP/NIK teu bisa dikirim, sedengkeun kecap kasar sareng nomer telepon ngan dibéré pépéling. Pamariksaan otomatis bisa lepat, ku kituna cobaan robih saeutik kalimat anjeun. Rincianana aya dina kaca <a href="aturan.html">Aturan</a>.</p></div></details>
+<details class="faq"><summary>Naha tulisan kuring ditolak atawa dibéré pépéling?</summary><div><p>Jurkon mariksa tulisan saméméh dikirim. Eusi saperti promosi judi, eusi déwasa, panipuan, ancaman, ujaran kabencian, jeung nomer KTP/NIK teu bisa dikirim, sedengkeun kecap kasar sareng nomer telepon ngan dibéré pépéling. Pamariksaan otomatis bisa lepat, ku kituna cobaan robih saeutik kalimat anjeun. Rincianana aya dina kaca <a href="aturan">Aturan</a>.</p></div></details>
 <details class="faq"><summary>Naha muncul pesen “Gancang teuing” atawa “Watesan poéan geus kahontal”?</summary><div><p>Aya watesan jumlah kiriman, waleran, pesen, jeung resep pikeun nyegah spam. Akun nu masih anyar (kira-kira 3 poé mimiti) meunang watesan nu leuwih ketat. Antosan sakedap atawa cobaan deui isukan.</p></div></details>
 <details class="faq"><summary>Kumaha cara ngahapus kiriman kuring?</summary><div><p>Keteuk ikon tempat runtah dina kiriman anjeun, terus konfirmasi. Kiriman nu geus dihapus teu bisa dipulangkeun.</p></div></details>
 <details class="faq"><summary>Naon éta jumlah “ditempo”?</summary><div><p>Jumlah jalma béda nu geus nempo hiji kiriman. Hiji jalma diitung sakali, jeung kiriman anjeun sorangan henteu diitung.</p></div></details>
@@ -76,7 +76,7 @@ window.INFO_T = {
 <h3>Kaamanan jeung privasi</h3>
 <details class="faq"><summary>Kumaha cara ngalaporkeun kiriman nu bermasalah?</summary><div><p>Keteuk ikon Laporkeun dina kiriman, tulis alesanana (pangpanjangna 300 karakter), terus kirim. Laporan ngan ditempo ku pangurus pikeun ditaliti.</p></div></details>
 <details class="faq"><summary>Kumaha cara meungpeuk batur?</summary><div><p>Buka profil jalma éta, keteuk ménu ⋯, terus pilih blokir. Kirimanna bakal disumputkeun ti anjeun. Pikeun muka deui, pilih <b>Buka blokir</b> dina ménu nu sarua.</p></div></details>
-<details class="faq"><summary>Saha nu bisa maca pesen kuring?</summary><div><p>Ngan anjeun jeung lawan ngobrol anjeun. Surélék henteu dipidangkeun ka pamaké séjén. Langkung lengkep aya dina <a href="kebijakan-privasi.html">Kawijakan privasi</a>.</p></div></details>
+<details class="faq"><summary>Saha nu bisa maca pesen kuring?</summary><div><p>Ngan anjeun jeung lawan ngobrol anjeun. Surélék henteu dipidangkeun ka pamaké séjén. Langkung lengkep aya dina <a href="kebijakan-privasi">Kawijakan privasi</a>.</p></div></details>
 <details class="faq"><summary>Kumaha cara ngaunduh data kuring?</summary><div><p>Buka Profil, keteuk ikon gir (Pangaturan), terus pilih <b>Unduh data kuring</b>. Anjeun bakal narima hiji koropak nu eusina profil, kiriman, resep, jeung pesen anjeun.</p></div></details>
 <details class="faq"><summary>Kumaha cara ngahapus akun?</summary><div><p>Buka Pangaturan terus pilih <b>Hapus akun</b>. Anjeun kudu ngetik HAPUS pikeun konfirmasi. Pamupusan téh permanén: profil, kiriman, resep, jeung pesen nu anjeun kirim milu kahapus sarta teu bisa dipulihkeun. Langkung saé unduh heula data anjeun.</p></div></details>
 <h3>Tampilan</h3>

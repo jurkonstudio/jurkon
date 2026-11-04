@@ -23,10 +23,10 @@ window.INFO_T = {
 
 <h3>Important pages</h3>
 <ul>
-<li><a href="kebijakan-privasi.html">Privacy Policy</a></li>
-<li><a href="ketentuan-layanan.html">Terms of Service</a></li>
-<li><a href="aturan.html">Rules of Use</a></li>
-<li><a href="pusat-bantuan.html">Help Center</a></li>
+<li><a href="kebijakan-privasi">Privacy Policy</a></li>
+<li><a href="ketentuan-layanan">Terms of Service</a></li>
+<li><a href="aturan">Rules of Use</a></li>
+<li><a href="pusat-bantuan">Help Center</a></li>
 </ul>
 
 <h3>Contact us</h3>
@@ -48,10 +48,10 @@ window.INFO_T = {
 <p>Automatic checks can be wrong. If your reasonable writing is rejected, change the wording a little or contact us using the details below.</p>
 <p>To prevent spam, the number of posts, messages, and reports per day is limited.</p>
 <h3>Privacy Policy (summary)</h3>
-<p>We store your email, profile, posts, likes, follow list, and messages to run the service. Your data is not sold. Your email is not shown to other users. Profiles and posts can only be seen by members who are signed in. Direct messages can only be read by the two people in the conversation. The full explanation is in the <a href="kebijakan-privasi.html" style="text-decoration:underline">Privacy Policy</a>.</p>
+<p>We store your email, profile, posts, likes, follow list, and messages to run the service. Your data is not sold. Your email is not shown to other users. Profiles and posts can only be seen by members who are signed in. Direct messages can only be read by the two people in the conversation. The full explanation is in the <a href="kebijakan-privasi" style="text-decoration:underline">Privacy Policy</a>.</p>
 <h3>Your data and account</h3>
 <p>On the Profile page you can download your data and delete your account. Deleting your account permanently removes your profile, posts, likes, and the messages you sent.</p>
-<p style="margin-top:16px">More: <a href="kebijakan-privasi.html" style="text-decoration:underline">Privacy Policy</a> · <a href="ketentuan-layanan.html" style="text-decoration:underline">Terms of Service</a> · <a href="pusat-bantuan.html" style="text-decoration:underline">Help Center</a> · <a href="tentang.html" style="text-decoration:underline">About</a></p>
+<p style="margin-top:16px">More: <a href="kebijakan-privasi" style="text-decoration:underline">Privacy Policy</a> · <a href="ketentuan-layanan" style="text-decoration:underline">Terms of Service</a> · <a href="pusat-bantuan" style="text-decoration:underline">Help Center</a> · <a href="tentang" style="text-decoration:underline">About</a></p>
 <p style="margin-top:16px">Contact: <span class="kontak-mail"></span></p>`
   },
 
@@ -67,7 +67,7 @@ window.INFO_T = {
 <details class="faq"><summary>Why can’t I change my name, username, or photo?</summary><div><p>Changes are limited per month so accounts can’t be used to impersonate or deceive. The limit resets on the 1st of each month, and your remaining allowance is shown on the Edit profile screen. A username can also only be changed once a day.</p></div></details>
 <details class="faq"><summary>What do the blue and gold checkmarks mean?</summary><div><p>A blue checkmark means the account has been reviewed and verified by the Jurkon team. A gold checkmark means an official account run directly by the Jurkon team. Press and hold the checkmark to see its description.</p></div></details>
 <h3>Writing and interacting</h3>
-<details class="faq"><summary>Why was my writing rejected or shown a warning?</summary><div><p>Jurkon checks writing before it is sent. Content such as gambling promotion, adult content, fraud, threats, hate speech, and national ID (KTP/NIK) numbers cannot be sent, while rude words and phone numbers only get a warning. Automatic checks can be wrong, so try changing your wording a little. Details are on the <a href="aturan.html">Rules</a> page.</p></div></details>
+<details class="faq"><summary>Why was my writing rejected or shown a warning?</summary><div><p>Jurkon checks writing before it is sent. Content such as gambling promotion, adult content, fraud, threats, hate speech, and national ID (KTP/NIK) numbers cannot be sent, while rude words and phone numbers only get a warning. Automatic checks can be wrong, so try changing your wording a little. Details are on the <a href="aturan">Rules</a> page.</p></div></details>
 <details class="faq"><summary>Why do I see “Too fast” or “Daily limit reached”?</summary><div><p>There are limits on the number of posts, replies, messages, and likes to prevent spam. Newer accounts (roughly the first 3 days) have stricter limits. Wait a moment or try again tomorrow.</p></div></details>
 <details class="faq"><summary>How do I delete my post?</summary><div><p>Tap the trash icon on your own post, then confirm. A deleted post cannot be restored.</p></div></details>
 <details class="faq"><summary>What is the “views” count?</summary><div><p>The number of different people who have seen a post. Each person is counted once, and your own posts are not counted.</p></div></details>
@@ -75,7 +75,7 @@ window.INFO_T = {
 <h3>Safety and privacy</h3>
 <details class="faq"><summary>How do I report a problem post?</summary><div><p>Tap the Report icon on the post, write your reason (up to 300 characters), then send. Reports are only seen by the administrators for review.</p></div></details>
 <details class="faq"><summary>How do I block someone?</summary><div><p>Open the person’s profile, tap the ⋯ menu, then choose block. Their posts will be hidden from you. To unblock, choose <b>Unblock</b> in the same menu.</p></div></details>
-<details class="faq"><summary>Who can read my messages?</summary><div><p>Only you and the person you are talking to. Your email is not shown to other users. More in the <a href="kebijakan-privasi.html">Privacy Policy</a>.</p></div></details>
+<details class="faq"><summary>Who can read my messages?</summary><div><p>Only you and the person you are talking to. Your email is not shown to other users. More in the <a href="kebijakan-privasi">Privacy Policy</a>.</p></div></details>
 <details class="faq"><summary>How do I download my data?</summary><div><p>Open Profile, tap the gear icon (Settings), then choose <b>Download my data</b>. You will get a single file containing your profile, posts, likes, and messages.</p></div></details>
 <details class="faq"><summary>How do I delete my account?</summary><div><p>Open Settings then choose <b>Delete account</b>. You need to type HAPUS to confirm. Deletion is permanent: your profile, posts, likes, and the messages you sent are removed and cannot be recovered. It’s best to download your data first.</p></div></details>
 <h3>Appearance</h3>

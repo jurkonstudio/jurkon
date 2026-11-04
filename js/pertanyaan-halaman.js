@@ -13,7 +13,7 @@
 
   const ms = d => new Date(d + 'T12:00:00+07:00');
   const fmt = (d, o) => ms(d).toLocaleDateString(I18n.locale, Object.assign({ timeZone: 'Asia/Jakarta' }, o));
-  const tautan = d => 'pertanyaan.html' + (d === hari ? '' : '?tgl=' + d);
+  const tautan = d => 'pertanyaan' + (d === hari ? '' : '?tgl=' + d);
 
   // Tujuh hari berurutan yang memuat tanggal terpilih (tidak lewat hari ini dan tidak lebih lama dari 30 hari)
   function jendela() {

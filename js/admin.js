@@ -124,7 +124,7 @@
           <button type="button" id="gMata" aria-label="Tampilkan kata sandi">${ikon('mata')}</button></span></label>
         <button class="btn penuh" id="gKirim" type="submit">Masuk</button>
       </form>
-      <p class="kecil-ket"><a href="/index.html">← Kembali ke aplikasi</a></p>`);
+      <p class="kecil-ket"><a href="/">← Kembali ke aplikasi</a></p>`);
     const f = el('fMasuk'), g = el('gGalat'), s = el('gSandi');
     el('gMata').onclick = () => { s.type = s.type === 'password' ? 'text' : 'password'; };
     el('gEmail').focus();
@@ -168,7 +168,7 @@
   function gerbangDitolak(user) {
     tampilGerbang(`<div class="lencana-besar">${ikon('kunci')}</div><h2>Akses ditolak</h2>
       <p class="ket">Akun <b>${esc(user.email || '')}</b> bukan admin Jurkon.</p>
-      <div style="display:grid;gap:10px"><a class="btn penuh" href="/index.html">Ke aplikasi</a><button class="btn garis penuh" id="gKeluar" type="button">Ganti akun</button></div>`);
+      <div style="display:grid;gap:10px"><a class="btn penuh" href="/">Ke aplikasi</a><button class="btn garis penuh" id="gKeluar" type="button">Ganti akun</button></div>`);
     el('gKeluar').onclick = keluar;
   }
 
@@ -387,8 +387,8 @@
         const KAT = { spam: 'Spam atau iklan', pelecehan: 'Pelecehan atau perundungan', palsu: 'Akun palsu atau meniru', tak_pantas: 'Konten tidak pantas', lainnya: 'Lainnya' };
         const tombol = fLap === 'baru'
           ? `<button type="button" class="btn kecil garis" data-act="lapSelesai" data-r="${r.id}">${ikon('cek')}Tandai selesai</button>
-             ${akun ? `<a class="btn kecil garis" href="/profil.html?u=${encodeURIComponent(penulis)}" target="_blank" rel="noopener">${ikon('luar')}Buka profil</a>` : ''}
-             ${p ? `<a class="btn kecil garis" href="/detail.html?id=${esc(p.id)}" target="_blank" rel="noopener">${ikon('luar')}Buka posting</a>
+             ${akun ? `<a class="btn kecil garis" href="/profil?u=${encodeURIComponent(penulis)}" target="_blank" rel="noopener">${ikon('luar')}Buka profil</a>` : ''}
+             ${p ? `<a class="btn kecil garis" href="/detail?id=${esc(p.id)}" target="_blank" rel="noopener">${ikon('luar')}Buka posting</a>
              <button type="button" class="btn kecil garis bahaya" data-act="lapHapus" data-p="${esc(p.id)}">Hapus posting</button>` : ''}
              ${sasaranId ? `<button type="button" class="btn kecil garis bahaya" data-act="lapBekukan" data-u="${esc(sasaranId)}" data-n="${esc(penulis)}" data-r="${r.id}">${akun ? 'Bekukan akun' : 'Bekukan penulis'}</button>` : ''}`
           : `<button type="button" class="btn kecil garis" data-act="lapBuka" data-r="${r.id}">Buka kembali</button>`;
@@ -453,7 +453,7 @@
       !u.terverifikasi ? '<span class="lencana kuning">Belum verifikasi</span>' : '',
       u.laporan_baru > 0 ? `<span class="lencana merah">${u.laporan_baru} laporan baru</span>` : ''
     ].join('');
-    const t = [`<a class="btn kecil garis" href="/profil.html?u=${esc(u.username)}" target="_blank" rel="noopener">${ikon('luar')}Profil</a>`];
+    const t = [`<a class="btn kecil garis" href="/profil?u=${esc(u.username)}" target="_blank" rel="noopener">${ikon('luar')}Profil</a>`];
     if (!u.dibekukan) t.push(`<button type="button" class="btn kecil ${u.lencana ? 'garis' : ''}" data-act="verifU" data-id="${u.id}">${u.lencana ? 'Cabut verified' : 'Beri verified'}</button>`);
     if (!u.dibekukan && u.lencana) t.push(`<button type="button" class="btn kecil garis" data-act="masaU" data-id="${u.id}">Ubah masa aktif</button>`);
     if (u.dibekukan) t.push(`<button type="button" class="btn kecil garis" data-act="bukaU" data-id="${u.id}">Buka pembekuan</button>`);
@@ -540,7 +540,7 @@
       <div class="atas-b"><span class="nama">@${esc(p.username)}</span><span class="sub">${wkt(p.dibuat)}</span>${lencana}</div>
       <div class="teks">${esc(p.isi || '(posting ulang)')}</div>
       <div class="sub" style="margin-top:8px">${angka(p.dilihat)} dilihat · ${angka(p.jml_suka)} suka</div>
-      <div class="aksi-b"><a class="btn kecil garis" href="/detail.html?id=${esc(p.id)}" target="_blank" rel="noopener">${ikon('luar')}Buka</a>
+      <div class="aksi-b"><a class="btn kecil garis" href="/detail?id=${esc(p.id)}" target="_blank" rel="noopener">${ikon('luar')}Buka</a>
         ${p.adalah_balasan ? '' : `<button type="button" class="btn kecil garis" data-act="sorotP" data-id="${p.id}" data-v="${p.disorot ? 0 : 1}">${p.disorot ? 'Cabut sorotan' : 'Sorot'}</button>`}
         ${tombolKunci}
         <button type="button" class="btn kecil garis bahaya" data-act="hapusP" data-id="${p.id}">Hapus</button></div></div></article>`;
@@ -585,7 +585,7 @@
           <div class="teks">${esc(p.content)}</div></div>
           <button type="button" class="btn kecil garis" data-act="cabutSorot" data-id="${p.id}">Cabut</button></article>`).join('') + '</div>';
     isiEl.innerHTML = `<div class="kartu"><h2>Tambah sorotan</h2>
-      <p class="ket">Posting dengan jumlah dilihat di atas ambang otomatis tampil di Jelajah. Di sini kamu memilih posting lain secara manual: tempel tautan (detail.html?id=…) atau ID-nya.</p>
+      <p class="ket">Posting dengan jumlah dilihat di atas ambang otomatis tampil di Jelajah. Di sini kamu memilih posting lain secara manual: tempel tautan (detail?id=…) atau ID-nya.</p>
       <div class="bar-alat" style="margin:0"><input type="text" id="sorotId" style="flex:1;min-width:200px;width:auto" aria-label="Tautan atau ID posting" placeholder="Tautan atau ID posting" autocomplete="off" autocapitalize="none" spellcheck="false">
       <button type="button" class="btn" data-act="tambahSorot">Sorot posting</button></div></div>
       <div style="margin-top:16px">${daftar}</div>`;
@@ -603,7 +603,7 @@
     if (!aktif(g)) return;
     const v = {}; let terakhir = null;
     baris.forEach(r => { v[r.kunci] = r.nilai; if (!terakhir || r.diubah_at > terakhir) terakhir = r.diubah_at; });
-    aksiAtas.innerHTML = `<a class="btn garis kecil" href="/landing.html" target="_blank" rel="noopener">${ikon('luar')}Pratinjau landing</a>`;
+    aksiAtas.innerHTML = `<a class="btn garis kecil" href="/landing" target="_blank" rel="noopener">${ikon('luar')}Pratinjau landing</a>`;
     const input = (k, label, ket, maks) => `<label class="medan">${esc(label)}${ket ? `<small>${esc(ket)}</small>` : ''}<input type="text" data-k="${k}" maxlength="${maks}" value="${esc(v[k] || '')}" autocomplete="off"></label>`;
     const area = (k, label, ket) => `<label class="medan">${esc(label)}${ket ? `<small>${esc(ket)}</small>` : ''}<textarea data-k="${k}" maxlength="600">${esc(v[k] || '')}</textarea></label>`;
     const sakelar = (k, label, ket) => `<label class="sakelar"><span class="ket-s">${esc(label)}<small>${esc(ket)}</small></span><input type="checkbox" data-k="${k}" ${v[k] === '1' ? 'checked' : ''}></label>`;

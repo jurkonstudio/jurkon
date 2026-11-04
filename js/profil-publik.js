@@ -13,12 +13,12 @@
   const HALAMAN = 20;
 
   async function sesi() { try { return (await db.auth.getSession()).data.session; } catch (e) { return null; } }
-  if (await sesi()) { location.replace(u ? 'profil.html?u=' + u : 'index.html'); return; }
+  if (await sesi()) { location.replace(u ? 'profil?u=' + u : '/'); return; }
 
   function setMeta(sel, atr, nilai) { const el = document.querySelector(sel); if (el) el.setAttribute(atr, nilai); }
   function potong(s, n) { s = String(s || '').replace(/\s+/g, ' ').trim(); return s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s; }
   function rapikan() { try { if (u && location.pathname !== '/@' + u) history.replaceState(null, '', '/@' + u); } catch (e) {} }
-  const urlLogin = () => 'login.html' + (u ? '?lanjut=' + encodeURIComponent('profil.html?u=' + u) : '');
+  const urlLogin = () => 'login' + (u ? '?lanjut=' + encodeURIComponent('profil?u=' + u) : '');
 
   function avatarTamu(nama, foto, ukuran) {
     let h = 0;
@@ -36,10 +36,10 @@
     document.title = judul + ' · Jurkon';
     atas.innerHTML = '<div class="profil-atas pp-ajakan"><h2>' + esc(judul) + '</h2>' +
       '<p class="bio">' + esc(t('pp.privatIsi')) + '</p>' +
-      '<div class="tombol"><a class="btn utama" href="daftar.html">' + esc(t('pp.gabung')) + '</a>' +
+      '<div class="tombol"><a class="btn utama" href="daftar">' + esc(t('pp.gabung')) + '</a>' +
       '<a class="btn garis" href="' + esc(urlLogin()) + '">' + esc(t('pp.masuk')) + '</a></div>' +
       '<p class="hint-pesan">' + esc(t('pp.tentang')) + '</p>' +
-      '<p class="jl-tentang"><a href="jelajahi.html">' + esc(t('jl.judul')) + '</a></p></div>';
+      '<p class="jl-tentang"><a href="jelajahi">' + esc(t('jl.judul')) + '</a></p></div>';
     daftar.innerHTML = '';
     ajak.hidden = true;
   }
@@ -48,7 +48,7 @@
     const tgl = new Date(c.publik_pada).toLocaleDateString(I18n.locale, { day: 'numeric', month: 'long', year: 'numeric' });
     return '<article class="post" data-id="' + esc(c.id) + '"><span class="ava">' + avatarTamu(nama, d.foto, 42) + '</span>' +
       '<div class="badan"><span class="nama">' + esc(nama) + '</span> <span class="user">@' + esc(d.username) + '</span> ' +
-      '<a class="waktu" href="n.html?id=' + esc(c.id) + '">' + esc(tgl) + '</a>' +
+      '<a class="waktu" href="n?id=' + esc(c.id) + '">' + esc(tgl) + '</a>' +
       '<div class="isi">' + esc(c.content) + '</div>' +
       '<div class="aksi"><span class="btn-suka" aria-hidden="true">' + (typeof IK !== 'undefined' ? IK.suka : '♥') + '<span>' + Number(c.jumlah_suka || 0) + '</span></span></div></div></article>';
   }
@@ -73,7 +73,7 @@
       (gabung ? '<p class="hitung">' + esc(t('pf.menulisSejak', { tgl: gabung })) + '</p>' : '') + '</div>';
 
     ajak.innerHTML = '<p>' + esc(t('pp.ajakIkuti', { nama: nama })) + '</p>' +
-      '<a class="btn" id="btnGabung" href="daftar.html">' + esc(t('pp.gabung')) + '</a>' +
+      '<a class="btn" id="btnGabung" href="daftar">' + esc(t('pp.gabung')) + '</a>' +
       '<p class="jl-tentang"><a href="' + esc(urlLogin()) + '">' + esc(t('pp.masuk')) + '</a></p>';
     ajak.hidden = false;
     // Pendaftar baru lewat profil ini ditawari mengikuti pemilik profil (js/selamat.js), tanpa dipaksa.

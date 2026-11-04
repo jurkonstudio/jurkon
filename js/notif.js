@@ -65,16 +65,16 @@
   function kalimat(n) {
     const a = n.actor || {};
     const nama = '<b>' + esc(a.nama || a.username || t('notif.seseorang')) + '</b>';
-    const profil = a.username ? 'profil.html?u=' + encodeURIComponent(a.username) : 'notifikasi.html';
+    const profil = a.username ? 'profil?u=' + encodeURIComponent(a.username) : 'notifikasi';
     const p = n.post;
-    if (n.jenis === 'suka') return { html: t('notif.suka', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail.html?id=' + p.id : profil };
-    if (n.jenis === 'balasan') return { html: t('notif.balasan', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p && p.parent_id ? 'detail.html?id=' + p.parent_id : profil };
-    if (n.jenis === 'ulang') return { html: t('notif.ulang', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail.html?id=' + p.id : profil };
-    if (n.jenis === 'kutip') return { html: t('notif.kutip', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail.html?id=' + p.id : profil };
-    if (n.jenis === 'mention') return { html: t('notif.mention', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail.html?id=' + (p.parent_id || p.id) : profil };
-    if (n.jenis === 'posting') return { html: t('notif.posting', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail.html?id=' + p.id : profil };
+    if (n.jenis === 'suka') return { html: t('notif.suka', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail?id=' + p.id : profil };
+    if (n.jenis === 'balasan') return { html: t('notif.balasan', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p && p.parent_id ? 'detail?id=' + p.parent_id : profil };
+    if (n.jenis === 'ulang') return { html: t('notif.ulang', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail?id=' + p.id : profil };
+    if (n.jenis === 'kutip') return { html: t('notif.kutip', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail?id=' + p.id : profil };
+    if (n.jenis === 'mention') return { html: t('notif.mention', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail?id=' + (p.parent_id || p.id) : profil };
+    if (n.jenis === 'posting') return { html: t('notif.posting', { nama }), cuplikan: p ? potong(p.content, 90) : '', href: p ? 'detail?id=' + p.id : profil };
     if (n.jenis === 'ikuti') return { html: t('notif.ikuti', { nama }), cuplikan: '', href: profil };
-    if (n.jenis === 'pesan') return { html: t('notif.pesan', { nama }), cuplikan: '', href: n.conversation_id ? 'chat.html?id=' + n.conversation_id : 'pesan.html' };
+    if (n.jenis === 'pesan') return { html: t('notif.pesan', { nama }), cuplikan: '', href: n.conversation_id ? 'chat?id=' + n.conversation_id : 'pesan' };
     return { html: t('notif.lain', { nama }), cuplikan: '', href: profil };
   }
 

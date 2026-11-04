@@ -8,14 +8,14 @@ function simpanFeed(f) { try { localStorage.setItem(KUNCI_FEED, f); } catch (e) 
 
 function kosongFeed(f) {
   return f === 'ikuti'
-    ? kosong('pena', t('feed.kosongIkutiJ'), t('feed.kosongIkutiT'), 'explore.html', t('umum.cariOrang'))
-    : kosong('pena', t('feed.kosongJ'), t('feed.kosongT'), 'post.html', t('umum.tulisSekarang'));
+    ? kosong('pena', t('feed.kosongIkutiJ'), t('feed.kosongIkutiT'), 'explore', t('umum.cariOrang'))
+    : kosong('pena', t('feed.kosongJ'), t('feed.kosongT'), 'post', t('umum.tulisSekarang'));
 }
 
 // Penutup feed: tanda "sudah sampai ujung" supaya gulir tidak terasa tanpa akhir
 function ujungFeed() {
   return '<div class="ujung-feed" role="status"><b>' + esc(t('feed.ujungJ')) + '</b><p>' + esc(t('feed.ujungT')) +
-    '</p><a class="btn" href="explore.html">' + esc(t('feed.ujungTombol')) + '</a></div>';
+    '</p><a class="btn" href="explore">' + esc(t('feed.ujungTombol')) + '</a></div>';
 }
 
 // Ringkasan hari ini: catatan paling ramai 24 jam terakhir (memakai posting_ramai, migrasi 011).
@@ -30,7 +30,7 @@ async function ringkasanHarian() {
   if (error || !Array.isArray(data) || !data.length) return;
   kotak.innerHTML = '<div class="ringkasan-kepala"><b>' + esc(t('feed.ringkasan')) + '</b>' +
     '<button type="button" class="ringkasan-tutup" aria-label="' + esc(t('feed.ringkasanTutup')) + '" title="' + esc(t('feed.ringkasanTutup')) + '">\u00d7</button></div>' +
-    data.map(r => '<a class="ringkasan-baris" href="detail.html?id=' + encodeURIComponent(r.id) + '"><span class="ringkasan-nama">' +
+    data.map(r => '<a class="ringkasan-baris" href="detail?id=' + encodeURIComponent(r.id) + '"><span class="ringkasan-nama">' +
       esc(r.nama || r.username || '') + '</span><span class="ringkasan-isi">' + esc(String(r.content || '').slice(0, 110)) + '</span></a>').join('');
   kotak.hidden = false;
   kotak.querySelector('.ringkasan-tutup').addEventListener('click', () => {

@@ -25,6 +25,6 @@
         : error.code === '42501' ? t('post.e.izin')
         : pesanGalat(error) });
       $('#kirim').disabled = false;
-    } else location.href = 'index.html';
+    } else location.href = '/';
   };
 })();

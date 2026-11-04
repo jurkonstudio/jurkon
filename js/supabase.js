@@ -98,7 +98,7 @@ function lanjutAman(mentah) {
 // Ke halaman masuk sambil mengingat halaman yang sedang dibuka (mis. tautan profil yang dibagikan)
 function keLogin() {
   const tujuan = lanjutAman(location.pathname + location.search);
-  location.href = '/login.html' + (tujuan && !/^index\.html/.test(tujuan) ? '?lanjut=' + encodeURIComponent(tujuan) : '');
+  location.href = '/login' + (tujuan && !/^index\.html/.test(tujuan) ? '?lanjut=' + encodeURIComponent(tujuan) : '');
 }
 async function wajibLogin() {
   const { data: { session } } = await db.auth.getSession();

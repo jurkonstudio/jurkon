@@ -3,7 +3,7 @@
   if (!saya) return;
   const { data: p } = await db.from('profiles').select('username,nama,siap').eq('id', saya.id).maybeSingle();
   if (!p) { $('#galat').textContent = t('sel.noProfil'); return; }
-  if (p.siap) { location.replace('index.html'); return; }
+  if (p.siap) { location.replace('/'); return; }
   $('#username').value = p.username || '';
   $('#nama').value = p.nama || '';
 
@@ -66,6 +66,6 @@
       try { await db.rpc('terima_undangan', { p_username: undangan.u, p_ikuti: !!(cbIkut && cbIkut.checked) }); } catch (e) {}
       try { localStorage.removeItem('undang'); } catch (e) {}
     }
-    location.href = 'mulai.html';   // onboarding 3 langkah (boleh dilewati); halaman itu sendiri tidak memaksa
+    location.href = 'mulai';   // onboarding 3 langkah (boleh dilewati); halaman itu sendiri tidak memaksa
   };
 })();

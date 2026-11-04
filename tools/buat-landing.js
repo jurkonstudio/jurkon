@@ -9,10 +9,10 @@ const HOST = 'https://jurkon.my.id';
 const tpl = fs.readFileSync(path.join(__dirname, 'landing-templat.html'), 'utf8');
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const urlLengkap = k => k === 'id' ? HOST + '/landing.html' : HOST + '/' + k + '/';
-const jalur = (k, dari) => k === 'id' ? (dari === 'id' ? 'landing.html' : '/landing.html') : '/' + k + '/';   // tautan ke landing bahasa k, dari halaman bahasa `dari`
+const urlLengkap = k => k === 'id' ? HOST + '/landing' : HOST + '/' + k + '/';
+const jalur = (k, dari) => k === 'id' ? (dari === 'id' ? 'landing' : '/landing') : '/' + k + '/';   // tautan ke landing bahasa k, dari halaman bahasa `dari`
 const awalan = k => k === 'id' ? '' : '/';                                  // untuk berkas aset
-const tautanHalaman = (k, h) => (k !== 'id' && TERBIT[h].includes(k)) ? '/' + k + '/' + HALAMAN[h].slug + '.html' : awalan(k) + HALAMAN[h].id;
+const tautanHalaman = (k, h) => (k !== 'id' && TERBIT[h].includes(k)) ? '/' + k + '/' + HALAMAN[h].slug : awalan(k) + HALAMAN[h].id.replace(/\.html$/, '');
 
 // Pemeriksaan kelengkapan kamus
 const acuan = Object.keys(T.id);

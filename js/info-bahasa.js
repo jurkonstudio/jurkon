@@ -15,8 +15,8 @@
   var html = d.html;
   if (d.hukum) html += '<p class="dok-catatan">' + T.catatan + '</p>';
   html += '<nav class="dok-nav" aria-label="' + T.navAria + '">' +
-    tautan('kebijakan-privasi.html', T.nav[0]) + ' · ' + tautan('ketentuan-layanan.html', T.nav[1]) + ' · ' + tautan('aturan.html', T.nav[2]) + ' · ' +
-    tautan('pusat-bantuan.html', T.nav[3]) + ' · ' + tautan('tentang.html', T.nav[4]) + '</nav>';
+    tautan('kebijakan-privasi', T.nav[0]) + ' · ' + tautan('ketentuan-layanan', T.nav[1]) + ' · ' + tautan('aturan', T.nav[2]) + ' · ' +
+    tautan('pusat-bantuan', T.nav[3]) + ' · ' + tautan('tentang', T.nav[4]) + '</nav>';
   kotak.innerHTML = html;
 
   var h1 = document.querySelector('.header h1');

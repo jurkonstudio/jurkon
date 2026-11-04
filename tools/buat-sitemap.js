@@ -12,12 +12,12 @@ const baca = p => fs.readFileSync(path.join(dasar, p), 'utf8');
 const INFO = require('./info-config.js');   // halaman info per bahasa (Tentang, Privasi, Aturan, Bantuan, Ketentuan)
 
 const BAHASA = [  // [hreflang, alamat, berkas]; grup ini saling menunjuk
-  ['id', '/landing.html', 'landing.html'], ['en', '/en/', 'en/index.html'], ['ms', '/ms/', 'ms/index.html'],
+  ['id', '/landing', 'landing.html'], ['en', '/en/', 'en/index.html'], ['ms', '/ms/', 'ms/index.html'],
   ['jv', '/jv/', 'jv/index.html'], ['su', '/su/', 'su/index.html'], ['zh-Hans', '/zh/', 'zh/index.html'], ['ja', '/ja/', 'ja/index.html'],
   ['es', '/es/', 'es/index.html'], ['fr', '/fr/', 'fr/index.html'], ['hi', '/hi/', 'hi/index.html'], ['ar', '/ar/', 'ar/index.html'], ['ko', '/ko/', 'ko/index.html']];
 const X_DEFAULT = 'en';
 const TUNGGAL = [  // [alamat, berkas]; halaman info (tentang dst.) ada di GRUP_INFO di bawah
-  ['/jelajahi.html', 'jelajahi.html'], ['/login.html', 'login.html'], ['/daftar.html', 'daftar.html'], ['/tempat-curhat-tanpa-algoritma.html', 'tempat-curhat-tanpa-algoritma.html'], ['/proses-membangun-jurkon.html', 'proses-membangun-jurkon.html'],];
+  ['/jelajahi', 'jelajahi.html'], ['/login', 'login.html'], ['/daftar', 'daftar.html'], ['/tempat-curhat-tanpa-algoritma', 'tempat-curhat-tanpa-algoritma.html'], ['/proses-membangun-jurkon', 'proses-membangun-jurkon.html'],];
 
 const hari = new Date().toISOString().slice(0, 10);
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -65,7 +65,7 @@ const GRUP_INFO = Object.keys(INFO.HALAMAN).map(h => INFO.AKTIF.map(b => [b.hl, 
 const daftar = [
   ...BAHASA.map(([, l, b]) => entri(l, b, grupH)),
   ...TUNGGAL.map(([l, b]) => entri(l, b, null)),
-  ...GRUP_INFO.flatMap(g => g.map(([, l]) => entri(l, l.slice(1), g, INFO.alamat(INFO.X_DEFAULT, Object.keys(INFO.HALAMAN)[GRUP_INFO.indexOf(g)]))))
+  ...GRUP_INFO.flatMap(g => g.map(([, l]) => entri(l, l.slice(1) + '.html', g, INFO.alamat(INFO.X_DEFAULT, Object.keys(INFO.HALAMAN)[GRUP_INFO.indexOf(g)]))))
 ].filter(Boolean);
 
 if (galat.length) { console.error('GAGAL, sitemap tidak ditulis:\n- ' + galat.join('\n- ')); process.exit(1); }

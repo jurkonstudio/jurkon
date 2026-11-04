@@ -143,7 +143,7 @@
       try { sessionStorage.clear(); } catch (e) {}
       await db.auth.signOut();
       alert(t('ak.terhapus'));
-      location.href = 'login.html';
+      location.href = 'login';
     };
     dlg.showModal();
     input.focus();

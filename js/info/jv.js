@@ -24,10 +24,10 @@ window.INFO_T = {
 
 <h3>Kaca penting</h3>
 <ul>
-<li><a href="kebijakan-privasi.html">Kabijakan Privasi</a></li>
-<li><a href="ketentuan-layanan.html">Katentuan Layanan</a></li>
-<li><a href="aturan.html">Aturan Panggunaan</a></li>
-<li><a href="pusat-bantuan.html">Pusat Bantuan</a></li>
+<li><a href="kebijakan-privasi">Kabijakan Privasi</a></li>
+<li><a href="ketentuan-layanan">Katentuan Layanan</a></li>
+<li><a href="aturan">Aturan Panggunaan</a></li>
+<li><a href="pusat-bantuan">Pusat Bantuan</a></li>
 </ul>
 
 <h3>Hubungi kita</h3>
@@ -49,10 +49,10 @@ window.INFO_T = {
 <p>Pamriksan otomatis bisa kleru. Yen tulisan wajar sampeyan ditolak, owahana tembungé sithik utawa hubungi kita liwat kontak ing ngisor.</p>
 <p>Kanggo nyegah spam, cacahé kiriman, pesen, lan laporan saben dina diwatesi.</p>
 <h3>Kabijakan privasi (ringkesan)</h3>
-<p>Kita nyimpen email, profil, kiriman, seneng, daftar tutut, lan pesen sampeyan kanggo mbukak layanan. Dhata ora didol. Email ora ditampilaké marang pangguna liya. Profil lan kiriman mung bisa dideleng anggota sing wis mlebu. Pesen langsung mung bisa diwaca wong loro sing ana ing obrolan. Katrangan lengkap ana ing <a href="kebijakan-privasi.html" style="text-decoration:underline">Kabijakan privasi</a>.</p>
+<p>Kita nyimpen email, profil, kiriman, seneng, daftar tutut, lan pesen sampeyan kanggo mbukak layanan. Dhata ora didol. Email ora ditampilaké marang pangguna liya. Profil lan kiriman mung bisa dideleng anggota sing wis mlebu. Pesen langsung mung bisa diwaca wong loro sing ana ing obrolan. Katrangan lengkap ana ing <a href="kebijakan-privasi" style="text-decoration:underline">Kabijakan privasi</a>.</p>
 <h3>Dhata lan akun sampeyan</h3>
 <p>Ing kaca Profil sampeyan bisa ngunduh dhata lan mbusak akun. Mbusak akun mbusak profil, kiriman, seneng, lan pesen sing sampeyan kirim kanthi permanen.</p>
-<p style="margin-top:16px">Luwih lengkap: <a href="kebijakan-privasi.html" style="text-decoration:underline">Kabijakan privasi</a> · <a href="ketentuan-layanan.html" style="text-decoration:underline">Katentuan layanan</a> · <a href="pusat-bantuan.html" style="text-decoration:underline">Pusat bantuan</a> · <a href="tentang.html" style="text-decoration:underline">Bab Jurkon</a></p>
+<p style="margin-top:16px">Luwih lengkap: <a href="kebijakan-privasi" style="text-decoration:underline">Kabijakan privasi</a> · <a href="ketentuan-layanan" style="text-decoration:underline">Katentuan layanan</a> · <a href="pusat-bantuan" style="text-decoration:underline">Pusat bantuan</a> · <a href="tentang" style="text-decoration:underline">Bab Jurkon</a></p>
 <p style="margin-top:16px">Kontak: <span class="kontak-mail"></span></p>`
   },
 
@@ -68,7 +68,7 @@ window.INFO_T = {
 <details class="faq"><summary>Yagéné aku ora bisa ngganti jeneng, username, utawa foto?</summary><div><p>Panggantèn diwatesi saben sasi supaya akun ora dianggo nyamar utawa nipu. Watesé direset saben tanggal 1, lan sisa jatah sampeyan katon ing layar Owahi profil. Username uga mung bisa diganti sepisan saben dina.</p></div></details>
 <details class="faq"><summary>Apa tegesé centhang biru lan emas?</summary><div><p>Centhang biru tegesé akun wis dipriksa lan diverifikasi tim Jurkon. Centhang emas tegesé akun resmi sing diurus langsung tim Jurkon. Tahan suwé ing centhangé kanggo ndeleng katerangané.</p></div></details>
 <h3>Nulis lan interaksi</h3>
-<details class="faq"><summary>Yagéné tulisanku ditolak utawa diparingi pènget?</summary><div><p>Jurkon mriksa tulisan sadurungé dikirim. Konten kaya promosi judhi, konten diwasa, panipuan, ancaman, ujaran sengit, lan nomer KTP/NIK ora bisa dikirim, déné tembung kasar lan nomer telpon mung diparingi pènget. Pamriksan otomatis bisa kleru, dadi coba owahana tembungé sithik. Katrangan rincié ana ing kaca <a href="aturan.html">Aturan</a>.</p></div></details>
+<details class="faq"><summary>Yagéné tulisanku ditolak utawa diparingi pènget?</summary><div><p>Jurkon mriksa tulisan sadurungé dikirim. Konten kaya promosi judhi, konten diwasa, panipuan, ancaman, ujaran sengit, lan nomer KTP/NIK ora bisa dikirim, déné tembung kasar lan nomer telpon mung diparingi pènget. Pamriksan otomatis bisa kleru, dadi coba owahana tembungé sithik. Katrangan rincié ana ing kaca <a href="aturan">Aturan</a>.</p></div></details>
 <details class="faq"><summary>Yagéné muncul pesen “Kecepetan” utawa “Watesan saben dina wis tutug”?</summary><div><p>Ana watesan cacahé kiriman, wangsulan, pesen, lan seneng kanggo nyegah spam. Akun sing isih anyar (kira-kira 3 dina kapisan) entuk watesan sing luwih ketat. Antosana sedhela utawa coba maneh sesuk.</p></div></details>
 <details class="faq"><summary>Kepriyé carané mbusak kirimanku?</summary><div><p>Ketok ikon tong sampah ing kiriman duwèk sampeyan, banjur konfirmasi. Kiriman sing wis dibusak ora bisa dibalèkaké.</p></div></details>
 <details class="faq"><summary>Apa iku cacah “dideleng”?</summary><div><p>Cacahé wong beda sing wis ndeleng sawijining kiriman. Siji wong diétung sepisan, lan kiriman duwèk sampeyan dhéwé ora diétung.</p></div></details>
@@ -76,7 +76,7 @@ window.INFO_T = {
 <h3>Kaamanan lan privasi</h3>
 <details class="faq"><summary>Kepriyé carané nglaporaké kiriman sing ana masalahé?</summary><div><p>Ketok ikon Laporaké ing kiriman, tulisen alesané (paling akèh 300 aksara), banjur kirim. Laporan mung dideleng pangurus kanggo dipriksa.</p></div></details>
 <details class="faq"><summary>Kepriyé carané mblokir wong?</summary><div><p>Bukak profilé wong kuwi, ketok menu ⋯, banjur pilih blokir. Kirimané bakal didhelikaké saka sampeyan. Kanggo mbukak maneh, pilih <b>Buka blokir</b> ing menu sing padha.</p></div></details>
-<details class="faq"><summary>Sapa sing bisa maca pesenku?</summary><div><p>Mung sampeyan lan wong sing sampeyan ajak ngobrol. Email ora ditampilaké marang pangguna liya. Luwih lengkap ana ing <a href="kebijakan-privasi.html">Kabijakan privasi</a>.</p></div></details>
+<details class="faq"><summary>Sapa sing bisa maca pesenku?</summary><div><p>Mung sampeyan lan wong sing sampeyan ajak ngobrol. Email ora ditampilaké marang pangguna liya. Luwih lengkap ana ing <a href="kebijakan-privasi">Kabijakan privasi</a>.</p></div></details>
 <details class="faq"><summary>Kepriyé carané ngunduh dhataku?</summary><div><p>Bukak Profil, ketok ikon gir (Pengaturan), banjur pilih <b>Unduh dhataku</b>. Sampeyan bakal nampa siji berkas sing isiné profil, kiriman, seneng, lan pesen sampeyan.</p></div></details>
 <details class="faq"><summary>Kepriyé carané mbusak akun?</summary><div><p>Bukak Pengaturan banjur pilih <b>Busak akun</b>. Sampeyan kudu ngetik HAPUS kanggo konfirmasi. Pambusakan iku permanen: profil, kiriman, seneng, lan pesen sing sampeyan kirim melu kebusak lan ora bisa dipulihaké. Luwih apik unduh dhata sampeyan dhisik.</p></div></details>
 <h3>Tampilan</h3>

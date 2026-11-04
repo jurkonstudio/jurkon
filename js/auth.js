@@ -8,7 +8,7 @@ try {
   if (/^[a-z0-9_]{3,20}$/.test(uq)) localStorage.setItem('undang', JSON.stringify({ u: uq, t: Date.now() }));
 } catch (e) {}
 if (window.catatCorong && $('#daftar')) catatCorong('daftar_buka');
-db.auth.getSession().then(({ data }) => { if (data.session) location.href = lanjutAman() || 'index.html'; });
+db.auth.getSession().then(({ data }) => { if (data.session) location.href = lanjutAman() || '/'; });
 
 // ---- Anti-bot sisi klien -----------------------------------------------------------------------
 // Catatan jujur: lapisan di klien hanya menahan skrip yang memakai halaman ini. Bot yang langsung memanggil
@@ -133,7 +133,7 @@ if ($('#masuk')) $('#masuk').onclick = function () {
       ? await masukUsername(a.email, a.password, opsi && opsi.captchaToken)
       : await db.auth.signInWithPassword(opsi ? { ...a, options: opsi } : a);
     if (error) { catatGagal(); galat.textContent = t('auth.gagalMasuk', { pesan: terjemah(error.message) }); $('#sandi').value = ''; $('#sandi').focus(); }   // sandi salah: kosongkan, ketik ulang
-    else { catatBerhasil(); await catatSesiCepat(); location.href = lanjutAman() || 'index.html'; }
+    else { catatBerhasil(); await catatSesiCepat(); location.href = lanjutAman() || '/'; }
   });
 };
 if ($('#daftar')) $('#daftar').onclick = function () {
@@ -146,7 +146,7 @@ if ($('#daftar')) $('#daftar').onclick = function () {
     // Email yang sudah terdaftar tidak memberi galat (perlindungan Supabase): identities kosong
     else if (data.user && data.user.identities && data.user.identities.length === 0) galat.textContent = t('auth.sudahTerdaftarLupa');
     else if (!data.session) { galat.classList.add('ok'); galat.textContent = t('auth.cekEmail'); }
-    else { await catatSesiCepat(); location.href = lanjutAman() || 'index.html'; }
+    else { await catatSesiCepat(); location.href = lanjutAman() || '/'; }
   });
 };
 // Login Google dinonaktifkan sementara (belum dikonfigurasi). Untuk mengaktifkan lagi: pasang tombol #google di login.html dan

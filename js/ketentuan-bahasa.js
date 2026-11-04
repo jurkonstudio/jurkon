@@ -136,14 +136,14 @@
   if (!kotak) return;
 
   function tautan(h, x) { return '<a href="' + h + '">' + x + '</a>'; }
-  function isi(s) { return s.replace(/\{k\}/g, tautan('kebijakan-privasi.html', d.k)).replace(/\{a\}/g, tautan('aturan.html', d.a)); }
+  function isi(s) { return s.replace(/\{k\}/g, tautan('kebijakan-privasi', d.k)).replace(/\{a\}/g, tautan('aturan', d.a)); }
 
   var html = '<p class="tgl">' + d.tgl + '</p><p>' + isi(d.intro) + '</p>';
   d.s.forEach(function (x) { html += '<h3>' + x[0] + '</h3>' + isi(x[1]); });
   html += '<p class="dok-catatan">' + d.catatan + '</p>';
   html += '<nav class="dok-nav" aria-label="' + d.navAria + '">' +
-    tautan('kebijakan-privasi.html', d.nav[0]) + ' · ' + tautan('ketentuan-layanan.html', d.nav[1]) + ' · ' + tautan('aturan.html', d.nav[2]) + ' · ' +
-    tautan('pusat-bantuan.html', d.nav[3]) + ' · ' + tautan('tentang.html', d.nav[4]) + '</nav>';
+    tautan('kebijakan-privasi', d.nav[0]) + ' · ' + tautan('ketentuan-layanan', d.nav[1]) + ' · ' + tautan('aturan', d.nav[2]) + ' · ' +
+    tautan('pusat-bantuan', d.nav[3]) + ' · ' + tautan('tentang', d.nav[4]) + '</nav>';
 
   // Pemilih bahasa tetap di bawah, di luar kotak yang diganti
   var h1 = document.querySelector('.header h1');

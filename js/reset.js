@@ -23,6 +23,6 @@
     simpan.disabled = false;
     if (error) { galat.textContent = t('reset.gagalSimpan', { pesan: /password|sandi/i.test(error.message) ? t('auth.e.sandiLemah') : t('err.umum') }); return; }
     info.textContent = t('reset.berhasil');
-    setTimeout(() => { location.href = 'index.html'; }, 1200);
+    setTimeout(() => { location.href = '/'; }, 1200);
   };
 })();

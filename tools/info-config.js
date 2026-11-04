@@ -32,7 +32,7 @@ const AKTIF = BAHASA.filter(b => b.kode === 'id' || !TUNDA.includes(b.kode));   
 const TERBIT = {};                                                                      // halaman -> kode bahasa non-Indonesia yang terbit
 for (const h of Object.keys(HALAMAN)) TERBIT[h] = AKTIF.filter(b => b.kode !== 'id').map(b => b.kode);
 
-const alamat = (kode, h) => kode === 'id' ? '/' + HALAMAN[h].id : '/' + kode + '/' + HALAMAN[h].slug + '.html';
+const alamat = (kode, h) => kode === 'id' ? '/' + HALAMAN[h].id.replace(/\.html$/, '') : '/' + kode + '/' + HALAMAN[h].slug;
 const X_DEFAULT = 'en';
 
 module.exports = { TUNDA, BAHASA, HALAMAN, AKTIF, TERBIT, alamat, X_DEFAULT };

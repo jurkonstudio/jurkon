@@ -23,10 +23,10 @@ window.INFO_T = {
 
 <h3>重要页面</h3>
 <ul>
-<li><a href="kebijakan-privasi.html">隐私政策</a></li>
-<li><a href="ketentuan-layanan.html">服务条款</a></li>
-<li><a href="aturan.html">使用规则</a></li>
-<li><a href="pusat-bantuan.html">帮助中心</a></li>
+<li><a href="kebijakan-privasi">隐私政策</a></li>
+<li><a href="ketentuan-layanan">服务条款</a></li>
+<li><a href="aturan">使用规则</a></li>
+<li><a href="pusat-bantuan">帮助中心</a></li>
 </ul>
 
 <h3>联系我们</h3>
@@ -48,10 +48,10 @@ window.INFO_T = {
 <p>自动检查可能出错。如果你的正常内容被拒绝，请稍微修改措辞，或通过下方联系方式与我们联系。</p>
 <p>为防止垃圾信息，每天的发帖、私信和举报数量有限制。</p>
 <h3>隐私政策（摘要）</h3>
-<p>我们会保存你的邮箱、个人资料、帖子、点赞、关注列表和私信，用于提供服务。数据不会被出售。邮箱不会向其他用户显示。个人资料和帖子只有已登录的成员才能查看。私信只有对话双方可以阅读。完整说明请见<a href="kebijakan-privasi.html" style="text-decoration:underline">隐私政策</a>。</p>
+<p>我们会保存你的邮箱、个人资料、帖子、点赞、关注列表和私信，用于提供服务。数据不会被出售。邮箱不会向其他用户显示。个人资料和帖子只有已登录的成员才能查看。私信只有对话双方可以阅读。完整说明请见<a href="kebijakan-privasi" style="text-decoration:underline">隐私政策</a>。</p>
 <h3>你的数据和账号</h3>
 <p>在“个人资料”页面，你可以下载自己的数据并删除账号。删除账号会永久删除你的个人资料、帖子、点赞以及你发送的私信。</p>
-<p style="margin-top:16px">更多内容：<a href="kebijakan-privasi.html" style="text-decoration:underline">隐私政策</a> · <a href="ketentuan-layanan.html" style="text-decoration:underline">服务条款</a> · <a href="pusat-bantuan.html" style="text-decoration:underline">帮助中心</a> · <a href="tentang.html" style="text-decoration:underline">关于</a></p>
+<p style="margin-top:16px">更多内容：<a href="kebijakan-privasi" style="text-decoration:underline">隐私政策</a> · <a href="ketentuan-layanan" style="text-decoration:underline">服务条款</a> · <a href="pusat-bantuan" style="text-decoration:underline">帮助中心</a> · <a href="tentang" style="text-decoration:underline">关于</a></p>
 <p style="margin-top:16px">联系方式：<span class="kontak-mail"></span></p>`
   },
 
@@ -67,7 +67,7 @@ window.INFO_T = {
 <details class="faq"><summary>为什么我不能更改名称、用户名或头像？</summary><div><p>为避免账号被用于冒充或欺骗，更改次数按月限制。额度会在每月 1 日重置，剩余额度可在“编辑资料”界面查看。用户名每天也只能更改一次。</p></div></details>
 <details class="faq"><summary>蓝色和金色勾号是什么意思？</summary><div><p>蓝色勾号表示该账号已通过 Jurkon 团队的审核和认证。金色勾号表示由 Jurkon 团队直接运营的官方账号。长按勾号可查看说明。</p></div></details>
 <h3>发帖与互动</h3>
-<details class="faq"><summary>为什么我的内容被拒绝或收到提醒？</summary><div><p>Jurkon 会在发布前检查文字。赌博推广、成人内容、诈骗、威胁、仇恨言论和身份证号码（KTP/NIK）等内容无法发送，而粗鲁用语和电话号码只会收到提醒。自动检查可能出错，请尝试稍微修改措辞。详情请见<a href="aturan.html">使用规则</a>页面。</p></div></details>
+<details class="faq"><summary>为什么我的内容被拒绝或收到提醒？</summary><div><p>Jurkon 会在发布前检查文字。赌博推广、成人内容、诈骗、威胁、仇恨言论和身份证号码（KTP/NIK）等内容无法发送，而粗鲁用语和电话号码只会收到提醒。自动检查可能出错，请尝试稍微修改措辞。详情请见<a href="aturan">使用规则</a>页面。</p></div></details>
 <details class="faq"><summary>为什么会出现“太快了”或“已达每日上限”？</summary><div><p>为防止垃圾信息，发帖、回复、私信和点赞的数量有限制。新账号（大约前 3 天）的限制更严格。请稍等片刻或明天再试。</p></div></details>
 <details class="faq"><summary>如何删除我的帖子？</summary><div><p>点击自己帖子上的垃圾桶图标，然后确认。已删除的帖子无法恢复。</p></div></details>
 <details class="faq"><summary>“浏览量”是什么？</summary><div><p>看过某条帖子的不同用户的数量。每人只计一次，你自己的帖子不计入。</p></div></details>
@@ -75,7 +75,7 @@ window.INFO_T = {
 <h3>安全与隐私</h3>
 <details class="faq"><summary>如何举报有问题的帖子？</summary><div><p>点击帖子上的举报图标，写下理由（最多 300 字符），然后提交。举报内容只有管理员可以查看并审核。</p></div></details>
 <details class="faq"><summary>如何屏蔽某人？</summary><div><p>打开对方的个人资料，点击 ⋯ 菜单，然后选择屏蔽。对方的帖子将对你隐藏。如需解除，请在同一菜单中选择<b>取消屏蔽</b>。</p></div></details>
-<details class="faq"><summary>谁可以阅读我的私信？</summary><div><p>只有你和对话对象。邮箱不会向其他用户显示。更多内容请见<a href="kebijakan-privasi.html">隐私政策</a>。</p></div></details>
+<details class="faq"><summary>谁可以阅读我的私信？</summary><div><p>只有你和对话对象。邮箱不会向其他用户显示。更多内容请见<a href="kebijakan-privasi">隐私政策</a>。</p></div></details>
 <details class="faq"><summary>如何下载我的数据？</summary><div><p>打开“个人资料”，点击齿轮图标（设置），然后选择<b>下载我的数据</b>。你会收到一个包含个人资料、帖子、点赞和私信的文件。</p></div></details>
 <details class="faq"><summary>如何删除账号？</summary><div><p>打开设置，选择<b>删除账号</b>。你需要输入 HAPUS 进行确认。删除是永久性的：你的个人资料、帖子、点赞和你发送的私信都会一并删除，且无法恢复。建议先下载你的数据。</p></div></details>
 <h3>外观</h3>

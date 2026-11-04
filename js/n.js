@@ -11,8 +11,8 @@
   async function sesi() { try { return (await db.auth.getSession()).data.session; } catch (e) { return null; } }
 
   function ajakan(masuk) {
-    ajak.innerHTML = '<p>' + esc(t('pub.ajak')) + '</p><a class="btn" href="' + (masuk ? 'index.html' : 'login.html') + '">' + esc(masuk ? t('pub.buka') : t('pub.gabung')) + '</a>' +
-      '<p class="jl-tentang"><a href="jelajahi.html">' + esc(t('jl.judul')) + '</a></p>';
+    ajak.innerHTML = '<p>' + esc(t('pub.ajak')) + '</p><a class="btn" href="' + (masuk ? '/' : 'login') + '">' + esc(masuk ? t('pub.buka') : t('pub.gabung')) + '</a>' +
+      '<p class="jl-tentang"><a href="jelajahi">' + esc(t('jl.judul')) + '</a></p>';
     ajak.hidden = false;
   }
 
@@ -64,7 +64,7 @@
   lapor.hidden = false;
   $('#btnLapor').onclick = async () => {
     const s = await sesi();
-    if (!s) { location.href = 'login.html?lanjut=' + encodeURIComponent('n.html?id=' + id); return; }
+    if (!s) { location.href = 'login?lanjut=' + encodeURIComponent('n?id=' + id); return; }
     const alasan = prompt(t('pc.alasan'));
     if (!alasan || !alasan.trim()) return;
     const { error: e } = await db.from('reports').insert({ reporter_id: s.user.id, post_id: id, alasan: alasan.trim().slice(0, 300) });

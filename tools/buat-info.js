@@ -39,8 +39,8 @@ const CSP = (baca('tentang.html').match(/<meta http-equiv="Content-Security-Poli
 if (!CSP) throw new Error('CSP tidak ditemukan di tentang.html');
 
 // Tautan antar-halaman info di dalam teks terjemahan: dari berkas Indonesia ke berkas bahasa yang sama
-const PETA_TAUTAN = {}; for (const h of Object.values(HALAMAN)) PETA_TAUTAN[h.id] = h.slug + '.html';
-const lokal = html => html.replace(/href="([a-z-]+\.html)"/g, (m, f) => PETA_TAUTAN[f] ? 'href="' + PETA_TAUTAN[f] + '"' : m);
+const PETA_TAUTAN = {}; for (const h of Object.values(HALAMAN)) PETA_TAUTAN[h.id.replace(/\.html$/, '')] = h.slug;
+const lokal = html => html.replace(/href="([a-z-]+?)(?:\.html)?"/g, (m, f) => PETA_TAUTAN[f] ? 'href="' + PETA_TAUTAN[f] + '"' : m);
 
 const teksBersih = s => s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 function deskripsiKetentuan(d) {   // kalimat pertama pengantar, tanpa tag dan tanpa tanda {k}/{a}
@@ -56,7 +56,7 @@ function halaman(k, h) {
   if (h === 'ketentuan') {
     const d = KET[k]; if (!d) throw new Error('Ketentuan: bahasa ' + k + ' tidak ada');
     const tautan = (f, x) => '<a href="' + f + '">' + x + '</a>';
-    const isi = s => s.replace(/\{k\}/g, tautan('privacy.html', d.k)).replace(/\{a\}/g, tautan('rules.html', d.a));
+    const isi = s => s.replace(/\{k\}/g, tautan('privacy', d.k)).replace(/\{a\}/g, tautan('rules', d.a));
     let html = '<p class="tgl">' + d.tgl + '</p>\n<p>' + isi(d.intro) + '</p>\n';
     d.s.forEach(x => { html += '<h3>' + x[0] + '</h3>\n' + isi(x[1]) + '\n'; });
     return { h1: d.h1, desc: deskripsiKetentuan(d), isi: html, hukum: true, catatan: d.catatan, nav: d.nav, navAria: d.navAria };
@@ -78,7 +78,7 @@ function buat(k, h) {
   if (!p.h1 || !p.desc || !p.isi.trim()) galat.push(`${k}/${slug}: judul, deskripsi, atau isi kosong`);
   if (!p.nav || p.nav.length !== 5) galat.push(`${k}/${slug}: nav harus 5 butir`);
   const ogJudul = p.h1 + ' · Jurnal Koneksi';
-  const nav = URUT_NAV.map((x, i) => `<a href="${HALAMAN[x].slug}.html"${x === h ? ' aria-current="page"' : ''}>${p.nav[i]}</a>`).join(' · ')
+  const nav = URUT_NAV.map((x, i) => `<a href="${HALAMAN[x].slug}"${x === h ? ' aria-current="page"' : ''}>${p.nav[i]}</a>`).join(' · ')
     + ' · <a href="/' + k + '/">Jurnal Koneksi</a>';
   const bahasaNav = AKTIF.map(x => `<a href="${alamat(x.kode, h)}" lang="${x.htmlLang}" hreflang="${x.hl}" data-bhs="${x.kode}"${x.kode === k ? ' aria-current="page"' : ''}>${esc(x.nama)}</a>`).join(' ');
   const graf = [
@@ -130,7 +130,7 @@ ${ogAlt}
 <meta name="twitter:title" content="${esc(ogJudul)}">
 <meta name="twitter:description" content="${esc(p.desc)}">
 <script type="application/ld+json">${jsonld}</script>
-<title>${esc(ogJudul)}</title></head><body data-bahasa="${k}">
+<title>${esc(ogJudul)}</title><script src="/js/url-bersih.js"></script></head><body data-bahasa="${k}">
 <main><div class="header"><a href="/${k}/" data-kembali>${label('detail.kembali', k)}</a><h1>${esc(p.h1)}</h1><span></span></div>
 <div class="pad dokumen" data-info="${HALAMAN[h].info || 'ketentuan'}">
 ${p.isi.trim()}

@@ -24,10 +24,10 @@
 
   // Tombol: pengunjung masuk -> ke beranda
   if (sesi) {
-    $('#ctaUtama').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaUtama').href = '/index.html';
-    $('#ctaAkhir').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaAkhir').href = '/index.html';
-    $('#ctaLekat').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaLekat').href = '/index.html';
-    $('#navMasuk').textContent = s('beranda', 'Beranda'); $('#navMasuk').href = '/index.html';
+    $('#ctaUtama').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaUtama').href = '/';
+    $('#ctaAkhir').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaAkhir').href = '/';
+    $('#ctaLekat').textContent = s('bukaBeranda', 'Buka beranda'); $('#ctaLekat').href = '/';
+    $('#navMasuk').textContent = s('beranda', 'Beranda'); $('#navMasuk').href = '/';
     $('#penutupJudul').textContent = s('selamatDatang', 'Selamat datang kembali.');
   }
   if (!hasil) return;
@@ -81,7 +81,7 @@
     // 2) Bagikan
     const tk = (window.LP_TEKS || {})[document.body.dataset.bahasa || 'id'] || (window.LP_TEKS || {}).id || {};
     const s = (k, d) => tk[k] || d;
-    const url = tk.url || 'https://jurkon.my.id/landing.html';
+    const url = tk.url || 'https://jurkon.my.id/landing';
     const teks = s('shareTeks', 'Aku nemu Jurkon, sosmed buatan orang Indonesia. Nulisnya cuma 250 karakter, feed ada ujungnya, dan bisa titip catatan buat diri sendiri setahun lagi.');
     const e = encodeURIComponent;
     const set = (id, href) => { const a = q(id); if (a) a.href = href; };

@@ -23,10 +23,10 @@ window.INFO_T = {
 
 <h3>Halaman penting</h3>
 <ul>
-<li><a href="kebijakan-privasi.html">Dasar Privasi</a></li>
-<li><a href="ketentuan-layanan.html">Terma Perkhidmatan</a></li>
-<li><a href="aturan.html">Peraturan Penggunaan</a></li>
-<li><a href="pusat-bantuan.html">Pusat Bantuan</a></li>
+<li><a href="kebijakan-privasi">Dasar Privasi</a></li>
+<li><a href="ketentuan-layanan">Terma Perkhidmatan</a></li>
+<li><a href="aturan">Peraturan Penggunaan</a></li>
+<li><a href="pusat-bantuan">Pusat Bantuan</a></li>
 </ul>
 
 <h3>Hubungi kami</h3>
@@ -48,10 +48,10 @@ window.INFO_T = {
 <p>Semakan automatik boleh tersilap. Jika tulisan wajar anda ditolak, ubah sedikit ayatnya atau hubungi kami melalui maklumat hubungan di bawah.</p>
 <p>Untuk mencegah spam, bilangan siaran, mesej, dan laporan setiap hari dihadkan.</p>
 <h3>Dasar Privasi (ringkasan)</h3>
-<p>Kami menyimpan e-mel, profil, siaran, sukaan, senarai ikutan, dan mesej anda untuk menjalankan perkhidmatan. Data tidak dijual. E-mel tidak dipaparkan kepada pengguna lain. Profil dan siaran hanya boleh dilihat oleh ahli yang sudah log masuk. Mesej terus hanya boleh dibaca oleh dua peserta perbualan. Penjelasan penuh ada dalam <a href="kebijakan-privasi.html" style="text-decoration:underline">Dasar Privasi</a>.</p>
+<p>Kami menyimpan e-mel, profil, siaran, sukaan, senarai ikutan, dan mesej anda untuk menjalankan perkhidmatan. Data tidak dijual. E-mel tidak dipaparkan kepada pengguna lain. Profil dan siaran hanya boleh dilihat oleh ahli yang sudah log masuk. Mesej terus hanya boleh dibaca oleh dua peserta perbualan. Penjelasan penuh ada dalam <a href="kebijakan-privasi" style="text-decoration:underline">Dasar Privasi</a>.</p>
 <h3>Data dan akaun anda</h3>
 <p>Di halaman Profil anda boleh memuat turun data dan memadam akaun. Memadam akaun memadam profil, siaran, sukaan, dan mesej yang anda hantar secara kekal.</p>
-<p style="margin-top:16px">Selanjutnya: <a href="kebijakan-privasi.html" style="text-decoration:underline">Dasar Privasi</a> · <a href="ketentuan-layanan.html" style="text-decoration:underline">Terma Perkhidmatan</a> · <a href="pusat-bantuan.html" style="text-decoration:underline">Pusat Bantuan</a> · <a href="tentang.html" style="text-decoration:underline">Tentang</a></p>
+<p style="margin-top:16px">Selanjutnya: <a href="kebijakan-privasi" style="text-decoration:underline">Dasar Privasi</a> · <a href="ketentuan-layanan" style="text-decoration:underline">Terma Perkhidmatan</a> · <a href="pusat-bantuan" style="text-decoration:underline">Pusat Bantuan</a> · <a href="tentang" style="text-decoration:underline">Tentang</a></p>
 <p style="margin-top:16px">Hubungan: <span class="kontak-mail"></span></p>`
   },
 
@@ -67,7 +67,7 @@ window.INFO_T = {
 <details class="faq"><summary>Mengapa saya tidak boleh menukar nama, nama pengguna, atau foto?</summary><div><p>Pertukaran dihadkan setiap bulan supaya akaun tidak digunakan untuk menyamar atau menipu. Had ditetapkan semula pada 1 setiap bulan, dan baki kuota anda kelihatan pada skrin Ubah profil. Nama pengguna juga hanya boleh ditukar sekali sehari.</p></div></details>
 <details class="faq"><summary>Apakah maksud tanda semak biru dan emas?</summary><div><p>Tanda semak biru bermakna akaun telah disemak dan disahkan oleh pasukan Jurkon. Tanda semak emas bermakna akaun rasmi yang diurus terus oleh pasukan Jurkon. Tekan lama pada tanda semak untuk melihat keterangannya.</p></div></details>
 <h3>Menulis dan berinteraksi</h3>
-<details class="faq"><summary>Mengapa tulisan saya ditolak atau diberi amaran?</summary><div><p>Jurkon memeriksa tulisan sebelum dihantar. Kandungan seperti promosi judi, kandungan dewasa, penipuan, ugutan, ucapan kebencian, dan nombor KTP/NIK tidak boleh dihantar, manakala kata-kata kasar dan nombor telefon hanya diberi amaran. Semakan automatik boleh tersilap, jadi cuba ubah sedikit ayat anda. Butirannya ada di halaman <a href="aturan.html">Peraturan</a>.</p></div></details>
+<details class="faq"><summary>Mengapa tulisan saya ditolak atau diberi amaran?</summary><div><p>Jurkon memeriksa tulisan sebelum dihantar. Kandungan seperti promosi judi, kandungan dewasa, penipuan, ugutan, ucapan kebencian, dan nombor KTP/NIK tidak boleh dihantar, manakala kata-kata kasar dan nombor telefon hanya diberi amaran. Semakan automatik boleh tersilap, jadi cuba ubah sedikit ayat anda. Butirannya ada di halaman <a href="aturan">Peraturan</a>.</p></div></details>
 <details class="faq"><summary>Mengapa muncul mesej “Terlalu cepat” atau “Had harian dicapai”?</summary><div><p>Ada had bilangan siaran, balasan, mesej, dan sukaan untuk mencegah spam. Akaun yang masih baharu (kira-kira 3 hari pertama) mendapat had yang lebih ketat. Tunggu sebentar atau cuba lagi esok.</p></div></details>
 <details class="faq"><summary>Bagaimana memadam siaran saya?</summary><div><p>Ketik ikon tong sampah pada siaran milik anda, kemudian sahkan. Siaran yang dipadam tidak dapat dikembalikan.</p></div></details>
 <details class="faq"><summary>Apakah bilangan “dilihat”?</summary><div><p>Bilangan orang berbeza yang telah melihat sesuatu siaran. Seorang dikira sekali sahaja, dan siaran anda sendiri tidak dikira.</p></div></details>
@@ -75,7 +75,7 @@ window.INFO_T = {
 <h3>Keselamatan dan privasi</h3>
 <details class="faq"><summary>Bagaimana melaporkan siaran yang bermasalah?</summary><div><p>Ketik ikon Laporkan pada siaran, tulis sebabnya (maksimum 300 aksara), kemudian hantar. Laporan hanya dilihat oleh pengurus untuk disemak.</p></div></details>
 <details class="faq"><summary>Bagaimana menyekat seseorang?</summary><div><p>Buka profil orang itu, ketik menu ⋯, kemudian pilih sekat. Siarannya akan disembunyikan daripada anda. Untuk membukanya semula, pilih <b>Nyahsekat</b> pada menu yang sama.</p></div></details>
-<details class="faq"><summary>Siapa yang boleh membaca mesej saya?</summary><div><p>Hanya anda dan lawan bicara anda. E-mel tidak dipaparkan kepada pengguna lain. Selanjutnya ada dalam <a href="kebijakan-privasi.html">Dasar Privasi</a>.</p></div></details>
+<details class="faq"><summary>Siapa yang boleh membaca mesej saya?</summary><div><p>Hanya anda dan lawan bicara anda. E-mel tidak dipaparkan kepada pengguna lain. Selanjutnya ada dalam <a href="kebijakan-privasi">Dasar Privasi</a>.</p></div></details>
 <details class="faq"><summary>Bagaimana memuat turun data saya?</summary><div><p>Buka Profil, ketik ikon gear (Tetapan), kemudian pilih <b>Muat turun data saya</b>. Anda akan menerima satu fail yang mengandungi profil, siaran, sukaan, dan mesej anda.</p></div></details>
 <details class="faq"><summary>Bagaimana memadam akaun?</summary><div><p>Buka Tetapan kemudian pilih <b>Padam akaun</b>. Anda perlu menaip HAPUS untuk pengesahan. Pemadaman bersifat kekal: profil, siaran, sukaan, dan mesej yang anda hantar turut terpadam dan tidak dapat dipulihkan. Sebaiknya muat turun data anda terlebih dahulu.</p></div></details>
 <h3>Paparan</h3>

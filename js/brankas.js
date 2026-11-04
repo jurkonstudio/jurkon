@@ -253,7 +253,7 @@
     tampilMuat();
     try {
       const { data: { session } } = await db.auth.getSession();
-      if (!session) { location.href = 'login.html'; return; }
+      if (!session) { location.href = 'login'; return; }
       userId = session.user.id;
       if (dek && kunciRow) { tampilBuka(); atur(); return; }
       const { data, error } = await db.from('brankas_kunci').select('*').maybeSingle();

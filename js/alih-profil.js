@@ -16,5 +16,5 @@
       if (/^sb-.+-auth-token$/.test(k) && localStorage.getItem(k)) { masuk = true; break; }
     }
   } catch (e) {}
-  location.replace((masuk ? '/profil.html?u=' : '/profil-publik.html?u=') + m[1].toLowerCase());
+  location.replace((masuk ? '/profil?u=' : '/profil-publik?u=') + m[1].toLowerCase());
 })();

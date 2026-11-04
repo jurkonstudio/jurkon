@@ -247,9 +247,9 @@ function htmlTautan(mentah, kompak) {
 // "&" dan "#" dikecualikan sebagai pendahulu supaya entitas HTML hasil esc() (misalnya &#39;) tidak ikut terbaca.
 function teksHtml(t) {
   return esc(t).replace(/(^|[^a-z0-9_@])@([a-z0-9_]{3,20})(?![a-z0-9_])/gi,
-    (m, a, u) => `${a}<a class="sebut" href="profil.html?u=${u.toLowerCase()}">@${u}</a>`)
+    (m, a, u) => `${a}<a class="sebut" href="profil?u=${u.toLowerCase()}">@${u}</a>`)
     .replace(/(^|[^\p{L}\p{N}_&#])#(?=[\p{N}_]*\p{L})([\p{L}\p{N}_]{2,30})(?![\p{L}\p{N}_])/gu,
-      (m, a, g) => `${a}<a class="sebut tagar" href="explore.html?q=${encodeURIComponent('#' + g)}">#${g}</a>`);
+      (m, a, g) => `${a}<a class="sebut tagar" href="explore?q=${encodeURIComponent('#' + g)}">#${g}</a>`);
 }
 
 // Isi posting aman: teks biasa lewat teksHtml, alamat http(s) menjadi kartu tautan (htmlTautan).
@@ -296,24 +296,24 @@ function htmlPost(p, saya, opsi) {
   const nama = p.profiles.nama || p.profiles.username;
   const milik = saya && saya.id === p.user_id;
   const induk = p.parent_id && !(opsi && opsi.tanpaInduk)
-    ? `<div class="induk">${IK.balas}<a href="detail.html?id=${p.parent_id}">${esc(p.induk_username ? t('pc.membalasUser', { u: p.induk_username }) : t('pc.membalasCatatan'))}</a></div>` : '';
+    ? `<div class="induk">${IK.balas}<a href="detail?id=${p.parent_id}">${esc(p.induk_username ? t('pc.membalasUser', { u: p.induk_username }) : t('pc.membalasCatatan'))}</a></div>` : '';
   // Jawaban pertanyaan harian: tampilkan pertanyaannya di atas isi (salinan tersimpan di kiriman; cadangan: daftar klien)
   const pqT = p.pertanyaan_tgl ? (p.pertanyaan_teks || (typeof pqTeks === 'function' ? pqTeks(p.pertanyaan_tgl) : '')) : '';
   const asal = p.pertanyaan_tgl
-    ? `<a class="pq-asal" href="pertanyaan.html?tgl=${esc(p.pertanyaan_tgl)}"><span>${esc(t('pq.asal'))}</span>${pqT ? `<b>${esc(typeof pqTampil === 'function' ? pqTampil(pqT) : pqT)}</b>` : ''}</a>` : '';
+    ? `<a class="pq-asal" href="pertanyaan?tgl=${esc(p.pertanyaan_tgl)}"><span>${esc(t('pq.asal'))}</span>${pqT ? `<b>${esc(typeof pqTampil === 'function' ? pqTampil(pqT) : pqT)}</b>` : ''}</a>` : '';
   // Tayang: tersembunyi sampai ada yang melihat; elemennya tetap ada supaya bisa muncul saat angkanya naik
   const tayang = p.dilihat == null ? ''
     : `<span class="tayang"${p.dilihat > 0 ? '' : ' hidden'} title="${esc(t('pc.dilihat', { n: p.dilihat }))}" aria-label="${esc(t('pc.dilihat', { n: p.dilihat }))}">${IK.mata}<span data-n="${Number(p.dilihat) || 0}">${p.dilihat > 0 ? ringkas(p.dilihat) : ''}</span></span>`;
   return `<article class="post" data-id="${p.id}">
-    <a class="ava" href="profil.html?u=${esc(p.profiles.username)}" aria-label="${esc(t('pc.profilDari', { nama }))}">${avatar(nama, 42, p.profiles.foto_url)}</a>
+    <a class="ava" href="profil?u=${esc(p.profiles.username)}" aria-label="${esc(t('pc.profilDari', { nama }))}">${avatar(nama, 42, p.profiles.foto_url)}</a>
     <div class="badan">
-      <a href="profil.html?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>${lencanaResmi(p.profiles.username)}
+      <a href="profil?u=${esc(p.profiles.username)}"><span class="nama">${esc(nama)}</span>${lencanaResmi(p.profiles.username)}
       <span class="user">@${esc(p.profiles.username)}</span><span class="waktu">${waktu(p.created_at)}</span></a>
       ${asal}${induk}<div class="isi">${isiHtml(p.content)}</div>
       ${p.kedaluwarsa && labelBerumur(p.kedaluwarsa) ? `<div class="berumur">${esc(labelBerumur(p.kedaluwarsa))}</div>` : ''}
       ${p.kapsul_ditulis ? '<div class="berumur">' + esc(t('pc.kapsulDitulis', { tgl: tglPanjang(p.kapsul_ditulis) })) + '</div>' : ''}
       <div class="aksi">
-        <a class="a-balas" href="detail.html?id=${p.id}" aria-label="${esc(t('umum.balas'))}">${IK.balas}<span>${esc(t('umum.balas'))}</span></a>
+        <a class="a-balas" href="detail?id=${p.id}" aria-label="${esc(t('umum.balas'))}">${IK.balas}<span>${esc(t('umum.balas'))}</span></a>
         <span class="grup-suka"><button class="btn-suka ${suka}" data-id="${p.id}" aria-label="${esc(t('pc.suka'))}">${IK.suka}<span data-n="${Number(jml) || 0}">${jml > 0 ? ringkas(jml) : ''}</span></button></span>
         ${tayang}
         <span class="sisi">
@@ -370,7 +370,7 @@ document.addEventListener('click', e => {
   const post = isi.closest('.post');
   const id = post && post.dataset.id;
   if (!id || (/detail(\.html)?$/.test(location.pathname) && param('id') === id)) return;
-  location.href = 'detail.html?id=' + id;
+  location.href = 'detail?id=' + id;
 });
 
 // Toast kecil yang dipakai bersama semua halaman (gaya .toast)
@@ -413,7 +413,7 @@ function pasangAksiPost(saya, muat) {
     const b = e.target.closest('button[data-id]');
     if (!b) return;
     const id = b.dataset.id;
-    if (!saya) { location.href = 'login.html'; return; }
+    if (!saya) { location.href = 'login'; return; }
     if (b.classList.contains('btn-suka')) {
       if (b.dataset.sibuk) return;
       b.dataset.sibuk = '1';
@@ -456,7 +456,7 @@ function pasangAksiPost(saya, muat) {
     const kunci = 'siap:' + session.user.id;
     try { if (sessionStorage.getItem(kunci) === '1') return; } catch (e) {}
     const { data } = await db.from('profiles').select('siap').eq('id', session.user.id).maybeSingle();
-    if (data && data.siap === false) { location.replace('selamat.html'); return; }
+    if (data && data.siap === false) { location.replace('selamat'); return; }
     if (data && data.siap) { try { sessionStorage.setItem(kunci, '1'); } catch (e) {} }
   } catch (e) {}
 })();
@@ -514,7 +514,7 @@ async function kirimPosting(baris) {
 function htmlKutipan(p) {
   if (!p) return `<div class="kutipan hilang">${esc(t('pc.kutipanHilang'))}</div>`;
   const nama = p.profiles ? (p.profiles.nama || p.profiles.username) : '';
-  return `<a class="kutipan" href="detail.html?id=${p.id}">
+  return `<a class="kutipan" href="detail?id=${p.id}">
     <span class="kutipan-kepala"><b>${esc(nama)}</b> <span>@${esc(p.profiles ? p.profiles.username : '')}</span> <span>· ${waktu(p.created_at)}</span></span>
     <span class="kutipan-isi">${p.content ? esc(p.content) : ''}</span></a>`;
 }
@@ -525,7 +525,7 @@ function htmlUlang(p, saya) {
   const milik = saya && saya.id === p.user_id;
   return `<div class="ulang-kartu" data-id="${p.id}">
     <div class="ulang-kepala">${IK2.ulang}
-      <a href="profil.html?u=${esc(p.profiles ? p.profiles.username : '')}">${esc(t('pc.memostingUlang', { nama }))}</a>
+      <a href="profil?u=${esc(p.profiles ? p.profiles.username : '')}">${esc(t('pc.memostingUlang', { nama }))}</a>
       <span class="waktu">${waktu(p.created_at)}</span>
       ${milik ? `<button type="button" class="btn-batal-ulang" data-id="${p.id}">${esc(t('pc.batalUlang'))}</button>` : ''}
     </div>
@@ -741,7 +741,7 @@ function htmlUlang(p, saya) {
       if (aksi === 'batal') return tutup();
       if (aksi === 'kutip') {
         if (window.Tulis) { tutup(); window.Tulis.buka({ kutip: id }); }
-        else location.href = 'post.html?kutip=' + encodeURIComponent(id);
+        else location.href = 'post?kutip=' + encodeURIComponent(id);
         return;
       }
       b.disabled = true;
@@ -759,7 +759,7 @@ function htmlUlang(p, saya) {
     const b = e.target.closest('button');
     if (!b) return;
     if (b.classList.contains('btn-tidaksuka') || b.classList.contains('btn-ulang') || b.classList.contains('btn-batal-ulang')) {
-      if (!(await pengguna())) { location.href = 'login.html'; return; }
+      if (!(await pengguna())) { location.href = 'login'; return; }
     }
     if (b.classList.contains('btn-tidaksuka')) tidakSuka(b);
     else if (b.classList.contains('btn-ulang')) menuUlang(b.dataset.id);

@@ -13,12 +13,12 @@ User-agent: Perplexity-User
 User-agent: Claude-SearchBot
 User-agent: Claude-User
 Allow: /
-Disallow: /reset.html
-Disallow: /selamat.html
-Disallow: /chat.html
-Disallow: /pesan.html
-Disallow: /mulai.html
-Disallow: /statistik.html
+Disallow: /reset
+Disallow: /selamat
+Disallow: /chat
+Disallow: /pesan
+Disallow: /mulai
+Disallow: /statistik
 
 # 2) Pengumpul data latih model AI dan pengikis data/SEO pihak ketiga: DIBLOKIR.
 #    Google-Extended dan Applebot-Extended hanya mengatur pemakaian untuk melatih AI; tidak memengaruhi Google Search, AI Overviews, atau Siri/Spotlight.
@@ -44,12 +44,12 @@ Disallow: /
 # 3) Lainnya
 User-agent: *
 Allow: /
-Disallow: /reset.html
-Disallow: /selamat.html
-Disallow: /chat.html
-Disallow: /pesan.html
-Disallow: /mulai.html
-Disallow: /statistik.html
+Disallow: /reset
+Disallow: /selamat
+Disallow: /chat
+Disallow: /pesan
+Disallow: /mulai
+Disallow: /statistik
 
 Sitemap: https://jurkon.my.id/sitemap.xml
 Sitemap: https://jurkon.my.id/sitemap-catatan.xml

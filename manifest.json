@@ -1,7 +1,7 @@
 {
   "name": "Jurnal Koneksi",
   "short_name": "Jurkon",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#fbf9f4",
   "theme_color": "#fbf9f4",
