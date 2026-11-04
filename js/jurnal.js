@@ -152,7 +152,8 @@
 
   function ukuran() { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }
   function perbarui() {
-    const n = ta.value.length;
+    if (jmlKarakter(ta.value) > MAKS_ISI) ta.value = potongKarakter(ta.value, MAKS_ISI);
+    const n = jmlKarakter(ta.value);
     $('#jrHitung').textContent = n + '/' + MAKS_ISI;
     $('#jrHitung').classList.toggle('habis', n >= MAKS_ISI);
     $('#jrKata').textContent = t('jr.kata', { n: hitungKata(ta.value) });
@@ -168,7 +169,7 @@
     perbarui();
   }
   segBtn.forEach(b => { b.onclick = () => aturVis(b.dataset.vis); });
-  ta.maxLength = MAKS_ISI;
+  ta.maxLength = MAKS_ISI * 2;   // kasar; batas tepat (titik kode) di perbarui()
   ta.addEventListener('input', () => { ukuran(); perbarui(); barBuang.hidden = true; });
 
   function bukaEditor(c) {

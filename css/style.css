@@ -1,4 +1,4 @@
-:root{color-scheme:light;--bg:#fbf9f4;--latar:#eee9de;--teks:#231f1c;--redup:#6b6359;--garis:#ddd5c4;--aksen:#ae2a22;--link:#ae2a22;--bahaya:#b42318;--serif:"Source Serif 4","Iowan Old Style",Charter,Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;--isi:var(--serif)}
+:root{color-scheme:light;--bg:#fbf9f4;--latar:#eee9de;--teks:#231f1c;--redup:#6b6359;--garis:#ddd5c4;--aksen:#ae2a22;--link:#ae2a22;--bahaya:#b42318;--serif:"Source Serif 4","Iowan Old Style",Charter,Georgia,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",serif;--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",system-ui,"Segoe UI",Roboto,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;--isi:var(--serif)}
 :root[data-theme=terang]{color-scheme:light;--bg:#fff;--latar:#f1f1ef;--teks:#1c1b1a;--redup:#66625d;--garis:#e3e1dd;--aksen:#b3261e;--link:#b3261e;--bahaya:#b42318;--isi:var(--sans)}
 :root[data-theme=gelap]{color-scheme:dark;--bg:#1c1917;--latar:#12100f;--teks:#ece6dc;--redup:#a79f94;--garis:#34302b;--aksen:#d9473b;--link:#ef7a6e;--bahaya:#f28b82;--isi:var(--sans)}
 *{box-sizing:border-box;margin:0}
@@ -1826,16 +1826,16 @@ a.pi-link:focus-visible,.pi-tambah:focus-visible{outline:2px solid var(--aksen);
 /* ===== Profil tanpa sampul/header: foto + panel ikon di sampingnya, tanggal bergabung di bawah bio =====
    Berlaku untuk semua tema (Kertas, Terang, Gelap, Kaca, Awan): hanya memakai token tema. Lapisan paling akhir. */
 .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-#atas .profil-atas{padding-top:20px}
-#atas .profil-atas .avatar{grid-row:1;margin-top:0}
-#atas .profil-panel{grid-column:1;grid-row:1;justify-self:end;align-self:center;display:flex;align-items:center;gap:8px;min-width:0}
-#atas .profil-nama{grid-row:2;margin-top:14px}
-#atas .profil-atas .bio{grid-row:3}
-#atas .profil-gabung{grid-column:1;grid-row:4;justify-self:start;margin:10px 0 0;font-size:13px;color:var(--redup)}
-@media (min-width:768px){
-  #atas .profil-atas .avatar{margin-top:0}
-  #atas .profil-atas{padding-top:24px}
-}
+/* urutan baris: sampul 1, foto + panel 2, nama 3, bio 4, tanggal 5, info 6, statistik 7, tombol 8 */
+#atas .profil-panel{grid-column:1;grid-row:2;justify-self:end;align-self:center;display:flex;align-items:center;gap:8px;min-width:0;margin-top:2px}
+#atas .profil-nama{grid-row:3}
+#atas .profil-atas .bio{grid-row:4}
+#atas .profil-gabung{grid-column:1;grid-row:5;justify-self:start;margin:10px 0 0;font-size:13px;color:var(--redup)}
+#atas .profil-info{grid-row:6}
+#atas .profil-atas .stat{grid-row:7}
+#atas .profil-atas .tombol,#atas .profil-atas .tombol:has(#ubah){grid-row:8}
+#atas .profil-atas .hint-pesan{grid-row:9}
+#atas .profil-atas .chip-publik{grid-row:10}
 /* tombol panel (lonceng, penerjemah, brankas, pengaturan) */
 .profil-panel .pp-btn{position:relative;flex:none;display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;min-height:0;margin:0;padding:0;
   border:0;border-radius:50%;color:var(--teks);background:color-mix(in srgb,var(--teks) 6%,transparent);box-shadow:none;cursor:pointer;transition:transform .15s,background .2s}

@@ -1,6 +1,6 @@
 // Saklar "Profil publik" (butuh sql/045_profil_publik.sql). Dua tempat, satu keadaan:
 //   1) Pengaturan > Privasi (#pvProfil): saklar + penjelasan + tombol salin tautan.
-//   2) Profil sendiri: saklar kecil di bawah tombol (dipasang profil.js lewat Privasi.pasangSaklarProfil).
+//   (Saklar kecil di halaman profil sudah dihapus: pengaturannya hanya ada di Pengaturan > Privasi.)
 // Bawaan MATI. Saat mati, tamu yang membuka jurkon.my.id/@username hanya melihat ajakan bergabung.
 // Bila migrasi 045 belum dijalankan, baris menu Privasi dan saklar di profil disembunyikan; aplikasi tetap jalan.
 (function () {

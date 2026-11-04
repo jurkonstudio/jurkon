@@ -62,9 +62,11 @@ async function muat() {
   }
   const salingIkuti = ikut && diaMengikuti;
   $('#judul').textContent = '@' + p.username;
-  // Bagian atas: foto profil dengan panel ikon di sampingnya (lonceng, penerjemah, brankas, pengaturan), lalu nama dan bio.
-  // "Menulis sejak ..." (id="gabung", diisi di bawah) tampil tepat di bawah bio. Tanpa sampul/header.
+  // Bagian atas: sampul (foto 3:1 atau kertas berjahit bila belum ada foto), foto profil menimpa sampul dengan panel ikon
+  // di sampingnya (lonceng, penerjemah, brankas, pengaturan), lalu nama dan bio.
+  // "Menulis sejak ..." (id="gabung", diisi di bawah) tampil tepat di bawah bio.
   $('#atas').innerHTML = `<div class="profil-atas">
+    <div class="sampul${p.sampul ? ' ada-foto' : ''}">${p.sampul ? ProfilEkstra.htmlSampul(p.sampul) : ''}${milikSaya ? `<button type="button" class="sampul-ubah" id="ubahSampul" aria-label="${esc(t('pe.gantiSampul'))}">${ProfilEkstra.ikon.kamera}</button>` : ''}</div>
     <div class="kartu-kepala">${avatar(nama, 88, p.foto)}
       <div class="profil-panel" id="keluar">${lonceng()}</div>
       <div class="profil-nama"><h2>${esc(nama)}${lencanaResmi(p.username)}</h2><div class="profil-user">@${esc(p.username)}${diaMengikuti ? ` <span class="label-ikut">${esc(t('pf.mengikutiKamu'))}</span>` : ''}</div></div></div>
@@ -108,9 +110,9 @@ async function muat() {
     $('#logout').onclick = async e => { e.preventDefault(); await db.auth.signOut(); location.href = 'login'; };
     $('#ubah').onclick = () => ubah();
     const tambahInfo = $('#tambahInfo'); if (tambahInfo) tambahInfo.onclick = () => ubah({ fokus: 'info' });
+    $('#ubahSampul').onclick = () => ubah({ fokus: 'sampul' });
     $('#bagikanSaya').onclick = bagikanProfil;
     $('#tema').hidden = false;
-    if (window.Privasi) Privasi.pasangSaklarProfil($("#atas .profil-atas"));   // saklar "Profil publik" (js/privasi.js)
   } else {
     $('#menuLain').onclick = e => {
       e.stopPropagation();
@@ -455,7 +457,6 @@ function ubah(opsi) {
   d.innerHTML = `<div class="lembar-kepala"><h2 id="jUbah">${esc(t('pf.ubah'))}</h2><button class="ikon-btn" id="uTutup" aria-label="${esc(t('umum.tutup'))}"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="pratinjau" id="uPratinjau"></div>
     <div id="formUbah" class="form">
-    <div hidden>
     <label for="uPilihSampul">${esc(t('pe.sampul'))}</label>
     <div class="u-sampul" id="uSampul"></div>
     <div class="foto-ubah">
@@ -465,7 +466,6 @@ function ubah(opsi) {
     </div>
     <div class="kuota" id="kSampul"></div>
     <div class="hitung">${esc(t('pe.sampulHint'))}</div>
-    </div>
     <label for="uPilihFoto">${esc(t('pf.u.foto'))}</label>
     <div class="foto-ubah">
       <button type="button" class="btn garis" id="uPilihFoto">${esc(t('pf.u.pilihFoto'))}</button>

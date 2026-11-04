@@ -1,3 +1,26 @@
+# Update Jurkon, 4 November 2026: tata letak profil, saklar publik, emoji
+
+Tanpa SQL, tanpa deploy Edge Function. Cukup unggah berkas lalu push (jalankan `node tools/naikkan-cache.js` dulu).
+
+| Pekerjaan | Berkas | Status |
+|---|---|---|
+| **Profil: bilah header atas dihapus** (judul `@username` + titik merah). Judul tetap ada untuk pembaca layar (`<h1 class="vh">`) | `profil.html` | Dicek di browser, 5 tema |
+| **Panel ikon pindah ke samping foto profil**: lonceng (hanya HP), Penerjemah, Brankas, Pengaturan. Kelas `pp-btn`; tema Kaca dan Awan tetap berbahan kaca. Lonceng memakai `Notif.pada` seperti sebelumnya | `js/profil.js`, `css/style.css` (blok paling bawah) | Dicek di browser |
+| **Sampul (cover) tetap ada** dan bisa diberi foto (tombol kamera di sampul, atau Ubah profil > Sampul). Tanpa foto: kertas berjahit. Stempel tanggal di sampul dihapus | `js/profil.js`, `js/profil-publik.js` | Dicek dengan dan tanpa foto sampul |
+| **Tanggal bergabung ("Menulis sejak ...") pindah ke bawah bio**, teks kecil dengan ikon kalender (elemen `#gabung`, kunci `pf.menulisSejak`) | `js/profil.js`, `js/profil-publik.js`, `css/style.css` | Dicek |
+| **Saklar "Profil publik" hanya di Pengaturan > Privasi.** Saklar kecil di halaman profil dihapus (`Privasi.pasangSaklarProfil` tidak lagi dipanggil) | `js/profil.js`, `js/privasi.js` (komentar) | Dicek |
+| **Emoji dan karakter dunia**: penghitung karakter kini memakai titik kode Unicode (sama dengan `char_length` di database), bukan unit UTF-16. Satu emoji dihitung 1; tempel panjang dipotong tanpa memutus emoji. Fungsi baru `jmlKarakter` dan `potongKarakter` | `js/supabase.js`, `js/jurnal.js` | Logika diuji; tampilan emoji di HP perlu uji manual |
+| **Font emoji** (Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji) ditambahkan ke `--sans` dan `--serif` di semua tema | `css/style.css`, `css/tema-kaca.css`, `css/tema-awan.css` | Dicek |
+| Versi cache dinaikkan | `sw.js` | `node tools/naikkan-cache.js` |
+
+Urutan baris profil (grid `#atas .profil-atas`): sampul 1, foto + panel 2, nama 3, bio 4, tanggal 5, lokasi/tautan 6, statistik 7, tombol 8, petunjuk pesan 9.
+
+Soal emoji (hasil pemeriksaan): filter konten (`js/filter.js`, `sql/004`) dan database sudah menerima emoji, urutan ZWJ (keluarga), bendera, warna kulit, huruf matematika tebal/miring, serta aksara Jepang, Arab, Ibrani, Hindi, dan Jawa. Yang tetap ditolak SENGAJA (`sql/019`): spasi lebar-nol (U+200B), U+2060-2064, penimpa arah teks (U+202A-202E, U+2066-2069), BOM, dan karakter kontrol. Belum ada: format tebal/miring/markdown dan pemilih emoji di kotak tulis.
+
+Uji tampilan profil di browser (Supabase tiruan berisi profil): 5 tema x 2 lebar (390 dan 1280) x dengan/tanpa foto sampul, tanpa galat JS dan tanpa layar melebar. Catatan: font Google diblokir di sandbox uji, jadi nama panjang bisa turun baris di tema Kertas/Terang/Gelap; di HP dengan font termuat satu baris.
+
+---
+
 # Update Jurkon, 3 November 2026 (malam): uji browser dan perapian JS/CSS
 
 Tanpa SQL, tanpa deploy Edge Function. Cukup unggah berkas lalu push.

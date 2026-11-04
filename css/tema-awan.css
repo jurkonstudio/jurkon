@@ -21,7 +21,7 @@
   --aksen:#0a84ff;                      /* system blue (gelap) */
   --link:#409cff;
   --bahaya:#ff453a;
-  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",system-ui,"Segoe UI",Roboto,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
   --serif:var(--sans);
   --isi:var(--sans);
 

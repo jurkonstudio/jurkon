@@ -106,13 +106,21 @@ async function wajibLogin() {
   return session.user;
 }
 
+// Hitung karakter sama seperti database (char_length = titik kode Unicode), bukan unit UTF-16 milik JavaScript.
+// Satu emoji biasa = 1; gabungan (keluarga, bendera, warna kulit) = beberapa titik kode, persis seperti di database.
+function jmlKarakter(s) { let n = 0; for (const _ of String(s || '')) n++; return n; }
+function potongKarakter(s, maks) { return Array.from(String(s || '')).slice(0, maks).join(''); }
+
 function pasangHitung(textarea, el, maks) {
   const u = () => {
-    const n = textarea.value.length;
+    if (jmlKarakter(textarea.value) > maks) {                 // tempel panjang: potong di batas titik kode, tidak memutus emoji
+      textarea.value = potongKarakter(textarea.value, maks);
+    }
+    const n = jmlKarakter(textarea.value);
     el.textContent = n + '/' + maks;
     el.classList.toggle('habis', n >= maks);
   };
-  textarea.maxLength = maks;
+  textarea.maxLength = maks * 2;                              // batas kasar (satu titik kode paling banyak 2 unit UTF-16); batas tepat di u()
   textarea.addEventListener('input', u);
   u();
 }

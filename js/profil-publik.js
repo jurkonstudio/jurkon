@@ -65,7 +65,7 @@
     setMeta('meta[property="og:url"]', 'content', 'https://jurkon.my.id/@' + d.username);
 
     const gabung = d.bergabung ? new Date(d.bergabung).toLocaleDateString(I18n.locale, { month: 'short', year: 'numeric' }) : '';
-    atas.innerHTML = '<div class="profil-atas">' +
+    atas.innerHTML = '<div class="profil-atas"><div class="sampul' + (d.sampul ? ' ada-foto' : '') + '">' + (d.sampul ? ProfilEkstra.htmlSampul(d.sampul) : '') + '</div>' +
       '<div class="kartu-kepala">' + avatarTamu(nama, d.foto, 92) +
       '<div class="profil-nama"><h2>' + esc(nama) + '</h2><div class="profil-user">@' + esc(d.username) + '</div></div></div>' +
       (d.bio ? '<div class="bio">' + esc(d.bio) + '</div>' : '') +

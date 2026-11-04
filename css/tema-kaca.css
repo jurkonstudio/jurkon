@@ -22,7 +22,7 @@
   --aksen:#007aff;                      /* system blue */
   --link:#0066cc;                       /* biru tautan iCloud */
   --bahaya:#ff3b30;
-  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",Inter,"Helvetica Neue",system-ui,"Segoe UI",Roboto,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;
   --serif:var(--sans);
   --isi:var(--sans);
 
