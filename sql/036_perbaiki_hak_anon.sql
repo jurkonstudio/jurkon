@@ -29,10 +29,13 @@ end $$;
 -- Minta API (PostgREST) memuat ulang daftar fungsi
 notify pgrst, 'reload schema';
 
--- =====================================================================
+-- ====================================
+
+=================================
 -- PEMERIKSAAN (jalankan terpisah, satu per satu)
 -- =====================================================================
--- 1) Harus TEPAT 8 baris (5 bila 045 belum dijalankan, 7 bila 046 belum): catat_corong, catatan_publik, daftar_profil_publik, daftar_publik, jelajahi_publik, landing_publik,
+-- 1) Harus TEPAT 8
+ baris (5 bila 045 belum dijalankan, 7 bila 046 belum): catat_corong, catatan_publik, daftar_profil_publik, daftar_publik, jelajahi_publik, landing_publik,
 --    profil_publik_catatan, profil_publik_info
 --   select p.proname from pg_proc p join pg_namespace n on n.oid = p.pronamespace
 --    where n.nspname = 'public' and has_function_privilege('anon', p.oid, 'execute') order by 1;
