@@ -149,8 +149,13 @@ if ($('#daftar')) $('#daftar').onclick = function () {
     else { await catatSesiCepat(); location.href = lanjutAman() || '/'; }
   });
 };
-// Login Google dinonaktifkan sementara (belum dikonfigurasi). Untuk mengaktifkan lagi: pasang tombol #google di login.html dan
-// handler db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/index.html' } }).
+// Masuk dengan Google (OAuth lewat Supabase)
+if ($('#google')) $('#google').onclick = function () {
+  jalankan(this, async () => {
+    const { error } = await db.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/' } });
+    if (error) galat.textContent = t('auth.gagalGoogle', { pesan: terjemah(error.message) });
+  });
+};
 if ($('#lupa')) $('#lupa').onclick = function (e) {
   e.preventDefault();
   const a = periksa(false); if (!a) { galat.textContent = t('auth.isiEmailDulu'); return; }
